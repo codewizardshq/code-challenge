@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=IM+Fell+English" />
+    <link rel="stylesheet" href="/static/style.css">
+    <title>CWHQ Hackathon 2019</title>
+  </head>
+  <body>
+      <div class="container" >
+        <div class="p-3 text-center text-center" > 
+          <img class="pic_bottom" src="/static/Side_panel_left.png" align="bottom">
+          <img src="/static/Logo_Hackathon.png" width="50%">
+          <img class="pic_bottom" src="/static/Side_panel_right.png" align="bottom">
+        </div>
+        <!-- Top navigation -->
+        <div class="topnav">
+
+          <!-- Centered link -->
+          <div class="topnav-centered">
+           
+          </div>
+
+          <!-- Left-aligned links (default) -->
+          <span class="navtext">{{output}}</span>
+
+          <!-- Right-aligned links -->
+          <div class="topnav-right">
+            <a href="http://cwhq.pythonanywhere.com/login">Login</a>
+          </div>
+
+        </div>
+        
+
+        {% block content %}{% endblock %}
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        </div>
+    </body>
+</html>

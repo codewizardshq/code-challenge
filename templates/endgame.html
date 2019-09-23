@@ -1,0 +1,31 @@
+{% extends "layout_endgame.html" %}
+{% block content %}
+<br/>
+<div class="text-center center endgame" align="center">
+  <div>
+    <div>
+      <div>
+        <div>
+          <h4 class="padme1 card-text">{{story}}</h4>
+        </div>
+      </div>
+        <div class="col-auto d-none d-lg-block">
+          <br/><br/>
+          <form method="POST" id="endboss">
+            <br/>
+            <textarea rows="20" cols="50" name="code" form="endboss">
+{{placeholder}}
+            </textarea><br/><br/>
+            <input type="submit" name="submit" value="submit">
+          </form>
+          <br/>
+          You are allowed to ask questions in our #hackathon channel on Discord : <a href="https://discord.gg/SaQeaQ" target="_blank">here</a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+{% endblock %}

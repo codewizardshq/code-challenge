@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<br/>
+<div class="text-center center story" align="center">
+  <div class="row mb-2">
+    <div class="col-lg-6">
+      <div class="row no-gutters overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <br/><br/>
+          <h3 class="mb-0">{{title}}</h3>
+          <h4 class="padme1 card-text mb-auto">{{story}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+        <div class="col-auto d-none d-lg-block">
+          <img src="static/{{image}}" width="100%" height="auto">
+          <br/><br/>
+          <form method="POST">
+            What is your answer ?
+            <input type="text" name="answer" maxlength="30" width="30">
+            <input type="submit" name="submit" value="submit">
+          </form>
+          <br/>
+          You are allowed to ask questions in our #hackathon channel on Discord : <a href="{{link}}}}" target="_blank">here</a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+{% endblock %}

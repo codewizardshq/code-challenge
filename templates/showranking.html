@@ -1,0 +1,27 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <div id="container" class="text-center">
+        <br/>
+        <h1> RANKING </h1>
+        <br/>
+        <form action="" method="POST">
+                <table align="center" class="table">
+                    <tr><th>Firstname</th><th>Lastname</th><th>level</th><th>Username</th></tr>
+
+                    <tr><td></td><td></td><td></td></td><td></td><td></td><td></td></tr> <!-- empty line -->
+
+
+                    {% if rows !="EMPTY" %}
+                        {% for row in rows %}
+                            <tr>
+                                <td>{{ row[1] }}</td>
+                                <td>{{ row[2] }}</td>
+                                <td>{{ row[4] }}</td>
+                                <td>{{ row[5] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </form>
+    </div>
+{% endblock %}
