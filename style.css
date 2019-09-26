@@ -1,6 +1,6 @@
 body{
-    font-family:'18thCentury';
-    font-size: 150%;
+  font-family:'18thCentury';
+  font-size: 150%;
 }
 
 /* IM Fell English font */
@@ -8,164 +8,264 @@ h1 { font-family: "IM Fell English"; font-size: 18px; font-style: normal; font-v
 h2 { font-family: "IM Fell English"; font-size: 22px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 21.6px; } h3 { font-family: "IM Fell English"; font-size: 17px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 23px; } p { font-family: "IM Fell English"; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 23px; } blockquote { font-family: "IM Fell English"; font-size: 17px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 23px; } pre { font-family: "IM Fell English"; font-size: 11px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 23px; }
 
 .story{
-  /*background-image: url("perkament.jpg");*/
-  background: url('perkament.jpg'); 
-  background-repeat: no-repeat;
-  background-size: 560px;
+/*background-image: url("perkament.jpg");*/
+background: url('perkament.jpg'); 
+background-repeat: no-repeat;
+background-size: 560px;
 }
 
 .padme1{
-  padding: 30px 30px 30px 30px;
+padding: 30px 30px 30px 30px;
 }
 
 .padme2{
-  padding: 5px 5px 5px 5px;
+padding: 5px 5px 5px 5px;
 }
 
 .pic_bottom{
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
 
 .center{
-    align: center;
-    text-align: center;
+  align: center;
+  text-align: center;
 }
 
 .navtext{
-    color : lightyellow ;
-    font-size:150%;
-    padding-left: 10px;
+  color : lightyellow ;
+  font-size:150%;
+  padding-left: 10px;
 }
 
 .spaceme.input{
-  padding-top:5px;
-  padding-bottom:5px;
+padding-top:5px;
+padding-bottom:5px;
 }
 
 .endgame{
-  background-color:sandybrown;
-  border: 7px solid #875c12;
-  border-radius: 15px;
-  padding : 15px 15px 15px 15px;
+background-color:sandybrown;
+border: 7px solid #875c12;
+border-radius: 15px;
+padding : 15px 15px 15px 15px;
 }
 
 .code{
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 100%;
-  font-weight: bold;
-  text-align: left;
-  padding-left: 5px;
+font-family: 'Courier New', Courier, monospace;
+font-size: 100%;
+font-weight: bold;
+text-align: left;
+padding-left: 5px;
 }
 
 .assignment{
-  font-family: Papyrus;
-  font-size: 120%;
-  line-height: 1.6;
+font-family: Papyrus;
+font-size: 120%;
+line-height: 1.6;
 }
 
-#badge{
-  background-image: url('shield-red-150.png');
-  display: inline-block;
-  width: 150px;
-  height: 179px;
-  color: white;
-  font-size: 140%;
-}
+/* #badge{
+background-image: url('shield-red-150.png');
+display: inline-block;
+width: 150px;
+height: 179px;
+color: white;
+font-size: 140%;
+} */
 
 #dragon1{
-  background-image: url('dragon_end_1.png');
-  display: inline-block;
-  width: 150px;
-  height: 179px;
-  color: white;
-  font-size: 140%;
+background-image: url('dragon_end_1.png');
+display: inline-block;
+width: 150px;
+height: 179px;
+color: white;
+font-size: 140%;
 }
 
 #dragon2{
-  background-image: url('dragon_end_2.png');
-  display: inline-block;
-  width: 150px;
-  height: 179px;
-  color: white;
-  font-size: 140%;
+background-image: url('dragon_end_2.png');
+display: inline-block;
+width: 150px;
+height: 179px;
+color: white;
+font-size: 140%;
 }
 
 /* Navbar stuff (to make the menu items appear left-center-right)
 
 /* Add a black background color to the top navigation */
 .topnav {
-    position: relative;
-    background-color: #008255;
-    overflow: hidden;
-    border-radius: 15px;
-  }
-  
-  /* Style the links inside the navigation bar */
-  .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 22px;
-  }
-  
-  /* Change the color of links on hover */
-  .topnav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  /* Centered section inside the top navigation */
-  .topnav-centered {
+  position: relative;
+  background-color: #008255;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 22px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Centered section inside the top navigation */
+.topnav-centered {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
     float: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* Right-aligned section inside the top navigation */
-  .topnav-right {
-    float: right;
-  }
-  
-  /* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
-  @media screen and (max-width: 600px) {
-    .topnav a, .topnav-right {
-      float: none;
-      display: block;
-    }
-  
-    .topnav-centered a {
-      position: relative;
-      top: 0;
-      left: 0;
-      transform: none;
-    }
+    display: block;
   }
 
-  .banner{
-    margin-top: 20px;
-    margin-bottom: 20px;
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
   }
+}
 
-  .banner .left{
-    position:absolute; 
-    display:block; 
-    bottom: 0; 
-    right:0
-  }
+/* net8floz changes */
+.banner{
+margin-top: 20px;
+margin-bottom: 20px;
+}
 
-  .banner .right{
-    position:absolute; 
-    display:block; 
-    bottom: 0; 
-    left:0
-  }
+.banner .left{
+position:absolute; 
+display:block; 
+bottom: 0; 
+right:0
+}
+
+.banner .right{
+position:absolute; 
+display:block; 
+bottom: 0; 
+left:0
+}
+
+.badge{
+position: relative;
+width: 100%;
+text-align: center;
+padding: 0;
+margin: 0;
+}
+
+.badge.sm{
+margin-top: 30px;
+height: 180px;
+height: auto;
+display: block;
+}
+
+.badge.sm .badge-title{
+top: 60px;
+font-size: 140%;
+}
+
+.badge.lg{
+display: none;
+}
+
+.badge img{
+display:inline-block;
+position: relative;
+width: auto;
+}
+
+.badge .badge-title{
+display: block;
+width: 100%;
+position: absolute;
+margin-left: auto;
+margin-right: auto;
+color: #fff;
+text-align: center;
+}
+
+@media (min-width: 768px) { 
+.badge.lg{
+  display: block;
+}
+
+.badge.sm{
+  display: none;
+}
+
+.badge.lg img{
+  height: 100px;
+  width: auto;
+}
+
+.badge.lg .badge-title{
+  top: 30px;
+  font-size: 120%;
+}
+
+}
+
+@media (min-width: 992px) { 
+.badge.lg img{
+  height: 150px;
+  width: auto;
+}
+
+.badge.lg .badge-title{
+  font-size: 140%;
+  top: 40px;
+}
+}
+
+@media (min-width: 1200px) { 
+.badge.lg img{
+  height: 180px;
+  width: auto;
+}
+
+.badge.lg .badge-title{
+  font-size: 140%;
+  top: 60px;
+}  
+}
+
+@media(max-width: 992px){
+.container {
+  max-width: 98%;
+  /* background: red; */
+}
+}
+
+/* debug */
+
+/* 
+div{
+border: solid thin #333 !important;
+} */

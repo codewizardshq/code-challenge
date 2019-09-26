@@ -2,7 +2,7 @@
 {% block content %}
 <div class="text-center center" align="center">
   <br/>
-  <div id="player"></div>
+  <div class="embed-responsive" id="player"></div>
 
   <script>
     // 2. This code loads the IFrame Player API code asynchronously.
@@ -45,7 +45,8 @@
       player.stopVideo();
     }
   </script>
-<form  action="http://cwhq.pythonanywhere.com/level">
+<form  action="/level">
+  <br />
   <button type="submit">OK</button>
 </form>
 </div>
