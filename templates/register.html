@@ -5,18 +5,32 @@
         <br/>
         <h1> Register for the Hackathon</h1>
         <form action="" method="POST">
-            First name:<br>
-            <input type="text" name="firstname" size="30" maxlength="30" required><br>
-            Last name:<br>
-            <input type="text" name="lastname" size="30" maxlength="30" required><br>
-            Email address:<br>
-            <input type="email" name="email" size="40" maxlength="40" required><br>
-            Desired username:<br>
-            <input type="text" name="username" size="30" maxlength="30" required><br>
-            Password:<br>
-            <input type="password" name="password" size="30" maxlength="30" minlength="6" required><br>
-            <br/>
-            <input type="Submit" value="Submit">
+            <div class="form-group">
+              <label for="firstname">First Name</label>
+              <input type="text" id="firstname" name="firstname" class="form-control" maxlength="30" required>
+            </div>
+
+            <div class="form-group">
+              <label for="lastname">Last Name</label>
+              <input type="text" id="lastname" name="lastname" class="form-control" maxlength="30" required>
+            </div>  
+
+            <div class="form-group">
+              <label for="username">Desired Username</label>
+              <input type="text" id="username" name="username" class="form-control" maxlength="30" required>
+            </div> 
+            
+            <div class="form-group">
+              <label for="email">E-mail Address</label>
+              <input type="email" id="email" name="email" class="form-control" maxlength="40" required>
+            </div> 
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" class="form-control" minlength="6" maxlength="40" required>
+            </div> 
+
+            <input type="Submit" value="Submit"> 
         </form>
     </div>
     

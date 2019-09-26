@@ -150,3 +150,22 @@ h2 { font-family: "IM Fell English"; font-size: 22px; font-style: normal; font-v
       transform: none;
     }
   }
+
+  .banner{
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .banner .left{
+    position:absolute; 
+    display:block; 
+    bottom: 0; 
+    right:0
+  }
+
+  .banner .right{
+    position:absolute; 
+    display:block; 
+    bottom: 0; 
+    left:0
+  }
