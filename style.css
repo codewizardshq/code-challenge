@@ -267,8 +267,12 @@ text-align: center;
 margin-top: 40px;
 position: relative;
 width: 100%;
-min-width: 500px;
+border: dotted 2px #D4924D;
+padding-bottom: 50px;
+background: #FADBA1;
 }
+
+
 
 .story-companion{
 margin-top: 40px;
@@ -279,12 +283,12 @@ width: 100%;
 padding:0;
 }
 
-.story-page p{
+.story-page .content{
 text-align: center;
-position: absolute;
+position: relative;
 top: 0;
 width: 100%;
-padding:30px 60px;
+padding:50px 15px;
 font-weight: 500;
 font-size: 1.1rem;
 top: 80px;
@@ -300,17 +304,31 @@ top: 60px;
 font-weight: bold;
 }
 
+.story-page img{
+display: none;
+}
+
 @media (min-width: 768px) { 
+.story-page{
+  background: none;
+  border: none;
+}
 .story-page .story-title{
   top: 100px;
 }
 
-.story-page p{
+.story-page img{
+  display: block;
+}
+
+.story-page .content{
   font-size: 1.4rem;
   padding:30px 80px;
   line-height: 2rem;
   top: 120px;
+  position: absolute;
 }
+
 }
 
 @media (min-width: 850px) { 
@@ -319,7 +337,7 @@ font-weight: bold;
   top: 110px;
 }
 
-.story-page p{
+.story-page .content{
   font-size: 1.6rem;
   padding:30px 90px;
   line-height: 2rem;
@@ -333,7 +351,7 @@ font-weight: bold;
   font-size: 1.5rem;
 }
 
-.story-page p{
+.story-page .content{
   font-size: 1.1rem;
   padding:30px 80px;
   line-height: 1.4rem;
@@ -347,12 +365,17 @@ font-weight: bold;
   font-size: 2rem;
 }
 
-.story-page p{
+.story-page .content{
   font-size: 1.5rem;
   padding:30px 80px;
   line-height: 1.8rem;
   top: 110px;
 }
+}
+
+
+.form-control{
+font-size: 1.5rem;
 }
 
 /* debug */
