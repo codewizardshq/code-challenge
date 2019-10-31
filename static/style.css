@@ -1,3 +1,14 @@
+
+@font-face {
+  font-family: '18thCentury';
+  src: url('./18thCentury.woff');
+}
+
+@font-face {
+  font-family: 'MoriaCitadel';
+  src: url('./MoriaCitadel.ttf')
+}
+
 body{
   font-family:'18thCentury';
   font-size: 150%;
@@ -151,7 +162,7 @@ font-size: 140%;
   }
 }
 
-/* net8floz changes */
+
 .banner{
 margin-top: 20px;
 margin-bottom: 20px;
@@ -284,6 +295,7 @@ padding:0;
 }
 
 .story-page .content{
+font-family: 'MoriaCitadel';
 text-align: center;
 position: relative;
 top: 0;
