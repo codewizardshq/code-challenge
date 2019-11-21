@@ -408,32 +408,12 @@ def editDiscord():
     return render_template('discordEditor.html', 
         saved_link = saved_link)
 
-#Functions without routes
 
-def Username_exists(Username):
-    c.execute("SELECT Username FROM Guests")
-    conn.commit()
-    rows=c.fetchall()
-    usernames = []
-    for row in rows:
-        usernames.append(row[0])
-    if Username not in usernames:
-        return False
-    else:
-        return True
+@app.route('/form')
+def Form():
+    return render_template('form.html')
 
-def Calcdate(now):
-    year = str(now.year)
-    month = str(now.month)
-    if len(month) < 2:
-        month = "0" + month
-    day = str(now.day)
-    if len(day) < 2:
-        day = "0" + day  
 
-    total = year + month + day  
-    
-    return int(total)
 
 @app.route('/endgame', methods=["POST","GET"])
 def Endgame():
@@ -509,3 +489,33 @@ def Endgame():
 
     ''')
     return render_template("endgame.html", guest = name, story = story, placeholder = placeholder)
+
+
+
+#Functions without routes
+
+def Username_exists(Username):
+    c.execute("SELECT Username FROM Guests")
+    conn.commit()
+    rows=c.fetchall()
+    usernames = []
+    for row in rows:
+        usernames.append(row[0])
+    if Username not in usernames:
+        return False
+    else:
+        return True
+
+def Calcdate(now):
+    year = str(now.year)
+    month = str(now.month)
+    if len(month) < 2:
+        month = "0" + month
+    day = str(now.day)
+    if len(day) < 2:
+        day = "0" + day  
+
+    total = year + month + day  
+    
+    return int(total)
+
