@@ -8,7 +8,7 @@ from helpers import Pilgrim,Level,hash_password,verify_password
 #---setting up App
 
 app = Flask(__name__)
-app.secret_key = 'any random stringgg'
+app.secret_key = os.environ.get("SECRET_KEY", "ChangeMe!")
 
 #---setting up Database (sqlite)
 
