@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  EB_ENV_NAME: 'code-challenge-prod'
+  EB_ENV_NAME: code-challenge-prod
 
 jobs:
   deploy:
@@ -19,17 +19,20 @@ jobs:
       with:
         python-version: '3.6'
         architecture: 'x64'
-    - name: Create ElasticBeanstalk configuration folder
-      run: mkdir .elasticbeanstalk
-    - name: Load AWSEB config from Secrets
-      run: printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
     - name: Install AWSCLI and AWSEBCLI
       run: |
         python -m pip install --upgrade pip
         pip install awscli --upgrade
-        pip install awsebcli --upgrade      
-    - name: Deploy to ElasticBeanstalk
+        pip install awsebcli --upgrade
+    - name: Create ElasticBeanstalk configuration folder
+      run: mkdir .elasticbeanstalk
+    - name: Write AWS EB config from Secrets
+      run: printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
+    - name: Validate AWS EB config
+      run: cat .elasticbeanstalk/config.yml
+    - name: Write AWS credentials from Secrets
       run: |
-        export AWS_ACESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        eb deploy ${{ env.EB_ENV_NAME }} --region ${{ secrets.AWS_DEFAULT_REGION }}
+        echo -e "[default]\naws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials
+        echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
+    - name: Setup AW
+      run: eb deploy ${{ env.EB_ENV_NAME }}
