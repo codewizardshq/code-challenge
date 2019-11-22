@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-
+    name: flake8 check
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
