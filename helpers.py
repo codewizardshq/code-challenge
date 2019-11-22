@@ -1,7 +1,12 @@
-from flask import Flask, render_template, session, redirect, url_for, escape, request
+import binascii
+import hashlib
+import hmac
+import os
 import sqlite3
-import hashlib, os, binascii
 from os import path
+
+from flask import (Flask, escape, redirect, render_template, request, session,
+                   url_for)
 
 #---classes
 
@@ -30,18 +35,18 @@ class Level:
 def hash_password(password):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), 
+    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
                                 salt, 100000)
     pwdhash = binascii.hexlify(pwdhash)
     return (salt + pwdhash).decode('ascii')
- 
+
 def verify_password(stored_password, provided_password):
     """Verify a stored password against one provided by user"""
     salt = stored_password[:64]
     stored_password = stored_password[64:]
-    pwdhash = hashlib.pbkdf2_hmac('sha512', 
-                                  provided_password.encode('utf-8'), 
-                                  salt.encode('ascii'), 
+    pwdhash = hashlib.pbkdf2_hmac('sha512',
+                                  provided_password.encode('utf-8'),
+                                  salt.encode('ascii'),
                                   100000)
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
-    return pwdhash == stored_password
+    return hmac.compare_digest(pwdhash, stored_password)
