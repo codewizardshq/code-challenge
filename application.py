@@ -61,7 +61,7 @@ def index():
 @app.route('/register', methods=["POST","GET"] )
 def register():
     if request.method == 'POST':
- 
+
         First_name = request.form.get("firstname")
         Last_name = request.form.get("lastname")
         Email_address = request.form.get("email")
@@ -122,7 +122,7 @@ def login():
 
 
     return render_template('login.html')
- 
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
@@ -136,7 +136,7 @@ def showguests():
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
-    
+
     output = "Welcome admin !"
 
     if request.method == 'POST':
@@ -163,7 +163,7 @@ def showranking():
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
-    
+
     output = "Welcome admin !"
 
     if request.method == 'POST':
@@ -190,7 +190,7 @@ def showanswers():
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
-    
+
     output = "Welcome admin !"
 
     if request.method == 'POST':
@@ -220,7 +220,7 @@ def showlevels():
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login", pic = "empty.png")
-    
+
     output = "Welcome admin !"
 
     if request.method == 'POST':
@@ -284,7 +284,7 @@ def level():
     if release > today:
         message = "This level will unlock on " + gamelevel.date
         return render_template("message.html", message = message, guest = user , level = lvl,desto = "/level" , pic = "empty.png")
-    
+
 
     if request.method == 'POST':
         answer = request.form.get("answer")
@@ -302,23 +302,23 @@ def level():
 
     story = Markup(gamelevel.text)
 
-    return render_template('game.html', 
-        title = gamelevel.name, 
-        image = gamelevel.image, 
-        guest = user, 
-        level = lvl, 
+    return render_template('game.html',
+        title = gamelevel.name,
+        image = gamelevel.image,
+        guest = user,
+        level = lvl,
         story = story,
         link = link)
 
 
 @app.route('/createlevels', methods=["POST","GET"] )
 def create_levels():
-    
+
     if 'username' not in session:
         return render_template("message.html", message = "Please login first", desto="/login", pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login" , pic = "empty.png")
-    
+
     if request.method == 'POST':
         id = request.form.get("number")
         name = request.form.get("name")
@@ -330,23 +330,23 @@ def create_levels():
 
         gamelevel = Level(id,name,color,image,text,answer,date)
 
-        c.execute("INSERT INTO Levels (Level_id, Name, Badge_color, Img, Text, Answer, Release_date) VALUES (?,?,?,?,?,?,?)", 
+        c.execute("INSERT INTO Levels (Level_id, Name, Badge_color, Img, Text, Answer, Release_date) VALUES (?,?,?,?,?,?,?)",
             (id,name,color,image,text,answer,date))
         conn.commit
         return render_template("message.html", message = "Level is created", desto="/createlevels", guest = "Admin" , level = "99" , pic = "empty.png")
-    
+
     return render_template('levelcreator.html')
 
 @app.route('/editlevel', methods=["POST","GET"] )
 def editlevel():
-    
+
     lvl = session['level']
 
     if 'username' not in session:
         return render_template("message.html", message = "Please login first", desto="/login" , pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login" , pic = "empty.png")
-    
+
     if request.method == 'POST':
 
         id = request.form.get("number")
@@ -361,24 +361,24 @@ def editlevel():
 
         c.execute("DELETE FROM Levels WHERE Level_id = %s" % id)
         conn.commit
-        c.execute("INSERT INTO Levels (Level_id, Name, Badge_color, Img, Text, Answer, Release_date) VALUES (?,?,?,?,?,?,?)", 
+        c.execute("INSERT INTO Levels (Level_id, Name, Badge_color, Img, Text, Answer, Release_date) VALUES (?,?,?,?,?,?,?)",
             (id,name,color,image,text,answer,date))
         conn.commit
         return render_template("message.html", message = "Level is saved", desto="/showlevels", guest = "Admin" , level = "99" , pic = "empty.png")
-    
+
     c.execute("SELECT * FROM Levels WHERE Level_id = %s" % lvl)
     conn.commit()
     rows = c.fetchall()
     for row in rows:
         gamelevel = Level(lvl,row[1],row[2],row[3],row[4],row[5],row[6])
 
-    return render_template('leveleditor.html', 
-        number = gamelevel.id , 
-        name = gamelevel.name, 
-        color = gamelevel.color, 
-        image =  gamelevel.image, 
-        text = gamelevel.text, 
-        answer = gamelevel.answer, 
+    return render_template('leveleditor.html',
+        number = gamelevel.id ,
+        name = gamelevel.name,
+        color = gamelevel.color,
+        image =  gamelevel.image,
+        text = gamelevel.text,
+        answer = gamelevel.answer,
         date = gamelevel.date)
 
 @app.route('/editDiscord' , methods=["POST", "GET"])
@@ -387,17 +387,17 @@ def editDiscord():
         return render_template("message.html", message = "Please login first", desto="/login" , pic = "empty.png")
     if session['username'] != "admin":
         return render_template("message.html", message = "Must be logged in as admin", desto="/login" , pic = "empty.png")
-    
+
     if request.method == 'POST':
 
         link = str(request.form.get("link"))
         c.execute("DELETE FROM Discord")
         conn.commit
-        c.execute("INSERT INTO Discord (Link) VALUES (?)", 
+        c.execute("INSERT INTO Discord (Link) VALUES (?)",
             (link,))
         conn.commit
         return render_template("message.html", message = "Discordlink is saved", desto="/", guest = "Admin" , level = "99" , pic = "empty.png")
-    
+
     c.execute("SELECT * FROM Discord")
     conn.commit()
     rows = c.fetchall()
@@ -405,7 +405,7 @@ def editDiscord():
     for row in rows:
         saved_link = row[0]
 
-    return render_template('discordEditor.html', 
+    return render_template('discordEditor.html',
         saved_link = saved_link)
 
 #Functions without routes
@@ -429,10 +429,10 @@ def Calcdate(now):
         month = "0" + month
     day = str(now.day)
     if len(day) < 2:
-        day = "0" + day  
+        day = "0" + day
 
-    total = year + month + day  
-    
+    total = year + month + day
+
     return int(total)
 
 @app.route('/endgame', methods=["POST","GET"])
@@ -469,7 +469,7 @@ def Endgame():
                     today = Calcdate(now)
                     c.execute("INSERT INTO EndBossAnswers (Guest_id_f, Guest_name,Email_address, Date_and_Time, Answer) VALUES (?,?,?,?,?)",(id, user, email, today, answer) )
                     return render_template("message.html", message = "Your answer is stored in our Database. You will hear from us shortly !", desto="/" , pic = "empty.png")
-                
+
             else:
                 return render_template("message.html", message = "Your answer was empty ??", guest = user , level = lvl, desto="/endgame" , pic = "drag_loose.gif")
     result = c.execute("SELECT Answer FROM EndBossAnswers WHERE Guest_name = ?",(user,))
@@ -499,7 +499,7 @@ def Endgame():
             Then... write a python application that adds up all Fibonacci numbers under 1000.<br/>
             Now.. I don't want the answer. I know the answer !<br/>
             I want you to post your code here and submit it.<br/>
-            I will be looking at the way you coded it, how much time your app takes to do the math 
+            I will be looking at the way you coded it, how much time your app takes to do the math
             and how much memory it uses.</h3>
             <br/>
             <h3>Now go ahead and create that code !</h3><br/>
@@ -509,3 +509,7 @@ def Endgame():
 
     ''')
     return render_template("endgame.html", guest = name, story = story, placeholder = placeholder)
+
+
+# required for Elastic Beanstalk
+application = app
