@@ -19,14 +19,14 @@ jobs:
       with:
         python-version: '3.6'
         architecture: 'x64'
-    - name: Install AWS EB CLI
-      run: |
+    - name: Create ElasticBeanstalk configuration folder
+      run: mkdir .elasticbeanstalk
+    - name: Load AWSEB config from Secrets
+      run: printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
+    - name: Install AWSCLI and AWSEBCLI
         python -m pip install --upgrade pip
-        pip install awsebcli --upgrade --user
-    - name: Setup EB CLI Config
-      run: |
-        mkdir .elasticbeanstalk
-        printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
+        pip install awscli --upgrade
+        pip install awsebcli --upgrade      
     - name: Deploy to ElasticBeanstalk
       run: |
         export AWS_ACESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
