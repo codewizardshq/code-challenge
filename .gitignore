@@ -6,3 +6,7 @@
 
 .mypy_cache/
 __pycache__/
+.vscode/settings.json
+
+Hackathon.db
+venv/
