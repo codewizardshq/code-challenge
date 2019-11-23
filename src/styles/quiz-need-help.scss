@@ -1,0 +1,20 @@
+.quiz-need-help {
+  background-image: url("~@/static/discord-book-bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-y: 10px;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  transition: all 1000ms;
+
+  &:hover {
+    cursor: pointer;
+    width: 320px;
+    height: 320px;
+    filter: saturate(200%) sepia(100%);
+  }
+}
