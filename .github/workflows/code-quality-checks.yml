@@ -1,13 +1,14 @@
-name: Lint and test Python code
+name: Code Quality Checks
 
-on: 
+on:
   pull_request:
-    branches: 
+    branches:
       - master
+      - stage
 
 jobs:
-  build:
-
+  lint:
+    name: Vue and Python linting
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -20,6 +21,15 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.1'
+    - name: Install npm and yarn
+      run: |
+        npm install yarn
+        yarn install
+    - name: Build Vue with yarn
+      run: yarn lint
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
