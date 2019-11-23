@@ -1,12 +1,12 @@
-name: Beanstalk Deploy to Production
+name: Beanstalk Deploy to Stage
 
 on:
   push:
     branches:
-      - master
+      - stage
 
 env:
-  EB_ENV_NAME: code-challenge-prod
+  EB_ENV_NAME: code-challenge-stage
 
 jobs:
   deploy:
@@ -26,7 +26,7 @@ jobs:
       run: |
         npm install yarn
         yarn install
-    - name: Build Vue
+    - name: Build Vue with yarn
       run: yarn build
     - name: Install AWSCLI and AWSEBCLI
       run: |
