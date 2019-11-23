@@ -10,8 +10,7 @@ jobs:
   lint:
     name: Vue and Python linting
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
+
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python ${{ matrix.python-version }}
