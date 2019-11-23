@@ -25,7 +25,7 @@ jobs:
         node-version: '12.13.1'
     - name: Install npm and yarn
       run: |
-        npm install yarn
+        npm install -g yarn
         yarn install
     - name: Build Vue
       run: yarn build
