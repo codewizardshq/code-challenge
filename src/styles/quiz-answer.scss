@@ -1,0 +1,26 @@
+.quiz-answer {
+  .v-card {
+    background: url("~@/static/answer-area-bg.png") no-repeat;
+    background-size: 100%;
+    background-repeat: none;
+    margin-top: 200px;
+
+    .v-btn {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .v-form {
+      margin-top: 120px;
+    }
+
+    img {
+      top: -100px;
+      position: absolute;
+      width: 100%;
+      height: auto;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+  }
+}
