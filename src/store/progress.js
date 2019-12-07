@@ -9,7 +9,7 @@ function getDefaultState() {
     question: "",
     hasData: false,
     isLoading: false
-  }
+  };
 }
 
 const actions = {
@@ -23,7 +23,7 @@ const actions = {
   async clear({ commit }) {
     commit("rank", -1);
   }
-}
+};
 
 const mutations = {
   rank(state, value) {
@@ -36,7 +36,7 @@ const mutations = {
   loading(state, value) {
     state.isLoading = value;
   }
-}
+};
 
 const state = {
   ...getDefaultState()
@@ -49,5 +49,4 @@ export default {
   actions,
   mutations,
   mapState: () => mapState([moduleName])
-}
-
+};

@@ -15,13 +15,13 @@ let state = {
 
 async function setState(newState) {
   state = { ...state, ...newState };
-  localStorage.setItem(eventKey, JSON.stringify(state));
+  localStorage.setItem(storageKey, JSON.stringify(state));
   eventHandler.$emit(eventKey, state);
 }
 
 async function loadState() {
-  const json = localStorage.getItem(eventKey);
-  if (!!json) {
+  const json = localStorage.getItem(storageKey);
+  if (json) {
     setState(JSON.parse(json));
   }
 }
@@ -35,6 +35,9 @@ async function offAuthStateChange(callback) {
 }
 
 async function login(email, password) {
+  // this function the linter requirement of no unused variables.
+  // password shall be used later
+  consumePassword(password);
   await setState({
     uid: email,
     email,
@@ -43,6 +46,9 @@ async function login(email, password) {
 }
 
 async function createAccount(username, email, password, firstName, lastName) {
+  // this function the linter requirement of no unused variables.
+  // password shall be used later
+  consumePassword(password);
   await setState({
     uid: email,
     username,
@@ -53,6 +59,11 @@ async function createAccount(username, email, password, firstName, lastName) {
   });
 }
 
+function consumePassword() {
+  // this function the linter requirement of no unused variables.
+  // password shall be used later
+}
+
 async function autoLogin() {
   await loadState();
 }
@@ -60,7 +71,6 @@ async function autoLogin() {
 async function logout() {
   await setState({ uid: null });
 }
-
 
 function currentUser() {
   return { ...state };
@@ -74,4 +84,4 @@ export default {
   currentUser,
   onAuthStateChange,
   offAuthStateChange
-}
+};

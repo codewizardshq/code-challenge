@@ -10,7 +10,7 @@ function getDefaultState() {
     email: "",
     displayName: "",
     isAuthorized: false
-  }
+  };
 }
 
 const state = {
@@ -21,10 +21,10 @@ const actions = {
   async refresh({ dispatch, commit }) {
     const user = Auth.currentUser();
     if (user.uid) {
-      commit('set', user);
+      commit("set", user);
       dispatch("Progress/fetch", null, { root: true });
     } else {
-      commit('clear', user);
+      commit("clear", user);
       dispatch("Progress/clear", null, { root: true });
     }
   }
@@ -38,7 +38,7 @@ const mutations = {
   clear(state) {
     Object.assign(state, getDefaultState());
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -47,5 +47,4 @@ export default {
   actions,
   mutations,
   mapState: () => mapState([moduleName])
-}
-
+};

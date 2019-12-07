@@ -7,7 +7,7 @@ function getDefaultState() {
     isOpen: false,
     text: "",
     color: ""
-  }
+  };
 }
 
 const state = {
@@ -17,29 +17,29 @@ const state = {
 const actions = {
   async showInfo({ commit }, text) {
     commit("set", {
-      text: !!text.message ? text.message : text,
+      text: text.message ? text.message : text,
       isOpen: true,
       color: "info"
-    })
+    });
   },
   async showError({ commit }, text) {
     commit("set", {
-      text: !!text.message ? text.message : text,
+      text: text.message ? text.message : text,
       isOpen: true,
       color: "error"
-    })
+    });
   },
   async showSuccess({ commit }, text) {
     commit("set", {
-      text: !!text.message ? text.message : text,
+      text: text.message ? text.message : text,
       isOpen: true,
       color: "success"
-    })
+    });
   },
   async hide({ commit }) {
     commit("set", {
       isOpen: false
-    })
+    });
   },
   async isOpen({ commit }, value) {
     commit("isOpen", value);
@@ -53,7 +53,7 @@ const mutations = {
   isOpen(state, value) {
     state.isOpen = value;
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -62,5 +62,4 @@ export default {
   actions,
   mutations,
   mapState: () => mapState([moduleName])
-}
-
+};

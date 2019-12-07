@@ -2,7 +2,7 @@ const storageKey = "rank";
 
 function networkDelay(func) {
   return new Promise(resolve => {
-    setTimeout(async function () {
+    setTimeout(async function() {
       resolve(await func());
     }, 300 + Math.random() * 1000);
   });
@@ -10,7 +10,8 @@ function networkDelay(func) {
 
 const quizes = [
   {
-    question: "<center>Welcome to the CodeWizardsHQ Code Challenge.<br \> <br\> Type \"Okay!\" to get started</center>",
+    question:
+      '<center>Welcome to the CodeWizardsHQ Code Challenge.<br > <br> Type "Okay!" to get started</center>',
     answer: "Okay!"
   },
   {
@@ -18,22 +19,23 @@ const quizes = [
     answer: "7"
   },
   {
-    question: "<center>Thanks for taking the CodeWizardsHQ Code Challenge.<br \> <br\> Type \"Restart!\" to get restart</center>",
+    question:
+      '<center>Thanks for taking the CodeWizardsHQ Code Challenge.<br > <br> Type "Restart!" to get restart</center>',
     answer: "Restart!"
-  },
-]
+  }
+];
 
 async function get() {
   return networkDelay(async () => {
     let rank = localStorage.getItem(storageKey);
-    rank = !!rank ? parseInt(localStorage.getItem(storageKey)) : 0;
+    rank = rank ? parseInt(localStorage.getItem(storageKey)) : 0;
     if (rank > quizes.length - 1) {
       rank = 0;
     }
     return {
       rank: rank,
       question: quizes[rank].question
-    }
+    };
   });
 }
 
@@ -51,4 +53,4 @@ async function submit(answer) {
 export default {
   get,
   submit
-}
+};
