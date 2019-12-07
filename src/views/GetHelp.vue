@@ -8,16 +8,13 @@
 			sm="8"
 			md="4"
 		>
-			<v-card
-				flat
-				class="mt-12"
-			>
+			<v-card flat class="mt-12">
 				<v-toolbar
 					color="primary"
 					dark
 					flat
 				>
-					<v-toolbar-title>About Screen</v-toolbar-title>
+					<v-toolbar-title>Get Help Screen</v-toolbar-title>
 				</v-toolbar>
 
 				<v-card-text style="height: 300px" />
@@ -28,6 +25,6 @@
 
 <script>
 export default {
-	name: "about"
+	name: "getHelp"
 };
 </script>

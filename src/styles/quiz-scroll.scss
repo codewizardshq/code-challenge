@@ -1,24 +1,41 @@
 .quiz-scroll {
   .v-card {
-    background: url("~@/static/scroll.png");
+    background: url("/images/scroll.png");
     background-size: 100%;
-    height: 1100px;
+    width: 669px;
+    height: 1042px;
   }
 
   .v-card__text {
     position: relative;
-    margin-top: 200px;
-    padding: 0 150px;
+    margin-top: 120px;
+    width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    color: #30231a !important;
+    font-family: "Barrow2Light";
+    letter-spacing: 2px;
   }
 
-  .v-card__title {
+  .scroll-title {
+    text-align: center;
+    font-size: 40px;
+    position: relative;
+    top: 15px;
+    color: #30231a !important;
+    font-family: "buWicked";
+    // letter-spacing: 2px;
+
     &:after {
       content: "";
-      top: 0;
+      top: 55px;
       position: absolute;
-      background-image: url("~@/static/underline.png");
-      width: 300px;
-      height: 200px;
+      background-image: url("/images/underline.png");
+      background-position-x: center;
+      width: 100%;
+      height: 27px;
+      left: 0;
       background-size: contain;
       background-repeat: no-repeat;
     }

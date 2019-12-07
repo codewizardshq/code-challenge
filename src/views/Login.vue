@@ -8,7 +8,7 @@
 			sm="8"
 			md="4"
 		>
-			<v-card flat>
+			<v-card flat class="mt-12">
 				<v-toolbar
 					color="primary"
 					dark
@@ -25,11 +25,13 @@
 						<v-text-field
 							v-bind="fields.username"
 							v-model="fields.username.value"
+							:disabled="isSubmitting"
 						/>
 
 						<v-text-field
 							v-bind="fields.password"
 							v-model="fields.password.value"
+							:disabled="isSubmitting"
 						/>
 
 					</v-card-text>
@@ -40,7 +42,10 @@
 							color="primary"
 							type="submit"
 							dark
-						>Sign In Test</v-btn>
+							:disabled="isSubmitting"
+						>
+							Sign In
+						</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-card>
@@ -49,10 +54,28 @@
 </template>
 
 <script>
+import { Auth } from "@/api";
 export default {
 	name: "login",
 	methods: {
-		submit() {},
+		async submit() {
+			if (this.isSubmitting) {
+				return;
+			}
+			this.isSubmitting = true;
+			try {
+				await Auth.login(
+					this.fields.username.value,
+					this.fields.password.value
+				);
+				localStorage.setItem("lastEmail", this.fields.username.value);
+				this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
+				this.$router.push({ name: "home" });
+			} catch (err) {
+				this.$store.dispatch("Snackbar/showError", err);
+			}
+			this.isSubmitting = false;
+		},
 		validate() {
 			if (this.$refs.form.validate()) {
 				this.submit();
@@ -61,11 +84,12 @@ export default {
 	},
 	data() {
 		return {
+			isSubmitting: false,
 			fields: {
 				username: {
 					label: "Username",
 					type: "text",
-					value: "",
+					value: localStorage.getItem("lastEmail"),
 					rules: [v => !!v || "Please provide a username"]
 				},
 				password: {

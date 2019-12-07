@@ -1,16 +1,9 @@
 <template>
-	<div>
-		<v-container>
-			<v-row>
-				<v-col cols="8">
-					<quiz-scroll />
-				</v-col>
-
-				<v-col>
-					<quiz-answer />
-				</v-col>
-			</v-row>
-		</v-container>
+	<div class="mt-6">
+		<v-row justify="center">
+			<quiz-scroll />
+			<quiz-answer />
+		</v-row>
 		<quiz-need-help />
 	</div>
 </template>
@@ -26,6 +19,13 @@ export default {
 		QuizScroll,
 		QuizAnswer,
 		QuizNeedHelp
+	},
+	mounted() {
+		document.getElementsByTagName("html")[0].style.overflowY = "hidden";
+		window.scrollTo(0, 0);
+	},
+	beforeDestroy() {
+		document.getElementsByTagName("html")[0].style.overflowY = "scroll";
 	}
 };
 </script>

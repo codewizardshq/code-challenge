@@ -1,15 +1,26 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from './plugins/router'
 import vuetify from './plugins/vuetify';
-import "@/styles/styles.scss"; 
+import store from './store'
+import "@/styles/styles.scss";
+import { Auth } from "@/api";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+
+(async function () {
+  Auth.onAuthStateChange(function () {
+    store.dispatch('User/refresh');
+  });
+
+  await Auth.autoLogin();
+
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app')
+})();
+

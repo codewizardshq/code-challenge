@@ -8,7 +8,10 @@
 			sm="8"
 			md="4"
 		>
-			<v-card flat>
+			<v-card
+				flat
+				class="mt-12"
+			>
 				<v-toolbar
 					color="primary"
 					dark
@@ -23,28 +26,39 @@
 					<v-card-text>
 
 						<v-text-field
+							v-bind="fields.email"
+							v-model="fields.email.value"
+							:disabled="isSubmitting"
+						/>
+
+						<v-text-field
 							v-bind="fields.username"
 							v-model="fields.username.value"
+							:disabled="isSubmitting"
 						/>
 
 						<v-text-field
 							v-bind="fields.name"
 							v-model="fields.name.value"
+							:disabled="isSubmitting"
 						/>
 
 						<v-text-field
 							v-bind="fields.password"
 							v-model="fields.password.value"
+							:disabled="isSubmitting"
 						/>
 
 						<v-text-field
 							v-bind="fields.passwordConfirm"
 							v-model="fields.passwordConfirm.value"
+							:disabled="isSubmitting"
 						/>
 
 						<v-switch
 							v-bind="fields.ageGate"
 							v-model="fields.ageGate.value"
+							:disabled="isSubmitting"
 						/>
 
 					</v-card-text>
@@ -54,8 +68,9 @@
 						<v-btn
 							color="primary"
 							type="submit"
-							dark
-						>Sign In</v-btn>
+						>
+							Create Account
+						</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-card>
@@ -64,10 +79,32 @@
 </template>
 
 <script>
+import { Auth } from "@/api";
+
 export default {
-	name: "login",
+	name: "register",
 	methods: {
-		submit() {},
+		async submit() {
+			if (this.isSubmitting) {
+				return;
+			}
+			this.isSubmitting = true;
+			try {
+				await Auth.createAccount(
+					this.fields.username.value,
+					this.fields.email.value,
+					this.fields.password.value,
+					this.fields.name.value,
+					""
+				);
+				localStorage.setItem("lastEmail", this.fields.username.value);
+				this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
+				this.$router.push({ name: "home" });
+			} catch (err) {
+				this.$store.dispatch("Snackbar/showError", err);
+			}
+			this.isSubmitting = false;
+		},
 		validate() {
 			if (this.$refs.form.validate()) {
 				this.submit();
@@ -76,7 +113,14 @@ export default {
 	},
 	data() {
 		return {
+			isSubmitting: false,
 			fields: {
+				email: {
+					label: "email",
+					type: "email",
+					value: "",
+					rules: [v => !!v || "Please provide a email"]
+				},
 				username: {
 					label: "Username",
 					type: "text",

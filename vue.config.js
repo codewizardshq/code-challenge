@@ -4,7 +4,6 @@ module.exports = {
     "vuetify"
   ],
   outputDir: 'dist',
-  assetsDir: 'static',
   devServer: {
     proxy: {
       '/api*': {

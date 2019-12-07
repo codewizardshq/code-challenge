@@ -3,15 +3,19 @@
 		color="dark"
 		flat
 		dark
-		max-height=80
+		:height="100"
+		:max-height="100"
+		class="pl-4"
 	>
 		<div class="d-flex align-center">
-			<v-img
-				alt="CodewizardsHQ Logo"
-				contain
-				src="~@/static/logo-small.png"
-				transition="scale-transition"
-			/>
+			<router-link :to="{name:'home'}">
+				<v-img
+					alt="CodewizardsHQ Logo"
+					contain
+					src="/images/logo-small.png"
+					transition="scale-transition"
+				/>
+			</router-link>
 		</div>
 
 		<v-spacer></v-spacer>
@@ -25,6 +29,7 @@
 		<v-btn
 			:to="{name:'quiz'}"
 			v-bind="buttonProps"
+			v-if="User.isAuthorized"
 		>
 			Quiz
 		</v-btn>
@@ -36,7 +41,7 @@
 			About
 		</v-btn>
 		<v-btn
-			@click="getHelp"
+			:to="{name: 'get-help'}"
 			v-bind="buttonProps"
 		>
 			Get Help
@@ -44,21 +49,21 @@
 		<v-btn
 			:to="{name:'login'}"
 			v-bind="buttonProps"
-			v-if="!User.isAuthenticated"
+			v-if="!User.isAuthorized"
 		>
 			Sign In
 		</v-btn>
 		<v-btn
 			:to="{name:'register'}"
 			v-bind="buttonProps"
-			v-if="!User.isAuthenticated"
+			v-if="!User.isAuthorized"
 		>
 			Create Account
 		</v-btn>
 		<v-btn
-			:to="{name:'about'}"
+			:to="{name:'logout'}"
 			v-bind="buttonProps"
-			v-if="User.isAuthenticated"
+			v-if="User.isAuthorized"
 		>
 			Sign Out
 		</v-btn>
@@ -68,14 +73,16 @@
 <script>
 import { User } from "@/store";
 export default {
-  name: "appBar",
+	name: "appBar",
 	computed: {
 		...User.mapState()
 	},
 	data() {
 		return {
 			buttonProps: {
-				text: true
+				text: true,
+				xLarge: true,
+				class: "barrow-bold"
 			}
 		};
 	},
