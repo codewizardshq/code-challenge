@@ -1,13 +1,25 @@
 [[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
 name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
 
 [packages]
-gunicorn = "==19.7.1"
+flask = "*"
+gunicorn = "*"
 flask-restplus = "*"
 python-dotenv = "*"
-flask = "*"
+flask-sqlalchemy = "*"
+alembic = "*"
+mysqlclient = "*"
+flask-migrate = "*"
+flask-script = "*"
+flask-session = "*"
+null = "*"
+webargs = "*"
+werkzeug = "*"
 
 [requires]
 python_version = "3.7"
+
+[dev-packages]
+ipdb = "*"
