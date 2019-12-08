@@ -13,9 +13,15 @@ FLASK_DEBUG=1
 `pip install pipenv`
 
  - Install python dependencies
-`pipenv install --dev`
+`pipenv install`
 
 - Start python environment `pipenv shell`
+
+- Create Database `python manage.py db init`
+
+- Create Migration `python manage.py db migrate`
+
+- Run Migration `python manage.py db upgrade`
 
 - Start flask app `python -m flask run`
 
