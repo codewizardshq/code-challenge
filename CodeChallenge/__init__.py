@@ -1,5 +1,5 @@
 import click
-from flask import Flask, jsonify, make_response, redirect
+from flask import Flask, jsonify, make_response, send_from_directory
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -66,8 +66,25 @@ def create_app(config):
     def reset_user_cmd(email, password):
         reset_user(email, password)
 
-    @app.route("/")
-    def index():
-        return redirect("https://www.hackcwhq.com/")
+    @app.route("/js/<path:path>")
+    def send_js(path):
+        return send_from_directory("../dist/js", path)
+
+    @app.route("/css/<path:path>")
+    def send_css(path):
+        return send_from_directory("../dist/css", path)
+
+    @app.route("/fonts/<path:path>")
+    def send_fonts(path):
+        return send_from_directory("../dist/fonts", path)
+
+    @app.route("/images/<path:path>")
+    def send_images(path):
+        return send_from_directory("../dist/images", path)
+
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def catch_all(path):
+        return send_from_directory("../dist/", "index.html")
 
     return app
