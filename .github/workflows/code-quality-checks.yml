@@ -24,16 +24,17 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
+    - name: Install MySQL Client
+      run: sudo apt install default-libmysqlclient-dev
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -U pipenv
-        pipenv install --dev
-        pipenv shell
+        pipenv --bare install --dev
+        pipenv --bare shell
     - name: Lint Python with flake8
       run: |
-        pip install flake8
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run unit tests
-      run: pytest
+      run: pytest --verbose
