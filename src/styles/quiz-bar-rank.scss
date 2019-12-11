@@ -1,30 +1,68 @@
 @import "./colors.scss";
 
+$width: 200px;
+$shieldHeight: 80px;
+
+$border: none; //solid thin red;
+
 .quiz-bar-rank {
   position: absolute;
-  width: 50px;
-  top: 5px;
+  width: $width;
+  top: 0;
   left: 50%;
-  margin-left: -50px;
+  margin-left: -$width/2;
+  border: $border;
 
-  .title {
+  .rank {
+    border: $border;
     position: relative;
     width: 100%;
     text-align: center;
     padding: 0;
     margin: 0;
-    font-family: "Barrow2" !important;
+    line-height: 2.3em;
+    font-size: 2em;
+    font-family: "Barrow2Bold" !important;
+
+    &:before {
+      background-image: url("/images/shield.png");
+      background-size: contain;
+      background-position-x: center;
+      position: absolute;
+      background-repeat: no-repeat;
+      width: $width;
+      height: $shieldHeight;
+      border: $border;
+      top: 0px;
+      left: 0px;
+      content: "";
+    }
+  }
+
+  .level-display {
+    border: $border;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-size: 1.6em;
+    font-family: "Barrow2Bold" !important;
   }
 
   &:before {
+    background-image: url("/images/shield-background.png");
+    background-position-x: center;
     position: absolute;
-    width: 0;
-    height: 0;
-    top: 50px;
-    left: -35px;
-    border-left: 60px solid transparent;
-    border-right: 60px solid transparent;
-    border-top: 70px solid $dark2;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: $width;
+    height: $width;
+    top: 12px;
+
+    left: 0;
+    right: 0;
+    margin: auto;
     content: "";
     z-index: -1;
   }

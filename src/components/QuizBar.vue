@@ -1,54 +1,65 @@
 <template>
-	<v-toolbar
-		color="dark2"
-		flat
-		max-height=60
-		class="secondary--text"
-	>
+  <v-toolbar
+    color="dark2 pl-3 pr-3"
+    flat
+    class="secondary--text"
+    :height="60"
+    :max-height="60"
+  >
+    <div class="quiz-bar-rank" v-show="Progress.hasData">
+      <div class="level-display">Level</div>
+      <div class="rank">{{ Progress.rank }}</div>
+    </div>
 
-		<quiz-bar-rank :rank="Progress.rank" />
-
-		<span v-if="User.isAuthorized">
-			Welcome pilgrim {{User.username}}
-		</span>
-		<v-btn
-			v-else
-			color="secondary"
-			text
-			:to="{name:'register'}"
-		>
-			Start your journey
-		</v-btn>
-		<v-spacer />
-		<v-btn
-			text
-			color="secondary"
-		>
-			Get your friends in on it
-			<v-icon>
-				mdi-open-in-new
-			</v-icon>
-		</v-btn>
-	</v-toolbar>
+    <span v-if="User.isAuthorized" class="barrow-bold">
+      Welcome pilgrim {{ User.displayName }}
+    </span>
+    <v-btn
+      v-else
+      color="secondary"
+      text
+      x-large
+      active-class="none"
+      class="no-text-transform barrow-bold"
+      :to="{ name: 'register' }"
+    >
+      Start your journey
+    </v-btn>
+    <v-spacer />
+    <social-pop-over>
+      <template v-slot:default="{ on }">
+        <v-btn
+          text
+          x-large
+          active-class=""
+          color="secondary"
+          class="no-text-transform barrow-bold"
+          v-on="on"
+        >
+          Get your friends in on it
+          <v-img
+            class="ml-2 mb-2"
+            alt="Share Icon"
+            src="/images/shareicon.png"
+          />
+        </v-btn>
+      </template>
+    </social-pop-over>
+  </v-toolbar>
 </template>
 
 <script>
-import QuizBarRank from "./QuizBarRank";
 import { User, Progress } from "@/store";
+import SocialPopOver from "./SocialPopOver";
 
 export default {
-	name: "quizBar",
-	components: {
-		QuizBarRank
-	},
-	computed: {
-		...User.mapState(),
-		...Progress.mapState()
-	},
-	methods: {
-		getHelp() {
-			// Todo
-		}
-	}
+  name: "quizBar",
+  components: {
+    SocialPopOver
+  },
+  computed: {
+    ...User.mapState(),
+    ...Progress.mapState()
+  }
 };
 </script>

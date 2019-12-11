@@ -1,24 +1,58 @@
 .quiz-answer {
   .v-card {
-    background: url("~@/static/answer-area-bg.png") no-repeat;
-    background-size: 100%;
+    background: url("/images/answer-area-bg.png") no-repeat;
+    background-size: 100% 100%;
     background-repeat: none;
+    width: 420px;
     margin-top: 200px;
+    padding: 12px;
 
     .v-btn {
       width: 100%;
-      margin-bottom: 20px;
+      margin-top: 12px;
+      color: $dark;
+      font-family: "Barrow2Bold";
+      font-size: 30px;
+      letter-spacing: 12px;
     }
 
     .v-form {
-      margin-top: 120px;
+      margin-top: 140px;
+
+      .v-input {
+        height: 90px;
+        z-index: 10;
+        position: relative;
+        margin: 0;
+        padding: 0;
+
+        .v-input__control {
+          padding-left: 20px;
+          margin: 0;
+          padding-right: 20px;
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          background: url("/images/answer-box.png") no-repeat;
+          background-size: 100% 100%;
+          background-repeat: none;
+          background-position-x: center;
+          background-position-y: center;
+          width: 100%;
+          height: 100%;
+          top: -25px;
+        }
+      }
     }
 
     img {
-      top: -100px;
+      top: -140px;
       position: absolute;
       width: 100%;
       height: auto;
+      left: 32px;
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
     }
