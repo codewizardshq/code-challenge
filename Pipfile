@@ -3,23 +3,22 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
+[dev-packages]
+mypy = "*"
+flake8 = "*"
+pytest = "*"
+
 [packages]
 flask = "*"
-gunicorn = "*"
-flask-restplus = "*"
-python-dotenv = "*"
 flask-sqlalchemy = "*"
-alembic = "*"
 mysqlclient = "*"
-flask-migrate = "*"
-flask-script = "*"
-flask-session = "*"
-null = "*"
-webargs = "*"
-werkzeug = "*"
+flask-cors = "*"
+flask-jwt-extended = "*"
+argon2-cffi = "*"
+marshmallow-sqlalchemy = "*"
+python-dotenv = "*"
+flask-limiter = "*"
+flask-mail = "*"
 
 [requires]
-python_version = "3.7"
-
-[dev-packages]
-ipdb = "*"
+python_version = "3.6"
