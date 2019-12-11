@@ -19,6 +19,7 @@ marshmallow-sqlalchemy = "*"
 python-dotenv = "*"
 flask-limiter = "*"
 flask-mail = "*"
+tabulate = "*"
 
 [requires]
 python_version = "3.6"

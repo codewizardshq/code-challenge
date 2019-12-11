@@ -43,7 +43,8 @@ def next_question():
                         "reason": f"no questions for rank {rank!r}"}), 404
 
     return jsonify({"status": "success",
-                    "question": q.title, "rank": rank}), 200
+                    "question": q.title, "rank": rank,
+                    "asset": f"assets/{q.asset}"}), 200
 
 
 def answer_limit_attempts():

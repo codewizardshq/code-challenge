@@ -17,11 +17,18 @@ def client_challenge_today():
     with app.test_client() as client:
         with app.app_context():
             CodeChallenge.init_db()
-            CodeChallenge.add_question("What is 2+2?", None, "4", 1)
-            CodeChallenge.add_question("What is Pi?", None, "3.14", 2)
-            CodeChallenge.add_question("What is 2 in binary?", None, "10", 3)
+            CodeChallenge.add_question("What is 2+2?",
+                                       "4", 1, "tests/2plus2.jpg")
+            CodeChallenge.add_question("What is Pi?",
+                                       "3.14", 2, "tests/2plus2.jpg")
+            CodeChallenge.add_question("What is 2 in binary?",
+                                       "10", 3, "tests/2plus2.jpg")
         yield client
 
+        with app.app_context():
+            CodeChallenge.del_question(1)
+            CodeChallenge.del_question(2)
+            CodeChallenge.del_question(3)
 
 @pytest.fixture(scope="module")
 def client_challenge_future():
@@ -130,6 +137,7 @@ def test_get_rank2(client_challenge_past):
     assert retval.status_code == 200
     assert retval.get_json()["question"] == "What is Pi?"
     assert retval.get_json()["rank"] == 2
+    assert "asset" in retval.json
 
 
 def test_answer_rank2_incorrectly(client_challenge_past):

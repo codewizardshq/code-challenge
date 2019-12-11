@@ -2,8 +2,6 @@ from datetime import datetime, timezone
 
 from flask import current_app
 
-from .models import Question, db
-
 
 def current_rank() -> int:
     # yes, datetime has .utcnow() and .utcfromtimestamp() but those methods
@@ -20,15 +18,3 @@ def current_rank() -> int:
     delta = now - start
 
     return 1 if delta.days == 0 else delta.days
-
-
-def add_question(title: str, asset: str, answer: str, rank: int):
-
-    q = Question()
-    q.title = title
-    q.answer = answer
-    q.rank = rank
-    q.asset = asset
-
-    db.session.add(q)
-    db.session.commit()

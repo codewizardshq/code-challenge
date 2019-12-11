@@ -1,4 +1,3 @@
-import click
 from flask import Flask, jsonify, make_response, send_from_directory
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -6,11 +5,14 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from .api.eb import bp as eb_bp
 from .api.questions import bp as questions_bp
 from .api.users import bp as users_bp
-from .auth import create_user, jwt, reset_user
-from .core import add_question  # NoQA
+from .auth import jwt
+from .cli.db import bp as db_cli_bp
+from .cli.questions import bp as q_cli_bp
+from .cli.users import bp as users_cli_bp
 from .limiter import limiter
 from .mail import mail
-from .models import db, init_db
+from .manage import add_question, del_question  # NoQA
+from .models import db, init_db  # NoQA
 
 # Globally accessible libraries
 
@@ -37,12 +39,9 @@ def create_app(config):
     app.register_blueprint(users_bp)
     app.register_blueprint(questions_bp)
     app.register_blueprint(eb_bp)
-
-    # Command Line
-    @app.cli.command("initdb")
-    def initdb_cmd():
-        init_db()
-        print("database initialized")
+    app.register_blueprint(users_cli_bp)
+    app.register_blueprint(db_cli_bp)
+    app.register_blueprint(q_cli_bp)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):
@@ -50,21 +49,6 @@ def create_app(config):
             jsonify(
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
-
-    # create new user with a password
-    @app.cli.command("create-user")
-    @click.argument("email")
-    @click.argument("password")
-    def create_user_cmd(email, password):
-        create_user(email, password)
-        print("user created")
-
-    # change user's password from their email address
-    @app.cli.command("reset-user")
-    @click.argument("email")
-    @click.argument("password")
-    def reset_user_cmd(email, password):
-        reset_user(email, password)
 
     @app.route("/js/<path:path>")
     def send_js(path):
@@ -81,6 +65,10 @@ def create_app(config):
     @app.route("/images/<path:path>")
     def send_images(path):
         return send_from_directory("../dist/images", path)
+
+    @app.route("/assets/<path:path>")
+    def send_assets(path):
+        return send_from_directory("assets", path)
 
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
