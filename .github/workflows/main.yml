@@ -7,7 +7,6 @@ on:
 
 env:
   EB_ENV_NAME: code-challenge-prod
-  S3_BUCKET: hackcwhq.com
 
 jobs:
   deploy:
@@ -51,5 +50,3 @@ jobs:
         echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
     - name: Deploy
       run: eb deploy ${{ env.EB_ENV_NAME }}
-    - name: Deploy frontend to S3
-      run: aws s3 sync dist/ s3://${{ env.S3_BUCKET }}
