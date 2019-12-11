@@ -24,15 +24,16 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
-    - name: Lint Vue
-      run: yarn lint
+    - name: Install MySQL Client
+      run: sudo apt install default-libmysqlclient-dev
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -U pipenv
+        pipenv --bare install --dev
     - name: Lint Python with flake8
       run: |
-        pip install flake8
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
+        pipenv run flake8 . --exclude=node_modules --count --select=E9,F63,F7,F82 --show-source --statistics
+        pipenv run flake8 . --exclude=node_modules --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Run unit tests
+      run: pipenv run pytest --verbose
