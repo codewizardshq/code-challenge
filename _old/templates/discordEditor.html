@@ -1,0 +1,16 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <div id="container" class="spaceme text-center">
+        <br/>
+        <h1> Discord Link Editor</h1>
+        <br/>
+        <form action="" method="POST">
+            {% autoescape on %}   
+            Link to Discord-invitation:
+            <input class="padme2" type="text" name="link" value="{{saved_link}}"<br/>
+            <br/><br/>
+            <input class="padme2" type="submit" name="submit"/><br/>
+            {% endautoescape %}    
+            </form>
+    </div>
+{% endblock %}

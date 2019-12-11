@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="text-center">
+        <br/>
+        <h4> {{message}}</h4>
+        <br/>
+        <img src="static/{{pic}}" height="213px" width="auto">
+        <br/><br/>
+        <form action="{{desto}}">
+            <input type="submit" value="OK">
+        </form>
+    </div>
+{% endblock %}

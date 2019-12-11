@@ -1,0 +1,10 @@
+id = 1
+name = The beginning
+color = #008255
+image = the dragon
+text = So... young pilgrim... you want to defeat the dragon ? <br/>Well well... Here is your first riddle then: <br/>If 00000001 = 1 and 00000010 = 2 and 00000011 = 3 and 01000000 = 64, <br/>then what is 01101011 ?<br/><br/>
+<a href="https://www.youtube.com/watch?v=NH-3dUk2IMM" target="_blank">hint</a>
+answer = 107
+date = 20190801
+
+

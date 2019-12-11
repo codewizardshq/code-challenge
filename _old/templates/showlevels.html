@@ -1,0 +1,33 @@
+{% extends "layout_admin.html" %}
+{% block content %}
+    <div id="container" class="text-center">
+        <br/>
+        <h1> Table Levels </h1>
+        <br/>
+        <form action="" method="POST">
+                <table align="center" class="table">
+                    <tr><th>Id</th><th>Name</th><th>B_color</th><th>Img</th><th>Text</th><th>Answer</th><th>Date</th></tr>
+
+                    <tr><td></td><td></td><td></td></td><td></td><td></td><td></td><td></td></tr> <!-- empty line -->
+
+
+                    {% if rows !="EMPTY" %}
+                        {% for row in rows %}
+                            <tr>
+                                <td>{{ row[0] }}</td>
+                                <td>{{ row[1] }}</td>
+                                <td>{{ row[2] }}</td>
+                                <td>{{ row[3] }}</td>
+                                <td>(multiline)</td>
+                                <td>{{ row[5] }}</td>
+                                <td>{{ row[6] }}</td>
+                                <td>{{ row[7] }}</td>
+                                <td><input type="submit" name="action" value="Del lvl {{ row[0] }}"/></td>
+                                <td><input type="submit" name="action" value="Edit lvl {{ row[0] }}"/></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </form>
+    </div>
+{% endblock %}
