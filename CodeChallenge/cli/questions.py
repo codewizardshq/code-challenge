@@ -53,3 +53,29 @@ def q_del(qid):
         click.echo("question deleted")
     else:
         click.echo("-!- question not deleted")
+
+
+@bp.cli.command("replace")
+@click.argument("title")
+@click.argument("answer")
+@click.argument("rank")
+@click.argument("asset")
+def q_replace(title, answer, rank, asset):
+    """Replace an existing rank's question.
+
+    This basically deletes the previous rank then adds the new rank
+    """
+    oldq = Question.query.filter_by(rank=rank).first()
+
+    if oldq is not None:
+        success = del_question(oldq.id)
+
+        if not success:
+            print("error occured while trying to delete original question")
+            print(f"old question id was: {oldq.id}")
+            return
+    else:
+        print(f"warning: there was no question for rank {rank} but I added "
+              "that question anyway")
+
+    add_question(title, answer, rank, asset)

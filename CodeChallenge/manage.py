@@ -46,7 +46,12 @@ def del_question(question_id):
 
         asset_dir = os.path.join(current_app.config["APP_DIR"], "assets")
         filename = os.path.join(asset_dir, q.asset)
-        os.remove(filename)
+        try:
+            os.remove(filename)
+        except FileNotFoundError:
+            print("warning: could not delete asset; "
+                  f"file not found: {filename}")
+            pass
 
     Question.query.filter_by(id=q.id).delete()
 
