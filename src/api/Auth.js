@@ -58,7 +58,7 @@ async function fetchState() {
     lastName: userData.lastname,
     displayName: userData.firstname + " " + userData.lastname,
     auth: true
-  })
+  });
 }
 
 async function autoLogin() {

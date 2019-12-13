@@ -1,7 +1,6 @@
 import routes from "./routes";
 import request from "./request";
 
-
 async function getQuestion() {
   return request(routes.questions_api_next_question);
 }

@@ -8,8 +8,8 @@ import { auth } from "@/api";
 
 Vue.config.productionTip = false;
 
-(async function () {
-  auth.onAuthStateChange(function () {
+(async function() {
+  auth.onAuthStateChange(function() {
     store.dispatch("User/refresh");
   });
 

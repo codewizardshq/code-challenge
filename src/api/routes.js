@@ -1,21 +1,22 @@
 function route(path, type) {
   return {
-    path, type
-  }
+    path,
+    type
+  };
 }
 
 export default {
-  awsebapi_eb_health_check: route('/api/v1/eb/health', 'GET'),
-  userapi_register: route('/api/v1/users/register', 'POST'),
-  userapi_login: route('/api/v1/users/token/auth', 'POST'),
-  userapi_logout: route('/api/v1/users/token/remove', 'POST'),
-  userapi_hello: route('/api/v1/users/hello', 'GET'),
-  questionsapi_answer_next_question: route('/api/v1/questions/answer', "POST"),
-  questionsapi_get_rank: route('/api/v1/questions/rank', "GET"),
-  questions_api_next_question: route('/api/v1/questions/next', "GET"),
-}
+  awsebapi_eb_health_check: route("/api/v1/eb/health", "GET"),
+  userapi_register: route("/api/v1/users/register", "POST"),
+  userapi_login: route("/api/v1/users/token/auth", "POST"),
+  userapi_logout: route("/api/v1/users/token/remove", "POST"),
+  userapi_hello: route("/api/v1/users/hello", "GET"),
+  questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
+  questionsapi_get_rank: route("/api/v1/questions/rank", "GET"),
+  questions_api_next_question: route("/api/v1/questions/next", "GET")
+};
 
-// export default { 
+// export default {
 //   awsebapi_eb_health_check: '/api/v1/eb/health',
 // catch_all                          GET      /<path:path>
 // catch_all                          GET      /

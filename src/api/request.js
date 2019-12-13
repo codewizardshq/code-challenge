@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 export default async function request(route, options = {}) {
   try {
     const response = await axios({
@@ -13,8 +11,10 @@ export default async function request(route, options = {}) {
   } catch (err) {
     return Promise.reject({
       status: err.response.status,
-      message: (!!err.response.data && !!err.response.data.reason) ? err.response.data.reason : err + ""
+      message:
+        !!err.response.data && !!err.response.data.reason
+          ? err.response.data.reason
+          : err + ""
     });
   }
 }
-

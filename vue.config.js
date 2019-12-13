@@ -2,7 +2,7 @@ module.exports = {
   lintOnSave: true,
   transpileDependencies: ["vuetify"],
   outputDir: "dist",
-  devServer: { 
+  devServer: {
     disableHostCheck: true,
     proxy: {
       "/api/*": {

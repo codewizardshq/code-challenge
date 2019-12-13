@@ -19,7 +19,7 @@ const state = {
 };
 
 const actions = {
-  async refresh({ dispatch, commit }) {
+  async refresh({ commit }) {
     const user = api.auth.currentUser();
     if (user.auth) {
       const rank = await api.quiz.getRank();
