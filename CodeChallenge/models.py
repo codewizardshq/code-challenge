@@ -9,9 +9,9 @@ def init_db():
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(5000), nullable=False)
     answer = db.Column(db.String(255), nullable=False)
-    rank = db.Column(db.Integer, nullable=False)
+    rank = db.Column(db.Integer, nullable=False) 
     asset = db.Column(db.String(255))
 
     def __repr__(self):

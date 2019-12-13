@@ -55,7 +55,7 @@ def answer_limit_attempts():
 # https://flask-limiter.readthedocs.io/en/stable/
 @bp.route("/answer", methods=["POST"])
 @jwt_required
-@limiter.limit(answer_limit_attempts, key_func=user_rank)
+# @limiter.limit(answer_limit_attempts, key_func=user_rank)
 def answer_next_question():
     user = get_current_user()
     if core.current_rank() == user.rank:
