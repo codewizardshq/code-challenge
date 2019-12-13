@@ -77,8 +77,8 @@ def test_jwt_user_loader_success(client):
     json = retval.get_json()
 
     assert json["status"] == "success"
-    assert json["your_username"] == "cwhqsam"
-    assert json["your_email"] == "sam@codewizardshq.com"
+    assert json["username"] == "cwhqsam"
+    assert json["email"] == "sam@codewizardshq.com"
 
 
 def test_logout(client):
