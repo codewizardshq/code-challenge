@@ -1,5 +1,5 @@
 import { mapState } from "vuex";
-import { Auth } from "@/api";
+import * as api from "@/api";
 
 const moduleName = "User";
 
@@ -9,6 +9,7 @@ function getDefaultState() {
     lastName: "",
     email: "",
     displayName: "",
+    rank: 0,
     isAuthorized: false
   };
 }
@@ -19,13 +20,12 @@ const state = {
 
 const actions = {
   async refresh({ dispatch, commit }) {
-    const user = Auth.currentUser();
-    if (user.uid) {
-      commit("set", user);
-      dispatch("Progress/fetch", null, { root: true });
+    const user = api.auth.currentUser();
+    if (user.auth) {
+      const rank = await api.quiz.getRank();
+      commit("set", { ...user, rank });
     } else {
       commit("clear", user);
-      dispatch("Progress/clear", null, { root: true });
     }
   }
 };

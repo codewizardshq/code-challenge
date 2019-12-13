@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { Auth } from "@/api";
+import { auth } from "@/api";
 
 Vue.use(VueRouter);
 
@@ -32,7 +32,7 @@ const routes = [
     path: "/logout",
     name: "logout",
     beforeEnter(to, from, next) {
-      Auth.logout().then(() => next({ name: "home" }));
+      auth.logout().then(() => next({ name: "home" }));
     },
     meta: {
       secured: true
@@ -69,7 +69,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!Auth.currentUser().uid;
+  const isAuthenticated = !!auth.currentUser().auth;
   const requireAuth = to.matched.some(record => record.meta.secured);
   const requireAnon = to.matched.some(record => record.meta.anon);
 
