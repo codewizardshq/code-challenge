@@ -7,6 +7,10 @@ def init_db():
     db.create_all()
 
 
+def drop_all():
+    db.drop_all()
+
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)
