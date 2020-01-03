@@ -1,2 +1,2 @@
-export { default as Auth } from "./Auth";
-export { default as Quiz } from "./Quiz";
+export { default as auth } from "./auth";
+export { default as quiz } from "./quiz";

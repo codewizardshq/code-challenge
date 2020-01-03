@@ -4,16 +4,16 @@ import router from "./plugins/router";
 import vuetify from "./plugins/vuetify";
 import store from "./store";
 import "@/styles/styles.scss";
-import { Auth } from "@/api";
+import { auth } from "@/api";
 
 Vue.config.productionTip = false;
 
 (async function() {
-  Auth.onAuthStateChange(function() {
+  auth.onAuthStateChange(function() {
     store.dispatch("User/refresh");
   });
 
-  await Auth.autoLogin();
+  await auth.autoLogin();
 
   new Vue({
     router,

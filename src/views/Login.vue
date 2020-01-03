@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { Auth } from "@/api";
+import { auth } from "@/api";
 export default {
   name: "login",
   methods: {
@@ -43,13 +43,13 @@ export default {
       }
       this.isSubmitting = true;
       try {
-        await Auth.login(
+        await auth.login(
           this.fields.username.value,
           this.fields.password.value
         );
         localStorage.setItem("lastEmail", this.fields.username.value);
         this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: "quiz" });
       } catch (err) {
         this.$store.dispatch("Snackbar/showError", err);
       }

@@ -2,33 +2,19 @@
   <div class="quiz-scroll">
     <v-card flat>
       <div class="scroll-title">{{ title }}</div>
-      <v-card-text v-html="question" />
+      <div class="scroll-content">
+        <slot>
+          <v-img :src="asset" v-if="!!asset" />
+          <v-card-text v-html="question" />
+        </slot>
+      </div>
     </v-card>
   </div>
 </template>
 
 <script>
-import { Progress } from "@/store";
-
 export default {
   name: "quizScroll",
-  async mounted() {
-    try {
-      this.$store.dispatch("Progress/fetch");
-    } catch (err) {
-      this.$store.dispatch("Snackbar/showError", err);
-    }
-  },
-  computed: {
-    ...Progress.mapState(),
-    title() {
-      return this.Progress.hasData ? "Level " + this.Progress.rank : "Loading";
-    },
-    question() {
-      return !(this.Progress.isLoading || !this.Progress.hasData)
-        ? this.Progress.question
-        : "Loading...";
-    }
-  }
+  props: ["title", "asset", "question"]
 };
 </script>

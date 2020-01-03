@@ -55,6 +55,9 @@ class DevelopmentConfig(ProductionConfig):
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = "1575810000"
+    JWT_SECRET_KEY = "SuperSecret"
+    SECRET_KEY = "flaskSecretKey"
+    JWT_COOKIE_CSRF_PROTECT = False
 
     @property
     def DIST_DIR(self):

@@ -1,12 +1,13 @@
 import Vue from "vue";
+import routes from "./routes";
+import request from "./request";
 
-const storageKey = "_authKey";
 const eventKey = "_authChange";
 
 const eventHandler = new Vue();
 
 let state = {
-  uid: null,
+  auth: false,
   email: null,
   displayName: null,
   firstName: null,
@@ -15,15 +16,7 @@ let state = {
 
 async function setState(newState) {
   state = { ...state, ...newState };
-  localStorage.setItem(storageKey, JSON.stringify(state));
   eventHandler.$emit(eventKey, state);
-}
-
-async function loadState() {
-  const json = localStorage.getItem(storageKey);
-  if (json) {
-    setState(JSON.parse(json));
-  }
 }
 
 async function onAuthStateChange(callback) {
@@ -35,41 +28,52 @@ async function offAuthStateChange(callback) {
 }
 
 async function login(email, password) {
-  // this function the linter requirement of no unused variables.
-  // password shall be used later
-  consumePassword(password);
-  await setState({
-    uid: email,
-    email,
-    displayName: email
+  await request(routes.userapi_login, {
+    data: {
+      username: email,
+      password
+    }
   });
+  await fetchState();
 }
 
-async function createAccount(username, email, password, firstName, lastName) {
-  // this function the linter requirement of no unused variables.
-  // password shall be used later
-  consumePassword(password);
-  await setState({
-    uid: email,
-    username,
-    email,
-    firstName,
-    lastName,
-    displayName: username
+async function createAccount(email, password, firstName, lastName) {
+  await request(routes.userapi_register, {
+    data: {
+      username: email,
+      password,
+      email,
+      firstname: firstName,
+      lastname: lastName
+    }
   });
+  await login(email, password);
 }
 
-function consumePassword() {
-  // this function the linter requirement of no unused variables.
-  // password shall be used later
+async function fetchState() {
+  const userData = await request(routes.userapi_hello);
+  await setState({
+    email: userData.email,
+    firstName: userData.firstname,
+    lastName: userData.lastname,
+    displayName: userData.firstname + " " + userData.lastname,
+    auth: true
+  });
 }
 
 async function autoLogin() {
-  await loadState();
+  try {
+    await fetchState();
+  } catch (err) {
+    if (err.status != 401) {
+      return Promise.reject(err);
+    }
+  }
 }
 
 async function logout() {
-  await setState({ uid: null });
+  await request(routes.userapi_logout);
+  await setState({ auth: false });
 }
 
 function currentUser() {

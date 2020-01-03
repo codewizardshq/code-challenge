@@ -106,8 +106,10 @@ def hello_protected():
 
     return jsonify({"status": "success",
                     "message": f"Hello {user.firstname}! (id {identity})",
-                    "your_username": user.username,
-                    "your_email": user.email})
+                    "username": user.username,
+                    "email": user.email,
+                    "firstname": user.firstname, 
+                    "lastname": user.lastname})
 
 
 @bp.route("/forgot", methods=["POST"])

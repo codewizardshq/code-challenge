@@ -13,9 +13,9 @@
             @blur="onBlur"
           />
 
-          <v-btn x-large color="primary" :disabled="isDisabled" type="submit">
-            Submit
-          </v-btn>
+          <v-btn x-large color="primary" :disabled="isDisabled" type="submit"
+            >Submit</v-btn
+          >
 
           <v-btn
             v-if="wasCorrect"
@@ -23,9 +23,8 @@
             color="primary"
             type="submit"
             @click="next"
+            >NEXT</v-btn
           >
-            NEXT
-          </v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -33,15 +32,14 @@
 </template>
 
 <script>
-import { Quiz } from "@/api";
-import { Progress } from "@/store";
+import { quiz } from "@/api";
 
 export default {
   name: "quizAnswer",
+  props: ["isLoading"],
   computed: {
-    ...Progress.mapState(),
     isDisabled() {
-      return this.isSubmitting || !this.Progress.hasData || this.wasCorrect;
+      return this.isSubmitting || this.isLoading || this.wasCorrect;
     }
   },
   data() {
@@ -74,7 +72,7 @@ export default {
         this.fields.answer.successMessages = [];
         this.fields.answer.success = false;
         this.$refs.form.resetValidation();
-        await this.$store.dispatch("Progress/fetch");
+        this.$emit("next");
       } catch (err) {
         await this.$store.dispatch("Snackbar/showError", err);
       }
@@ -89,7 +87,8 @@ export default {
       }
       this.isSubmitting = true;
       try {
-        const isCorrect = await Quiz.submit(this.fields.answer.value);
+        const isCorrect = await quiz.submit(this.fields.answer.value);
+
         if (isCorrect) {
           this.$store.dispatch(
             "Snackbar/showSuccess",

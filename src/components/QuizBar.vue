@@ -6,9 +6,9 @@
     :height="60"
     :max-height="60"
   >
-    <div class="quiz-bar-rank" v-show="Progress.hasData">
+    <div class="quiz-bar-rank" v-show="User.auth">
       <div class="level-display">Level</div>
-      <div class="rank">{{ Progress.rank }}</div>
+      <div class="rank">{{ User.rank }}</div>
     </div>
 
     <span v-if="User.isAuthorized" class="barrow-bold">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { User, Progress } from "@/store";
+import { User } from "@/store";
 import SocialPopOver from "./SocialPopOver";
 
 export default {
@@ -58,8 +58,7 @@ export default {
     SocialPopOver
   },
   computed: {
-    ...User.mapState(),
-    ...Progress.mapState()
+    ...User.mapState()
   }
 };
 </script>
