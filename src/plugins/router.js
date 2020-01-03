@@ -41,7 +41,7 @@ const routes = [
   {
     path: "/create-account",
     name: "register",
-    component: () => import("@/views/Register"),
+    component: () => import("@/views/Register/index.vue"),
     meta: {
       anon: true
     }

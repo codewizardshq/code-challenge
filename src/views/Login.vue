@@ -49,7 +49,7 @@ export default {
         );
         localStorage.setItem("lastEmail", this.fields.username.value);
         this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: "quiz" });
       } catch (err) {
         this.$store.dispatch("Snackbar/showError", err);
       }

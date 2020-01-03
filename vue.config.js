@@ -1,5 +1,5 @@
 module.exports = {
-  lintOnSave: true,
+  lintOnSave: false,
   transpileDependencies: ["vuetify"],
   outputDir: "dist",
   devServer: {
