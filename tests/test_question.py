@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta, timezone
 import time
+from datetime import datetime, timedelta, timezone
+
+import pytest
 
 import CodeChallenge
-import pytest
 
 app = CodeChallenge.create_app("DefaultConfig")
 
@@ -29,6 +30,7 @@ def client_challenge_today():
             CodeChallenge.del_question(1)
             CodeChallenge.del_question(2)
             CodeChallenge.del_question(3)
+
 
 @pytest.fixture(scope="module")
 def client_challenge_future():
@@ -116,6 +118,24 @@ def test_get_rank_past(client_challenge_past):
     assert retval.get_json()["rank"] == 2
 
 
+def test_register_while_open(client_challenge_past):
+    retval = register(client_challenge_past,
+                      "codechallenge+sam@codewizardshq.com",
+                      "cwhqsam2", "supersecurepassword",
+                      "Sam", "Hoffman")
+
+    assert retval.status_code == 200
+
+    retval = client_challenge_past.get("/api/v1/questions/rank")
+    assert retval.status_code == 200
+    json = retval.get_json()
+    assert json["rank"] == 2
+
+    retval = client_challenge_past.get("/api/v1/questions/next")
+    assert retval.status_code == 200
+    assert retval.get_json()["rank"] == 1
+
+
 def test_get_rank1(client_challenge_past):
     retval = client_challenge_past.get("/api/v1/questions/next")
     assert retval.status_code == 200
@@ -161,7 +181,10 @@ def test_answer_rank2_correctly(client_challenge_past):
 def test_get_rank3_404(client_challenge_past):
     retval = client_challenge_past.get("/api/v1/questions/next")
     assert retval.status_code == 404
-    assert retval.get_json()["reason"] == "no more questions to answer"
+    json = retval.get_json()
+    assert json["reason"] == "no more questions to answer"
+    delta = json["timeUntilNextRank"]
+    assert len(delta.split(":")) == 3
 
 
 def test_answer_rank3_404(client_challenge_past):

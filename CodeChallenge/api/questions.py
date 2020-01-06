@@ -17,34 +17,44 @@ def json_error(reason, status=400):
 @bp.route("/rank", methods=["GET"])
 @jwt_required
 def get_rank():
-    return jsonify({"status": "success", "rank": core.current_rank()})
+    return jsonify(status="success", rank=core.current_rank(),
+                   timeUntilNextRank=core.time_until_next_rank())
 
 
 @bp.route("/next", methods=["GET"])
 @jwt_required
 def next_question():
     """Return next unanswered question up to the max rank"""
+
+    current_rank = core.current_rank()
+
+    if current_rank == -1:
+        return jsonify(status="error", reason="Code Challenge has not started yet",
+                       timeUntilNextRank=core.time_until_next_rank()), 404
+
     user = get_current_user()
 
-    if user.rank == core.current_rank():
-        return jsonify({"status": "error",
-                        "reason": "no more questions to answer"}), 404
+    if user.rank == current_rank:
+        return jsonify(status="error",
+                       reason="no more questions to answer",
+                       timeUntilNextRank=core.time_until_next_rank()), 404
 
     rank = user.rank + 1
 
-    if rank > core.current_rank():
-        return jsonify({"status": "error",
-                        "reason": "problem with rank"}), 500
+    if rank > current_rank:
+        return jsonify(status="error",
+                       reason="problem with rank"), 500
 
     q = Question.query.filter(Question.rank == rank).first()
 
     if not q:
-        return jsonify({"status": "error",
-                        "reason": f"no questions for rank {rank!r}"}), 404
+        return jsonify(status="error",
+                       reason=f"no questions for rank {rank!r}"), 404
 
-    return jsonify({"status": "success",
-                    "question": q.title, "rank": rank,
-                    "asset": f"assets/{q.asset}"}), 200
+    return jsonify(status="success",
+                   question=q.title,
+                   rank=rank,
+                   asset=f"assets/{q.asset}"), 200
 
 
 def answer_limit_attempts():

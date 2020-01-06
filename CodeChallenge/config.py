@@ -39,22 +39,22 @@ class DefaultConfig:
 
 class ProductionConfig(DefaultConfig):
     # read as much as possible from envvars
-    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
-    SECRET_KEY = os.environ.get("SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SECRET_KEY = os.getenv("SECRET_KEY")
     JWT_COOKIE_SECURE = True
     JWT_COOKIE_CSRF_PROTECT = True
-    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
-    CODE_CHALLENGE_START = os.environ.get("CODE_CHALLENGE_START")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
     MAIL_SUPPRESS_SEND = False
-    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
-    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
 
 class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False
-    CODE_CHALLENGE_START = "1575810000"
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
