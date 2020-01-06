@@ -20,7 +20,7 @@ class Users(db.Model):
     rank = db.Column(db.Integer, default=0, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f"<User {self.username!r}>"
 
     def check_password(self, password):
         ph = argon2.PasswordHasher()
@@ -46,9 +46,10 @@ def identity(identity):
     return Users.query.get(identity)
 
 
-def create_user(email, password):
+def create_user(email, username, password):
     u = Users()
     u.email = email
+    u.username = username
     u.password = hash_password(password)
 
     db.session.add(u)

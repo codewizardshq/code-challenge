@@ -6,6 +6,7 @@ from .api.eb import bp as eb_bp
 from .api.questions import bp as questions_bp
 from .api.users import bp as users_bp
 from .auth import jwt
+from .cli.clock import bp as clock_cli_bp
 from .cli.db import bp as db_cli_bp
 from .cli.questions import bp as q_cli_bp
 from .cli.users import bp as users_cli_bp
@@ -13,6 +14,7 @@ from .limiter import limiter
 from .mail import mail
 from .manage import add_question, del_question  # NoQA
 from .models import db, init_db  # NoQA
+
 
 # Globally accessible libraries
 
@@ -42,6 +44,7 @@ def create_app(config):
     app.register_blueprint(users_cli_bp)
     app.register_blueprint(db_cli_bp)
     app.register_blueprint(q_cli_bp)
+    app.register_blueprint(clock_cli_bp)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):

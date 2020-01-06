@@ -8,10 +8,11 @@ bp = Blueprint("usercli", __name__, cli_group="users")
 # create new user with a password
 @bp.cli.command("create")
 @click.argument("email")
+@click.argument("username")
 @click.argument("password")
-def create_user_cmd(email, password):
+def create_user_cmd(email, username, password):
     """Create a new user with an email and password for logging in."""
-    create_user(email, password)
+    create_user(email, username, password)
     print("user created")
 
 

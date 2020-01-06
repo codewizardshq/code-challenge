@@ -7,6 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
 
+from .. import core
 from ..auth import (Users, hash_password, password_reset_token,
                     reset_password_from_token)
 from ..limiter import limiter
@@ -108,8 +109,10 @@ def hello_protected():
                     "message": f"Hello {user.firstname}! (id {identity})",
                     "username": user.username,
                     "email": user.email,
-                    "firstname": user.firstname, 
-                    "lastname": user.lastname})
+                    "firstname": user.firstname,
+                    "lastname": user.lastname,
+                    "rank": user.rank,
+                    "timeUntilNextRank": core.time_until_next_rank()})
 
 
 @bp.route("/forgot", methods=["POST"])

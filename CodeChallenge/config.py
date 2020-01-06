@@ -54,7 +54,7 @@ class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False
-    CODE_CHALLENGE_START = "1575810000"
+    CODE_CHALLENGE_START = os.environ.get("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
