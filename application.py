@@ -14,7 +14,7 @@ else:
     cfg = "ProductionConfig"
 
 
-application = create_app("DevelopmentConfig")
+application = create_app(cfg)
 
 if __name__ == "__main__":
     application.run()
