@@ -16,9 +16,9 @@
 <script>
 export default {
   name: "home",
-  created() {
+  mounted() {
     if (window.location.hostname !== "localhost") {
-      window.location.reload();
+      // window.location.replace("/");
     }
   }
 };
