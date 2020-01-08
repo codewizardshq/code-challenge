@@ -22,7 +22,10 @@
         v-model="fields.studentEmail.value"
         :disabled="isSubmitting"
       />
-      <date-of-birth-field v-model="fields.dateOfBirth.value" />
+      <date-of-birth-field
+        :label="fields.dateOfBirth.label"
+        v-model="fields.dateOfBirth.value"
+      />
     </v-card-text>
 
     <v-card-text v-if="showParentConsentAlert">
