@@ -3,28 +3,11 @@
 
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible"
-      content="IE=edge">
-    <meta name="viewport"
-      content="width=device-width,initial-scale=1.0">
-    <link rel="icon"
-      href="<%= webpackConfig.output.publicPath %>favicon.ico">
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>CodeWizardsHQ CODE CHALLENGE</title>
-
-    <link rel="icon"
-      href="https://codewizardshq.com/wp-content/uploads/2019/10/cropped-cropped-blueHorizontal-32x32.png"
-      sizes="32x32" />
-    <link rel="icon"
-      href="https://codewizardshq.com/wp-content/uploads/2019/10/cropped-cropped-blueHorizontal-192x192.png"
-      sizes="192x192" />
-    <link rel="apple-touch-icon-precomposed"
-      href="https://codewizardshq.com/wp-content/uploads/2019/10/cropped-cropped-blueHorizontal-180x180.png" />
-    <meta name="msapplication-TileImage"
-      content="https://codewizardshq.com/wp-content/uploads/2019/10/cropped-cropped-blueHorizontal-270x270.png" />
   </head>
 
   <body>
@@ -34,6 +17,12 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
+    <script>
+      if (location.hostname != "localhost" && location.protocol != 'https:') {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+      }
+    </script>
   </body>
 
 </html>
