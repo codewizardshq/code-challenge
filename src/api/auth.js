@@ -8,7 +8,7 @@ const eventHandler = new Vue();
 
 let state = {
   auth: false,
-  email: null,
+  username: null,
   displayName: null,
   firstName: null,
   lastName: null,
@@ -28,37 +28,25 @@ async function offAuthStateChange(callback) {
   eventHandler.$on(eventKey, callback);
 }
 
-async function login(email, password) {
+async function login(username, password) {
   await request(routes.userapi_login, {
     data: {
-      username: email,
+      username,
       password
     }
   });
   await fetchState();
 }
 
-async function createAccount(email, password, firstName, lastName) {
-  await request(
-    routes.userapi_register,
-    {
-      data: {
-        username: email,
-        password,
-        email,
-        firstname: firstName,
-        lastname: lastName
-      }
-    },
-    false
-  );
-  await login(email, password);
+async function createAccount(data) {
+  await request(routes.userapi_register, { data }, false);
+  await login(data.username, data.password, false);
 }
 
 async function fetchState() {
   const userData = await request(routes.userapi_hello, {}, state.auth);
   await setState({
-    email: userData.email,
+    username: userData.username,
     firstName: userData.firstname,
     lastName: userData.lastname,
     displayName: userData.firstname + " " + userData.lastname,

@@ -6,6 +6,7 @@ const moduleName = "User";
 
 function getDefaultState() {
   return {
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
