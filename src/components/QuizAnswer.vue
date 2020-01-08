@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { quiz } from "@/api";
+import * as api from "@/api";
 
 export default {
   name: "quizAnswer",
@@ -87,10 +87,11 @@ export default {
       }
       this.isSubmitting = true;
       try {
-        const isCorrect = await quiz.submit(this.fields.answer.value);
+        const isCorrect = await api.quiz.submit(this.fields.answer.value);
 
         if (isCorrect) {
-          this.$store.dispatch(
+          await api.auth.fetchState();
+          await this.$store.dispatch(
             "Snackbar/showSuccess",
             "That answer was correct!"
           );

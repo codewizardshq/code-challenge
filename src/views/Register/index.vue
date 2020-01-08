@@ -2,18 +2,18 @@
   <v-row align="center" justify="center">
     <v-col cols="12" sm="8" md="8">
       <v-card flat class="mt-12">
-        <v-toolbar color="primary" dark flat>
+        <v-toolbar color="secondary" dark flat>
           <v-toolbar-title>Create Your Account</v-toolbar-title>
         </v-toolbar>
-        <v-stepper v-model="e1">
+        <v-stepper v-model="stepperIndex">
           <v-stepper-header class="elevation-0">
-            <v-stepper-step :complete="e1 > 1" step="1"
+            <v-stepper-step :complete="stepperIndex > 1" step="1"
               >Account Details</v-stepper-step
             >
 
             <v-divider></v-divider>
 
-            <v-stepper-step :complete="e1 > 2" step="2"
+            <v-stepper-step :complete="stepperIndex > 2" step="2"
               >Student Details</v-stepper-step
             >
 
@@ -55,17 +55,17 @@ export default {
   },
   methods: {
     back() {
-      this.e1--;
-      if (this.e1 <= 0) {
-        this.e1 = 1;
+      this.stepperIndex--;
+      if (this.stepperIndex <= 0) {
+        this.stepperIndex = 1;
       }
     },
     submit1(cb) {
-      this.e1++;
+      this.stepperIndex++;
       cb();
     },
     submit2(cb) {
-      this.e1++;
+      this.stepperIndex++;
       cb();
     },
     async submit3(cb) {
@@ -82,20 +82,21 @@ export default {
         );
         localStorage.setItem("lastEmail", this.fields.parentEmail.value);
         this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
-        this.$router.push({ name: "home" });
+        this.isSubmitting = false;
+        this.stepperIndex = 0;
+        this.$router.push({ name: "quiz" });
       } catch (err) {
+        this.isSubmitting = false;
         this.$store.dispatch("Snackbar/showError", err);
       }
-      this.isSubmitting = false;
-      this.e1 = 0;
-      this.$router.push({ name: "quiz" });
       cb();
     }
   },
+
   data() {
     return {
       isSubmitting: false,
-      e1: 0,
+      stepperIndex: 1,
       fields: {
         parentEmail: {
           label: "Parent's E-mail Address",
@@ -111,10 +112,11 @@ export default {
         password: {
           label: "Password",
           type: "password",
+          autocomplete: "new-password",
           value: "",
           rules: [
             v => !!v || "Don't forget to give a password",
-            v => v.length >= 11 || "Password must be atleast 11 characters"
+            v => v.length >= 11 || "Password must be at least 11 characters"
           ]
         },
         passwordConfirm: {
@@ -129,19 +131,18 @@ export default {
           label: "Student's First Name",
           type: "text",
           value: "",
-          rules: [v => !!v || "Please tells us your name"]
+          rules: [v => !!v || "Please tell us your name"]
         },
         lastName: {
           label: "Student's Last Name",
           type: "text",
           value: "",
-          rules: [v => !!v || "Please tells us your name"]
+          rules: [v => !!v || "Please tell us your name"]
         },
         dateOfBirth: {
           label: "Student's Date Of Birth",
           type: "date",
-          value: null,
-          max: new Date().toISOString().substr(0, 10),
+          value: new Date().toISOString().substr(0, 10),
           rules: [v => !!v || "Please enter a date of birth"]
         },
         tos: {

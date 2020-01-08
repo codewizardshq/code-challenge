@@ -20,13 +20,7 @@
 
     <v-card-actions>
       <v-spacer />
-      <v-btn
-        color="primary"
-        type="submit"
-        :disabled="
-          isSubmitting || fields.password.value != fields.passwordConfirm.value
-        "
-      >
+      <v-btn color="secondary darken-2" type="submit" :disabled="isSubmitting">
         Next
         <v-progress-circular
           size="14"

@@ -72,14 +72,14 @@
 
     <v-card-actions>
       <v-btn
-        color="primary"
+        color="secondary darken-2"
         @click="() => $emit('back')"
         :disabled="isSubmitting"
         >Back</v-btn
       >
       <v-spacer />
       <v-btn
-        color="primary"
+        color="secondary darken-2"
         type="submit"
         :disabled="
           isSubmitting ||

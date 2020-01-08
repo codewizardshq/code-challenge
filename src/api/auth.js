@@ -11,7 +11,8 @@ let state = {
   email: null,
   displayName: null,
   firstName: null,
-  lastName: null
+  lastName: null,
+  rank: 0
 };
 
 async function setState(newState) {
@@ -38,26 +39,31 @@ async function login(email, password) {
 }
 
 async function createAccount(email, password, firstName, lastName) {
-  await request(routes.userapi_register, {
-    data: {
-      username: email,
-      password,
-      email,
-      firstname: firstName,
-      lastname: lastName
-    }
-  });
+  await request(
+    routes.userapi_register,
+    {
+      data: {
+        username: email,
+        password,
+        email,
+        firstname: firstName,
+        lastname: lastName
+      }
+    },
+    false
+  );
   await login(email, password);
 }
 
 async function fetchState() {
-  const userData = await request(routes.userapi_hello);
+  const userData = await request(routes.userapi_hello, {}, state.auth);
   await setState({
     email: userData.email,
     firstName: userData.firstname,
     lastName: userData.lastname,
     displayName: userData.firstname + " " + userData.lastname,
-    auth: true
+    auth: true,
+    rank: userData.rank
   });
 }
 
@@ -72,7 +78,7 @@ async function autoLogin() {
 }
 
 async function logout() {
-  await request(routes.userapi_logout);
+  await request(routes.userapi_logout, {}, false);
   await setState({ auth: false });
 }
 
@@ -84,6 +90,7 @@ export default {
   logout,
   login,
   autoLogin,
+  fetchState,
   createAccount,
   currentUser,
   onAuthStateChange,
