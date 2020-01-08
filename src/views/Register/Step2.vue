@@ -22,39 +22,45 @@
         v-model="fields.studentEmail.value"
         :disabled="isSubmitting"
       />
-      <v-menu
-        v-model="showCalendar"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-model="fields.dateOfBirth.value"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-on="on"
-            v-bind="fields.dateOfBirth"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="fields.dateOfBirth.value"
-          @input="showCalendar = false"
-        />
-      </v-menu>
+      <date-of-birth-field v-model="fields.dateOfBirth.value" />
+    </v-card-text>
+
+    <v-card-text v-if="showParentConsentAlert">
+      <v-alert colored-border icon="mdi-firework">
+        You are not 13 years of age.
+        <p>
+          In order to continue with the code challenge you must have your
+          parent's permission. Have your parent or guardian complete the rest of
+          this page.
+        </p>
+        <v-switch
+          v-model="hasParentConsent"
+          class="mx-2"
+          :rules="[
+            v =>
+              !!v ||
+              'Please have your parent or guardian review this form before continuing'
+          ]"
+          :label="
+            'I, the parent or guardian of ' +
+              this.fields.firstName.value +
+              ' ' +
+              this.fields.lastName.value +
+              ', give my consent to participate in the CodeWizardsHQ Code Challenge.'
+          "
+        ></v-switch>
+      </v-alert>
     </v-card-text>
 
     <v-card-actions>
       <v-btn
-        color="primary"
+        color="secondary darken-2"
         @click="() => $emit('back')"
         :disabled="isSubmitting"
         >Back</v-btn
       >
       <v-spacer />
-      <v-btn color="primary" type="submit" :disabled="isSubmitting">
+      <v-btn color="secondary darken-2" type="submit" :disabled="isSubmitting">
         Next
         <v-progress-circular
           size="14"
@@ -68,9 +74,30 @@
 </template>
 
 <script>
+import DateOfBirthField from "./DateOfBirthField";
+import moment from "moment";
+
 export default {
   name: "register-step-2",
   props: ["fields"],
+  components: {
+    DateOfBirthField
+  },
+  watch: {
+    "fields.dateOfBirth.value"() {
+      if (!this.needsParentConsent) {
+        this.showParentConsentAlert = false;
+      }
+    }
+  },
+  computed: {
+    age() {
+      return moment().diff(this.fields.dateOfBirth.value, "years", false);
+    },
+    needsParentConsent() {
+      return this.age < 13;
+    }
+  },
   methods: {
     async submit() {
       if (this.isSubmitting) {
@@ -84,12 +111,18 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
-        this.submit();
+        if (this.needsParentConsent && !this.hasParentConsent) {
+          this.showParentConsentAlert = true;
+        } else {
+          this.submit();
+        }
       }
     }
   },
   data() {
     return {
+      showParentConsentAlert: false,
+      hasParentConsent: false,
       isValid: false,
       isSubmitting: false,
       showCalendar: false

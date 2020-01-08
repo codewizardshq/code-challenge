@@ -1,10 +1,12 @@
 import { mapState } from "vuex";
 import * as api from "@/api";
+import Vue from "vue";
 
 const moduleName = "User";
 
 function getDefaultState() {
   return {
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -21,9 +23,9 @@ const state = {
 const actions = {
   async refresh({ commit }) {
     const user = api.auth.currentUser();
+
     if (user.auth) {
-      const rank = await api.quiz.getRank();
-      commit("set", { ...user, rank });
+      commit("set", user);
     } else {
       commit("clear", user);
     }
@@ -32,11 +34,15 @@ const actions = {
 
 const mutations = {
   set(state, user) {
-    Object.assign(state, user);
+    for (const [key, value] of Object.entries(user)) {
+      Vue.set(state, key, value);
+    }
     state.isAuthorized = true;
   },
   clear(state) {
-    Object.assign(state, getDefaultState());
+    for (const [key, value] of Object.entries(getDefaultState())) {
+      Vue.set(state, key, value);
+    }
   }
 };
 

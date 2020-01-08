@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./plugins/router";
 import vuetify from "./plugins/vuetify";
+import "./plugins/moment";
 import store from "./store";
 import "@/styles/styles.scss";
 import { auth } from "@/api";

@@ -2,7 +2,7 @@
   <v-row align="center" justify="center">
     <v-col cols="12" sm="8" md="4">
       <v-card flat class="mt-12">
-        <v-toolbar color="primary" dark flat>
+        <v-toolbar color="secondary" dark flat>
           <v-toolbar-title>Login form</v-toolbar-title>
         </v-toolbar>
         <v-form @submit.prevent="validate" ref="form">
@@ -20,11 +20,21 @@
             />
           </v-card-text>
 
+          <v-card-text>
+            <router-link :to="{ name: 'reset-password' }"
+              >Forgot your password?</router-link
+            >
+          </v-card-text>
+
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary" type="submit" dark :disabled="isSubmitting">
-              Sign In
-            </v-btn>
+            <v-btn
+              color="secondary darken-2"
+              type="submit"
+              dark
+              :disabled="isSubmitting"
+              >Sign In</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card>
@@ -47,7 +57,7 @@ export default {
           this.fields.username.value,
           this.fields.password.value
         );
-        localStorage.setItem("lastEmail", this.fields.username.value);
+        localStorage.setItem("lastUsername", this.fields.username.value);
         this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
         this.$router.push({ name: "quiz" });
       } catch (err) {

@@ -1,5 +1,6 @@
 <template>
-  <v-row align="center" justify="center">
+  <div />
+  <!-- <v-row align="center" justify="center">
     <v-col cols="12" sm="8" md="4">
       <v-card flat class="mt-12">
         <v-toolbar color="primary" dark flat>
@@ -9,7 +10,7 @@
         <v-card-text style="height: 300px" />
       </v-card>
     </v-col>
-  </v-row>
+	</v-row>-->
 </template>
 
 <script>

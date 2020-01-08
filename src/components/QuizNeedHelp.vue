@@ -1,5 +1,9 @@
 <template>
-  <div class="quiz-need-help"></div>
+  <a
+    class="quiz-need-help"
+    href="https://discord.gg/fDWbCj9"
+    target="_blank"
+  ></a>
 </template>
 
 <script>

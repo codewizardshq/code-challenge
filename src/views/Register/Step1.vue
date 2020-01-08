@@ -2,6 +2,11 @@
   <v-form @submit.prevent="validate" ref="form" v-model="isValid">
     <v-card-text>
       <v-text-field
+        v-bind="fields.username"
+        v-model="fields.username.value"
+        :disabled="isSubmitting"
+      />
+      <v-text-field
         v-bind="fields.parentEmail"
         v-model="fields.parentEmail.value"
         :disabled="isSubmitting"
@@ -20,13 +25,7 @@
 
     <v-card-actions>
       <v-spacer />
-      <v-btn
-        color="primary"
-        type="submit"
-        :disabled="
-          isSubmitting || fields.password.value != fields.passwordConfirm.value
-        "
-      >
+      <v-btn color="secondary darken-2" type="submit" :disabled="isSubmitting">
         Next
         <v-progress-circular
           size="14"

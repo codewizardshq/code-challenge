@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { auth } from "@/api";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -11,22 +12,17 @@ const routes = [
     component: () => import("@/views/Home")
   },
   {
-    path: "/about",
-    name: "about",
-    component: () => import("@/views/About")
-  },
-  {
-    path: "/get-help",
-    name: "get-help",
-    component: () => import("@/views/GetHelp")
-  },
-  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login"),
     meta: {
       anon: true
     }
+  },
+  {
+    path: "/reset-password",
+    name: "reset-password",
+    component: () => import("@/views/ResetPassword")
   },
   {
     path: "/logout",
@@ -50,6 +46,36 @@ const routes = [
     path: "/quiz",
     name: "quiz",
     component: () => import("@/views/Quiz"),
+    meta: {
+      secured: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 0) {
+        next({ name: "quiz-intro" });
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: "/quiz-scores",
+    name: "quiz-scores",
+    component: () => import("@/views/QuizScores"),
+    meta: {
+      secured: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (!store.state.Quiz.hasScores) {
+        next({ name: "quiz" });
+      } else {
+        next();
+      }
+    }
+  },
+  {
+    path: "/quiz-intro",
+    name: "quiz-intro",
+    component: () => import("@/views/QuizIntro"),
     meta: {
       secured: true
     }

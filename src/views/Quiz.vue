@@ -1,20 +1,14 @@
 <template>
-  <div class="mt-6">
-    <v-row justify="center" v-if="User.rank == 1 && showIntro">
-      <quiz-front-page @next="() => (showIntro = false)" />
-    </v-row>
-    <v-row justify="center" v-else-if="!isLoading">
-      <quiz-scroll
-        :title="title"
-        :question="question"
-        :asset="asset"
-        :isLoading="isLoading"
-      />
-      <quiz-answer
-        @next="loadQuestion"
-        :isLoading="isLoading"
-        v-if="!maxQuiz"
-      />
+  <div class="mt-6" v-if="!isLoading">
+    <v-row justify="center">
+      <quiz-scroll>
+        <template v-slot:title>{{ title }}</template>
+        <template v-slot:default>
+          <img class="asset" :src="asset" v-if="!!asset" />
+          <div class="scroll-content" v-html="question" />
+        </template>
+      </quiz-scroll>
+      <quiz-answer @next="onNext" :isLoading="isLoading" v-if="!maxQuiz" />
     </v-row>
     <quiz-need-help />
   </div>
@@ -24,18 +18,15 @@
 import QuizScroll from "@/components/QuizScroll";
 import QuizAnswer from "@/components/QuizAnswer";
 import QuizNeedHelp from "@/components/QuizNeedHelp";
-import { quiz } from "@/api";
+import * as api from "@/api";
 import { User } from "@/store";
-
-import QuizFrontPage from "./QuizFrontPage";
 
 export default {
   name: "quiz",
   components: {
     QuizScroll,
     QuizAnswer,
-    QuizNeedHelp,
-    QuizFrontPage
+    QuizNeedHelp
   },
   data() {
     return {
@@ -47,17 +38,21 @@ export default {
     };
   },
   async mounted() {
-    document.getElementsByTagName("html")[0].style.overflowY = "hidden";
-    window.scrollTo(0, 0);
+    // document.getElementsByTagName("html")[0].style.overflowY = "hidden";
+    // window.scrollTo(0, 0);
     await this.loadQuestion();
   },
   methods: {
+    async onNext() {
+      this.$store.dispatch("Quiz/setScores");
+      this.$router.push({ name: "quiz-scores" });
+    },
     async loadQuestion() {
       this.isLoading = true;
       this.actualQuestion = "";
       this.actualAsset = "";
       try {
-        const data = await quiz.getQuestion();
+        const data = await api.quiz.getQuestion();
         this.actualQuestion = data.question;
         this.actualAsset = data.asset;
       } catch (err) {
@@ -70,20 +65,20 @@ export default {
       this.isLoading = false;
     }
   },
-  beforeDestroy() {
-    document.getElementsByTagName("html")[0].style.overflowY = "scroll";
-  },
+  // beforeDestroy() {
+  // 	// document.getElementsByTagName("html")[0].style.overflowY = "scroll";
+  // },
   computed: {
     ...User.mapState(),
     title() {
-      return this.maxQuiz ? "No more for today" : "Level " + this.User.rank;
+      return this.maxQuiz ? "Challenge Complete!" : "Level " + this.User.rank;
     },
     question() {
       if (this.isLoading) {
         return "Loading...";
       }
       if (this.maxQuiz) {
-        return "<center>That's all the questions for today check back tomorrow!</center>";
+        return "<center>Thanks for beta testing!</center>";
       }
       return this.actualQuestion;
     },
