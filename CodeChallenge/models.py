@@ -16,7 +16,8 @@ class Question(db.Model):
     title = db.Column(db.String(5000), nullable=False)
     answer = db.Column(db.String(255), nullable=False)
     rank = db.Column(db.Integer, nullable=False) 
-    asset = db.Column(db.String(255))
+    asset = db.Column(db.BLOB)
+    asset_ext = db.Column(db.String(10))
 
     def __repr__(self):
         return '<Question %r>' % self.id

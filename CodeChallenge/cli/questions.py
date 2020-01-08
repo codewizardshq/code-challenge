@@ -1,3 +1,5 @@
+import os.path
+
 import click
 from flask import Blueprint
 from tabulate import tabulate
@@ -22,6 +24,7 @@ def q_add(title, answer, rank, asset):
     ASSET is a path to a file to upload for a question
     """
 
+    asset = os.path.abspath(asset)
     qid = add_question(title, answer, rank, asset)
 
     click.echo(f"added question id {qid}")
@@ -33,11 +36,11 @@ def q_ls(tablefmt):
     """List all questions in the database"""
     table = []
 
-    for q in Question.query.all():
-        table.append((q.id, q.title, q.answer, q.rank, q.asset))
+    for q in Question.query.all():  # type: Question
+        table.append((q.id, q.title, q.answer, q.rank, f"{len(q.asset)} length blob", q.asset_ext))
 
     click.echo(tabulate(table,
-                        ("id", "title", "answer", "rank", "asset"),
+                        ("id", "title", "answer", "rank", "asset", "asset_ext"),
                         tablefmt=tablefmt))
 
     if not table:

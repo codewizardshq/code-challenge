@@ -1,3 +1,5 @@
+import os
+from hashlib import blake2s
 from hmac import compare_digest as str_cmp
 
 from flask import Blueprint, current_app, jsonify, request
@@ -52,10 +54,21 @@ def next_question():
         return jsonify(status="error",
                        reason=f"no questions for rank {rank!r}"), 404
 
+    # make filename less predictable
+    data = bytes(current_app.config["SECRET_KEY"] + str(q.rank), "ascii")
+    filename = blake2s(data).hexdigest()
+
+    asset = f"assets/{filename}{q.asset_ext}"
+    asset_path = os.path.join(current_app.config["APP_DIR"], asset)
+
+    if not os.path.isfile(asset_path):
+        with open(asset_path, "wb") as fhandle:
+            fhandle.write(q.asset)
+
     return jsonify(status="success",
                    question=q.title,
                    rank=rank,
-                   asset=f"assets/{q.asset}"), 200
+                   asset=asset), 200
 
 
 def answer_limit_attempts():

@@ -53,6 +53,7 @@ class ProductionConfig(DefaultConfig):
 class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
+    #     SQLALCHEMY_DATABASE_URI = "mysql+mysqldb://codechallenge:cHALcw9Z0HqB2gD9B1Kkmy83GvTI19x0NzRNO3zqZhqbIKqY9P@learndb002.cm1f2l4z67tv.us-west-2.rds.amazonaws.com/code_challenge"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"
