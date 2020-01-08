@@ -87,8 +87,8 @@ def create_app(config):
     @app.route("/landing/<path:path>")
     def send_landing(path):
 
-        if core.current_rank() != -1:
-            return redirect("/")
+        # if core.current_rank() != -1:
+        #    return redirect("/")
 
         if path:
             return send_from_directory("../landing/", path)
