@@ -15,10 +15,11 @@ def json_error(reason, status=400):
 
 
 @bp.route("/rank", methods=["GET"])
-@jwt_required
 def get_rank():
     return jsonify(status="success", rank=core.current_rank(),
-                   timeUntilNextRank=core.time_until_next_rank())
+                   maxRank=core.max_rank(),
+                   timeUntilNextRank=core.time_until_next_rank(),
+                   startsOn=core.friendly_starts_on())
 
 
 @bp.route("/next", methods=["GET"])
@@ -61,15 +62,13 @@ def answer_limit_attempts():
     return current_app.config.get("ANSWER_ATTEMPT_LIMIT", "3 per 30 minutes")
 
 
-# XXX: do we want to add a rate-limiter here?
-# https://flask-limiter.readthedocs.io/en/stable/
 @bp.route("/answer", methods=["POST"])
 @jwt_required
 @limiter.limit(answer_limit_attempts, key_func=user_rank)
 def answer_next_question():
     user = get_current_user()
     if core.current_rank() == user.rank:
-        # all questions have been answered up to the corrent rank
+        # all questions have been answered up to the current rank
         return jsonify({"status": "error",
                         "reason": "no more questions to answer"}), 404
 

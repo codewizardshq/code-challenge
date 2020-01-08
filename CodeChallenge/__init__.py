@@ -1,7 +1,11 @@
-from flask import Flask, jsonify, make_response, send_from_directory
+import os
+
+from flask import Flask, jsonify, make_response, send_from_directory, redirect
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
+from werkzeug.utils import import_string
 
+from . import core
 from .api.eb import bp as eb_bp
 from .api.questions import bp as questions_bp
 from .api.users import bp as users_bp
@@ -27,8 +31,9 @@ def create_app(config):
     # prevent IP spoofing the rate limiter behind a reverse proxy
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
 
+    cfg = import_string(f"CodeChallenge.config.{config}")()
     app.config.from_object(__name__)
-    app.config.from_object(f"CodeChallenge.config.{config}")
+    app.config.from_object(cfg)
 
     # Initialize Plugins
     CORS(app)
@@ -53,29 +58,50 @@ def create_app(config):
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
 
+    js_dir = os.path.join(app.config["DIST_DIR"], "js")
+    css_dir = os.path.join(app.config["DIST_DIR"], "css")
+    fonts_dir = os.path.join(app.config["DIST_DIR"], "fonts")
+    images_dir = os.path.join(app.config["DIST_DIR"], "images")
+
     @app.route("/js/<path:path>")
     def send_js(path):
-        return send_from_directory("../dist/js", path)
+        return send_from_directory(js_dir, path)
 
     @app.route("/css/<path:path>")
     def send_css(path):
-        return send_from_directory("../dist/css", path)
+        return send_from_directory(css_dir, path)
 
     @app.route("/fonts/<path:path>")
     def send_fonts(path):
-        return send_from_directory("../dist/fonts", path)
+        return send_from_directory(fonts_dir, path)
 
     @app.route("/images/<path:path>")
     def send_images(path):
-        return send_from_directory("../dist/images", path)
+        return send_from_directory(images_dir, path)
 
     @app.route("/assets/<path:path>")
     def send_assets(path):
         return send_from_directory("assets", path)
 
+    @app.route("/landing", defaults={"path": ""})
+    @app.route("/landing/<path:path>")
+    def send_landing(path):
+
+        if core.current_rank() != -1:
+            return redirect("/")
+
+        if path:
+            return send_from_directory("../landing/", path)
+        return send_from_directory("../landing/", "index.html")
+
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def catch_all(path):
-        return send_from_directory("../dist/", "index.html")
+
+        # show landing page
+        if core.current_rank() == -1 and not path or path == "home":
+            return redirect("/landing")
+
+        return send_from_directory(app.config["DIST_DIR"], "index.html")
 
     return app

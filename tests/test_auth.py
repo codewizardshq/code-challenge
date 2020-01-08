@@ -4,8 +4,8 @@ import CodeChallenge
 def register(client, email, username, password, firstname, lastname):
 
     return client.post("/api/v1/users/register", json=dict(
-        username=username, email=email, password=password,
-        firstname=firstname, lastname=lastname
+        username=username, parentEmail=email, password=password,
+        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13"
     ), follow_redirects=True)
 
 
@@ -24,14 +24,6 @@ def test_registration_failure_invalid_password(client):
     assert json["status"] == "error"
 
 
-def test_registration_email_in_use(client):
-    retval = register(client, "sam@codewizardshq.com", "sjhoffman",
-                      "supersecurepassword", "Sam", "Hoffman")
-    assert retval.status_code == 400
-    json = retval.get_json()
-    assert json["status"] == "error"
-
-
 def test_registration_username_in_use(client):
     retval = register(client, "sam+codechallenge@codewizardshq.com", "cwhqsam",
                       "supersecurepassword", "Sam", "Hoffman")
@@ -40,9 +32,9 @@ def test_registration_username_in_use(client):
     assert json["status"] == "error"
 
 
-def login(client, email, password):
+def login(client, username, password):
     return client.post("/api/v1/users/token/auth", json=dict(
-        username=email,
+        username=username,
         password=password
     ))
 
@@ -52,27 +44,22 @@ def logout(client):
 
 
 def test_login_success(client):
-    retval = login(client, "sam@codewizardshq.com", "supersecurepassword")
+    retval = login(client, "cwhqsam", "supersecurepassword")
     assert retval.status_code == 200
 
 
 def test_login_failure_bad_pass(client):
-    retval = login(client, "sam@codewizardshq.com", "elemenopee")
+    retval = login(client, "cwhqsam", "elemenopee")
     assert retval.status_code != 200
 
 
 def test_login_failure_bad_email(client):
-    retval = login(client, "user@isnt.registered", "supersecurepassword")
-    assert retval.status_code != 200
-
-
-def test_login_failure_bad_login(client):
-    retval = login(client, "user@isnt.registered", "elemenopee")
+    retval = login(client, "qwerty", "supersecurepassword")
     assert retval.status_code != 200
 
 
 def test_jwt_user_loader_success(client):
-    login(client, "sam@codewizardshq.com", "supersecurepassword")
+    login(client, "cwhqsam", "supersecurepassword")
     retval = client.get("/api/v1/users/hello")
     json = retval.get_json()
 
