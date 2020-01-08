@@ -14,6 +14,7 @@ def client_challenge_today():
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     app.config["CODE_CHALLENGE_START"] = time.time()
+    app.config["ALLOW_RESET"] = True
 
     with app.test_client() as client:
         with app.app_context():
@@ -142,6 +143,12 @@ def test_get_rank1(client_challenge_past):
     assert retval.get_json()["question"] == "What is 2+2?"
     assert retval.get_json()["rank"] == 1
 
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 0
+
 
 def test_answer_rank1_correctly(client_challenge_past):
     retval = client_challenge_past.post("/api/v1/questions/answer", json=dict(
@@ -150,6 +157,22 @@ def test_answer_rank1_correctly(client_challenge_past):
 
     assert retval.status_code == 200
     assert retval.get_json()["correct"] is True
+
+    # check history
+    retval = client_challenge_past.get("/api/v1/questions/history")
+    history = retval.get_json()
+
+    assert len(history) == 1
+    assert "question" in history[0]
+    assert history[0]["answered"] == "4"
+    assert history[0]["correct"]
+
+    # check rank
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 1
 
 
 def test_get_rank2(client_challenge_past):
@@ -168,6 +191,12 @@ def test_answer_rank2_incorrectly(client_challenge_past):
     assert retval.status_code == 200
     assert retval.get_json()["correct"] is False
 
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 1
+
 
 def test_answer_rank2_correctly(client_challenge_past):
     retval = client_challenge_past.post("/api/v1/questions/answer", json=dict(
@@ -176,6 +205,12 @@ def test_answer_rank2_correctly(client_challenge_past):
 
     assert retval.status_code == 200
     assert retval.get_json()["correct"] is True
+
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 2
 
 
 def test_get_rank3_404(client_challenge_past):
@@ -208,3 +243,16 @@ def test_answer_exceed_attempts(client_challenge_past):
         else:
             assert retval.status_code == 404
             assert "X-RateLimit-Remaining" in retval.headers
+
+
+def test_reset_all(client_challenge_past):
+
+    retval = client_challenge_past.delete("/api/v1/questions/reset")
+
+    assert retval.status_code == 200
+
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 0

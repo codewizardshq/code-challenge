@@ -33,3 +33,4 @@ class Answer(db.Model):
                         db.ForeignKey("users.id", ondelete="cascade"))
     text = db.Column(db.String(2000))
     correct = db.Column(db.Boolean)
+    question = db.relationship("Question", lazy=True, uselist=False)
