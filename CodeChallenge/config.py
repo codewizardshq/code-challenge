@@ -47,6 +47,7 @@ class ProductionConfig(DefaultConfig):
     MAIL_SUPPRESS_SEND = False
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    JWT_ACCESS_TOKEN_EXPIRES = 604800
 
 
 class DevelopmentConfig(ProductionConfig):
