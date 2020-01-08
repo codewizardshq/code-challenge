@@ -65,9 +65,9 @@ def client_challenge_past():
 def register(client, email, username, password, firstname, lastname):
 
     return client.post("/api/v1/users/register", json=dict(
-        username=username, email=email, password=password,
-        firstname=firstname, lastname=lastname
-    ))
+        username=username, parentEmail=email, password=password,
+        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13"
+    ), follow_redirects=True)
 
 
 def login(client, email, password):
@@ -86,7 +86,7 @@ def test_get_rank_today(client_challenge_today):
     assert retval.status_code == 200
 
     retval = login(client_challenge_today,
-                   "sam@codewizardshq.com",
+                   "cwhqsam",
                    "supersecurepassword")
     assert retval.status_code == 200
 
@@ -98,7 +98,7 @@ def test_get_rank_today(client_challenge_today):
 def test_get_rank_future(client_challenge_future):
     """Code challenge starts in the future so the rank should be -1"""
     retval = login(client_challenge_future,
-                   "sam@codewizardshq.com",
+                   "cwhqsam",
                    "supersecurepassword")
     assert retval.status_code == 200
 
@@ -109,7 +109,7 @@ def test_get_rank_future(client_challenge_future):
 
 def test_get_rank_past(client_challenge_past):
     retval = login(client_challenge_past,
-                   "sam@codewizardshq.com",
+                   "cwhqsam",
                    "supersecurepassword")
     assert retval.status_code == 200
 

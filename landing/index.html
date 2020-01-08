@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>The Dragon Quest | CodeWizards Code Challenge</title>
+
+    <link rel="shortcut icon"
+          href="/images/shortcut-icon.png"/>
+    <link rel='stylesheet'
+          href='/css/bootstrap.min.css'
+          type='text/css' media='all'/>
+    <link rel='stylesheet'
+          href='/css/font-awesome.min.css'
+          type='text/css' media='all'/>
+    <link rel='stylesheet'
+          href='/css/animate.css'
+          type='text/css' media='all'/>
+    <link rel='stylesheet'
+          href='/css/font-montserrat.css'
+          type='text/css' media='all'/>
+    <link rel='stylesheet'
+          href='/css/styles.css'
+          type='text/css' media='all'/>
+    <link rel='stylesheet'
+          href='/css/main.css'
+          type='text/css' media='all'/>
+    <style>
+        body::before {
+            background: none !important;
+        }
+    </style>
+
+    <style>
+        .main-container a {
+            color: #fff !important;
+            transition: all ease 400ms;
+        }
+
+        a:hover {
+            color: !important;
+        }
+    </style>
+</head>
+
+<body style="background: #1e2d34 url('/images/landing-bg.jpg'); color:#fff;">
+<div id="rocket-wrapper">
+    <img id="rocketimg" class="img-responsive"
+         src="http://108.160.158.207/~cwhqcodechalleng/wp-content/plugins/igniteup/includes/templates/launcher/img/red-dragon-head-flip.png">
+</div>
+<div id="gold-dragon-wrapper">
+    <img id="gold-dragon" class="img-responsive"
+         src="/images/yellow-dragon-head.png">
+    <img src="/images/fire.gif"
+         alt="fireball" class="fire">
+</div>
+<div class="container-fluid main-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-uppercase text-center">
+                The Dragon Quest </h1>
+            <div class="text-center text-uppercase sub-text">
+                CodeWizards Code Challenge
+            </div>
+            <div class="container-fluid" id="countdown">
+                <div class="row text-uppercase">
+                    <div class="col-sm-3 col-xs-6 countdown-time">
+                        <span id="days" class="time">00</span><span class="time-name">d<span class="hidden-sm">ay<span
+                            id="day-s">s</span></span></span>
+                    </div>
+                    <div class="col-sm-3 col-xs-6 countdown-time">
+                        <span id="hrs" class="time">00</span><span class="time-name">h<span class="hidden-sm">our<span
+                            id="hrs-s">s</span></span></span>
+                    </div>
+                    <div class="col-sm-3 col-xs-6 countdown-time">
+                        <span id="mins" class="time">00</span><span class="time-name">m<span class="hidden-sm">in<span
+                            id="min-s">s</span></span></span>
+                    </div>
+                    <div class="col-sm-3 col-xs-6 countdown-time">
+                        <span id="secs" class="time">00</span><span class="time-name">s<span class="hidden-sm">ec<span
+                            id="sec-s">s</span></span></span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center description">
+            <h3>A coding challenge for coders ages 8-18</h3>
+            <p>We are seeking the bravest and brightest kid coders to slay an evil dragon who has invaded CWHQ Land. You
+                must complete 21 levels of coding challenges in HTML/CSS, Python, JavaScript or your language of
+                choice. </p>
+
+            <p>Only one will be the champion, the bravest and best coder in all of CWHQ Land. The winner receives a cash
+                prize of $100. Anyone who passes all 21 levels will receive a free coding class from CodeWizardsHQ. </p>
+
+            <p>Accept the challenge if you have the skills to defeat the dragon.</p>
+
+            <p>Challenge begins <span id="start-date"></span>. Register now. </p>                </p>
+            <div class="subscribe">
+                <a href="/create-account" class="btn btn-default subscribe-btn" type="button"
+                   style="color: #fff; background: #DB4F4B;">Accept Challenge</a>
+            </div>
+
+            <div class="social">
+                <ul>
+                    <li><a target="_blank" href="https://www.facebook.com/codewizardshq">
+                        <div class="social-icon"><span class="fab fa-facebook"></span></div>
+                    </a></li>
+                    <li><a target="_blank" href="https://twitter.com/codewizardshq">
+                        <div class="social-icon"><span class="fab fa-twitter-square"></span></div>
+                    </a></li>
+                    <li><a target="_blank" href="https://www.instagram.com/codewizardshq/">
+                        <div class="social-icon"><span class="fab fa-instagram"></span></div>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="/js/moment.min.js"></script>
+<script src='/js/jquery.min.js'
+        type="text/javascript"></script>
+<script src='/js/jquery.countdown.js'
+        type="text/javascript"></script>
+<script type="text/javascript">
+
+    var count_completed = false;
+
+    jQuery
+        .getJSON("/api/v1/questions/rank")
+        .then(data => {
+            console.log(data);
+            $countdown = data.startsOn;
+            jQuery("#start-date").text(moment($countdown).format("MMMM Do YYYY"));
+
+            jQuery("#secs").countdown($countdown, function (event) {
+                jQuery(this).text(event.strftime('%S'));
+                checkSeconds(jQuery(this).text());
+            });
+            jQuery("#mins")
+                .countdown($countdown, function (event) {
+                    jQuery(this).text(
+                        event.strftime('%M')
+                    );
+                    checkMins(jQuery(this).text());
+                });
+            jQuery("#hrs")
+                .countdown($countdown, function (event) {
+                    jQuery(this).text(
+                        event.strftime('%H')
+                    );
+                    checkHours(jQuery(this).text());
+                });
+            jQuery("#days")
+                .countdown($countdown, function (event) {
+                    jQuery(this).text(
+                        event.strftime('%D')
+                    );
+                    checkDays(jQuery(this).text());
+                });
+
+            function checkSeconds(sec) {
+                if (sec === '01') {
+                    jQuery("#sec-s").addClass('hidden');
+                } else {
+                    jQuery("#sec-s").removeClass('hidden');
+                }
+            }
+
+            function checkMins(min) {
+                if (min === '01') {
+                    jQuery("#min-s").addClass('hidden');
+                } else {
+                    jQuery("#min-s").removeClass('hidden');
+                }
+            }
+
+            function checkHours(hrs) {
+                if (hrs === '01') {
+                    jQuery("#hrs-s").addClass('hidden');
+                } else {
+                    jQuery("#hrs-s").removeClass('hidden');
+                }
+            }
+
+            function checkDays(days) {
+                if (days === '01') {
+                    jQuery("#day-s").addClass('hidden');
+                } else {
+                    jQuery("#day-s").removeClass('hidden');
+                }
+            }
+        })
+
+
+    jQuery(document).ready(function () {
+        jQuery('#secs').countdown($countdown).on('finish.countdown', function () {
+            jQuery('#countdown').hide();
+            count_completed = true;
+        });
+    });
+
+    // red dragon
+    jQuery(function ($) {
+        $('#rocketimg').animate({
+            'margin-bottom': "300px"
+        });
+
+        //hover
+        $('#rocketimg').hover(function () {
+            $(this).animate({borderSpacing: -90}, {
+                step: function () {
+                    $(this).css('-webkit-transform', 'rotate(15deg)');
+                    $(this).css('-moz-transform', 'rotate(15deg)');
+                    $(this).css('transform', 'rotate(15deg)');
+                },
+                duration: 'slow'
+            }, 'linear');
+        }, function () {
+            $(this).animate({borderSpacing: 0}, {
+                step: function () {
+                    $(this).css('-webkit-transform', 'rotate(0deg)');
+                    $(this).css('-moz-transform', 'rotate(0deg)');
+                    $(this).css('transform', 'rotate(0deg)');
+                },
+                duration: 'slow'
+            }, 'linear')
+        });
+
+
+        //gold dragon
+        $('#gold-dragon').animate({
+            'right': '0'
+        }, fireIt);
+
+        function fireIt() {
+            $('.fire').animate({
+                'right': '100px'
+            });
+        }
+
+        $('#gold-dragon').click(function () {
+            $('.fire').animate({
+                'right': '3000px'
+            }, 2000, function () {
+                $(this).removeAttr('style');
+            });
+        });
+
+
+    });
+</script>
+</body>
+
+</html>

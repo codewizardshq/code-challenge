@@ -1,6 +1,9 @@
 from datetime import datetime, timezone, timedelta, time
 
 from flask import current_app
+from sqlalchemy import func
+
+from .models import Question, db
 
 
 def current_rank() -> int:
@@ -35,3 +38,15 @@ def time_until_next_rank() -> str:
     diff = datetime.combine(tomorrow, time.min, now.tzinfo) - now
 
     return str(diff)
+
+
+def friendly_starts_on() -> str:
+    """Formatted specifically for the landing page countdown jQuery plugin"""
+    epoch = int(current_app.config["CODE_CHALLENGE_START"])
+    start = datetime.fromtimestamp(epoch, timezone.utc)
+
+    return start.strftime("%m/%d/%Y %H:%M%S UTC")
+
+
+def max_rank() -> int:
+    return db.session.query(func.max(Question.rank)).scalar()
