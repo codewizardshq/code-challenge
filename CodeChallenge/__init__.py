@@ -99,7 +99,7 @@ def create_app(config):
     def catch_all(path):
 
         # show landing page
-        if core.current_rank() == -1 and not path or path == "home":
+        if core.current_rank() == -1 and (not path or path == "home"):
             return redirect("/landing")
 
         return send_from_directory(app.config["DIST_DIR"], "index.html")
