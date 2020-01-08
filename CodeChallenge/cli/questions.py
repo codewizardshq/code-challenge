@@ -74,7 +74,7 @@ def q_replace(title, answer, rank, asset):
         success = del_question(oldq.id)
 
         if not success:
-            print("error occured while trying to delete original question")
+            print("error occurred while trying to delete original question")
             print(f"old question id was: {oldq.id}")
             return
     else:
