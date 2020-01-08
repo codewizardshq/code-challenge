@@ -1,8 +1,4 @@
 import os
-import secrets
-import shutil
-
-from flask import current_app
 
 from .models import Question, db
 
@@ -14,19 +10,14 @@ def add_question(title, answer, rank, asset) -> Question:
     if q is not None:
         raise ValueError(f"a question with rank {rank} already exists")
 
-    ext = os.path.splitext(asset)[1]
-    asset_dir = os.path.join(current_app.config["APP_DIR"], "assets")
-
-    filename = secrets.token_urlsafe() + ext
-
-    save_path = os.path.join(asset_dir, filename)
-
-    shutil.copyfile(asset, save_path)
-
     q = Question()
     q.title = title
     q.answer = answer
-    q.asset = filename
+
+    with open(asset, "rb") as fhandle:
+        q.asset = fhandle.read()
+
+    q.asset_ext = os.path.splitext(asset)[1]
     q.rank = rank
 
     db.session.add(q)
@@ -41,17 +32,6 @@ def del_question(question_id):
 
     if q is None:
         return False
-
-    if q.asset is not None:
-
-        asset_dir = os.path.join(current_app.config["APP_DIR"], "assets")
-        filename = os.path.join(asset_dir, q.asset)
-        try:
-            os.remove(filename)
-        except FileNotFoundError:
-            print("warning: could not delete asset; "
-                  f"file not found: {filename}")
-            pass
 
     Question.query.filter_by(id=q.id).delete()
 
