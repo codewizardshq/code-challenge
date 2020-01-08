@@ -15,6 +15,11 @@
 
 <script>
 export default {
-  name: "home"
+  name: "home",
+  created() {
+    if (window.location.hostname !== "localhost") {
+      window.location.reload();
+    }
+  }
 };
 </script>
