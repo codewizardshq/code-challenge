@@ -26,7 +26,7 @@ def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
 
-    user = Users.query.filter_by(email=username).first()
+    user = Users.query.filter_by(username=username).first()
     if user is None or not user.check_password(password):
         return json_error("invalid username or password")
 
@@ -66,31 +66,38 @@ def register():
     user_data = request.get_json()
     new_u = Users()
 
-    email = user_data.get("email", None)
-    username = user_data.get("username", None)
+    # required fields first
 
-    if email is None:
-        return json_error("email is required")
+    parent_email = user_data.get("parentEmail", None)
+    username = user_data.get("username", None)
+    dob = user_data.get("DOB", None)
+    password = user_data.get("password", None)
+
+    if parent_email is None:
+        return json_error("parent email is required")
 
     if username is None:
         return json_error("username is required")
 
-    password = user_data.get("password", None)
+    if dob is None:
+        return json_error("DOB is required")
 
-    if password is None or len(password) < 11 or len(password) > 120:
-        return json_error("invalid password length (between 11 and 120)")
-
-    if Users.query.filter_by(email=email).first():
-        return json_error("that email is already in use")
+    if password is None or len(password) < 8 or len(password) > 120:
+        return json_error("invalid password length (between 8 and 120)")
 
     if Users.query.filter_by(username=username).first():
         return json_error("that username has been taken")
 
-    new_u.email = user_data['email']
-    new_u.username = user_data['username']
+    new_u.parent_email = parent_email
+    new_u.username = username
     new_u.password = hash_password(password)
-    new_u.firstname = user_data['firstname']
-    new_u.lastname = user_data['lastname']
+
+    new_u.parentfirstname = user_data.get("parentFirstName")
+    new_u.parentlastname = user_data.get("parentLastName")
+    new_u.studentfirstname = user_data.get("studentFirstName")
+    new_u.studentlastname = user_data.get("studentLastName")
+    new_u.dob = dob
+
     new_u.active = True
 
     db.session.add(new_u)
@@ -106,11 +113,11 @@ def hello_protected():
     user = get_current_user()
 
     return jsonify({"status": "success",
-                    "message": f"Hello {user.firstname}! (id {identity})",
+                    "message": f"Hello {user.studentfirstname}! (id {identity})",
                     "username": user.username,
-                    "email": user.email,
-                    "firstname": user.firstname,
-                    "lastname": user.lastname,
+                    "email": user.parent_email,
+                    "firstname": user.studentfirstname,
+                    "lastname": user.studentfirstname,
                     "rank": user.rank,
                     "timeUntilNextRank": core.time_until_next_rank()})
 
@@ -124,7 +131,7 @@ def forgot_password():
     if email is None:
         return jsonify(status="error", reason="email missing"), 400
 
-    user = Users.query.filter_by(email=email).first()
+    user = Users.query.filter_by(parent_email=email).first()
 
     if user is None:
         return jsonify(status="error",
@@ -138,7 +145,7 @@ def forgot_password():
                   "did not make this request, you can ignore this email. "
                   "To reset your password, use this link within 24 hours. "
                   f"https://www.hackcwhq.com/reset-password?token={token}",
-                  recipients=[user.email])
+                  recipients=[user.parent_email])
 
     if current_app.config.get("TESTING", False):
         msg.extra_headers = {"X-Password-Reset-Token": token}
@@ -159,8 +166,8 @@ def reset_password():
     if token is None or password is None:
         return json_error("missing token or password")
 
-    if len(password) < 11 and len(password) > 120:
-        return json_error("invalid password length (between 11 and 120)")
+    if 8 > len(password) > 120:
+        return json_error("invalid password length (between 8 and 120)")
 
     try:
         reset_password_from_token(token, password)
