@@ -7,7 +7,8 @@ $arrowSize: 20px;
   margin-right: 20px;
   background: url("/images/answer-area-bg.png") no-repeat;
   background-size: 100% 100%;
-  background-repeat: none;
+  background-repeat: none; 
+  z-index: 200;
 
   &:after {
     width: 0;
