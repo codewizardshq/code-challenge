@@ -42,7 +42,6 @@ class ProductionConfig(DefaultConfig):
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     SECRET_KEY = os.getenv("SECRET_KEY")
     JWT_COOKIE_SECURE = True
-    JWT_COOKIE_CSRF_PROTECT = True
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
     MAIL_SUPPRESS_SEND = False
