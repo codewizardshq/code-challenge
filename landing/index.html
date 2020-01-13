@@ -47,15 +47,17 @@
 </head>
 
 <body style="background: #1e2d34 url('/images/landing-bg.jpg'); color:#fff;">
-<div id="rocket-wrapper">
-    <img id="rocketimg" class="img-responsive"
-         src="http://108.160.158.207/~cwhqcodechalleng/wp-content/plugins/igniteup/includes/templates/launcher/img/red-dragon-head-flip.png">
-</div>
-<div id="gold-dragon-wrapper">
-    <img id="gold-dragon" class="img-responsive"
-         src="/images/yellow-dragon-head.png">
-    <img src="/images/fire.gif"
-         alt="fireball" class="fire">
+<div class="dragons-wrapper">
+    <div id="rocket-wrapper">
+        <img id="rocketimg" class="img-responsive"
+             src="http://108.160.158.207/~cwhqcodechalleng/wp-content/plugins/igniteup/includes/templates/launcher/img/red-dragon-head-flip.png">
+    </div>
+    <div id="gold-dragon-wrapper">
+        <img id="gold-dragon" class="img-responsive"
+             src="/images/yellow-dragon-head.png">
+        <img src="/images/fire.gif"
+             alt="fireball" class="fire">
+    </div>
 </div>
 <div class="container-fluid main-container">
     <div class="row">
@@ -63,7 +65,7 @@
             <h1 class="text-uppercase text-center">
                 The Dragon Quest </h1>
             <div class="text-center text-uppercase sub-text">
-                CodeWizards Code Challenge
+                A CodeWizardsHQ Coding Challenge for Kids 8-18
             </div>
             <div class="container-fluid" id="countdown">
                 <div class="row text-uppercase">
@@ -85,18 +87,17 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center description">
-            <h3>A coding challenge for coders ages 8-18</h3>
-            <p>We are seeking the bravest and brightest kid coders to slay an evil dragon who has invaded CWHQ Land. You
-                must complete 21 levels of coding challenges in HTML/CSS, Python, JavaScript or your language of
-                choice. </p>
+            <p class="text-center">An evil dragon has invaded CWHQ Land! We are seeking the bravest and brightest kid coders to be our heroes. To defeat the intruder you must complete 21 levels of coding challenges in HTML/CSS, Python, JavaScript or your programming language of choice.</p>
 
-            <p>Only one will be the champion, the bravest and best coder in all of CWHQ Land. The winner receives a cash
-                prize of $100. Anyone who passes all 21 levels will receive a free coding class from CodeWizardsHQ. </p>
+            <p class="text-center">There will be ONE champion.</p>
 
-            <p>Accept the challenge if you have the skills to defeat the dragon.</p>
+            <p class="text-center">The winner will receive a cash prize of $100 &amp; ALL participants who pass the 21 levels will receive a free 12-week coding class from CodeWizardsHQ.</p>
 
-            <p>Challenge begins <span id="start-date"></span>. Register now. </p>                </p>
+
+            <p class="text-center">Accept the challenge if you dare.</p>
+
+
+            <p class="text-center">Challenge begins December 18th, 2019. Register now.</p>
             <div class="subscribe">
                 <a href="/create-account" class="btn btn-default subscribe-btn" type="button"
                    style="color: #fff; background: #DB4F4B;">Accept Challenge</a>
@@ -205,7 +206,7 @@
     // red dragon
     jQuery(function ($) {
         $('#rocketimg').animate({
-            'margin-bottom': "300px"
+            'margin-left': "0px"
         });
 
         //hover
