@@ -28,6 +28,9 @@ class DefaultConfig:
     MAIL_DEFAULT_SENDER = "CodeWizardsHQ <no-reply@codewizardshq.com>"
     MAIL_SUPPRESS_SEND = True
 
+    # no trailing /
+    EXTERNAL_URL = "https://hackcwhq.com"
+
     @property
     def ROOT_DIR(self):
         return os.path.dirname(self.APP_DIR)
@@ -48,12 +51,12 @@ class ProductionConfig(DefaultConfig):
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800
+    EXTERNAL_URL = os.getenv("EXTERNAL_URL")
 
 
 class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
-    #     SQLALCHEMY_DATABASE_URI = "mysql+mysqldb://codechallenge:cHALcw9Z0HqB2gD9B1Kkmy83GvTI19x0NzRNO3zqZhqbIKqY9P@learndb002.cm1f2l4z67tv.us-west-2.rds.amazonaws.com/code_challenge"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"

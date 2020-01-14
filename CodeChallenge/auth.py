@@ -65,8 +65,8 @@ def create_user(email, username, password):
     db.session.commit()
 
 
-def reset_user(email, password):
-    u = Users.query.filter_by(parent_email=email)
+def reset_user(username, password):
+    u = Users.query.filter_by(username=username)
     u.password = hash_password(password)
 
     db.session.commit()
@@ -74,10 +74,10 @@ def reset_user(email, password):
 
 def password_reset_token(user: Users) -> str:
     ts = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
-    return ts.dumps(user.parent_email, salt="recovery-key")
+    return ts.dumps(user.username, salt="recovery-key")
 
 
 def reset_password_from_token(token: str, password: str):
     ts = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
-    parent_email = ts.loads(token, salt="recovery-key", max_age=86400)
-    reset_user(parent_email, password)
+    username = ts.loads(token, salt="recovery-key", max_age=86400)
+    reset_user(username, password)
