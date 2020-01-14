@@ -28,6 +28,8 @@ class DefaultConfig:
     MAIL_DEFAULT_SENDER = "CodeWizardsHQ <no-reply@codewizardshq.com>"
     MAIL_SUPPRESS_SEND = True
 
+    ALLOW_RESET = False
+
     @property
     def ROOT_DIR(self):
         return os.path.dirname(self.APP_DIR)
@@ -48,6 +50,7 @@ class ProductionConfig(DefaultConfig):
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800
+    ALLOW_RESET = os.getenv("ALLOW_RESET")
 
 
 class DevelopmentConfig(ProductionConfig):
@@ -59,6 +62,7 @@ class DevelopmentConfig(ProductionConfig):
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
+    ALLOW_RESET = True
 
     @property
     def DIST_DIR(self):

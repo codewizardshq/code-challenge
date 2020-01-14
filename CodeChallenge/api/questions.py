@@ -89,7 +89,7 @@ def answer_next_question():
 
     data = request.get_json()
     text = data["text"]
-    correct = str_cmp(text, q.answer)
+    correct = str_cmp(text.lower(), q.answer.lower())
 
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
@@ -108,3 +108,46 @@ def answer_next_question():
     db.session.commit()
 
     return jsonify({"status": "success", "correct": correct})
+
+
+@bp.route("/history", methods=["GET"])
+@jwt_required
+def history():
+    """ Returns all past questions and answers for the currrent user"""
+
+    u = get_current_user()
+
+    qna = []
+    for ans in Answer.query.filter_by(user_id=u.id):  # type: Answer
+
+        qna.append(dict(
+            question=dict(
+                id=ans.question_id,
+                title=ans.question.title,
+                rank=ans.question.rank
+            ),
+            answered=ans.text,
+            correct=ans.correct
+        ))
+
+    return jsonify(qna)
+
+
+@bp.route("/reset", methods=["DELETE"])
+@jwt_required
+def reset_all():
+    """ Reset rank for the current user """
+    if current_app.config["ALLOW_RESET"]:
+
+        u = get_current_user()
+        u.rank = 0
+
+        for ans in Answer.query.filter_by(user_id= u.id):  # type: Answer
+            db.session.delete(ans)
+
+        db.session.commit()
+
+        return jsonify(status="success", message="all answers and rank reset")
+
+    return jsonify(status="error",
+                   message="resetting not allowed at this time"), 403
