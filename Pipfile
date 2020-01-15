@@ -8,6 +8,7 @@ mypy = "*"
 flake8 = "*"
 pytest = "*"
 python-dotenv = "*"
+werkzeug = {extras = ["watchdog"],version = "*"}
 
 [packages]
 flask = "*"
