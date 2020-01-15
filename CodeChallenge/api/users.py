@@ -60,6 +60,7 @@ def logout():
 
     return res, 200
 
+
 @bp.route("/register", methods=["POST"])
 def register():
     user_data = request.get_json()
