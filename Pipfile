@@ -21,6 +21,7 @@ python-dotenv = "*"
 flask-limiter = "*"
 flask-mail = "*"
 tabulate = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"
