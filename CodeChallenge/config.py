@@ -27,9 +27,13 @@ class DefaultConfig:
     MAIL_PASSWORD = ""
     MAIL_DEFAULT_SENDER = "CodeWizardsHQ <no-reply@codewizardshq.com>"
     MAIL_SUPPRESS_SEND = True
+    MG_PRIVATE_KEY = os.getenv("MG_PRIVATE_KEY")
+    MG_LIST = "codechallenge@school.codewizardshq.com"
 
     # no trailing /
     EXTERNAL_URL = "https://hackcwhq.com"
+
+    CONTAINER_URL = "https://codechallenge.cwhq-apps.com"
 
     @property
     def ROOT_DIR(self):

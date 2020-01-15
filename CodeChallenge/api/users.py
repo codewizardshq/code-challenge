@@ -12,6 +12,7 @@ from ..auth import (Users, hash_password, password_reset_token,
                     reset_password_from_token)
 from ..limiter import limiter
 from ..mail import mail
+from ..mailgun import mg_list_add
 from ..models import db
 
 bp = Blueprint("userapi", __name__, url_prefix="/api/v1/users")
@@ -59,7 +60,6 @@ def logout():
 
     return res, 200
 
-
 @bp.route("/register", methods=["POST"])
 def register():
     user_data = request.get_json()
@@ -96,11 +96,41 @@ def register():
     new_u.studentfirstname = user_data.get("studentFirstName")
     new_u.studentlastname = user_data.get("studentLastName")
     new_u.dob = dob
+    new_u.student_email = user_data.get("studentEmail", None)
 
     new_u.active = True
 
     db.session.add(new_u)
     db.session.commit()
+
+    if current_app.config["MG_LIST"] \
+            and current_app.config["MG_PRIVATE_KEY"]:
+        # add parent to mailing list
+        mg_vars = dict(
+            codeChallengeUsername=new_u.username,
+            studentEmail=new_u.student_email,
+            studentFirstName=new_u.studentfirstname,
+            studentLastName=new_u.studentlastname,
+            studentName=f"{new_u.studentfirstname} {new_u.studentlastname}",
+            parentFirstName=new_u.parentfirstname,
+            parentLastName=new_u.parentlastname,
+            parentName=f"{new_u.parentfirstname} {new_u.parentlastname}",
+            userId=new_u.id,
+            studentDOB=new_u.dob,
+            type=""
+        )
+
+        mg_vars["type"] = "parent"
+        mg_list_add(new_u.parent_email,
+                    f"{new_u.parentfirstname} {new_u.parentlastname}",
+                    data=mg_vars)
+
+        # if provided, also add student to mailing list
+        if new_u.student_email:
+            mg_vars["type"] = "student"
+            mg_list_add(new_u.student_email,
+                        f"{new_u.studentfirstname} {new_u.studentlastname}",
+                        data=mg_vars)
 
     return jsonify({"status": "success"})
 

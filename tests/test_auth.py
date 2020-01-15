@@ -5,7 +5,9 @@ def register(client, email, username, password, firstname, lastname):
 
     return client.post("/api/v1/users/register", json=dict(
         username=username, parentEmail=email, password=password,
-        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13"
+        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13",
+        studentFirstName="Sheldon", studentLastName="Hoffman",
+        studentEmail="samuelhoffman2@gmail.com"
     ), follow_redirects=True)
 
 
