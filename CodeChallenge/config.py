@@ -33,8 +33,6 @@ class DefaultConfig:
     # no trailing /
     EXTERNAL_URL = "https://hackcwhq.com"
 
-    CONTAINER_URL = "https://codechallenge.cwhq-apps.com"
-
     DUKTAPE_API = "http://localhost:5001/js/eval"
 
     @property
