@@ -25,8 +25,6 @@ def js_eval():
     output = ""
     error = ""
 
-    code += ";output"
-
     try:
         output = ctx.eval_js(code)
     except Exception as e:

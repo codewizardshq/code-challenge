@@ -35,6 +35,8 @@ class DefaultConfig:
 
     CONTAINER_URL = "https://codechallenge.cwhq-apps.com"
 
+    DUKTAPE_API = "http://localhost:5001/js/eval"
+
     @property
     def ROOT_DIR(self):
         return os.path.dirname(self.APP_DIR)
@@ -56,6 +58,7 @@ class ProductionConfig(DefaultConfig):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800
     EXTERNAL_URL = os.getenv("EXTERNAL_URL")
+    DUKTAPE_API = os.getenv("DUKTAPE_API")
 
 
 class DevelopmentConfig(ProductionConfig):
@@ -66,6 +69,7 @@ class DevelopmentConfig(ProductionConfig):
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
+    DUKTAPE_API = "http://localhost:5001/js/eval"
 
     @property
     def DIST_DIR(self):

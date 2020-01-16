@@ -1,3 +1,4 @@
+import os
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -51,6 +52,21 @@ def client_challenge_future():
 def client_challenge_past():
     now = datetime.now(timezone.utc)
     past = now - timedelta(days=2)
+
+    app.config["TESTING"] = True
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    app.config["CODE_CHALLENGE_START"] = past.timestamp()
+
+    with app.test_client() as client:
+        with app.app_context():
+            CodeChallenge.init_db()
+        yield client
+
+
+@pytest.fixture(scope="module")
+def client_challenge_lastq():
+    now = datetime.now(timezone.utc)
+    past = now - timedelta(days=3)
 
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
@@ -208,3 +224,31 @@ def test_answer_exceed_attempts(client_challenge_past):
         else:
             assert retval.status_code == 404
             assert "X-RateLimit-Remaining" in retval.headers
+
+
+@pytest.mark.skipif(not os.getenv("DUKTAPE_API"), reason="envvar DUKTAPE_API is not set")
+def test_answer_finalq_wrong(client_challenge_lastq):
+    login(client_challenge_lastq,
+          "cwhqsam",
+          "supersecurepassword")
+
+    rv = client_challenge_lastq.post("/api/v1/questions/final", json=dict(
+        text="var output; output = 11"
+    ))
+
+    assert rv.status_code == 200
+    assert rv.json["correct"] is False
+
+
+@pytest.mark.skipif(not os.getenv("DUKTAPE_API"), reason="envvar DUKTAPE_API is not set")
+def test_answer_finalq_right(client_challenge_lastq):
+    login(client_challenge_lastq,
+          "cwhqsam",
+          "supersecurepassword")
+
+    rv = client_challenge_lastq.post("/api/v1/questions/final", json=dict(
+        text="var output; output = 10"
+    ))
+
+    assert rv.status_code == 200
+    assert rv.json["correct"] is True
