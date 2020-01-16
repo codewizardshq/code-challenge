@@ -35,6 +35,8 @@ class DefaultConfig:
 
     DUKTAPE_API = "http://localhost:5001/js/eval"
 
+    ALLOW_RESET = False
+
     @property
     def ROOT_DIR(self):
         return os.path.dirname(self.APP_DIR)
@@ -55,6 +57,7 @@ class ProductionConfig(DefaultConfig):
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800
+    ALLOW_RESET = os.getenv("ALLOW_RESET")
     EXTERNAL_URL = os.getenv("EXTERNAL_URL")
     DUKTAPE_API = os.getenv("DUKTAPE_API")
 
@@ -68,6 +71,7 @@ class DevelopmentConfig(ProductionConfig):
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
     DUKTAPE_API = "http://localhost:5001/js/eval"
+    ALLOW_RESET = True
 
     @property
     def DIST_DIR(self):
