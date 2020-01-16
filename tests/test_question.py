@@ -305,7 +305,6 @@ def test_answer_finalq_right(client_challenge_lastq):
 
 
 def test_reset_all(client_challenge_past):
-
     retval = client_challenge_past.delete("/api/v1/questions/reset")
 
     assert retval.status_code == 200
@@ -315,3 +314,29 @@ def test_reset_all(client_challenge_past):
 
     assert retval.status_code == 200
     assert data["rank"] == 0
+
+
+def test_leaderboard(client_challenge_past):
+
+    # register a bunch of fake users
+
+    for i in range(50):
+        register(client_challenge_past,
+                 f"sam{i}@codewizardshq.com",
+                 f"cwhq_sam{i}",
+                 "supersecure",
+                 f"Sam{i}", f"Hoffman{i}")
+
+    rv = client_challenge_past.get("/api/v1/questions/leaderboard?page=1&per=15")
+    assert rv.status_code == 200
+    assert len(rv.json["items"]) == 15
+    assert rv.json["totalPages"] == 4
+
+    item = rv.json["items"].pop()
+
+    assert len(item) == 2
+    assert type(item[0]) == str  # username
+    assert type(item[1]) == int  # rank
+
+
+

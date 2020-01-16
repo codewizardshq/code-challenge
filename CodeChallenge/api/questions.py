@@ -7,6 +7,7 @@ from flask import Blueprint, current_app, jsonify, request, redirect, url_for
 from flask_jwt_extended import get_current_user, jwt_required
 
 from .. import core
+from ..auth import Users
 from ..limiter import limiter, user_rank
 from ..models import Answer, Question, db
 
@@ -225,3 +226,23 @@ def answer_eval():
     db.session.commit()
 
     return jsonify(status="success", correct=correct)
+
+
+@bp.route("/leaderboard", methods=["GET"])
+def leaderboard():
+    page = request.args.get("page", type=int) or 1
+    per = request.args.get("per", type=int) or 20
+
+    q = db.session.query(Users.username, Users.rank)
+    p = q.paginate(page, per_page=per)
+
+    return jsonify(
+        items=p.items,
+        totalItems=p.total,
+        page=p.page,
+        totalPages=p.pages,
+        hasNext=p.has_next,
+        nextNum=p.next_num,
+        hasPrev=p.has_prev,
+        prevNum=p.prev_num
+    )
