@@ -9,6 +9,10 @@ async function getRank() {
   return (await request(routes.questionsapi_get_rank)).rank;
 }
 
+async function resetRank() {
+  await request(routes.questionsapi_rank_reset);
+}
+
 async function submit(answer) {
   const result = await request(routes.questionsapi_answer_next_question, {
     data: {
@@ -21,5 +25,6 @@ async function submit(answer) {
 export default {
   getQuestion,
   submit,
-  getRank
+  getRank,
+  resetRank
 };
