@@ -50,7 +50,7 @@ $left: -166px;
   // border: solid thin #ddd;
   // clip-path: inset(42px -250px -1000px 0px);
   //T  R  B L
-  // clip-path: inset(42px -250px -1000px 0px);
+  clip-path: inset(42px -250px -1000px 0px);
 
   .scroll-head {
     left: $left;
@@ -83,17 +83,18 @@ $left: -166px;
     }
   }
 
+  $offset: 200px;
   .scroll-body {
     z-index: 1;
     left: $left;
     width: 1000px;
     height: 2238px;
     position: relative;
-    top: -200px;
+    top: -$offset;
     background-image: url("/images/scroll-bottom.png");
     border: solid thin #00000000;
     text-align: center;
-    padding-top: 120px;
+    padding-top: $offset - 80px;
 
     .asset {
       width: 400px;
