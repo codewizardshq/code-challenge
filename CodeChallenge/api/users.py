@@ -146,7 +146,7 @@ def hello_protected():
                     "username": user.username,
                     "email": user.parent_email,
                     "firstname": user.studentfirstname,
-                    "lastname": user.studentfirstname,
+                    "lastname": user.studentlastname,
                     "rank": user.rank,
                     "timeUntilNextRank": core.time_until_next_rank()})
 

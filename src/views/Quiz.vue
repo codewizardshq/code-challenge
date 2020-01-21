@@ -30,6 +30,7 @@ export default {
   },
   data() {
     return {
+      localRank: this.$store.state.User.rank + 1,
       isLoading: false,
       actualQuestion: "",
       actualAsset: "",
@@ -41,6 +42,7 @@ export default {
     // document.getElementsByTagName("html")[0].style.overflowY = "hidden";
     // window.scrollTo(0, 0);
     await this.loadQuestion();
+    this.localRank = this.User.rank + 1;
   },
   methods: {
     async onNext() {
@@ -71,7 +73,7 @@ export default {
   computed: {
     ...User.mapState(),
     title() {
-      return this.maxQuiz ? "Challenge Complete!" : "Level " + this.User.rank;
+      return this.maxQuiz ? "Challenge Complete!" : "Level " + this.localRank;
     },
     question() {
       if (this.isLoading) {

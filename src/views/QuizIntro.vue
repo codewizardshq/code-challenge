@@ -16,7 +16,9 @@
             ></iframe>
           </p>
           <p class="text-center">
-            <v-btn color="primary" @click="onClick" x-large>Continue</v-btn>
+            <v-btn color="secondary darken-2" @click="onClick" x-large
+              >Okay!</v-btn
+            >
           </p>
         </template>
       </quiz-scroll>
