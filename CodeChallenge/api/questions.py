@@ -3,7 +3,7 @@ from hashlib import blake2s
 from hmac import compare_digest as str_cmp
 
 import requests
-from flask import Blueprint, current_app, jsonify, request, redirect, url_for
+from flask import Blueprint, current_app, jsonify, request, redirect, url_for, abort
 from flask_jwt_extended import get_current_user, jwt_required
 
 from .. import core
@@ -119,7 +119,7 @@ def answer_next_question():
 @bp.route("/history", methods=["GET"])
 @jwt_required
 def history():
-    """ Returns all past questions and answers for the currrent user"""
+    """ Returns all past questions and answers for the current user"""
 
     u = get_current_user()
 
@@ -148,7 +148,7 @@ def reset_all():
         u = get_current_user()
         u.rank = 0
 
-        for ans in Answer.query.filter_by(user_id= u.id):  # type: Answer
+        for ans in Answer.query.filter_by(user_id=u.id):  # type: Answer
             db.session.delete(ans)
 
         db.session.commit()
@@ -183,9 +183,18 @@ def answer_eval():
         return jsonify(status="error",
                        reason="missing 'text' property in JSON body"), 400
 
+    try:
+        language = request.json["language"]
+    except KeyError:
+        return jsonify(status="error",
+                       reason="missing 'language' property in JSON body"), 400
+
     # designated output variable for evaluation
-    code += ";output"
-    r = requests.post(current_app.config["DUKTAPE_API"], json={"code": code})
+    if language == "js":
+        code += ";output"
+
+    r = requests.post(current_app.config["SANDBOX_API_URL"],
+                      json={"code": code, "language": language})
 
     if not r.ok:
         if r.status_code >= 500:
@@ -196,7 +205,7 @@ def answer_eval():
         eval_data = r.json()
     except ValueError:
         return jsonify(status="error",
-                       reason="response from duktape API was not JSON"), 500
+                       reason="response from sandbox API was not JSON"), 500
 
     eval_error = eval_data["error"]
     eval_output = str(eval_data["output"])

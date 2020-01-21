@@ -1,19 +1,17 @@
 FROM alpine:latest
 LABEL maintainer="Sam Hoffman <sam@codewizardshq.com>"
 
+ENV LANGUAGE=""
+ENV CODEFILE=""
+
 RUN apk --update add --no-cache python3 bash curl binutils libc-dev python3-dev gcc
 RUN pip3 install -U pip
-RUN pip3 install flask flask-cors pyduktape gunicorn
+RUN pip3 install pyduktape
 
-RUN adduser -D -H webapp
-RUN mkdir -p "/var/www/flaskapp"
+RUN adduser -D -H sandbox-user
+USER sandbox-user
 
-# default Flask port
-EXPOSE 5000/tcp
+COPY "main.py" "/tmp/main.py"
+VOLUME "/mnt/code"
 
-USER webapp
-
-COPY "start.sh" "/tmp/start.sh"
-COPY "app.py" "/var/www/flaskapp/app.py"
-
-ENTRYPOINT [ "/tmp/start.sh" ]
+ENTRYPOINT [ "/tmp/main.py" ]

@@ -33,9 +33,14 @@ class DefaultConfig:
     # no trailing /
     EXTERNAL_URL = "https://hackcwhq.com"
 
-    DUKTAPE_API = "http://localhost:5001/js/eval"
+    SANDBOX_API_URL = "http://sandbox.cwhq-apps.com:3000/"
 
     ALLOW_RESET = False
+    MAX_VOTES = 2
+
+    # number of days to leave CodeChallenge open
+    # past the final rank
+    CHALLENGE_ENDS = 1
 
     @property
     def ROOT_DIR(self):

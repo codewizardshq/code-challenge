@@ -8,6 +8,13 @@ import CodeChallenge
 
 app = CodeChallenge.create_app("DefaultConfig")
 
+NOW = datetime.now(timezone.utc)
+
+CC_CLOSED = (NOW - timedelta(days=5)).timestamp()
+CC_2D_PRIOR = (NOW - timedelta(days=2)).timestamp()
+CC_4D_PRIOR = (NOW - timedelta(days=4)).timestamp()
+CC_2D_FUTURE = (NOW + timedelta(days=2)).timestamp()
+
 
 @pytest.fixture(scope="module")
 def client_challenge_today():
@@ -39,12 +46,9 @@ def client_challenge_today():
 
 @pytest.fixture(scope="module")
 def client_challenge_future():
-    now = datetime.now(timezone.utc)
-    future = now + timedelta(days=2)
-
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    app.config["CODE_CHALLENGE_START"] = future.timestamp()
+    app.config["CODE_CHALLENGE_START"] = CC_2D_FUTURE
 
     with app.test_client() as client:
         with app.app_context():
@@ -54,12 +58,9 @@ def client_challenge_future():
 
 @pytest.fixture(scope="module")
 def client_challenge_past():
-    now = datetime.now(timezone.utc)
-    past = now - timedelta(days=2)
-
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    app.config["CODE_CHALLENGE_START"] = past.timestamp()
+    app.config["CODE_CHALLENGE_START"] = CC_2D_PRIOR
 
     with app.test_client() as client:
         with app.app_context():
@@ -69,12 +70,9 @@ def client_challenge_past():
 
 @pytest.fixture(scope="module")
 def client_challenge_lastq():
-    now = datetime.now(timezone.utc)
-    past = now - timedelta(days=4)
-
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    app.config["CODE_CHALLENGE_START"] = past.timestamp()
+    app.config["CODE_CHALLENGE_START"] = CC_4D_PRIOR
 
     with app.test_client() as client:
         with app.app_context():
@@ -276,44 +274,34 @@ def test_answer_exceed_attempts(client_challenge_past):
             assert "X-RateLimit-Remaining" in retval.headers
 
 
-@pytest.mark.skipif(not os.getenv("DUKTAPE_API"), reason="envvar DUKTAPE_API is not set")
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="envvar SANDBOX_API_URL is not set")
 def test_answer_finalq_wrong(client_challenge_lastq):
     login(client_challenge_lastq,
           "cwhqsam",
           "supersecurepassword")
 
     rv = client_challenge_lastq.post("/api/v1/questions/final", json=dict(
-        text="var output; output = 11"
+        text="var output; output = 11",
+        language="js"
     ))
 
     assert rv.status_code == 200
     assert rv.json["correct"] is False
 
 
-@pytest.mark.skipif(not os.getenv("DUKTAPE_API"), reason="envvar DUKTAPE_API is not set")
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="envvar SANDBOX_API_URL is not set")
 def test_answer_finalq_right(client_challenge_lastq):
     login(client_challenge_lastq,
           "cwhqsam",
           "supersecurepassword")
 
     rv = client_challenge_lastq.post("/api/v1/questions/final", json=dict(
-        text="var output; output = 10"
+        text="var output; output = 10",
+        language="js"
     ))
 
     assert rv.status_code == 200
     assert rv.json["correct"] is True
-
-
-def test_reset_all(client_challenge_past):
-    retval = client_challenge_past.delete("/api/v1/questions/reset")
-
-    assert retval.status_code == 200
-
-    retval = client_challenge_past.get("/api/v1/users/hello")
-    data = retval.get_json()
-
-    assert retval.status_code == 200
-    assert data["rank"] == 0
 
 
 def test_leaderboard(client_challenge_past):
