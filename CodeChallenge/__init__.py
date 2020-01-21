@@ -9,6 +9,7 @@ from . import core
 from .api.eb import bp as eb_bp
 from .api.questions import bp as questions_bp
 from .api.users import bp as users_bp
+from .api.vote import bp as vote_bp
 from .auth import jwt
 from .cli.clock import bp as clock_cli_bp
 from .cli.db import bp as db_cli_bp
@@ -50,6 +51,7 @@ def create_app(config):
     app.register_blueprint(db_cli_bp)
     app.register_blueprint(q_cli_bp)
     app.register_blueprint(clock_cli_bp)
+    app.register_blueprint(vote_bp)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):

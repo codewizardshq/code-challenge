@@ -154,6 +154,12 @@ def test_register_while_open(client_challenge_past):
     assert retval.get_json()["rank"] == 1
 
 
+def test_voting_closed(client_challenge_past):
+    """voting should be closed at this point while the code challenge is running"""
+    rv = client_challenge_past.get("/api/v1/vote/check")
+    assert rv.status_code == 403
+
+
 def test_get_rank1(client_challenge_past):
     retval = client_challenge_past.get("/api/v1/questions/next")
     assert retval.status_code == 200
@@ -327,4 +333,79 @@ def test_leaderboard(client_challenge_past):
     assert type(item[1]) == int  # rank
 
 
+def test_vote_check(client_challenge_lastq):
 
+    # change start time to allow voting
+    app.config["CODE_CHALLENGE_START"] = CC_CLOSED
+
+    rv = client_challenge_lastq.get("/api/v1/vote/check")
+
+    assert rv.status_code == 200
+    assert rv.json["maxVotes"] == app.config["MAX_VOTES"]
+    assert rv.json["castedVotes"] == 0
+    assert rv.json["votes"] == []
+
+
+VALID_ANSWER = None
+
+
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
+def test_vote_ballot(client_challenge_lastq):
+    global VALID_ANSWER
+    rv = client_challenge_lastq.get("/api/v1/vote/ballot")
+
+    assert rv.status_code == 200
+
+    items = rv.json["items"]
+    assert len(items) > 0
+    assert "id" in items[0]
+    assert "numVotes" in items[0]
+    assert "text" in items[0]
+    VALID_ANSWER = items[0]["id"]
+
+
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
+def test_cast_vote(client_challenge_lastq):
+    rv = client_challenge_lastq.post(f"/api/v1/vote/{VALID_ANSWER}/cast")
+
+    assert rv.status_code == 200
+    assert rv.json["status"] == "success"
+
+    rv2 = client_challenge_lastq.get("/api/v1/vote/check")
+    assert rv2.status_code == 200
+    assert rv2.json["remainingVotes"] == app.config["MAX_VOTES"] - 1
+
+
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
+def test_try_double_cast(client_challenge_lastq):
+    rv = client_challenge_lastq.post(f"/api/v1/vote/{VALID_ANSWER}/cast")
+
+    assert rv.status_code == 400
+    assert rv.json["status"] == "error"
+    assert rv.json["reason"] == "you already voted for that answer"
+
+
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
+def test_uncast_vote(client_challenge_lastq):
+    rv = client_challenge_lastq.delete(f"/api/v1/vote/{VALID_ANSWER}/delete")
+    assert rv.status_code == 200
+    rv2 = client_challenge_lastq.delete(f"/api/v1/vote/{VALID_ANSWER}/delete")
+    assert rv2.status_code == 400
+    assert rv2.json["reason"] == "you did not vote for that answer"
+
+
+# XXX: this test should always be last since it resets
+# all user progress
+def test_reset_all(client_challenge_past):
+
+    # change time to allow reset again
+    app.config["CODE_CHALLENGE_START"] = CC_2D_PRIOR
+    retval = client_challenge_past.delete("/api/v1/questions/reset")
+
+    assert retval.status_code == 200
+
+    retval = client_challenge_past.get("/api/v1/users/hello")
+    data = retval.get_json()
+
+    assert retval.status_code == 200
+    assert data["rank"] == 0

@@ -18,6 +18,15 @@ def json_error(reason, status=400):
     return jsonify({"status": "error", "reason": reason}, status=status)
 
 
+@bp.before_request
+def end_code_challenge():
+    if core.challenge_ended():
+        r = jsonify(status="error",
+                    message="code challenge has ended")
+        r.status_code = 403
+        abort(r)
+
+
 @bp.route("/rank", methods=["GET"])
 def get_rank():
     return jsonify(status="success", rank=core.current_rank(),

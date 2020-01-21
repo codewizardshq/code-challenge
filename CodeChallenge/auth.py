@@ -4,8 +4,9 @@ import argon2
 from flask import current_app
 from flask_jwt_extended import JWTManager
 from itsdangerous import URLSafeTimedSerializer
+from sqlalchemy import func
 
-from .models import db
+from .models import db, Vote
 
 jwt = JWTManager()
 
@@ -36,6 +37,20 @@ class Users(db.Model):
             return ph.verify(self.password, password)
         except argon2.exceptions.VerifyMismatchError:
             return False
+
+    def casted_votes(self) -> int:
+        q = db.session \
+            .query(func.count(Vote.id)) \
+            .filter_by(user_id=self.id)
+
+        n = q.scalar()
+        return n
+
+    def votes(self):
+        v = Vote.query \
+            .filter_by(user_id=self.id) \
+            .all()
+        return v
 
 
 def hash_password(plaintext):

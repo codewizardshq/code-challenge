@@ -15,7 +15,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)
     answer = db.Column(db.String(255), nullable=False)
-    rank = db.Column(db.Integer, nullable=False) 
+    rank = db.Column(db.Integer, nullable=False)
     asset = db.Column(db.LargeBinary(length=(2**32)-1))
     asset_ext = db.Column(db.String(10))
 
@@ -34,3 +34,19 @@ class Answer(db.Model):
     text = db.Column(db.String(2000))
     correct = db.Column(db.Boolean)
     question = db.relationship("Question", lazy=True, uselist=False)
+    votes = db.relationship("Vote", cascade="all,delete",
+                            lazy=True, uselist=True)
+
+
+class Vote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    answer_id = db.Column(db.Integer,
+                          db.ForeignKey("answer.id", ondelete="cascade"),
+                          nullable=False)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey("users.id", ondelete="cascade"),
+                        nullable=False)
+
+    __table_args__ = (db.UniqueConstraint("answer_id", "user_id"),
+                      )
+
