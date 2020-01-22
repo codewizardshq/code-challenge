@@ -43,10 +43,11 @@ class Vote(db.Model):
     answer_id = db.Column(db.Integer,
                           db.ForeignKey("answer.id", ondelete="cascade"),
                           nullable=False)
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey("users.id", ondelete="cascade"),
-                        nullable=False)
+    voter_email = db.Column(db.String, nullable=False)
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
-    __table_args__ = (db.UniqueConstraint("answer_id", "user_id"),
-                      )
+    @staticmethod
+    def existing_vote(email: str) -> bool:
+        v = Vote.query.filter_by(voter_email=email).first()
+        return v
 

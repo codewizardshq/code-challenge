@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify, current_app, request, abort
-from flask_jwt_extended import jwt_required, get_current_user
-from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import get_current_user, jwt_optional
+from flask_mail import Message
+from itsdangerous import URLSafeSerializer
 
 from .. import core
+from ..auth import Users
+from ..mail import mail
 from ..models import Answer, db, Vote, Question
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
@@ -18,27 +21,12 @@ def time_gate():
 
 
 @bp.route("/check", methods=["GET"])
-@jwt_required
 def vote_check():
-    """time_gate() will override this response if voting
-    has not begun"""
-
-    u = get_current_user()
-    max_votes = current_app.config["MAX_VOTES"]
-    casted = u.casted_votes()
-    remaining = max_votes - casted
-    votes = [v.id for v in u.votes()]
-
     return jsonify(status="success",
-                   maxVotes=max_votes,
-                   castedVotes=casted,
-                   remainingVotes=remaining,
-                   votes=votes,
                    reason="voting is open")
 
 
 @bp.route("/ballot", methods=["GET"])
-@jwt_required
 def get_contestants():
     """Contestants are only qualified if they answered
     the max rank question and the initial answer is correct"""
@@ -79,55 +67,108 @@ def get_contestants():
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
-@jwt_required
+@jwt_optional
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
-    u = get_current_user()
-
     max_rank = core.max_rank()
 
     ans = Answer.query \
         .join(Answer.question) \
         .filter(Answer.id == answer_id,
                 Question.rank == max_rank,
-                Answer.correct
-                ).first()
+                Answer.correct) \
+        .first()
 
     if ans is None:
         return jsonify(status="error",
                        reason="qualifying answer not found"), 400
 
-    if u.casted_votes() == int(current_app.config["MAX_VOTES"]):
-        return jsonify(status="error",
-                       reason="you already have reached max votes"), 400
-
+    u = get_current_user()  # type: Users
     v = Vote()
     v.answer_id = ans.id
-    v.user_id = u.id
 
-    try:
-        db.session.add(v)
-        db.session.commit()
-    except IntegrityError:
+    if u is not None and u.student_email is not None:
+        # user as a participant and we have a unique
+        # email for this user.
+        v.voter_email = u.student_email
+        v.confirmed = True
+
+        # delete any existing vote before adding a new one
+        delete_votes = Vote.query \
+            .filter(Vote.voter_email == v.voter_email) \
+            .all()
+
+        for d in delete_votes:
+            db.session.delete(d)
+
+    else:
+        try:
+            v.voter_email = request.json["email"]
+        except (TypeError, KeyError):
+            return jsonify(status="error",
+                           message="no student email defined. an 'email' property "
+                                   "is required on the JSON body."), 400
+
+    if v.voter_email is None:
         return jsonify(status="error",
-                       reason="you already voted for that answer"), 400
+                       reason="voter email required. either log into your "
+                              "existing Code Challenge account or provide "
+                              "an email address"), 400
+
+    db.session.add(v)
+    db.session.commit()
+
+    # only used if the user is not logged in
+    if not v.confirmed:
+        s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+        tok = s.dumps(v.id, "vote-confirmation")
+
+        msg = Message(subject="Vote Confirmation",
+                      body="Click the following link to confirm "
+                           " your vote. You may only vote once. "
+                           f"\n\n{current_app.config['EXTERNAL_URL']}/vote-confirmation?token={tok}",
+                      recipients=[v.voter_email])
+
+        if current_app.config.get("TESTING", False):
+            msg.extra_headers = {"X-Vote-Confirmation-Token": tok}
+
+        mail.send(msg)
+
+        return jsonify(status="success",
+                       reason="email confirmation needed")
 
     return jsonify(status="success",
                    reason="vote has been cast")
 
 
-@bp.route("/<int:answer_id>/delete", methods=["DELETE"])
-@jwt_required
-def vote_delete(answer_id: int):
-    u = get_current_user()
-    v = Vote.query.filter_by(answer_id=answer_id,
-                             user_id=u.id).first()
-    if v is None:
-        return jsonify(status="error",
-                       reason="you did not vote for that answer"), 400
+@bp.route("/confirm", methods=["POST"])
+def vote_confirm():
+    try:
+        token = request.json["token"]
+    except KeyError:
+        return jsonify("'token' missing from JSON body"), 400
 
-    db.session.delete(v)
+    s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+
+    valid, vote_id = s.loads_unsafe(token, "vote-confirmation")
+
+    if not valid:
+        return jsonify(status="error",
+                       reason="token is not valid"), 400
+
+    v = Vote.query.get(vote_id)
+    delete_votes = Vote.query \
+        .filter(Vote.voter_email == v.voter_email,
+                Vote.id != v.id) \
+        .all()
+
+    # delete any other vote that was clicked
+    for d in delete_votes:
+        db.session.delete(d)
+
+    v.confirmed = True
+
     db.session.commit()
 
     return jsonify(status="success",
-                   reason="vote successfully deleted")
+                   reason="vote confirmed")

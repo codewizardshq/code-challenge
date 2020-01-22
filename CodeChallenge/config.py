@@ -31,12 +31,14 @@ class DefaultConfig:
     MG_LIST = "codechallenge@school.codewizardshq.com"
 
     # no trailing /
-    EXTERNAL_URL = "https://hackcwhq.com"
+    EXTERNAL_URL = "https://challenge.codewizardshq.com"
 
-    SANDBOX_API_URL = "http://sandbox.cwhq-apps.com:3000/"
+    # this will not work out of box. a proper docker setup is required.
+    # the Docker image used for this is included but the architecture
+    # around it is closed source and part of the existing CWHQ platform.
+    SANDBOX_API_URL = "http://localhost:3000/"
 
     ALLOW_RESET = False
-    MAX_VOTES = 2
 
     # number of days to leave CodeChallenge open
     # past the final rank
@@ -64,7 +66,7 @@ class ProductionConfig(DefaultConfig):
     JWT_ACCESS_TOKEN_EXPIRES = 604800
     ALLOW_RESET = os.getenv("ALLOW_RESET")
     EXTERNAL_URL = os.getenv("EXTERNAL_URL")
-    DUKTAPE_API = os.getenv("DUKTAPE_API")
+    SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
 
 
 class DevelopmentConfig(ProductionConfig):
@@ -75,7 +77,6 @@ class DevelopmentConfig(ProductionConfig):
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
-    DUKTAPE_API = "http://localhost:5001/js/eval"
     ALLOW_RESET = True
 
     @property

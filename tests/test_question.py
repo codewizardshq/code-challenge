@@ -80,11 +80,12 @@ def client_challenge_lastq():
         yield client
 
 
-def register(client, email, username, password, firstname, lastname):
+def register(client, email, username, password, firstname, lastname, studentemail=None):
 
     return client.post("/api/v1/users/register", json=dict(
         username=username, parentEmail=email, password=password,
-        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13"
+        parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13",
+        studentEmail=studentemail
     ), follow_redirects=True)
 
 
@@ -100,7 +101,8 @@ def login(client, email, password):
 def test_get_rank_today(client_challenge_today):
     """Code challenge started today so the current rank should be 1"""
     retval = register(client_challenge_today, "sam@codewizardshq.com",
-                      "cwhqsam", "supersecurepassword", "Sam", "Hoffman")
+                      "cwhqsam", "supersecurepassword", "Sam", "Hoffman",
+                      "samuelhoffman2@gmail.com")
     assert retval.status_code == 200
 
     retval = login(client_challenge_today,
@@ -334,16 +336,10 @@ def test_leaderboard(client_challenge_past):
 
 
 def test_vote_check(client_challenge_lastq):
-
     # change start time to allow voting
     app.config["CODE_CHALLENGE_START"] = CC_CLOSED
-
     rv = client_challenge_lastq.get("/api/v1/vote/check")
-
     assert rv.status_code == 200
-    assert rv.json["maxVotes"] == app.config["MAX_VOTES"]
-    assert rv.json["castedVotes"] == 0
-    assert rv.json["votes"] == []
 
 
 VALID_ANSWER = None
@@ -371,27 +367,33 @@ def test_cast_vote(client_challenge_lastq):
     assert rv.status_code == 200
     assert rv.json["status"] == "success"
 
-    rv2 = client_challenge_lastq.get("/api/v1/vote/check")
-    assert rv2.status_code == 200
-    assert rv2.json["remainingVotes"] == app.config["MAX_VOTES"] - 1
-
 
 @pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
-def test_try_double_cast(client_challenge_lastq):
+def test_cast_notregistered(client_challenge_lastq):
+    client_challenge_lastq.cookie_jar.clear()  # logout
+
     rv = client_challenge_lastq.post(f"/api/v1/vote/{VALID_ANSWER}/cast")
+    assert rv.status_code == 400  # 400 because an email was not supplied
 
-    assert rv.status_code == 400
-    assert rv.json["status"] == "error"
-    assert rv.json["reason"] == "you already voted for that answer"
+    # validate email confirmation
 
+    with CodeChallenge.mail.record_messages() as outbox:
+        rv2 = client_challenge_lastq.post(f"/api/v1/vote/{VALID_ANSWER}/cast",
+                                          json={"email": "samuelhoffman2@gmail.com"})
 
-@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
-def test_uncast_vote(client_challenge_lastq):
-    rv = client_challenge_lastq.delete(f"/api/v1/vote/{VALID_ANSWER}/delete")
-    assert rv.status_code == 200
-    rv2 = client_challenge_lastq.delete(f"/api/v1/vote/{VALID_ANSWER}/delete")
-    assert rv2.status_code == 400
-    assert rv2.json["reason"] == "you did not vote for that answer"
+        assert rv2.status_code == 200
+        assert rv2.json["reason"] == "email confirmation needed"
+
+        assert len(outbox) == 1
+        msg = outbox[0]
+        assert "X-Vote-Confirmation-Token" in msg.extra_headers
+        token = msg.extra_headers["X-Vote-Confirmation-Token"]
+        assert "samuelhoffman2@gmail.com" in msg.recipients
+
+        rv3 = client_challenge_lastq.post("/api/v1/vote/confirm",
+                                          json={"token": token})
+
+        assert rv3.status_code == 200
 
 
 # XXX: this test should always be last since it resets
