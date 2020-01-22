@@ -36,4 +36,4 @@ jobs:
         pipenv run flake8 . --exclude=node_modules --count --select=E9,F63,F7,F82 --show-source --statistics
         pipenv run flake8 . --exclude=node_modules --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run unit tests
-      run: SANDBOX_API_URL="${{ secrets.SANDBOX_API_URL }}" pipenv run pytest --verbose
+      run: SANDBOX_API_URL="${{ secrets.SANDBOX_API_URL }}" pipenv run python -m pytest --verbose
