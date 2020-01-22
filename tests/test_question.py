@@ -49,6 +49,7 @@ def client_challenge_future():
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     app.config["CODE_CHALLENGE_START"] = CC_2D_FUTURE
+    app.config["SANDBOX_API_URL"] = os.getenv("SANDBOX_API_URL")
 
     with app.test_client() as client:
         with app.app_context():
