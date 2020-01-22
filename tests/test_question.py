@@ -168,6 +168,8 @@ def test_get_rank1(client_challenge_past):
     assert retval.status_code == 200
     assert retval.get_json()["question"] == "What is 2+2?"
     assert retval.get_json()["rank"] == 1
+    assert "hints" in retval.json
+    assert len(retval.json["hints"]) == 2
 
     retval = client_challenge_past.get("/api/v1/users/hello")
     data = retval.get_json()

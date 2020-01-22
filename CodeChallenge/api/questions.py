@@ -78,6 +78,7 @@ def next_question():
 
     return jsonify(status="success",
                    question=q.title,
+                   hints=[q.hint1, q.hint2],
                    rank=rank,
                    asset=asset), 200
 
