@@ -45,7 +45,7 @@ class Vote(db.Model):
     answer_id = db.Column(db.Integer,
                           db.ForeignKey("answer.id", ondelete="cascade"),
                           nullable=False)
-    voter_email = db.Column(db.String, nullable=False)
+    voter_email = db.Column(db.String(255), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
     @staticmethod
