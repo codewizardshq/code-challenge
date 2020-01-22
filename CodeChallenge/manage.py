@@ -3,7 +3,7 @@ import os
 from .models import Question, db
 
 
-def add_question(title, answer, rank, asset) -> Question:
+def add_question(title, answer, rank, asset, hint1, hint2) -> Question:
 
     q = Question.query.filter_by(rank=rank).first()
 
@@ -19,6 +19,8 @@ def add_question(title, answer, rank, asset) -> Question:
 
     q.asset_ext = os.path.splitext(asset)[1]
     q.rank = rank
+    q.hint1 = hint1
+    q.hint2 = hint2
 
     db.session.add(q)
     db.session.commit()
