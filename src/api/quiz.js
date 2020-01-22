@@ -6,8 +6,9 @@ async function getQuestion() {
 }
 
 async function getRank() {
-  return (await request(routes.questionsapi_get_rank)).rank;
+  return request(routes.questionsapi_get_rank);
 }
+
 
 async function resetRank() {
   await request(routes.questionsapi_rank_reset);

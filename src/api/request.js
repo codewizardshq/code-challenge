@@ -26,6 +26,7 @@ export default async function request(route, options = {}, tryRefresh = true) {
     // return original error
     return Promise.reject({
       status: err.response.status,
+      data: err.response.data,
       message:
         !!err.response.data && !!err.response.data.reason
           ? err.response.data.reason

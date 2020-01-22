@@ -17,4 +17,4 @@ export default new Vuex.Store({
   }
 });
 
-export { User, Snackbar };
+export { User, Quiz, Snackbar };

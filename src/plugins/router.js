@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { auth } from "@/api";
+import { auth, quiz } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -53,37 +53,47 @@ const routes = [
   {
     path: "/quiz",
     name: "quiz",
-    component: () => import("@/views/Quiz"),
+    component: () => import("@/views/Quiz/Quiz"),
     meta: {
       secured: true
     },
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
+      await store.dispatch("Quiz/refresh");
+
+      if (!store.state.Quiz.quizHasStarted) {
+        // quiz has not started
+        next({ name: 'quiz-countdown' });
+        return;
+      }
+
+      if (store.state.Quiz.awaitNextQuestion) {
+        // next question is not unlocked
+        next({ name: 'quiz-countdown' });
+        return;
+      }
+
       if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 0) {
+        // user probably should see the intro video 
         next({ name: "quiz-intro" });
-      } else {
-        next();
+        return;
       }
+
+      // user is okay to take quiz 
+      next();
     }
   },
   {
-    path: "/quiz-scores",
-    name: "quiz-scores",
-    component: () => import("@/views/QuizScores"),
+    path: "/quiz/countdown",
+    name: "quiz-countdown",
+    component: () => import("@/views/Quiz/QuizCountdown"),
     meta: {
       secured: true
-    },
-    beforeEnter: (to, from, next) => {
-      if (!store.state.Quiz.hasScores) {
-        next({ name: "quiz" });
-      } else {
-        next();
-      }
     }
   },
   {
-    path: "/quiz-intro",
+    path: "/quiz/intro",
     name: "quiz-intro",
-    component: () => import("@/views/QuizIntro"),
+    component: () => import("@/views/Quiz/QuizIntro"),
     meta: {
       secured: true
     }
