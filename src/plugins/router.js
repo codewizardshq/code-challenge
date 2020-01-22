@@ -43,6 +43,14 @@ const routes = [
     }
   },
   {
+    path: "/admin",
+    name: "admin",
+    component: () => import("@/views/Admin.vue"),
+    meta: {
+      secured: true
+    }
+  },
+  {
     path: "/quiz",
     name: "quiz",
     component: () => import("@/views/Quiz"),
