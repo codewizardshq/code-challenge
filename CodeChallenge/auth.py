@@ -4,8 +4,9 @@ import argon2
 from flask import current_app
 from flask_jwt_extended import JWTManager
 from itsdangerous import URLSafeTimedSerializer
+from sqlalchemy import func
 
-from .models import db
+from .models import db, Vote
 
 jwt = JWTManager()
 
@@ -37,6 +38,20 @@ class Users(db.Model):
         except argon2.exceptions.VerifyMismatchError:
             return False
 
+    def casted_votes(self) -> int:
+        q = db.session \
+            .query(func.count(Vote.id)) \
+            .filter_by(user_id=self.id)
+
+        n = q.scalar()
+        return n
+
+    def votes(self):
+        v = Vote.query \
+            .filter_by(user_id=self.id) \
+            .all()
+        return v
+
 
 def hash_password(plaintext):
     ph = argon2.PasswordHasher()
@@ -65,8 +80,8 @@ def create_user(email, username, password):
     db.session.commit()
 
 
-def reset_user(email, password):
-    u = Users.query.filter_by(parent_email=email)
+def reset_user(username, password):
+    u = Users.query.filter_by(username=username)
     u.password = hash_password(password)
 
     db.session.commit()
@@ -74,10 +89,10 @@ def reset_user(email, password):
 
 def password_reset_token(user: Users) -> str:
     ts = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
-    return ts.dumps(user.parent_email, salt="recovery-key")
+    return ts.dumps(user.username, salt="recovery-key")
 
 
 def reset_password_from_token(token: str, password: str):
     ts = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
-    parent_email = ts.loads(token, salt="recovery-key", max_age=86400)
-    reset_user(parent_email, password)
+    username = ts.loads(token, salt="recovery-key", max_age=86400)
+    reset_user(username, password)

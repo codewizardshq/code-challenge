@@ -8,6 +8,7 @@ mypy = "*"
 flake8 = "*"
 pytest = "*"
 python-dotenv = "*"
+werkzeug = {extras = ["watchdog"],version = "*"}
 
 [packages]
 flask = "*"
@@ -16,11 +17,11 @@ mysqlclient = "*"
 flask-cors = "*"
 flask-jwt-extended = "*"
 argon2-cffi = "*"
-marshmallow-sqlalchemy = "*"
 python-dotenv = "*"
 flask-limiter = "*"
 flask-mail = "*"
 tabulate = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"

@@ -2,10 +2,12 @@ import os
 from hashlib import blake2s
 from hmac import compare_digest as str_cmp
 
-from flask import Blueprint, current_app, jsonify, request
+import requests
+from flask import Blueprint, current_app, jsonify, request, redirect, url_for, abort
 from flask_jwt_extended import get_current_user, jwt_required
 
 from .. import core
+from ..auth import Users
 from ..limiter import limiter, user_rank
 from ..models import Answer, Question, db
 
@@ -14,6 +16,15 @@ bp = Blueprint("questionsapi", __name__, url_prefix="/api/v1/questions")
 
 def json_error(reason, status=400):
     return jsonify({"status": "error", "reason": reason}, status=status)
+
+
+@bp.before_request
+def end_code_challenge():
+    if core.challenge_ended():
+        r = jsonify(status="error",
+                    message="code challenge has ended")
+        r.status_code = 403
+        abort(r)
 
 
 @bp.route("/rank", methods=["GET"])
@@ -67,6 +78,7 @@ def next_question():
 
     return jsonify(status="success",
                    question=q.title,
+                   hints=[q.hint1, q.hint2],
                    rank=rank,
                    asset=asset), 200
 
@@ -85,7 +97,11 @@ def answer_next_question():
         return jsonify({"status": "error",
                         "reason": "no more questions to answer"}), 404
 
-    q = Question.query.filter_by(rank=user.rank+1).first()  # type: Question
+    next_rank = user.rank + 1
+    if next_rank == core.max_rank():
+        return redirect(url_for("questionsapi.answer_eval"))
+
+    q = Question.query.filter_by(rank=next_rank).first()  # type: Question
 
     data = request.get_json()
     text = data["text"]
@@ -113,7 +129,7 @@ def answer_next_question():
 @bp.route("/history", methods=["GET"])
 @jwt_required
 def history():
-    """ Returns all past questions and answers for the currrent user"""
+    """ Returns all past questions and answers for the current user"""
 
     u = get_current_user()
 
@@ -142,7 +158,7 @@ def reset_all():
         u = get_current_user()
         u.rank = 0
 
-        for ans in Answer.query.filter_by(user_id= u.id):  # type: Answer
+        for ans in Answer.query.filter_by(user_id=u.id):  # type: Answer
             db.session.delete(ans)
 
         db.session.commit()
@@ -151,3 +167,101 @@ def reset_all():
 
     return jsonify(status="error",
                    message="resetting not allowed at this time"), 403
+
+
+@bp.route("/final", methods=["POST"])
+@jwt_required
+def answer_eval():
+    user = get_current_user()
+    if core.current_rank() == user.rank:
+        # all questions have been answered up to the current rank
+        return jsonify(status="error",
+                       reason="no more questions to answer",
+                       rank=user.rank, current_rank=core.current_rank()), 404
+
+    next_rank = user.rank + 1
+    if next_rank != core.max_rank():
+        print(f"user's next rank is {next_rank} but max rank is {core.max_rank()}")
+        return jsonify(status="error",
+                       reason="you can't answer the final question yet"), 400
+
+    q = Question.query.filter_by(rank=next_rank).first()  # type: Question
+
+    try:
+        code = request.get_json()["text"]
+    except KeyError:
+        return jsonify(status="error",
+                       reason="missing 'text' property in JSON body"), 400
+
+    try:
+        language = request.json["language"]
+    except KeyError:
+        return jsonify(status="error",
+                       reason="missing 'language' property in JSON body"), 400
+
+    # designated output variable for evaluation
+    if language == "js":
+        code += ";output"
+
+    r = requests.post(current_app.config["SANDBOX_API_URL"],
+                      json={"code": code, "language": language})
+
+    if not r.ok:
+        if r.status_code >= 500:
+            return jsonify(status="error",
+                           reason="server side error while evaluating JS"), 500
+
+    try:
+        eval_data = r.json()
+    except ValueError:
+        return jsonify(status="error",
+                       reason="response from sandbox API was not JSON"), 500
+
+    eval_error = eval_data["error"]
+    eval_output = str(eval_data["output"])
+
+    # any API error is an automatic failure
+    if eval_error:
+        return jsonify(status="success",
+                       correct=False,
+                       js_error=eval_error)
+
+    correct = str_cmp(eval_output, q.answer)
+
+    ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
+
+    if ans is None:
+        ans = Answer()
+        ans.question_id = q.id
+        ans.user_id = user.id
+        db.session.add(ans)
+
+    ans.text = code
+    ans.correct = correct
+
+    if correct:
+        user.rank += 1
+
+    db.session.commit()
+
+    return jsonify(status="success", correct=correct)
+
+
+@bp.route("/leaderboard", methods=["GET"])
+def leaderboard():
+    page = request.args.get("page", type=int) or 1
+    per = request.args.get("per", type=int) or 20
+
+    q = db.session.query(Users.username, Users.rank)
+    p = q.paginate(page, per_page=per)
+
+    return jsonify(
+        items=p.items,
+        totalItems=p.total,
+        page=p.page,
+        totalPages=p.pages,
+        hasNext=p.has_next,
+        nextNum=p.next_num,
+        hasPrev=p.has_prev,
+        prevNum=p.prev_num
+    )
