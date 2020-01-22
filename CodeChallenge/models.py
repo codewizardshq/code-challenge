@@ -18,6 +18,8 @@ class Question(db.Model):
     rank = db.Column(db.Integer, nullable=False)
     asset = db.Column(db.LargeBinary(length=(2**32)-1))
     asset_ext = db.Column(db.String(10))
+    hint1 = db.Column(db.String(5000))
+    hint2 = db.Column(db.String(5000))
 
     def __repr__(self):
         return '<Question %r>' % self.id
