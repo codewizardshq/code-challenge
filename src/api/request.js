@@ -9,20 +9,25 @@ export default async function request(route, options = {}, tryRefresh = true) {
       url: route.path,
       ...options
     });
-    return response.data;
-  } catch (err) {
-    if (err.response.status == 401 && tryRefresh) {
-      // our tokens have possibly expired, send refresh
-      // TODO: THIS IS UNFINISHED
-      await axios({
-        method: "POST",
-        url: routes.userapi_refresh.path
-      });
-
-      // try and return original request marked with no refresh
-      return request(route, options, false);
+    
+    return {
+      ...response.data,
+      headers: response.headers
     }
+  } catch (err) {
+    // console.log(err.response);
+    // if (err.response.status == 401 && tryRefresh) {
+    //   console.log("Trying refresh");
+    //   // our tokens have possibly expired, send refresh
+    //   // TODO: THIS IS UNFINISHED
+    //   await axios({
+    //     method: "POST",
+    //     url: routes.userapi_refresh.path
+    //   });
 
+    //   // try and return original request marked with no refresh
+    //   return request(route, options, false);
+    // }
     // return original error
     return Promise.reject({
       status: err.response.status,

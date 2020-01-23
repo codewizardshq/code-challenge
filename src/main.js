@@ -6,7 +6,7 @@ import "./plugins/moment";
 import store from "./store";
 import "@/styles/styles.scss";
 import { auth } from "@/api";
-
+import './plugins/codemirror';
 Vue.config.productionTip = false;
 
 (async function () {

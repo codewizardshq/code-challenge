@@ -4,7 +4,7 @@
 			<quiz-scroll>
 				<template v-slot:title>Level {{ rank }}</template>
 				<template v-slot:default>
-					<img class="asset" :src="asset" v-if="!!asset" />
+					<img class="asset" :src="'/'+asset" v-if="!!asset" />
 					<div class="scroll-content" v-html="question" />
 				</template>
 			</quiz-scroll>
@@ -16,7 +16,7 @@
 
 <script>
 import QuizScroll from "@/components/QuizScroll";
-import QuizAnswer from "@/components/QuizAnswer";
+import QuizAnswer from "./QuizAnswer.vue";
 import QuizNeedHelp from "@/components/QuizNeedHelp";
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
@@ -30,7 +30,6 @@ export default {
 	},
 	data() {
 		return {
-			localRank: this.$store.state.User.rank + 1,
 			isLoading: false,
 			question: "",
 			rank: "",
@@ -44,15 +43,18 @@ export default {
 	},
 	methods: {
 		async onNext() {
-			this.$store.dispatch("Quiz/setScores");
-			this.$router.push({ name: "quiz-scores" });
+			await this.loadQuestion();
 		},
 		async loadQuestion() {
 			this.isLoading = true;
 			await this.$store.dispatch("Quiz/refresh");
-			this.question = this.Quiz.question;
-			this.rank = this.Quiz.rank;
-			this.asset = this.Quiz.asset;
+			if (this.Quiz.awaitNextQuestion) {
+				this.$router.push({ name: "quiz-countdown" });
+			} else {
+				this.question = this.Quiz.question;
+				this.rank = this.Quiz.rank;
+				this.asset = this.Quiz.asset;
+			}
 			this.isLoading = false;
 		}
 	},

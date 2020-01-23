@@ -31,9 +31,14 @@ function getDefaultState() {
   return {
     hasSeenIntro: false,
     nextUnlockMoment: moment(),
+    quizStartedMoment: moment(),
     question: "",
     asset: "",
     rank: 0,
+    maxRank: 0,
+    isLastQuestion: false,
+    hints: ["", ""],
+    wrongCount: !!localStorage.getItem("wrongCount") ? parseInt(localStorage.getItem("wrongCount")) : 0,
     quizHasStarted: false,
     awaitNextQuestion: false
   };
@@ -47,16 +52,26 @@ const actions = {
   async markAsSeen({ commit }) {
     commit("hasSeenIntro", true);
   },
-  async refresh({ commit }) {
+  async addWrongCount({ state, commit }) {
+    commit("wrongCount", state.wrongCount + 1);
+  },
+  async clearWrongCount({ commit }) {
+    commit("wrongCount", 0);
+  },
+  async refresh({ state, commit }) {
     // get current rank and see if quiz has started
     try {
       const rank = await quiz.getRank();
+      commit("maxRank", rank.maxRank);
+      commit("quizStartedMoment", moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z"));
+
       if (rank.rank < 0) {
         commit("quizHasStarted", false);
         commit("awaitNextQuestion", false);
         commit("question", "");
         commit("asset", "");
         commit("rank", 0);
+        commit("hints", ["", ""]);
         commit("nextUnlockMoment", parseDateResponse(rank.timeUntilNextRank))
         return;
       }
@@ -73,15 +88,25 @@ const actions = {
       commit("question", response.question);
       commit("asset", response.asset);
       commit("rank", response.rank);
+      commit("hints", response.hints);
       commit("nextUnlockMoment", moment());
+      commit("isLastQuestion", response.rank === state.maxRank);
     } catch (err) {
       if (err.status === 404) {
         commit("awaitNextQuestion", true);
-        commit("question", response.question);
+        commit("question", "");
+        commit("asset", "");
+        commit("rank", 0);
+        commit("hints", ["", ""]);
         commit("nextUnlockMoment", parseDateResponse(err.data.timeUntilNextRank));
+      } else if (err.status === 401) {
+        commit("question", "");
+        commit("asset", "");
+        commit("rank", 0);
+        commit("hints", ["", ""]);
       } else {
+        console.error("An unexpected error occurred");
         console.error(err);
-        throw new Error("Unexpected error has occurred");
       }
     }
   }
@@ -108,6 +133,22 @@ const mutations = {
   },
   asset(state, value) {
     state.asset = value;
+  },
+  quizStartedMoment(state, value) {
+    state.quizStartedMoment = value;
+  },
+  wrongCount(state, value) {
+    state.wrongCount = value;
+    localStorage.setItem("wrongCount", state.wrongCount);
+  },
+  hints(state, value) {
+    state.hints = value;
+  },
+  maxRank(state, value) {
+    state.maxRank = value;
+  },
+  isLastQuestion(state, value) {
+    state.isLastQuestion = value;
   }
 };
 

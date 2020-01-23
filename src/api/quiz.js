@@ -23,9 +23,21 @@ async function submit(answer) {
   return result.correct;
 }
 
+async function submitFinal(answer, language) {
+  const result = await request(routes.questionsapi_answer_final_question, {
+    data: {
+      text: answer,
+      language
+    }
+  })
+  console.log(result);
+  return result.correct;
+}
+
 export default {
   getQuestion,
   submit,
+  submitFinal,
   getRank,
   resetRank
 };

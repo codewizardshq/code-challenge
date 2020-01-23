@@ -15,6 +15,7 @@ export default {
   userapi_refresh: route("/api/v1/users/token/refresh", "POST"),
   questionsapi_rank_reset: route("/api/v1/questions/reset", "DELETE"),
   questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
+  questionsapi_answer_final_question: route("/api/v1/questions/final", "POST"),
   questionsapi_get_rank: route("/api/v1/questions/rank", "GET"),
   questions_api_next_question: route("/api/v1/questions/next", "GET")
 };

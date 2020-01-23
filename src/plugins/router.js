@@ -9,7 +9,9 @@ const routes = [
   {
     path: "/home",
     name: "home",
-    component: () => import("@/views/Home")
+    redirect: {
+      name: 'quiz'
+    }
   },
   {
     path: "/login",
@@ -78,6 +80,11 @@ const routes = [
         return;
       }
 
+      if (store.state.Quiz.isLastQuestion) {
+        next({ name: 'quiz-final' });
+        return;
+      }
+
       // user is okay to take quiz 
       next();
     }
@@ -88,6 +95,36 @@ const routes = [
     component: () => import("@/views/Quiz/QuizCountdown"),
     meta: {
       secured: true
+    },
+    beforeEnter: async (to, from, next) => {
+      await store.dispatch("Quiz/refresh");
+
+      if (store.state.Quiz.quizHasStarted && !store.state.Quiz.awaitNextQuestion) {
+        // quiz has not started
+        next({ name: 'quiz' });
+        return;
+      }
+
+      next();
+    }
+  },
+  {
+    path: "/quiz/final",
+    name: "quiz-final",
+    component: () => import("@/views/Quiz/QuizFinalQuestion"),
+    meta: {
+      secured: true
+    },
+    beforeEnter: async (to, from, next) => {
+      await store.dispatch("Quiz/refresh");
+
+      if (!store.state.Quiz.isLastQuestion) {
+        // user is not on the last question
+        next({ name: 'quiz' });
+        return;
+      }
+
+      next();
     }
   },
   {
