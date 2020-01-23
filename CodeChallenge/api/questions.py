@@ -84,7 +84,7 @@ def next_question():
 
 
 def answer_limit_attempts():
-    return current_app.config.get("ANSWER_ATTEMPT_LIMIT", "3 per 30 minutes")
+    return current_app.config.get("ANSWER_ATTEMPT_LIMIT", "1 per 1 minutes")
 
 
 @bp.route("/answer", methods=["POST"])
