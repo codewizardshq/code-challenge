@@ -1,7 +1,9 @@
 import os
 
+import sentry_sdk
 from flask import Flask, jsonify, make_response, send_from_directory, redirect
 from flask_cors import CORS
+from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.utils import import_string
 
@@ -25,6 +27,12 @@ from .models import db, init_db  # NoQA
 
 def create_app(config):
     """Initialize the core application."""
+    sentry_dsn = os.getenv("SENTRY_DSN")
+    if sentry_dsn:
+        sentry_sdk.init(
+            dsn=sentry_dsn,
+            integrations=[FlaskIntegration()]
+        )
 
     app = Flask(__name__)
 

@@ -21,6 +21,7 @@ python-dotenv = "*"
 flask-limiter = "*"
 flask-mail = "*"
 tabulate = "*"
+sentry-sdk = {extras = ["flask"],version = "==0.14.1"}
 
 [requires]
 python_version = "3.6"
