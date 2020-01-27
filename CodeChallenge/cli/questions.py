@@ -91,6 +91,9 @@ def q_replace(title, answer, rank, asset):
 def q_sync():
     """Sync with a public Google Sheets Spreadsheet"""
 
+    click.confirm("Are you sure you want to sync with the current database? "
+                  f"({db.engine.url.username}@{db.engine.url.host}/{db.engine.url.database})", abort=True)
+
     key = current_app.config.get("GOOGLE_API_KEY")
     file_id = current_app.config.get("SHEET_ID")
 
