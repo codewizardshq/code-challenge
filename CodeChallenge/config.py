@@ -67,6 +67,8 @@ class ProductionConfig(DefaultConfig):
     ALLOW_RESET = os.getenv("ALLOW_RESET")
     EXTERNAL_URL = os.getenv("EXTERNAL_URL")
     SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    SHEET_ID = os.getenv("SHEET_ID")
 
 
 class DevelopmentConfig(ProductionConfig):
