@@ -157,7 +157,7 @@ def q_sync():
                 q.asset_ext = "." + content_type.split("/")[1]
             else:
                 errors.append(f"unknown content type for asset on rank {rank}. 'asset_ext' column will need to be set " 
-                              f"manually in table. (Content-Type: {r2.headers['content-type']!r}")
+                              f"manually in table. (Content-Type: {r2.headers['content-type']!r})")
 
     for message in errors:
         click.secho(message, fg="red")
