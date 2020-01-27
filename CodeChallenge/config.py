@@ -27,8 +27,22 @@ class DefaultConfig:
     MAIL_PASSWORD = ""
     MAIL_DEFAULT_SENDER = "CodeWizardsHQ <no-reply@codewizardshq.com>"
     MAIL_SUPPRESS_SEND = True
+    MG_PRIVATE_KEY = os.getenv("MG_PRIVATE_KEY")
+    MG_LIST = "codechallenge@school.codewizardshq.com"
+
+    # no trailing /
+    EXTERNAL_URL = "https://challenge.codewizardshq.com"
+
+    # this will not work out of box. a proper docker setup is required.
+    # the Docker image used for this is included but the architecture
+    # around it is closed source and part of the existing CWHQ platform.
+    SANDBOX_API_URL = "http://localhost:3000/"
 
     ALLOW_RESET = False
+
+    # number of days to leave CodeChallenge open
+    # past the final rank
+    CHALLENGE_ENDS = 1
 
     @property
     def ROOT_DIR(self):
@@ -45,18 +59,19 @@ class ProductionConfig(DefaultConfig):
     SECRET_KEY = os.getenv("SECRET_KEY")
     JWT_COOKIE_SECURE = True
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
+    CODE_CHALLENGE_START = 1579392000#os.getenv("CODE_CHALLENGE_START")
     MAIL_SUPPRESS_SEND = False
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800
     ALLOW_RESET = os.getenv("ALLOW_RESET")
+    EXTERNAL_URL = os.getenv("EXTERNAL_URL")
+    SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
 
 
 class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
-    #     SQLALCHEMY_DATABASE_URI = "mysql+mysqldb://codechallenge:cHALcw9Z0HqB2gD9B1Kkmy83GvTI19x0NzRNO3zqZhqbIKqY9P@learndb002.cm1f2l4z67tv.us-west-2.rds.amazonaws.com/code_challenge"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"

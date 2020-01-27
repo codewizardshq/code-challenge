@@ -12,6 +12,7 @@ from ..auth import (Users, hash_password, password_reset_token,
                     reset_password_from_token)
 from ..limiter import limiter
 from ..mail import mail
+from ..mailgun import mg_list_add
 from ..models import db
 
 bp = Blueprint("userapi", __name__, url_prefix="/api/v1/users")
@@ -59,10 +60,8 @@ def logout():
 
     return res, 200
 
-
 @bp.route("/register", methods=["POST"])
 def register():
-
     user_data = request.get_json()
     new_u = Users()
 
@@ -97,11 +96,41 @@ def register():
     new_u.studentfirstname = user_data.get("studentFirstName")
     new_u.studentlastname = user_data.get("studentLastName")
     new_u.dob = dob
+    new_u.student_email = user_data.get("studentEmail", None)
 
     new_u.active = True
 
     db.session.add(new_u)
     db.session.commit()
+
+    if current_app.config["MG_LIST"] \
+            and current_app.config["MG_PRIVATE_KEY"]:
+        # add parent to mailing list
+        mg_vars = dict(
+            codeChallengeUsername=new_u.username,
+            studentEmail=new_u.student_email,
+            studentFirstName=new_u.studentfirstname,
+            studentLastName=new_u.studentlastname,
+            studentName=f"{new_u.studentfirstname} {new_u.studentlastname}",
+            parentFirstName=new_u.parentfirstname,
+            parentLastName=new_u.parentlastname,
+            parentName=f"{new_u.parentfirstname} {new_u.parentlastname}",
+            userId=new_u.id,
+            studentDOB=new_u.dob,
+            type=""
+        )
+
+        mg_vars["type"] = "parent"
+        mg_list_add(new_u.parent_email,
+                    f"{new_u.parentfirstname} {new_u.parentlastname}",
+                    data=mg_vars)
+
+        # if provided, also add student to mailing list
+        if new_u.student_email:
+            mg_vars["type"] = "student"
+            mg_list_add(new_u.student_email,
+                        f"{new_u.studentfirstname} {new_u.studentlastname}",
+                        data=mg_vars)
 
     return jsonify({"status": "success"})
 
@@ -125,40 +154,45 @@ def hello_protected():
 @bp.route("/forgot", methods=["POST"])
 @limiter.limit("3 per hour", key_func=get_remote_address)
 def forgot_password():
-
     data = request.get_json()
     email = data.get("email")
     if email is None:
         return jsonify(status="error", reason="email missing"), 400
 
-    user = Users.query.filter_by(parent_email=email).first()
+    users = Users.query.filter_by(parent_email=email).all()
 
-    if user is None:
+    if users is None or len(users) == 0:
         return jsonify(status="error",
                        reason="no account with that email"), 400
 
-    token = password_reset_token(user)
+    for user in users:
+        token = password_reset_token(user)
+        msg = Message(subject="Password Reset",
+                      body="You are receiving this message because a password "
+                           "reset request has been issued for your account. If you "
+                           "did not make this request, you can ignore this email. "
+                           "To reset your password, use this link within 24 hours. "
+                           f"\n\n{current_app.config['EXTERNAL_URL']}/reset-password?token={token}"
+                           f"\n\nAccount Username: {user.username}",
+                      recipients=[user.parent_email])
 
-    msg = Message(subject="Password Reset",
-                  body="You are receiving this message because a password "
-                  "reset request has been issued for your account. If you "
-                  "did not make this request, you can ignore this email. "
-                  "To reset your password, use this link within 24 hours. "
-                  f"https://www.hackcwhq.com/reset-password?token={token}",
-                  recipients=[user.parent_email])
+        if current_app.config.get("TESTING", False):
+            msg.extra_headers = {"X-Password-Reset-Token": token}
 
-    if current_app.config.get("TESTING", False):
-        msg.extra_headers = {"X-Password-Reset-Token": token}
+        if len(users) > 1:
+            msg.body += "\n\nNOTICE: Your email address matched multiple " \
+                        "student accounts. Double check to make sure you " \
+                        "are resetting the intended account, as an email " \
+                        "was sent for all matching accounts."
 
-    mail.send(msg)
+        mail.send(msg)
 
-    return jsonify(status="success", reason="password reset email sent")
+    return jsonify(status="success", reason="password reset email sent", multiple=len(users) > 1)
 
 
 @bp.route("/reset-password", methods=["POST"])
 @limiter.limit("3 per hour", key_func=get_remote_address)
 def reset_password():
-
     data = request.get_json()
     password = data.get("password")
     token = data.get("token")
