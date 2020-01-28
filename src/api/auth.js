@@ -74,6 +74,14 @@ function currentUser() {
   return { ...state };
 }
 
+async function forgotPassword(email) {
+  return await request(routes.userapi_forgot_password, { data: { email } }, false);
+}
+
+async function resetPassword(token, password) {
+  return await request(routes.userapi_reset_password, { data: { token, password } }, false)
+}
+
 export default {
   logout,
   login,
@@ -82,5 +90,7 @@ export default {
   createAccount,
   currentUser,
   onAuthStateChange,
-  offAuthStateChange
+  offAuthStateChange,
+  forgotPassword,
+  resetPassword
 };

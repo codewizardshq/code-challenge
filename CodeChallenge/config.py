@@ -20,7 +20,7 @@ class DefaultConfig:
     CODE_CHALLENGE_START = ""
     RATELIMIT_HEADERS_ENABLED = True
 
-    MAIL_SERVER = "localhost"
+    MAIL_SERVER = "smtp.mailgun.org"
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = ""
@@ -72,6 +72,7 @@ class ProductionConfig(DefaultConfig):
 
 
 class DevelopmentConfig(ProductionConfig):
+    EXTERNAL_URL = "http://localhost:8080"
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False
