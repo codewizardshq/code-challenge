@@ -14,8 +14,19 @@ Vue.config.productionTip = false;
     store.dispatch("User/refresh");
   });
 
-  await auth.autoLogin();
-  await store.dispatch('Quiz/refresh');
+
+  try {
+    await auth.autoLogin();
+  } catch (err) {
+    console.error("Was unable to authenticate user");
+  }
+
+  try {
+    await store.dispatch('Quiz/refresh');
+  } catch (err) {
+    console.error("Was unable to refresh question status", err.message);
+    console.log(JSON.stringify(err));
+  }
 
   new Vue({
     router,

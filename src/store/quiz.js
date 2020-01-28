@@ -40,6 +40,7 @@ function getDefaultState() {
     hints: ["", ""],
     wrongCount: !!localStorage.getItem("wrongCount") ? parseInt(localStorage.getItem("wrongCount")) : 0,
     quizHasStarted: false,
+    quizHasEnded: false,
     awaitNextQuestion: false
   };
 }
@@ -78,6 +79,10 @@ const actions = {
       commit("quizHasStarted", true);
       commit("rank", rank.rank);
     } catch (err) {
+      if (err.status === 403) {
+        commit("quizHasEnded", true);
+        return;
+      }
       throw new Error(err);
     }
 
@@ -149,6 +154,9 @@ const mutations = {
   },
   isLastQuestion(state, value) {
     state.isLastQuestion = value;
+  },
+  quizHasEnded(state, value) {
+    state.quizHasEnded = value;
   }
 };
 

@@ -45,9 +45,6 @@ export default {
 		...User.mapState(),
 		...Quiz.mapState()
 	},
-	mounted() {
-		console.log(this.Quiz.quizStartedMoment.fromNow());
-	},
 	methods: {
 		async onClick() {
 			await this.$store.dispatch("Quiz/markAsSeen");

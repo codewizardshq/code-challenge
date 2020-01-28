@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {auth} from "@/api";
+import { auth } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -68,6 +68,11 @@ const routes = [
     beforeEnter: async (to, from, next) => {
       await store.dispatch("Quiz/refresh");
 
+      if (store.state.Quiz.quizHasEnded) {
+        next({ name: 'quiz-finished' });
+        return;
+      }
+
       if (!store.state.Quiz.quizHasStarted) {
         // quiz has not started
         next({ name: 'quiz-countdown' });
@@ -105,7 +110,7 @@ const routes = [
     beforeEnter: async (to, from, next) => {
       await store.dispatch("Quiz/refresh");
 
-      if (store.state.Quiz.quizHasStarted && !store.state.Quiz.awaitNextQuestion) {
+      if ((store.state.Quiz.quizHasEnded || store.state.Quiz.quizHasStarted) && !store.state.Quiz.awaitNextQuestion) {
         // quiz has not started
         next({ name: 'quiz' });
         return;
@@ -113,6 +118,11 @@ const routes = [
 
       next();
     }
+  },
+  {
+    path: "/quiz/finished",
+    name: "quiz-finished",
+    component: () => import("@/views/Quiz/QuizFinished")
   },
   {
     path: "/quiz/final",

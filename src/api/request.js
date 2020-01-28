@@ -9,7 +9,7 @@ export default async function request(route, options = {}, tryRefresh = true) {
       url: route.path,
       ...options
     });
-    
+
     return {
       ...response.data,
       headers: response.headers
@@ -29,6 +29,7 @@ export default async function request(route, options = {}, tryRefresh = true) {
     //   return request(route, options, false);
     // }
     // return original error
+    // console.log()
     return Promise.reject({
       status: err.response.status,
       headers: err.response.headers,
