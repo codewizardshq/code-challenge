@@ -6,7 +6,7 @@
     :height="60"
     :max-height="60"
   >
-    <div class="quiz-bar-rank" v-show="User.auth">
+    <div class="quiz-bar-rank" v-show="User.isAuthorized">
       <div class="level-display">Level</div>
       <div class="rank">{{ User.rank }}</div>
     </div>

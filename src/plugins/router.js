@@ -36,7 +36,7 @@ const routes = [
     path: "/logout",
     name: "logout",
     beforeEnter(to, from, next) {
-      auth.logout().then(() => next({ name: "home" }));
+      auth.logout().then(() => next({ name: "login" }));
     },
     meta: {
       secured: true
@@ -57,6 +57,17 @@ const routes = [
     meta: {
       secured: true
     }
+  },
+  {
+    path: "/voting",
+    name: "voting",
+    component: () => import("@/views/Voting/Ballot.vue")
+  },
+  {
+    // dev only
+    path: "/leader-board",
+    name: "leader-board",
+    component: () => import("@/views/Voting/Leaderboard.vue")
   },
   {
     path: "/quiz",
