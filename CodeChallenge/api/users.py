@@ -172,7 +172,7 @@ def forgot_password():
                            "reset request has been issued for your account. If you "
                            "did not make this request, you can ignore this email. "
                            "To reset your password, use this link within 24 hours. "
-                           f"\n\n{current_app.config['EXTERNAL_URL']}/reset-password?token={token}"
+                           f"\n\n{current_app.config['EXTERNAL_URL']}/reset-password/{token}"
                            f"\n\nAccount Username: {user.username}",
                       recipients=[user.parent_email])
 
@@ -191,7 +191,7 @@ def forgot_password():
 
 
 @bp.route("/reset-password", methods=["POST"])
-@limiter.limit("3 per hour", key_func=get_remote_address)
+@limiter.limit("10 per hour", key_func=get_remote_address)
 def reset_password():
     data = request.get_json()
     password = data.get("password")
