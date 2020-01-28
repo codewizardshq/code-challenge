@@ -171,7 +171,7 @@ router.beforeEach((to, from, next) => {
   const requireAnon = to.matched.some(record => record.meta.anon);
 
   if (!isAuthenticated && requireAuth) {
-    next({ name: "home" });
+    next({ name: "register" });
     return;
   }
 

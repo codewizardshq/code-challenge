@@ -67,7 +67,6 @@ export default {
 		value(val) {
 			if (this.code !== val) {
 				this.code = val;
-				console.log("Update");
 			}
 		},
 		code(val) {

@@ -24,8 +24,7 @@ Vue.config.productionTip = false;
   try {
     await store.dispatch('Quiz/refresh');
   } catch (err) {
-    console.error("Was unable to refresh question status", err.message);
-    console.log(JSON.stringify(err));
+    console.error("Was unable to refresh question status", err.reason);
   }
 
   new Vue({

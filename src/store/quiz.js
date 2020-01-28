@@ -65,7 +65,6 @@ const actions = {
       const rank = await quiz.getRank();
       commit("maxRank", rank.maxRank);
       commit("quizStartedMoment", moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z"));
-
       if (rank.rank < 0) {
         commit("quizHasStarted", false);
         commit("awaitNextQuestion", false);
