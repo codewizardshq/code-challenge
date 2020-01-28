@@ -20,7 +20,7 @@ class DefaultConfig:
     CODE_CHALLENGE_START = ""
     RATELIMIT_HEADERS_ENABLED = True
 
-    MAIL_SERVER = "localhost"
+    MAIL_SERVER = "smtp.mailgun.org"
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = ""
@@ -67,9 +67,12 @@ class ProductionConfig(DefaultConfig):
     ALLOW_RESET = os.getenv("ALLOW_RESET")
     EXTERNAL_URL = os.getenv("EXTERNAL_URL")
     SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    SHEET_ID = os.getenv("SHEET_ID")
 
 
 class DevelopmentConfig(ProductionConfig):
+    EXTERNAL_URL = "http://localhost:8080"
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False

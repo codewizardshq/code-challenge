@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { auth, quiz } from "@/api";
+import {auth} from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -22,7 +22,13 @@ const routes = [
     }
   },
   {
-    path: "/reset-password",
+    path: "/forgot-password",
+    name: "forgot-password",
+    component: () => import("@/views/ForgotPassword"),
+    meta: { anon: true }
+  },
+  {
+    path: "/reset-password/:token",
     name: "reset-password",
     component: () => import("@/views/ResetPassword")
   },
