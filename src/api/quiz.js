@@ -30,8 +30,7 @@ async function submitFinal(answer, language) {
       language
     }
   })
-  console.log(result);
-  return result.correct;
+  return result;
 }
 
 export default {

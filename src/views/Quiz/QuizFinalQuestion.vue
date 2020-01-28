@@ -9,6 +9,16 @@
 						<v-card-title>Code your answer!</v-card-title>
 
 						<v-form ref="form" @submit.prevent="submit">
+							<v-card-text v-if="!!errorMessage">
+								<v-alert prominent type="error" color="red darken-4">
+									<v-row align="center">
+										<v-col class="grow">{{errorMessage}}</v-col>
+										<v-col class="shrink">
+											<v-btn color="white" light @click="errorMessage = false">Dismiss</v-btn>
+										</v-col>
+									</v-row>
+								</v-alert>
+							</v-card-text>
 							<v-card-text>
 								<v-select v-bind="fields.language" v-model="fields.language.value" />
 								<code-editor
@@ -43,19 +53,21 @@ export default {
 		QuizNeedHelp
 	},
 	data() {
-		const jsCode = `function helloWorld(){
-  console.log("Hello World");
+		const jsCode = `function calculateAnswer(){
+  return 100;
 }
-helloWorld();`;
-		const pyCode = `def helloWorld():
-  print("Hello World")
+var output = calculateAnswer();`;
+		const pyCode = `def calculateAnswer():
+  return 100
 
-helloWorld()`;
+output = calculateAnswer()`;
 		return {
 			isLoading: false,
+			isSubmitting: false,
 			question: "",
 			rank: "",
 			asset: "",
+			errorMessage: false,
 			pyCode,
 			jsCode,
 			fields: {
@@ -97,10 +109,11 @@ helloWorld()`;
 			}
 			this.isSubmitting = true;
 			try {
-				const isCorrect = await api.quiz.submitFinal(
+				const response = await api.quiz.submitFinal(
 					this.fields.code.value,
 					this.fields.language.value === "javascript" ? "js" : "py"
 				);
+				const isCorrect = response.correct;
 
 				if (isCorrect) {
 					// await this.$store.dispatch("Quiz/clearWrongCount");
@@ -110,12 +123,12 @@ helloWorld()`;
 					// this.fields.answer.successMessages = ["Your answer was correct!"];
 					// this.fields.answer.success = true;
 				} else {
-					this.$store.dispatch("Quiz/addWrongCount");
-					this.$store.dispatch(
-						"Snackbar/showError",
-						"That answer was not correct"
-					);
-					this.fields.answer.errorMessages = ["That answer was not correct"];
+					if (!!response.js_error) {
+						this.errorMessage = response.js_error;
+					} else {
+						this.errorMessage =
+							"Hmmm.... Your code doesn't seem to generate the correct answer. Try again.";
+					}
 				}
 			} catch (err) {
 				if (err.status === 429) {
