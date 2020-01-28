@@ -228,6 +228,10 @@ def answer_eval():
 
     correct = str_cmp(eval_output, q.answer)
 
+    if request.json.get("checkOnly", False):
+        return jsonify(correct=correct,
+                       status="success")
+
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
     if ans is None:
