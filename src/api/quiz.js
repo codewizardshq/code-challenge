@@ -9,7 +9,6 @@ async function getRank() {
   return request(routes.questionsapi_get_rank);
 }
 
-
 async function resetRank() {
   await request(routes.questionsapi_rank_reset);
 }
@@ -30,7 +29,7 @@ async function submitFinal(answer, language, checkOnly) {
       text: answer,
       language
     }
-  })
+  });
   return result;
 }
 

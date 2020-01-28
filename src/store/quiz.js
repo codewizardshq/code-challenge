@@ -5,12 +5,12 @@ import moment from "moment";
 const moduleName = "Quiz";
 
 function parseDateResponse(dateResponse) {
-  const timeSplit = dateResponse.split(',');
+  const timeSplit = dateResponse.split(",");
   let daysString = "0 days";
   let timeString = "0:0:0";
 
   if (timeSplit.length == 1) {
-    // returning only timeString 
+    // returning only timeString
     timeString = timeSplit[0];
   } else if (timeSplit.length == 2) {
     // returning days and timeString
@@ -20,11 +20,15 @@ function parseDateResponse(dateResponse) {
     throw new Error("Unexpected error with time response");
   }
   const days = parseInt(daysString);
-  const time = timeString.split(':');
+  const time = timeString.split(":");
   const hours = time[0];
   const minutes = time[1];
   const seconds = time[2];
-  return moment().add(days, "days").add(hours, "hours").add(minutes, "minutes").add(seconds, "seconds");
+  return moment()
+    .add(days, "days")
+    .add(hours, "hours")
+    .add(minutes, "minutes")
+    .add(seconds, "seconds");
 }
 
 function getDefaultState() {
@@ -38,7 +42,9 @@ function getDefaultState() {
     maxRank: 0,
     isLastQuestion: false,
     hints: ["", ""],
-    wrongCount: !!localStorage.getItem("wrongCount") ? parseInt(localStorage.getItem("wrongCount")) : 0,
+    wrongCount: localStorage.getItem("wrongCount")
+      ? parseInt(localStorage.getItem("wrongCount"))
+      : 0,
     quizHasStarted: false,
     quizHasEnded: false,
     awaitNextQuestion: false
@@ -64,7 +70,10 @@ const actions = {
     try {
       const rank = await quiz.getRank();
       commit("maxRank", rank.maxRank);
-      commit("quizStartedMoment", moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z"));
+      commit(
+        "quizStartedMoment",
+        moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z")
+      );
       if (rank.rank < 0) {
         commit("quizHasStarted", false);
         commit("awaitNextQuestion", false);
@@ -72,7 +81,7 @@ const actions = {
         commit("asset", "");
         commit("rank", 0);
         commit("hints", ["", ""]);
-        commit("nextUnlockMoment", parseDateResponse(rank.timeUntilNextRank))
+        commit("nextUnlockMoment", parseDateResponse(rank.timeUntilNextRank));
         return;
       }
       commit("quizHasStarted", true);
@@ -85,7 +94,7 @@ const actions = {
       throw new Error(err);
     }
 
-    // get current question and see if question is even unlocked 
+    // get current question and see if question is even unlocked
     try {
       const response = await quiz.getQuestion();
       commit("awaitNextQuestion", false);
@@ -102,15 +111,17 @@ const actions = {
         commit("asset", "");
         commit("rank", 0);
         commit("hints", ["", ""]);
-        commit("nextUnlockMoment", parseDateResponse(err.data.timeUntilNextRank));
+        commit(
+          "nextUnlockMoment",
+          parseDateResponse(err.data.timeUntilNextRank)
+        );
       } else if (err.status === 401) {
         commit("question", "");
         commit("asset", "");
         commit("rank", 0);
         commit("hints", ["", ""]);
       } else {
-        console.error("An unexpected error occurred");
-        console.error(err);
+        return Promise.reject(err);
       }
     }
   }

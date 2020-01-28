@@ -79,11 +79,19 @@ function currentUser() {
 }
 
 async function forgotPassword(email) {
-  return await request(routes.userapi_forgot_password, { data: { email } }, false);
+  return await request(
+    routes.userapi_forgot_password,
+    { data: { email } },
+    false
+  );
 }
 
 async function resetPassword(token, password) {
-  return await request(routes.userapi_reset_password, { data: { token, password } }, false)
+  return await request(
+    routes.userapi_reset_password,
+    { data: { token, password } },
+    false
+  );
 }
 
 export default {

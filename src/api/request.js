@@ -1,7 +1,10 @@
 import axios from "axios";
-import routes from "./routes";
+// import routes from "./routes";
 
-export default async function request(route, options = {}, tryRefresh = true) {
+export default async function request(route, options = {}, _tryRefresh = true) {
+  if (_tryRefresh) {
+    // satisfy linter
+  }
   try {
     // attempt initial request and return great response
     const response = await axios({
@@ -13,7 +16,7 @@ export default async function request(route, options = {}, tryRefresh = true) {
     return {
       ...response.data,
       headers: response.headers
-    }
+    };
   } catch (err) {
     // console.log(err.response);
     // if (err.response.status == 401 && tryRefresh) {

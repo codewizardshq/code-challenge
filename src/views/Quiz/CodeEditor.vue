@@ -1,8 +1,8 @@
 <template>
-	<div class="codemirror">
-		<!-- codemirror -->
-		<codemirror v-model="code" :options="cmOption"></codemirror>
-	</div>
+  <div class="codemirror">
+    <!-- codemirror -->
+    <codemirror v-model="code" :options="cmOption"></codemirror>
+  </div>
 </template>
 
 <script>
@@ -48,37 +48,37 @@ import "codemirror/addon/fold/markdown-fold.js";
 import "codemirror/addon/fold/xml-fold.js";
 
 export default {
-	props: ["value", "language"],
-	computed: {
-		cmOption() {
-			return {
-				tabSize: 4,
-				foldGutter: true,
-				styleActiveLine: true,
-				lineNumbers: true,
-				line: true,
-				keyMap: "sublime",
-				mode: this.language,
-				theme: "base16-dark"
-			};
-		}
-	},
-	watch: {
-		value(val) {
-			if (this.code !== val) {
-				this.code = val;
-			}
-		},
-		code(val) {
-			if (this.value !== val) {
-				this.$emit("input", val);
-			}
-		}
-	},
-	data() {
-		return {
-			code: this.value
-		};
-	}
+  props: ["value", "language"],
+  computed: {
+    cmOption() {
+      return {
+        tabSize: 4,
+        foldGutter: true,
+        styleActiveLine: true,
+        lineNumbers: true,
+        line: true,
+        keyMap: "sublime",
+        mode: this.language,
+        theme: "base16-dark"
+      };
+    }
+  },
+  watch: {
+    value(val) {
+      if (this.code !== val) {
+        this.code = val;
+      }
+    },
+    code(val) {
+      if (this.value !== val) {
+        this.$emit("input", val);
+      }
+    }
+  },
+  data() {
+    return {
+      code: this.value
+    };
+  }
 };
 </script>

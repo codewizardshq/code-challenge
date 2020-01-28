@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { auth, quiz } from "@/api";
+import { auth } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -10,7 +10,7 @@ const routes = [
     path: "/home",
     name: "home",
     redirect: {
-      name: 'quiz'
+      name: "quiz"
     }
   },
   {
@@ -69,7 +69,7 @@ const routes = [
         return import("@/views/Quiz/QuizFinished");
       }
 
-      // CHALLENGE HAS NOT STARTED 
+      // CHALLENGE HAS NOT STARTED
       if (!store.state.Quiz.quizHasStarted) {
         return import("@/views/Quiz/QuizCountdown");
       }
@@ -84,7 +84,6 @@ const routes = [
         return import("@/views/Quiz/QuizCountdown");
       }
 
-
       // SHOW THE LAST QUESTION
       if (store.state.Quiz.isLastQuestion) {
         return import("@/views/Quiz/QuizFinalQuestion");
@@ -96,17 +95,17 @@ const routes = [
     beforeEnter(from, to, next) {
       // USER MUST SEE INTRO VIDEO
       if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
-        next({ name: 'quiz-intro' });
+        next({ name: "quiz-intro" });
       }
       next();
     },
     meta: {
       secured: true
-    },
+    }
   },
   {
-    path: '/quiz/intro',
-    name: 'quiz-intro',
+    path: "/quiz/intro",
+    name: "quiz-intro",
     component: () => import("@/views/Quiz/QuizIntro")
   },
   {
