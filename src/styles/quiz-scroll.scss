@@ -113,6 +113,13 @@ $left: -166px;
       color: #30231a !important;
       font-family: "Barrow2Light";
       letter-spacing: 2px;
+      text-align: left;
+      white-space: pre-wrap;
+
+      pre {
+        font-size: 18px;
+        white-space: pre-wrap;
+      }
     }
   }
 }
