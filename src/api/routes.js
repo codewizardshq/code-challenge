@@ -11,13 +11,15 @@ export default {
   userapi_login: route("/api/v1/users/token/auth", "POST"),
   userapi_logout: route("/api/v1/users/token/remove", "POST"),
   userapi_hello: route("/api/v1/users/hello", "GET"),
+  userapi_forgot: route("/api/v1/users/forgot", "POST"),
   userapi_refresh: route("/api/v1/users/token/refresh", "POST"),
   userapi_forgot_password: route("/api/v1/users/forgot", "POST"),
   userapi_reset_password: route("/api/v1/users/reset-password", "POST"),
   questionsapi_rank_reset: route("/api/v1/questions/reset", "DELETE"),
   questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
+  questionsapi_answer_final_question: route("/api/v1/questions/final", "POST"),
   questionsapi_get_rank: route("/api/v1/questions/rank", "GET"),
-  questions_api_next_question: route("/api/v1/questions/next", "GET"),
+  questions_api_next_question: route("/api/v1/questions/next", "GET")
 };
 
 // export default {

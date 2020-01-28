@@ -156,9 +156,17 @@ export default {
           rules: [v => !!v || "Please enter a date of birth"]
         },
         tos: {
-          label: "I agree to the Terms of Use",
+          label: "I agree to the Terms of Use and Privacy Policy",
           value: false,
-          rules: [v => !!v || "You must agree to the Terms of Use"]
+          rules: [
+            v => !!v || "You must agree to the Terms of Use and Privacy Policy"
+          ]
+        },
+        tos2: {
+          label:
+            "I agree to receive Code Challenge related updates and offers (you may unsubscribe at any time)",
+          value: false,
+          rules: [v => !!v || "You must agree to recieve e-mail"]
         }
       }
     };

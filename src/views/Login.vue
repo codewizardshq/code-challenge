@@ -43,9 +43,9 @@
 </template>
 
 <script>
-  import {auth} from "@/api";
+import { auth } from "@/api";
 
-  export default {
+export default {
   name: "login",
   methods: {
     async submit() {

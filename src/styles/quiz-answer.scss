@@ -8,6 +8,11 @@
     padding: 12px;
     z-index: 2;
 
+    .attempts-remaining{
+      text-align: center;
+      height: 100px;
+    }
+
     .v-btn {
       width: 100%;
       margin-top: 12px;

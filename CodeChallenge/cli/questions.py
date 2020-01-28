@@ -18,17 +18,21 @@ bp = Blueprint("questioncl", __name__, cli_group="q")
 @click.argument("answer")
 @click.argument("rank")
 @click.argument("asset")
-def q_add(title, answer, rank, asset):
+@click.argument("hint1")
+@click.argument("hint2")
+def q_add(title, answer, rank, asset, hint1, hint2):
     """Add a new question to the database
 
     TITLE is the text for the title of the question
     ANSWER is the answer stored only in the database
     RANK is the day rank the queestion should be revealed on
     ASSET is a path to a file to upload for a question
+    HINT1 is a hint string 
+    HINT2 is a hint string
     """
 
     asset = os.path.abspath(asset)
-    qid = add_question(title, answer, rank, asset)
+    qid = add_question(title, answer, rank, asset, hint1, hint2)
 
     click.echo(f"added question id {qid}")
 
@@ -66,7 +70,9 @@ def q_del(qid):
 @click.argument("answer")
 @click.argument("rank")
 @click.argument("asset")
-def q_replace(title, answer, rank, asset):
+@click.argument("hint1")
+@click.argument("hint2")
+def q_replace(title, answer, rank, asset, hint1, hint2):
     """Replace an existing rank's question.
 
     This basically deletes the previous rank then adds the new rank

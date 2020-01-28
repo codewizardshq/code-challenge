@@ -19,99 +19,93 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-spacer/>
+            <v-spacer />
             <v-btn color="secondary" type="submit" dark :disabled="isSubmitting"
-            >Send Reset Password Request
-            </v-btn
-            >
+              >Send Reset Password Request
+            </v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
     </v-col>
 
-    <v-dialog
-      v-model="multiple"
-      max-width="290"
-    >
+    <v-dialog v-model="multiple" max-width="290">
       <v-card>
         <v-card-title class="headline">Multiple Accounts</v-card-title>
         <v-card-text>
-          That email address is associated with multiple accounts.
-          Password reset emails have been sent for each account.
-          Double check the email body for the username so that you reset the intended account's password!
+          That email address is associated with multiple accounts. Password
+          reset emails have been sent for each account. Double check the email
+          body for the username so that you reset the intended account's
+          password!
         </v-card-text>
 
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn text color="green" @click="multiple = false">OK</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
   </v-row>
 </template>
 
 <script>
-  import {auth} from "@/api";
+import { auth } from "@/api";
 
-  export default {
-    name: "forgot-password",
-    methods: {
-      async submit() {
-        try {
-          let res = await auth.forgotPassword(this.fields.username.value);
-          this.multiple = res.multiple;
-          this.$store.dispatch(
-            "Snackbar/showInfo",
-            "A password reset link was sent to your email."
-          );
-        } catch (e) {
-          if (e.status === 400) {
-            this.$store.dispatch(
-              "Snackbar/showError",
-              "No accounts associated with that email address."
-            );
-            return;
-          }
-          if (e.status === 429) {
-            let totalSeconds = parseInt(e.headers["retry-after"]);
-            let hours = Math.floor(totalSeconds / 3600);
-            totalSeconds %= 3600;
-            let minutes = Math.floor(totalSeconds / 60);
-            let seconds = totalSeconds % 60;
-
-            this.$store.dispatch(
-              "Snackbar/showError",
-              `Reset attempts exceeded. Try again in ${hours} hours ${minutes} minutes ${seconds} seconds.`
-            );
-            return;
-          }
+export default {
+  name: "forgot-password",
+  methods: {
+    async submit() {
+      try {
+        let res = await auth.forgotPassword(this.fields.username.value);
+        this.multiple = res.multiple;
+        this.$store.dispatch(
+          "Snackbar/showInfo",
+          "A password reset link was sent to your email."
+        );
+      } catch (e) {
+        if (e.status === 400) {
           this.$store.dispatch(
             "Snackbar/showError",
-            "Request failed, try again."
+            "No accounts associated with that email address."
           );
+          return;
+        }
+        if (e.status === 429) {
+          let totalSeconds = parseInt(e.headers["retry-after"]);
+          let hours = Math.floor(totalSeconds / 3600);
+          totalSeconds %= 3600;
+          let minutes = Math.floor(totalSeconds / 60);
+          let seconds = totalSeconds % 60;
 
-          console.error(e);
+          this.$store.dispatch(
+            "Snackbar/showError",
+            `Reset attempts exceeded. Try again in ${hours} hours ${minutes} minutes ${seconds} seconds.`
+          );
+          return;
         }
-      },
-      validate() {
-        if (this.$refs.form.validate()) {
-          this.submit();
-        }
+        this.$store.dispatch(
+          "Snackbar/showError",
+          "Request failed, try again."
+        );
       }
     },
-    data() {
-      return {
-        isSubmitting: false,
-        multiple: false,
-        fields: {
-          username: {
-            label: "Parents E-mail",
-            type: "email",
-            rules: [v => !!v || "Please provide a valid e-mail address"]
-          }
-        }
-      };
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.submit();
+      }
     }
-  };
+  },
+  data() {
+    return {
+      isSubmitting: false,
+      multiple: false,
+      fields: {
+        username: {
+          label: "Parents E-mail",
+          type: "email",
+          rules: [v => !!v || "Please provide a valid e-mail address"]
+        }
+      }
+    };
+  }
+};
 </script>
