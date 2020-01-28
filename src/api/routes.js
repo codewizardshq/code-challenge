@@ -19,7 +19,11 @@ export default {
   questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
   questionsapi_answer_final_question: route("/api/v1/questions/final", "POST"),
   questionsapi_get_rank: route("/api/v1/questions/rank", "GET"),
-  questions_api_next_question: route("/api/v1/questions/next", "GET")
+  questions_api_next_question: route("/api/v1/questions/next", "GET"),
+  voting_check: route("/api/v1/vote/check", "GET"),
+  voting_ballot: route("/api/v1/vote/ballot", "GET"),
+  voting_cast: (id) => { return route(`/api/v1/vote/${id}/cast`, 'POST'); },
+  voting_confirm: route('/api/v1/vote/confirm', "POST")
 };
 
 // export default {
