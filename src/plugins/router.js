@@ -96,6 +96,7 @@ const routes = [
       // USER MUST SEE INTRO VIDEO
       if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
         next({ name: "quiz-intro" });
+        return;
       }
       next();
     },
