@@ -21,7 +21,7 @@
           </v-card-text>
 
           <v-card-text>
-            <router-link :to="{ name: 'reset-password' }"
+            <router-link :to="{ name: 'forgot-password' }"
               >Forgot your password?</router-link
             >
           </v-card-text>
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import { auth } from "@/api";
-export default {
+  import {auth} from "@/api";
+
+  export default {
   name: "login",
   methods: {
     async submit() {
