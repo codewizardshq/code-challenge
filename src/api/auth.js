@@ -43,6 +43,10 @@ async function createAccount(data) {
   await login(data.username, data.password, false);
 }
 
+async function requestPasswordReset(email) {
+  await request(routes.userapi_forgot, { data: { email } });
+}
+
 async function fetchState() {
   const userData = await request(routes.userapi_hello, {}, state.auth);
   await setState({
@@ -75,11 +79,19 @@ function currentUser() {
 }
 
 async function forgotPassword(email) {
-  return await request(routes.userapi_forgot_password, { data: { email } }, false);
+  return await request(
+    routes.userapi_forgot_password,
+    { data: { email } },
+    false
+  );
 }
 
 async function resetPassword(token, password) {
-  return await request(routes.userapi_reset_password, { data: { token, password } }, false)
+  return await request(
+    routes.userapi_reset_password,
+    { data: { token, password } },
+    false
+  );
 }
 
 export default {
@@ -89,6 +101,7 @@ export default {
   fetchState,
   createAccount,
   currentUser,
+  requestPasswordReset,
   onAuthStateChange,
   offAuthStateChange,
   forgotPassword,

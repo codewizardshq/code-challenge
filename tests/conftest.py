@@ -20,6 +20,7 @@ def client(app):
     app.config["MAIL_SUPPRESS_SEND"] = True
     app.config["CODE_CHALLENGE_START"] = time.time()
     app.config["SANDBOX_API_URL"] = os.getenv("SANDBOX_API_URL")
+    app.config["ANSWER_ATTEMPT_LIMIT"] = "3/minute"
 
     with app.test_client() as client:
         with app.app_context():
