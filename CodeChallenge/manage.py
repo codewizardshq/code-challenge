@@ -3,7 +3,7 @@ import os
 from .models import Question, db
 
 
-def add_question(title, answer, rank, asset, hint1, hint2) -> Question:
+def add_question(title, answer, rank, asset, hint1=None, hint2=None) -> Question:
 
     q = Question.query.filter_by(rank=rank).first()
 
