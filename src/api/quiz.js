@@ -23,9 +23,10 @@ async function submit(answer) {
   return result.correct;
 }
 
-async function submitFinal(answer, language) {
+async function submitFinal(answer, language, checkOnly) {
   const result = await request(routes.questionsapi_answer_final_question, {
     data: {
+      checkOnly,
       text: answer,
       language
     }

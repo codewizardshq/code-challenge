@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { auth } from "@/api";
+import { auth, quiz } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -61,95 +61,53 @@ const routes = [
   {
     path: "/quiz",
     name: "quiz",
-    component: () => import("@/views/Quiz/Quiz"),
-    meta: {
-      secured: true
-    },
-    beforeEnter: async (to, from, next) => {
+    component: async () => {
       await store.dispatch("Quiz/refresh");
 
+      // CHALLENGE IS OVER
       if (store.state.Quiz.quizHasEnded) {
-        next({ name: 'quiz-finished' });
-        return;
+        return import("@/views/Quiz/QuizFinished");
       }
 
+      // CHALLENGE HAS NOT STARTED 
       if (!store.state.Quiz.quizHasStarted) {
-        // quiz has not started
-        next({ name: 'quiz-countdown' });
-        return;
+        return import("@/views/Quiz/QuizCountdown");
       }
 
+      // USER HAS FINISHED QUIZ
+      if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+        return import("@/views/Quiz/QuizFinished");
+      }
+
+      // MUST WAIT FOR NEXT QUESTION
       if (store.state.Quiz.awaitNextQuestion) {
-        // next question is not unlocked
-        next({ name: 'quiz-countdown' });
-        return;
+        return import("@/views/Quiz/QuizCountdown");
       }
 
-      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 0) {
-        // user probably should see the intro video 
-        next({ name: "quiz-intro" });
-        return;
-      }
 
+      // SHOW THE LAST QUESTION
       if (store.state.Quiz.isLastQuestion) {
-        next({ name: 'quiz-final' });
-        return;
+        return import("@/views/Quiz/QuizFinalQuestion");
       }
 
-      // user is okay to take quiz 
+      // NORMAL QUIZ MODE
+      return import("@/views/Quiz/Quiz");
+    },
+    beforeEnter(from, to, next) {
+      // USER MUST SEE INTRO VIDEO
+      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
+        next({ name: 'quiz-intro' });
+      }
       next();
-    }
-  },
-  {
-    path: "/quiz/countdown",
-    name: "quiz-countdown",
-    component: () => import("@/views/Quiz/QuizCountdown"),
+    },
     meta: {
       secured: true
     },
-    beforeEnter: async (to, from, next) => {
-      await store.dispatch("Quiz/refresh");
-
-      if ((store.state.Quiz.quizHasEnded || store.state.Quiz.quizHasStarted) && !store.state.Quiz.awaitNextQuestion) {
-        // quiz has not started
-        next({ name: 'quiz' });
-        return;
-      }
-
-      next();
-    }
   },
   {
-    path: "/quiz/finished",
-    name: "quiz-finished",
-    component: () => import("@/views/Quiz/QuizFinished")
-  },
-  {
-    path: "/quiz/final",
-    name: "quiz-final",
-    component: () => import("@/views/Quiz/QuizFinalQuestion"),
-    meta: {
-      secured: true
-    },
-    beforeEnter: async (to, from, next) => {
-      await store.dispatch("Quiz/refresh");
-
-      if (!store.state.Quiz.isLastQuestion) {
-        // user is not on the last question
-        next({ name: 'quiz' });
-        return;
-      }
-
-      next();
-    }
-  },
-  {
-    path: "/quiz/intro",
-    name: "quiz-intro",
-    component: () => import("@/views/Quiz/QuizIntro"),
-    meta: {
-      secured: true
-    }
+    path: '/quiz/intro',
+    name: 'quiz-intro',
+    component: () => import("@/views/Quiz/QuizIntro")
   },
   {
     path: "*",

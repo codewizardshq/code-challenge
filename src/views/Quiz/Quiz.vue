@@ -1,5 +1,5 @@
 <template>
-	<div class="mt-6" v-if="!isLoading">
+	<div class="mt-6">
 		<v-row justify="center">
 			<quiz-scroll>
 				<template v-slot:title>Level {{ rank }}</template>
@@ -8,7 +8,7 @@
 					<div class="scroll-content" v-html="question" />
 				</template>
 			</quiz-scroll>
-			<quiz-answer :rank="rank" @next="onNext" :isLoading="isLoading" />
+			<quiz-answer :rank="rank" @next="onNext" />
 		</v-row>
 		<quiz-need-help />
 	</div>
@@ -30,37 +30,21 @@ export default {
 	},
 	data() {
 		return {
-			isLoading: false,
 			question: "",
 			rank: "",
 			asset: ""
 		};
 	},
-	async mounted() {
-		// document.getElementsByTagName("html")[0].style.overflowY = "hidden";
-		// window.scrollTo(0, 0);
-		await this.loadQuestion();
+	async created() {
+		this.question = this.Quiz.question;
+		this.rank = this.Quiz.rank;
+		this.asset = this.Quiz.asset;
 	},
 	methods: {
 		async onNext() {
-			await this.loadQuestion();
-		},
-		async loadQuestion() {
-			this.isLoading = true;
-			await this.$store.dispatch("Quiz/refresh");
-			if (this.Quiz.awaitNextQuestion) {
-				this.$router.push({ name: "quiz-countdown" });
-			} else {
-				this.question = this.Quiz.question;
-				this.rank = this.Quiz.rank;
-				this.asset = this.Quiz.asset;
-			}
-			this.isLoading = false;
+			this.$router.go();
 		}
 	},
-	// beforeDestroy() {
-	// 	// document.getElementsByTagName("html")[0].style.overflowY = "scroll";
-	// },
 	computed: {
 		...User.mapState(),
 		...Quiz.mapState()

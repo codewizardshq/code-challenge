@@ -87,12 +87,12 @@ import { User, Quiz } from "@/store";
 
 export default {
 	name: "quizAnswer",
-	props: ["isLoading", "rank"],
+	props: ["rank"],
 	computed: {
 		...Quiz.mapState(),
 		...User.mapState(),
 		isDisabled() {
-			return this.isSubmitting || this.isLoading || this.wasCorrect;
+			return this.isSubmitting || this.wasCorrect;
 		},
 		successMessage() {
 			return this.successMessages[
