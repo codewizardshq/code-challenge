@@ -6,7 +6,7 @@ async function getQuestion() {
 }
 
 async function getRank() {
-  return (await request(routes.questionsapi_get_rank)).rank;
+  return request(routes.questionsapi_get_rank);
 }
 
 async function resetRank() {
@@ -22,9 +22,21 @@ async function submit(answer) {
   return result.correct;
 }
 
+async function submitFinal(answer, language, checkOnly) {
+  const result = await request(routes.questionsapi_answer_final_question, {
+    data: {
+      checkOnly,
+      text: answer,
+      language
+    }
+  });
+  return result;
+}
+
 export default {
   getQuestion,
   submit,
+  submitFinal,
   getRank,
   resetRank
 };
