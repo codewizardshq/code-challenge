@@ -3,7 +3,7 @@ name: Beanstalk Deploy to Stage
 on:
   push:
     branches:
-      - master
+      - stage
 
 env:
   EB_ENV_NAME: code-challenge-stage
