@@ -84,4 +84,4 @@ class DevelopmentConfig(ProductionConfig):
 
     @property
     def DIST_DIR(self):
-        return os.path.join(self.ROOT_DIR, "public")
+        return os.path.join(self.ROOT_DIR, "dist")
