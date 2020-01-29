@@ -3,11 +3,10 @@ name: Beanstalk Deploy to Stage
 on:
   push:
     branches:
-      - stage
+      - master
 
 env:
   EB_ENV_NAME: code-challenge-stage
-  S3_BUCKET: hackcwhq.com
 
 jobs:
   deploy:
@@ -16,35 +15,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '3.6'
-        architecture: 'x64'
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.13.1'
-    - name: Install npm and yarn
-      run: |
-        npm install -g yarn
-        yarn install
-    - name: Build Vue with yarn
-      run: yarn build
-    - name: Install AWSCLI and AWSEBCLI
-      run: |
-        python -m pip install --upgrade pip
-        pip install awscli --upgrade
-        pip install awsebcli --upgrade
-    - name: Create ElasticBeanstalk configuration folder
-      run: mkdir .elasticbeanstalk
-    - name: Write AWS EB config from Secrets
-      run: printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
-    - name: Write AWS credentials from Secrets
-      run: |
-        mkdir ~/.aws/
-        echo -e "[default]\naws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials
-        echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
-    - name: Deploy
-      run: eb deploy ${{ env.EB_ENV_NAME }}
-    - name: Deploy frontend to S3
-      run: aws s3 sync dist/ s3://${{ env.S3_BUCKET }}
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.6'
+          architecture: 'x64'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.13.1'
+      - name: Install npm and yarn
+        run: |
+          npm install -g yarn
+          yarn install
+      - name: Build Vue with yarn
+        run: yarn build
+      - name: Install MySQL Client
+        run: sudo apt update && sudo apt install default-libmysqlclient-dev
+      - name: Install AWSCLI and AWSEBCLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U pipenv
+          pipenv --bare install
+          pipenv --bare run pip freeze > requirements.txt
+          pip install awscli --upgrade
+          pip install awsebcli --upgrade
+      - name: Create ElasticBeanstalk configuration folder
+        run: mkdir .elasticbeanstalk
+      - name: Write AWS EB config from Secrets
+        run: printf "%s" "${{ secrets.EB_CONFIG }}" > .elasticbeanstalk/config.yml
+      - name: Write AWS credentials from Secrets
+        run: |
+          mkdir ~/.aws/
+          echo -e "[default]\naws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials
+          echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
+      - name: Deploy
+        run: eb deploy ${{ env.EB_ENV_NAME }}
