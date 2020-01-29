@@ -1,14 +1,14 @@
 @import "./colors.scss";
 
-$width: 200px;
-$shieldHeight: 80px;
+$width: 100px;
+$shieldHeight: 50px;
 
 $border: none; //solid thin red;
 
 .quiz-bar-rank {
   position: absolute;
   width: $width;
-  top: 0;
+  top: 12px;
   left: 50%;
   margin-left: -$width/2;
   border: $border;
@@ -20,8 +20,9 @@ $border: none; //solid thin red;
     text-align: center;
     padding: 0;
     margin: 0;
-    line-height: 2.3em;
-    font-size: 2em;
+    top:15px;
+    line-height: $shieldHeight;
+    font-size: $shieldHeight / 2;
     font-family: "Barrow2Bold" !important;
 
     &:before {
@@ -41,12 +42,13 @@ $border: none; //solid thin red;
 
   .level-display {
     border: $border;
-    position: relative;
+    position: absolute;
+    top: -10px;
     width: 100%;
     text-align: center;
     padding: 0;
     margin: 0;
-    font-size: 1.6em;
+    font-size: 18px;
     font-family: "Barrow2Bold" !important;
   }
 

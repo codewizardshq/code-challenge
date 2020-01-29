@@ -1,0 +1,64 @@
+.leaderboard-bar {
+  background-color: #fff;
+  $height: 40px;
+
+  .lb-item {
+    color: #333;
+    display: inline-block;
+    padding: 5px 4px;
+    margin-left: 15px;
+    margin-right: 15px;
+    height: $height;
+    position: relative;
+
+    img.rank {
+      height: $height;
+      display: inline-block;
+      position: relative;
+      margin-right: 12px;
+    }
+
+    div.rank {
+      position: absolute;
+      height: $height;
+      width: 30px;
+      text-align: center;
+      top: 8px;
+      left: 3px;
+      color: $secondary;
+      font-family: "Barrow2Bold";
+    }
+
+    .display {
+      display: inline-block;
+      height: $height;
+      color: $dark;
+      margin-top: 5px;
+      font-family: "Barrow2Light";
+    }
+  }
+
+  .fade {
+    position: absolute;
+    width: 80px;
+    height: 100%;
+
+    background-image: linear-gradient(to right, rgba(253, 199, 67, 1), rgba(253, 199, 67, 1), rgba(253, 199, 67, 0));
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
+  .rotated-text {
+    position: absolute;
+    color: $dark;
+    z-index: 999999;
+    transform: rotate(-90deg);
+    font-size: 14px;
+    text-align: center;
+    height: 100%;
+    left: 10px;
+    font-family: "Barrow2Bold";
+    line-height: 13px;
+  }
+}

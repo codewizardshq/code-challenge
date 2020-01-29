@@ -22,6 +22,10 @@ async function submit(answer) {
   return result.correct;
 }
 
+async function getLeaderboard() {
+  return request(routes.questionsapi_leaderboard, { per: 1000000 });
+}
+
 async function submitFinal(answer, language, checkOnly) {
   const result = await request(routes.questionsapi_answer_final_question, {
     data: {
@@ -38,5 +42,6 @@ export default {
   submit,
   submitFinal,
   getRank,
-  resetRank
+  resetRank,
+  getLeaderboard
 };
