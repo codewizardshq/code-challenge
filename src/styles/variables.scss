@@ -1,9 +1,9 @@
 // https://vuetifyjs.com/en/customization/sass-variables
 @import "./fonts.scss";
-@import "./colors.scss";
+// @import "./colors.scss";
 $body-font-family: "Barrow2Light";
 $heading-font-family: "buWicked";
 
 @import "v-card.scss";
 // $border-radius-root: 6px;
-// $font-size-root: 20px;
+$font-size-root: 20px;
