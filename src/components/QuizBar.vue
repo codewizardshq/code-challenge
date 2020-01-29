@@ -28,9 +28,9 @@
 							<a href="#" v-on="menu">Get Help</a>
 						</template>
 						<v-list class="list">
-							<v-list-item :to="{ name: 'faq' }">
+							<!-- <v-list-item :to="{ name: 'faq' }">
 								<v-list-item-title>Check The FAQ</v-list-item-title>
-							</v-list-item>
+							</v-list-item> -->
 							<v-list-item href="https://discord.gg/fDWbCj9" target="_blank">
 								<v-list-item-title>Get Help On Discord</v-list-item-title>
 							</v-list-item>
