@@ -48,10 +48,21 @@ def get_contestants():
 
     contestants = []
     for ans in p.items:  # type: Answer
+
+        display = None
+        if ans.user.studentfirstname \
+                and ans.user.studentlastname:
+            display = f"{ans.user.studentfirstname} " \
+                      f"{ans.user.studentlastname[0]}."
+
         contestants.append(dict(
             id=ans.id,
             text=ans.text,
             numVotes=len(ans.votes),
+            firstName=ans.user.studentfirstname,
+            lastName=ans.user.studentlastname,
+            username=ans.user.username,
+            display=display
         ))
 
     return jsonify(

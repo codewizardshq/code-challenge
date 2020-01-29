@@ -36,6 +36,7 @@ class Answer(db.Model):
     text = db.Column(db.String(2000))
     correct = db.Column(db.Boolean)
     question = db.relationship("Question", lazy=True, uselist=False)
+    user = db.relationship("Users", lazy=True, uselist=False)
     votes = db.relationship("Vote", cascade="all,delete",
                             lazy=True, uselist=True)
 
