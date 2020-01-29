@@ -4,9 +4,9 @@
 		<app-bar />
 		<quiz-bar />
 		<v-content>
-			<v-container>
+			<!-- <v-container> -->
 				<router-view />
-			</v-container>
+			<!-- </v-container> -->
 		</v-content>
 		<leaderboard-bar />
 		<snackbar />

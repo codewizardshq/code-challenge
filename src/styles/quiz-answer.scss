@@ -1,64 +1,91 @@
 .quiz-answer {
   .v-card {
-    background: url("/images/answer-area-bg.png") no-repeat;
+    background: url("/images/blue-answer-box-bg.png") no-repeat;
     background-size: 100% 100%;
     background-repeat: none;
-    width: 420px;
+    width: 500px;
     margin-top: 200px;
     padding: 12px;
     z-index: 2;
+    margin-bottom: 300px;
 
-    .attempts-remaining{
+    .attempts-remaining {
       text-align: center;
       height: 100px;
     }
 
     .v-btn {
       width: 100%;
-      margin-top: 12px;
       color: $dark;
       font-family: "Barrow2Bold";
-      font-size: 30px;
+      font-size: 40px;
       letter-spacing: 12px;
+      height: 80px;
+      margin-top: 12px;
     }
 
     .v-form {
-      margin-top: 140px;
+      margin-top: 20px;
+      .text-field {
+        margin-bottom: 40px;
+        background-color: #dbe6ea;
+        opacity: 0.8;
+        padding-top: 20px;
+        border: solid thick $primary;
 
-      .v-input {
-        height: 90px;
-        z-index: 10;
-        position: relative;
-        margin: 0;
-        padding: 0;
-
-        .v-input__control {
-          padding-left: 20px;
-          margin: 0;
-          padding-right: 20px;
+        .theme--dark.v-label {
+          color: #031e41 !important;
         }
 
-        &:before {
-          content: "";
-          position: absolute;
-          background: url("/images/answer-box.png") no-repeat;
-          background-size: 100% 100%;
-          background-repeat: none;
-          background-position-x: center;
-          background-position-y: center;
-          width: 100%;
-          height: 100%;
-          top: -25px;
+        .theme--dark.v-label.primary-text {
+          color: #031e41 !important;
+        }
+        input {
+          color: #031e41 !important;
+        }
+
+        .v-input {
+          z-index: 10;
+          position: relative;
+          margin: 0;
+          padding: 0;
+          caret-color: #031e41 !important;
+          color: #031e41 !important;
+
+          .v-input__slot {
+            &:before {
+              border-style: none;
+            }
+          }
+
+          .v-input__control {
+            padding-left: 20px;
+            margin: 0;
+            padding-right: 20px;
+          }
+
+          &:before {
+            content: "";
+            position: absolute;
+            // background: url("/images/answer-box.png") no-repeat;
+            background-size: 100% 100%;
+            background-repeat: none;
+            background-position-x: center;
+            background-position-y: center;
+            width: 100%;
+            height: 100%;
+            top: -25px;
+          }
         }
       }
     }
 
     img {
-      top: -140px;
+      top: -200px;
       position: absolute;
-      width: 100%;
+      width: 400px;
       height: auto;
-      left: 32px;
+      left: 100px;
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
     }

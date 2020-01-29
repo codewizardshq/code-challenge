@@ -35,8 +35,10 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
-      auth.logout().then(() => next({ name: "login" }));
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/reset");
+      await auth.logout();
+      next({ name: "login" });
     },
     meta: {
       secured: true
@@ -73,33 +75,39 @@ const routes = [
     path: "/quiz",
     name: "quiz",
     component: async () => {
+      console.log("Start");
       await store.dispatch("Quiz/refresh");
 
       // CHALLENGE IS OVER
       if (store.state.Quiz.quizHasEnded) {
+        console.log("Ended");
         return import("@/views/Quiz/QuizFinished");
       }
 
       // CHALLENGE HAS NOT STARTED
       if (!store.state.Quiz.quizHasStarted) {
+        console.log("Not started");
         return import("@/views/Quiz/QuizCountdown");
       }
 
       // USER HAS FINISHED QUIZ
+      console.log(store.state.Quiz.maxRank, store.state.User.rank - 1);
       if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+        console.log("Has finished");
         return import("@/views/Quiz/QuizFinished");
       }
 
       // MUST WAIT FOR NEXT QUESTION
       if (store.state.Quiz.awaitNextQuestion) {
+        console.log("Must await");
         return import("@/views/Quiz/QuizCountdown");
       }
 
       // SHOW THE LAST QUESTION
       if (store.state.Quiz.isLastQuestion) {
+        console.log("Last question");
         return import("@/views/Quiz/QuizFinalQuestion");
       }
-
       // NORMAL QUIZ MODE
       return import("@/views/Quiz/Quiz");
     },
@@ -118,7 +126,11 @@ const routes = [
   {
     path: "/quiz/intro",
     name: "quiz-intro",
-    component: () => import("@/views/Quiz/QuizIntro")
+    component: () => import("@/views/Quiz/QuizIntro"),
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/refresh");
+      next();
+    }
   },
   {
     path: "*",

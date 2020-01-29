@@ -1,41 +1,43 @@
 <template>
-	<v-row align="center" justify="center">
-		<v-col cols="12" lg="10">
-			<page-card>
-				<template #title>
-					<v-toolbar-title>Create Your Account</v-toolbar-title>
-				</template>
+	<v-container>
+		<v-row align="center" justify="center">
+			<v-col cols="12" lg="10">
+				<page-card>
+					<template #title>
+						<v-toolbar-title>Create Your Account</v-toolbar-title>
+					</template>
 
-				<v-stepper v-model="stepperIndex">
-					<v-stepper-header class="elevation-0">
-						<v-stepper-step color="button" :complete="stepperIndex > 1" step="1">Account Details</v-stepper-step>
+					<v-stepper v-model="stepperIndex">
+						<v-stepper-header class="elevation-0">
+							<v-stepper-step color="button" :complete="stepperIndex > 1" step="1">Account Details</v-stepper-step>
 
-						<v-divider></v-divider>
+							<v-divider></v-divider>
 
-						<v-stepper-step color="button" :complete="stepperIndex > 2" step="2">Student Details</v-stepper-step>
+							<v-stepper-step color="button" :complete="stepperIndex > 2" step="2">Student Details</v-stepper-step>
 
-						<v-divider></v-divider>
+							<v-divider></v-divider>
 
-						<v-stepper-step color="button" step="3">Terms Of Use</v-stepper-step>
-					</v-stepper-header>
+							<v-stepper-step color="button" step="3">Terms Of Use</v-stepper-step>
+						</v-stepper-header>
 
-					<v-stepper-items>
-						<v-stepper-content step="1">
-							<step-1 :fields="fields" @submit="submit1" />
-						</v-stepper-content>
+						<v-stepper-items>
+							<v-stepper-content step="1">
+								<step-1 :fields="fields" @submit="submit1" />
+							</v-stepper-content>
 
-						<v-stepper-content step="2">
-							<step-2 :fields="fields" @back="back" @submit="submit2" />
-						</v-stepper-content>
+							<v-stepper-content step="2">
+								<step-2 :fields="fields" @back="back" @submit="submit2" />
+							</v-stepper-content>
 
-						<v-stepper-content step="3">
-							<step-3 :fields="fields" @back="back" @submit="submit3" />
-						</v-stepper-content>
-					</v-stepper-items>
-				</v-stepper>
-			</page-card>
-		</v-col>
-	</v-row>
+							<v-stepper-content step="3">
+								<step-3 :fields="fields" @back="back" @submit="submit3" />
+							</v-stepper-content>
+						</v-stepper-items>
+					</v-stepper>
+				</page-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>

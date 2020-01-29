@@ -1,39 +1,41 @@
 <template>
-	<v-row align="center" justify="center">
-		<v-col cols="12" sm="12" md="7">
-			<page-card flat class="mt-12">
-				<template #title>
-					<v-toolbar-title>Password reset form</v-toolbar-title>
-				</template>
-				<v-card-text>
-					<form-alert :message="errorMessage" @dismiss="errorMessage=false" />
-				</v-card-text>
-				<v-form @submit.prevent="validate" ref="form">
+	<v-container>
+		<v-row align="center" justify="center">
+			<v-col cols="12" sm="12" md="7">
+				<page-card flat class="mt-12">
+					<template #title>
+						<v-toolbar-title>Password reset form</v-toolbar-title>
+					</template>
 					<v-card-text>
-						<p>Create a new password.</p>
-
-						<v-text-field
-							color="input"
-							v-bind="fields.password"
-							v-model="fields.password.value"
-							:disabled="isSubmitting"
-						/>
-						<v-text-field
-							color="input"
-							v-bind="fields.passwordConfirm"
-							v-model="fields.passwordConfirm.value"
-							:disabled="isSubmitting"
-						/>
+						<form-alert :message="errorMessage" @dismiss="errorMessage=false" />
 					</v-card-text>
+					<v-form @submit.prevent="validate" ref="form">
+						<v-card-text>
+							<p>Create a new password.</p>
 
-					<v-card-actions>
-						<v-spacer />
-						<v-btn color="button" type="submit" dark :disabled="isSubmitting">Reset Password</v-btn>
-					</v-card-actions>
-				</v-form>
-			</page-card>
-		</v-col>
-	</v-row>
+							<v-text-field
+								color="input"
+								v-bind="fields.password"
+								v-model="fields.password.value"
+								:disabled="isSubmitting"
+							/>
+							<v-text-field
+								color="input"
+								v-bind="fields.passwordConfirm"
+								v-model="fields.passwordConfirm.value"
+								:disabled="isSubmitting"
+							/>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-spacer />
+							<v-btn color="button" type="submit" dark :disabled="isSubmitting">Reset Password</v-btn>
+						</v-card-actions>
+					</v-form>
+				</page-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>

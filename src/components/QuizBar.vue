@@ -20,10 +20,6 @@
 				</v-col>
 
 				<v-col class="text-right">
-					<!-- <router-link v-if="!User.isAuthorized" :to="{name:'register'}">Create Account</router-link> -->
-
-					<router-link :to="{ name: 'quiz' }" v-if="User.isAuthorized">Quiz</router-link>
-
 					<help-pop-over>
 						<template v-slot:default="{ on }">
 							<a v-on="on">Get Help</a>

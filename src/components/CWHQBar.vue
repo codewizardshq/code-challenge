@@ -2,9 +2,9 @@
 	<v-toolbar class="cwhq-bar" :height="height" :max-height="height">
 		<v-container>
 			<v-spacer />
-			<a href="#">Student Login</a>
-			<a href="#">Parent Login</a>
-			<a href="#">Student Center</a>
+			<a href="https://username.codewizardshq.com/edit/">Student Login</a>
+			<a href="https://username.codewizardshq.com/edit/">Parent Login</a>
+			<a href="https://codewizardshq.com/students/">Student Center</a>
 		</v-container>
 	</v-toolbar>
 </template>
