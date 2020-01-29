@@ -1,9 +1,8 @@
 /**
  * Randomly shuffle an array
  * https://stackoverflow.com/a/2450976/1293256
-*/
+ */
 export function shuffle(array) {
-
   var currentIndex = array.length;
   var temporaryValue, randomIndex;
 
@@ -20,5 +19,4 @@ export function shuffle(array) {
   }
 
   return array;
-
-};
+}

@@ -1,16 +1,16 @@
 <template>
-	<v-app>
-		<CWHQ-bar />
-		<app-bar />
-		<quiz-bar />
-		<v-content>
-			<!-- <v-container> -->
-				<router-view />
-			<!-- </v-container> -->
-		</v-content>
-		<leaderboard-bar />
-		<snackbar />
-	</v-app>
+  <v-app>
+    <CWHQ-bar />
+    <app-bar />
+    <quiz-bar />
+    <v-content>
+      <!-- <v-container> -->
+      <router-view />
+      <!-- </v-container> -->
+    </v-content>
+    <leaderboard-bar />
+    <snackbar />
+  </v-app>
 </template>
 
 <script>
@@ -21,13 +21,13 @@ import CWHQBar from "@/components/CWHQBar";
 import LeaderboardBar from "@/components/LeaderboardBar";
 
 export default {
-	name: "App",
-	components: {
-		AppBar,
-		QuizBar,
-		Snackbar,
-		CWHQBar,
-		LeaderboardBar
-	}
+  name: "App",
+  components: {
+    AppBar,
+    QuizBar,
+    Snackbar,
+    CWHQBar,
+    LeaderboardBar
+  }
 };
 </script>
