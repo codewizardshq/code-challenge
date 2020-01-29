@@ -31,6 +31,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "js-yaml": "^3.13.1",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
     "sass": "^1.19.0",
