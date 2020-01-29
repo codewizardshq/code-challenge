@@ -1,4 +1,5 @@
 import os
+import re
 
 import sentry_sdk
 from flask import Flask, jsonify, make_response, send_from_directory
@@ -22,6 +23,7 @@ from .mail import mail
 from .manage import add_question, del_question  # NoQA
 from .models import db, init_db  # NoQA
 
+STATIC_FILES = re.compile(r"\.(ico|png|xml|json)$")
 
 # Globally accessible libraries
 
@@ -97,7 +99,7 @@ def create_app(config):
     @app.route("/<path:path>")
     def catch_all(path):
 
-        if path.endswith(".png") or path.endswith(".json"):
+        if STATIC_FILES.search(path):
             return send_from_directory(app.config["DIST_DIR"], path)
 
         return send_from_directory(app.config["DIST_DIR"], "index.html")

@@ -73,8 +73,8 @@ class ProductionConfig(DefaultConfig):
 
 class DevelopmentConfig(ProductionConfig):
     EXTERNAL_URL = "http://localhost:8080"
-    SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
-                              "/code_challenge_local"
+    #SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
+    #                          "/code_challenge_local"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
     JWT_SECRET_KEY = "SuperSecret"
@@ -84,4 +84,4 @@ class DevelopmentConfig(ProductionConfig):
 
     @property
     def DIST_DIR(self):
-        return os.path.join(self.ROOT_DIR, "public")
+        return os.path.join(self.ROOT_DIR, "dist")
