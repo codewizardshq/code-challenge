@@ -209,3 +209,11 @@ def reset_password():
         return json_error("password reset failed")
 
     return jsonify(status="success", reason="password reset successfully")
+
+
+@bp.route("/<string:username>/exists", methods=["GET"])
+def username_exists(username):
+    exists = Users.query.filter_by(username=username).first() is not None
+    return jsonify(status="success",
+                   exists=exists,
+                   username=username)

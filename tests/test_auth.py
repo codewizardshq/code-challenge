@@ -97,3 +97,16 @@ def test_forgot_password(client, app):
         ))
 
         assert retval.status_code == 200
+
+
+def test_user_exists(client):
+
+    rv = client.get("/api/v1/users/cwhqsam/exists")
+    assert rv.status_code == 200
+    assert rv.json["exists"] is True
+    assert rv.json["username"] == "cwhqsam"
+
+    rv2 = client.get("/api/v1/users/foobar/exists")
+    assert rv2.status_code == 200
+    assert rv2.json["username"] == "foobar"
+    assert rv2.json["exists"] is False

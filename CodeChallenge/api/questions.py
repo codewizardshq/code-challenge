@@ -22,7 +22,7 @@ def json_error(reason, status=400):
 def end_code_challenge():
     if core.challenge_ended():
         r = jsonify(status="error",
-                    message="code challenge has ended")
+                    reason="code challenge has ended")
         r.status_code = 403
         abort(r)
 
@@ -84,7 +84,7 @@ def next_question():
 
 
 def answer_limit_attempts():
-    return current_app.config.get("ANSWER_ATTEMPT_LIMIT", "3 per 30 minutes")
+    return current_app.config.get("ANSWER_ATTEMPT_LIMIT", "1 per 1 minutes")
 
 
 @bp.route("/answer", methods=["POST"])
@@ -163,10 +163,10 @@ def reset_all():
 
         db.session.commit()
 
-        return jsonify(status="success", message="all answers and rank reset")
+        return jsonify(status="success", reason="all answers and rank reset")
 
     return jsonify(status="error",
-                   message="resetting not allowed at this time"), 403
+                   reason="resetting not allowed at this time"), 403
 
 
 @bp.route("/final", methods=["POST"])

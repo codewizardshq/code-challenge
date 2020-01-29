@@ -11,13 +11,22 @@ export default {
   userapi_login: route("/api/v1/users/token/auth", "POST"),
   userapi_logout: route("/api/v1/users/token/remove", "POST"),
   userapi_hello: route("/api/v1/users/hello", "GET"),
+  userapi_forgot: route("/api/v1/users/forgot", "POST"),
   userapi_refresh: route("/api/v1/users/token/refresh", "POST"),
   userapi_forgot_password: route("/api/v1/users/forgot", "POST"),
   userapi_reset_password: route("/api/v1/users/reset-password", "POST"),
   questionsapi_rank_reset: route("/api/v1/questions/reset", "DELETE"),
   questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
+  questionsapi_answer_final_question: route("/api/v1/questions/final", "POST"),
   questionsapi_get_rank: route("/api/v1/questions/rank", "GET"),
+  questionsapi_leaderboard: route("/api/v1/questions/leaderboard", "GET"),
   questions_api_next_question: route("/api/v1/questions/next", "GET"),
+  voting_check: route("/api/v1/vote/check", "GET"),
+  voting_ballot: route("/api/v1/vote/ballot", "GET"),
+  voting_cast: id => {
+    return route(`/api/v1/vote/${id}/cast`, "POST");
+  },
+  voting_confirm: route("/api/v1/vote/confirm", "POST")
 };
 
 // export default {

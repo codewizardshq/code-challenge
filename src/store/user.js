@@ -23,7 +23,7 @@ const state = {
 const actions = {
   async refresh({ commit }) {
     const user = api.auth.currentUser();
-
+    user.rank = user.rank + 1;
     if (user.auth) {
       commit("set", user);
     } else {

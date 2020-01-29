@@ -1,64 +1,77 @@
 <template>
   <v-toolbar
-    color="dark2 pl-3 pr-3"
+    color="dark2 quiz-bar"
     flat
     class="secondary--text"
     :height="60"
     :max-height="60"
   >
-    <div class="quiz-bar-rank" v-show="User.auth">
+    <div class="quiz-bar-rank" v-show="User.isAuthorized">
       <div class="level-display">Level</div>
       <div class="rank">{{ User.rank }}</div>
     </div>
+    <v-container>
+      <v-row>
+        <v-col>
+          <span v-if="User.isAuthorized" class="barrow-bold"
+            >Welcome pilgrim {{ User.displayName }}</span
+          >
 
-    <span v-if="User.isAuthorized" class="barrow-bold">
-      Welcome pilgrim {{ User.displayName }}
-    </span>
-    <v-btn
-      v-else
-      color="secondary"
-      text
-      x-large
-      active-class="none"
-      class="no-text-transform barrow-bold"
-      :to="{ name: 'register' }"
-    >
-      Start your journey
-    </v-btn>
-    <v-spacer />
-    <social-pop-over>
-      <template v-slot:default="{ on }">
-        <v-btn
-          text
-          x-large
-          active-class=""
-          color="secondary"
-          class="no-text-transform barrow-bold"
-          v-on="on"
-        >
-          Get your friends in on it
-          <v-img
-            class="ml-2 mb-2"
-            alt="Share Icon"
-            src="/images/shareicon.png"
-          />
-        </v-btn>
-      </template>
-    </social-pop-over>
+          <router-link
+            v-else
+            color="secondary"
+            text
+            x-large
+            active-class="none"
+            :to="{ name: 'register' }"
+            >Start your journey</router-link
+          >
+        </v-col>
+
+        <v-col class="text-right">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on: menu }">
+              <a href="#" v-on="menu">Get Help</a>
+            </template>
+            <v-list class="list">
+              <v-list-item :to="{ name: 'faq' }">
+                <v-list-item-title>Check The FAQ</v-list-item-title>
+              </v-list-item>
+              <v-list-item href="https://discord.gg/fDWbCj9" target="_blank">
+                <v-list-item-title>Get Help On Discord</v-list-item-title>
+              </v-list-item>
+              <v-list-item href="https://www.facebook.com" target="_blank">
+                <v-list-item-title>Get Help On Facebook</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+
+          <router-link v-if="!User.isAuthorized" :to="{ name: 'login' }"
+            >Sign In</router-link
+          >
+
+          <router-link v-if="User.isAuthorized" :to="{ name: 'logout' }"
+            >Sign Out</router-link
+          >
+        </v-col>
+      </v-row>
+    </v-container>
   </v-toolbar>
 </template>
 
 <script>
 import { User } from "@/store";
-import SocialPopOver from "./SocialPopOver";
 
 export default {
   name: "quizBar",
-  components: {
-    SocialPopOver
-  },
   computed: {
     ...User.mapState()
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.list {
+  padding: 20px;
+}
+</style>
