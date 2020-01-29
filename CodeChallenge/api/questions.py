@@ -20,7 +20,7 @@ def json_error(reason, status=400):
 
 @bp.before_request
 def end_code_challenge():
-    if core.challenge_ended():
+    if core.challenge_ended() and request.path != "/api/v1/questions/leaderboard":
         r = jsonify(status="error",
                     reason="code challenge has ended")
         r.status_code = 403
