@@ -1,7 +1,7 @@
 import os
 
 import sentry_sdk
-from flask import Flask, jsonify, make_response, send_from_directory, redirect
+from flask import Flask, jsonify, make_response, send_from_directory
 from flask_cors import CORS
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -93,24 +93,12 @@ def create_app(config):
     def send_assets(path):
         return send_from_directory("assets", path)
 
-    @app.route("/landing", defaults={"path": ""})
-    @app.route("/landing/<path:path>")
-    def send_landing(path):
-
-        # if core.current_rank() != -1:
-        #    return redirect("/")
-
-        if path:
-            return send_from_directory("../landing/", path)
-        return send_from_directory("../landing/", "index.html")
-
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def catch_all(path):
 
-        # show landing page
-        if core.current_rank() == -1 and (not path or path == "home"):
-            return redirect("/landing")
+        if path.endswith(".png") or path.endswith(".json"):
+            return send_from_directory(app.config["DIST_DIR"], path)
 
         return send_from_directory(app.config["DIST_DIR"], "index.html")
 
