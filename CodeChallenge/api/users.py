@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_current_user, get_jwt_identity,
                                 jwt_refresh_token_required, jwt_required,
@@ -59,6 +59,7 @@ def logout():
     unset_jwt_cookies(res)
 
     return res, 200
+
 
 @bp.route("/register", methods=["POST"])
 def register():
@@ -131,6 +132,15 @@ def register():
             mg_list_add(new_u.student_email,
                         f"{new_u.studentfirstname} {new_u.studentlastname}",
                         data=mg_vars)
+
+    msg = Message("Welcome Pilgrim! You have accepted the Code Challenge",
+                  sender=current_app.config["MAIL_DEFAULT_SENDER"],
+                  recipients=[new_u.parent_email])
+    name = new_u.studentfirstname or new_u.parentfirstname
+    msg.html = render_template("challenge_account_confirm.html",
+                               name=name)
+    msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
+    mail.send(msg)
 
     return jsonify({"status": "success"})
 
