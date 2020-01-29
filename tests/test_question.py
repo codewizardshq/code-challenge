@@ -90,7 +90,7 @@ def register(client, email, username, password, firstname, lastname, studentemai
     return client.post("/api/v1/users/register", json=dict(
         username=username, parentEmail=email, password=password,
         parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13",
-        studentEmail=studentemail
+        studentEmail=studentemail, studentFirstName="Sam", studentLastName="Hoffman"
     ), follow_redirects=True)
 
 
@@ -364,6 +364,11 @@ def test_vote_ballot(client_challenge_lastq):
     assert "id" in items[0]
     assert "numVotes" in items[0]
     assert "text" in items[0]
+    assert items[0]["firstName"] == "Sam"
+    assert items[0]["lastName"] == "Hoffman"
+    assert items[0]["username"] == "cwhqsam"
+    assert items[0]["display"] == "Sam H."
+
     VALID_ANSWER = items[0]["id"]
 
 
