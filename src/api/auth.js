@@ -12,7 +12,7 @@ let state = {
   displayName: null,
   firstName: null,
   lastName: null,
-  rank: 0
+  rank: -1
 };
 
 async function setState(newState) {
@@ -71,7 +71,7 @@ async function autoLogin() {
 
 async function logout() {
   await request(routes.userapi_logout, {}, false);
-  await setState({ auth: false });
+  await setState({ auth: false, rank: -1 });
 }
 
 function currentUser() {

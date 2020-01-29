@@ -1,6 +1,7 @@
 import { mapState } from "vuex";
 import { quiz } from "@/api";
 import moment from "moment";
+import Vue from "vue";
 
 const moduleName = "Quiz";
 
@@ -56,6 +57,9 @@ const state = {
 };
 
 const actions = {
+  async reset({ commit }) {
+    commit("reset");
+  },
   async markAsSeen({ commit }) {
     commit("hasSeenIntro", true);
   },
@@ -167,6 +171,11 @@ const mutations = {
   },
   quizHasEnded(state, value) {
     state.quizHasEnded = value;
+  },
+  reset(state) {
+    for (const [key, value] of Object.entries(getDefaultState())) {
+      Vue.set(state, key, value);
+    }
   }
 };
 

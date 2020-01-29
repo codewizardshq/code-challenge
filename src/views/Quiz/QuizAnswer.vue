@@ -4,13 +4,15 @@
       <img src="/images/dragon1.png" />
       <v-card-text>
         <v-form ref="form" @submit.prevent="submit">
-          <v-text-field
-            autocomplete="off"
-            v-model="fields.answer.value"
-            v-bind="fields.answer"
-            :disabled="isDisabled"
-            @blur="onBlur"
-          />
+          <div class="text-field">
+            <v-text-field
+              autocomplete="off"
+              v-model="fields.answer.value"
+              v-bind="fields.answer"
+              :disabled="isDisabled"
+              @blur="onBlur"
+            />
+          </div>
 
           <v-btn
             x-large
@@ -69,10 +71,10 @@
     <v-dialog v-model="showRateLimitModal" persistent max-width="400">
       <v-card>
         <v-card-title class="headline">Woah slow down!</v-card-title>
-        <v-card-text
-          >We noticed you are submitting a lot of requests. Please wait 60
-          seconds before submitting another answer.</v-card-text
-        >
+        <v-card-text>
+          We noticed you are submitting a lot of requests. Please wait 60
+          seconds before submitting another answer.
+        </v-card-text>
         <v-card-actions>
           <v-btn
             block
@@ -138,8 +140,16 @@ export default {
   data() {
     return {
       successMessages: [
-        "Your coding skills are quite admirable. ",
-        "You really are the best. "
+        "Your coding skills are quite admirable.",
+        "You are wiser than you look.",
+        "The dragon senses you getting closer.",
+        "Your perseverance is impressive.",
+        "One step closer to battling the dragon.",
+        "Keep going, the dragon awaits you.",
+        "Go to the next level, young Pilgrim!",
+        "You may continue on your coding journey.",
+        "The grand prize could be yours.",
+        "You must be the hero we're seeking."
       ],
       isSubmitting: false,
       wasCorrect: false,

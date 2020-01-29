@@ -2,7 +2,7 @@
   <v-form @submit.prevent="validate" ref="form" v-model="isValid">
     <v-card-text>
       <v-card max-height="500" style="overflow-y:scroll;">
-        <v-card-text>
+        <v-card-text class="tos-text">
           <terms-of-service-content />
         </v-card-text>
       </v-card>
@@ -11,21 +11,29 @@
     <v-row>
       <v-col cols="7"></v-col>
       <v-col>
-        <v-switch v-model="fields.tos.value" v-bind="fields.tos"></v-switch>
-        <v-switch v-model="fields.tos2.value" v-bind="fields.tos2"></v-switch>
+        <v-switch
+          color="button"
+          v-model="fields.tos.value"
+          v-bind="fields.tos"
+        ></v-switch>
+        <v-switch
+          color="button"
+          v-model="fields.tos2.value"
+          v-bind="fields.tos2"
+        ></v-switch>
       </v-col>
     </v-row>
 
     <v-card-actions>
       <v-btn
-        color="secondary darken-2"
+        color="button"
         @click="() => $emit('back')"
         :disabled="isSubmitting"
         >Back</v-btn
       >
       <v-spacer />
       <v-btn
-        color="secondary darken-2"
+        color="button"
         type="submit"
         :disabled="
           isSubmitting ||
@@ -77,3 +85,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.tos-text {
+  background-color: rgba(255, 255, 255, 0.9);
+  font-family: "Barlow", sans-serif;
+  color: #333 !important;
+}
+</style>

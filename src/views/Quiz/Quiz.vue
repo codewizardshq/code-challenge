@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6">
+  <v-container fluid>
     <v-row justify="center">
       <quiz-scroll>
         <template v-slot:title>Level {{ rank }}</template>
@@ -11,7 +11,7 @@
       <quiz-answer :rank="rank" @next="onNext" />
     </v-row>
     <quiz-need-help />
-  </div>
+  </v-container>
 </template>
 
 <script>

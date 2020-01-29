@@ -3,7 +3,10 @@
     <v-container>
       <v-row justify="center">
         <v-col>
-          <v-card>
+          <page-card>
+            <template #title>
+              <v-toolbar-title>Final Question</v-toolbar-title>
+            </template>
             <br />
             <v-card-text v-html="question"></v-card-text>
             <v-card-title>Code your answer!</v-card-title>
@@ -61,9 +64,11 @@
                 >
               </v-card-actions>
             </v-form>
-          </v-card>
+          </page-card>
         </v-col>
       </v-row>
+      <br />
+      <br />
     </v-container>
     <!-- <quiz-need-help /> -->
   </div>
@@ -71,13 +76,15 @@
 
 <script>
 import CodeEditor from "./CodeEditor";
+import PageCard from "@/components/PageCard";
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
 
 export default {
   name: "quiz",
   components: {
-    CodeEditor
+    CodeEditor,
+    PageCard
   },
   data() {
     const jsCode = `function calculateAnswer(){

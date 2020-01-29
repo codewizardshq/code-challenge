@@ -4,6 +4,7 @@
       <v-row no-gutters>
         <v-col>
           <v-text-field
+            color="input"
             v-bind="fields.firstName"
             v-model="fields.firstName.value"
             :disabled="isSubmitting"
@@ -11,6 +12,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="input"
             v-bind="fields.lastName"
             v-model="fields.lastName.value"
             :disabled="isSubmitting"
@@ -18,6 +20,7 @@
         </v-col>
       </v-row>
       <v-text-field
+        color="input"
         v-bind="fields.studentEmail"
         v-model="fields.studentEmail.value"
         :disabled="isSubmitting"
@@ -38,6 +41,7 @@
         </p>
         <v-switch
           v-model="hasParentConsent"
+          color="button"
           class="mx-2"
           :rules="[
             v =>
@@ -57,13 +61,13 @@
 
     <v-card-actions>
       <v-btn
-        color="secondary darken-2"
+        color="button"
         @click="() => $emit('back')"
         :disabled="isSubmitting"
         >Back</v-btn
       >
       <v-spacer />
-      <v-btn color="secondary darken-2" type="submit" :disabled="isSubmitting">
+      <v-btn color="button" type="submit" :disabled="isSubmitting">
         Next
         <v-progress-circular
           size="14"

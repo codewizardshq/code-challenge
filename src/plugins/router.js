@@ -35,8 +35,10 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
-      auth.logout().then(() => next({ name: "home" }));
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/reset");
+      await auth.logout();
+      next({ name: "login" });
     },
     meta: {
       secured: true
@@ -57,6 +59,22 @@ const routes = [
     meta: {
       secured: true
     }
+  },
+  {
+    path: "/voting",
+    name: "voting",
+    component: () => import("@/views/Voting/Ballot.vue")
+  },
+  {
+    // dev only
+    path: "/leader-board",
+    name: "leader-board",
+    component: () => import("@/views/Voting/Leaderboard.vue")
+  },
+  {
+    path: "/frequently-asked-questions",
+    name: "faq",
+    component: () => import("@/views/FAQ.vue")
   },
   {
     path: "/quiz",
@@ -88,7 +106,6 @@ const routes = [
       if (store.state.Quiz.isLastQuestion) {
         return import("@/views/Quiz/QuizFinalQuestion");
       }
-
       // NORMAL QUIZ MODE
       return import("@/views/Quiz/Quiz");
     },
@@ -96,6 +113,7 @@ const routes = [
       // USER MUST SEE INTRO VIDEO
       if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
         next({ name: "quiz-intro" });
+        return;
       }
       next();
     },
@@ -106,7 +124,11 @@ const routes = [
   {
     path: "/quiz/intro",
     name: "quiz-intro",
-    component: () => import("@/views/Quiz/QuizIntro")
+    component: () => import("@/views/Quiz/QuizIntro"),
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/refresh");
+      next();
+    }
   },
   {
     path: "*",
