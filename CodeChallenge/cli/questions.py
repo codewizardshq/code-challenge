@@ -27,7 +27,7 @@ def q_add(title, answer, rank, asset, hint1, hint2):
     ANSWER is the answer stored only in the database
     RANK is the day rank the queestion should be revealed on
     ASSET is a path to a file to upload for a question
-    HINT1 is a hint string 
+    HINT1 is a hint string
     HINT2 is a hint string
     """
 
@@ -124,7 +124,6 @@ def q_sync():
 
     with click.progressbar(rows, label="synchronizing with CSV data ...") as bar:
         for i, row in enumerate(bar):
-
             if not all((row["rank"], row["title"],
                         row["answer"], row["asset"])):
                 errors.append(f"invalid row {i} (missing rank/title/answer/asset)")
@@ -155,7 +154,7 @@ def q_sync():
             r2 = requests.get(row["asset"], stream=True)
             if not r2.ok:
                 errors.append(f"failed to download asset for row {i+1}: {row['asset']}")
-                return
+                continue
 
             for chunk in r2.iter_content(1024):
                 b.write(chunk)
