@@ -115,8 +115,16 @@ export default {
 	data() {
 		return {
 			successMessages: [
-				"Your coding skills are quite admirable. ",
-				"You really are the best. "
+				"Your coding skills are quite admirable.",
+				"You are wiser than you look.",
+				"The dragon senses you getting closer.",
+				"Your perseverance is impressive.",
+				"One step closer to battling the dragon.",
+				"Keep going, the dragon awaits you.",
+				"Go to the next level, young Pilgrim!",
+				"You may continue on your coding journey.",
+				"The grand prize could be yours.",
+				"You must be the hero we're seeking."
 			],
 			isSubmitting: false,
 			wasCorrect: false,

@@ -72,6 +72,11 @@ const routes = [
     component: () => import("@/views/Voting/Leaderboard.vue")
   },
   {
+    path: "/frequently-asked-questions",
+    name: "faq",
+    component: () => import("@/views/FAQ.vue")
+  },
+  {
     path: "/quiz",
     name: "quiz",
     component: async () => {

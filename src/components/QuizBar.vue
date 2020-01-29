@@ -20,11 +20,22 @@
 				</v-col>
 
 				<v-col class="text-right">
-					<help-pop-over>
-						<template v-slot:default="{ on }">
-							<a v-on="on">Get Help</a>
+					<v-menu offset-y>
+						<template v-slot:activator="{ on: menu }">
+							<a href="#" v-on="menu">Get Help</a>
 						</template>
-					</help-pop-over>
+						<v-list class="list">
+							<v-list-item :to="{name:'faq'}">
+								<v-list-item-title>Check The FAQ</v-list-item-title>
+							</v-list-item>
+							<v-list-item href="https://discord.gg/fDWbCj9" target="_blank">
+								<v-list-item-title>Get Help On Discord</v-list-item-title>
+							</v-list-item>
+							<v-list-item href="https://www.facebook.com" target="_blank">
+								<v-list-item-title>Get Help On Facebook</v-list-item-title>
+							</v-list-item>
+						</v-list>
+					</v-menu>
 
 					<router-link v-if="!User.isAuthorized" :to="{name:'login'}">Sign In</router-link>
 
@@ -49,3 +60,9 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.list {
+	padding: 20px;
+}
+</style>
