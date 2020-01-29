@@ -1,16 +1,36 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { auth } from "@/api";
+import { auth, quiz } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
+
+function isChallengeOpen() {
+  return store.state.Quiz.quizHasStarted && !store.state.Quiz.quizHasEnded;
+}
+
+function isChallengePending() {
+  return !store.state.Quiz.quizHasStarted && !store.state.Quiz.quizHasEnded;
+}
+
+function isChallengeClosed() {
+  return store.state.Quiz.quizHasEnded;
+}
 
 const routes = [
   {
     path: "/home",
     name: "home",
-    redirect: {
-      name: "quiz"
+    beforeEnter(to, from, next) {
+      if (isChallengeOpen() || isChallengePending()) {
+        next({ name: 'quiz' });
+        return;
+      }
+
+      if (isChallengeClosed()) {
+        next({ name: 'voting' })
+        return;
+      }
     }
   },
   {
@@ -63,7 +83,10 @@ const routes = [
   {
     path: "/voting",
     name: "voting",
-    component: () => import("@/views/Voting/Ballot.vue")
+    component: () => import("@/views/Voting/Ballot.vue"),
+    meta: {
+      challengeOver: true
+    }
   },
   {
     // dev only
@@ -82,13 +105,8 @@ const routes = [
     component: async () => {
       await store.dispatch("Quiz/refresh");
 
-      // CHALLENGE IS OVER
-      if (store.state.Quiz.quizHasEnded) {
-        return import("@/views/Quiz/QuizFinished");
-      }
-
       // CHALLENGE HAS NOT STARTED
-      if (!store.state.Quiz.quizHasStarted) {
+      if (!isChallengeOpen()) {
         return import("@/views/Quiz/QuizCountdown");
       }
 
@@ -106,28 +124,30 @@ const routes = [
       if (store.state.Quiz.isLastQuestion) {
         return import("@/views/Quiz/QuizFinalQuestion");
       }
+
       // NORMAL QUIZ MODE
       return import("@/views/Quiz/Quiz");
     },
     beforeEnter(from, to, next) {
       // USER MUST SEE INTRO VIDEO
-      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
+      if (isChallengeOpen() && !store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
         next({ name: "quiz-intro" });
         return;
       }
       next();
     },
     meta: {
-      secured: true
+      secured: true,
+      challengeOpenOrPending: true
     }
   },
   {
     path: "/quiz/intro",
     name: "quiz-intro",
     component: () => import("@/views/Quiz/QuizIntro"),
-    async beforeEnter(to, from, next) {
-      await store.dispatch("Quiz/refresh");
-      next();
+    meta: {
+      secured: true,
+      challengeOpenOrPending: true
     }
   },
   {
@@ -144,19 +164,54 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!auth.currentUser().auth;
+router.beforeEach(async (to, from, next) => {
   const requireAuth = to.matched.some(record => record.meta.secured);
   const requireAnon = to.matched.some(record => record.meta.anon);
+  const requireChallengePending = to.matched.some(record => record.meta.challengePending);
+  const requireChallengeOpen = to.matched.some(record => record.meta.challengeOpen);
+  const requireChallengeClosed = to.matched.some(record => record.meta.challengeOver);
+  const requireChallengeOpenPending = to.matched.some(record => (record.meta.challengeOpenOrPending));
 
-  if (!isAuthenticated && requireAuth) {
-    next({ name: "register" });
-    return;
+  if (requireChallengePending || requireChallengeOpen || requireChallengeClosed || requireChallengeOpenPending) {
+    await store.dispatch("Quiz/refresh");
+
+    const challengeIsClosed = isChallengeClosed();
+    const challengeIsPending = isChallengePending();
+    const challengeIsOpen = isChallengeOpen();
+
+    if (!challengeIsClosed && requireChallengeClosed) {
+      next({ name: 'home' });
+      return;
+    }
+
+    if (!challengeIsOpen && requireChallengeOpen) {
+      next({ name: 'home' });
+      return;
+    }
+
+    if (!challengeIsPending && requireChallengePending) {
+      next({ name: 'home' });
+      return;
+    }
+
+    if ((!challengeIsOpen && !challengeIsPending) && requireChallengeOpenPending) {
+      next({ name: 'home' });
+      return;
+    }
   }
 
-  if (isAuthenticated && requireAnon) {
-    next({ name: "home" });
-    return;
+  if (requireAuth || requireAnon) {
+    const isAuthenticated = !!auth.currentUser().auth;
+
+    if (!isAuthenticated && requireAuth) {
+      next({ name: "register" });
+      return;
+    }
+
+    if (isAuthenticated && requireAnon) {
+      next({ name: "home" });
+      return;
+    }
   }
 
   next();

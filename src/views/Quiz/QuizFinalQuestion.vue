@@ -143,7 +143,7 @@ output = calculateAnswer()`;
     async makeRequest(checkOnly) {
       const response = await api.quiz.submitFinal(
         this.fields.code.value,
-        this.fields.language.value === "javascript" ? "js" : "py",
+        this.fields.language.value === "javascript" ? "js" : "python",
         checkOnly
       );
       const isCorrect = response.correct;
