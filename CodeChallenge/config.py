@@ -29,6 +29,7 @@ class DefaultConfig:
     MAIL_SUPPRESS_SEND = True
     MG_PRIVATE_KEY = os.getenv("MG_PRIVATE_KEY")
     MG_LIST = "codechallenge@school.codewizardshq.com"
+    WORKER_PASSWORD = os.getenv("WORKER_PASSWORD")
 
     # no trailing /
     EXTERNAL_URL = "https://challenge.codewizardshq.com"
