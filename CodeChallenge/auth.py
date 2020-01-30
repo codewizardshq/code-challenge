@@ -27,6 +27,7 @@ class Users(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_active = db.Column(db.Boolean, default=False, nullable=False)
     rank = db.Column(db.Integer, default=0, nullable=False)
+    found_us = db.Column(db.String(2000))
 
     def __repr__(self):
         return f"<User {self.username!r}>"

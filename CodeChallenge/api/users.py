@@ -98,6 +98,7 @@ def register():
     new_u.studentlastname = user_data.get("studentLastName")
     new_u.dob = dob
     new_u.student_email = user_data.get("studentEmail", None)
+    new_u.found_us = user_data.get("foundUs", None)
 
     new_u.active = True
 
