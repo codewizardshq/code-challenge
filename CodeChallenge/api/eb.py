@@ -31,12 +31,13 @@ def worker():
     # send daily reminder emails only while challenge is active
 
     if core.day_number() >= 1 and not core.challenge_ended():
-        msg = Message("CHANGEME",
+        msg = Message("New code challenge question is unlocked!",
                       sender=current_app.config["MAIL_DEFAULT_SENDER"],
                       recipients=[current_app.config["MG_LIST"]])
 
         msg.html = render_template("challenge_daily_email.html",
                                    name="%recipient_fname%")
+        msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
 
         mail.send(msg)
 
