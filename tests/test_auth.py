@@ -12,9 +12,12 @@ def register(client, email, username, password, firstname, lastname):
 
 
 def test_registration_success(client):
-    retval = register(client, "sam@codewizardshq.com", "cwhqsam",
-                      "supersecurepassword", "Sam", "Hoffman")
-    assert retval.get_json()["status"] == "success"
+    with CodeChallenge.mail.record_messages() as outbox:
+        retval = register(client, "sam@codewizardshq.com", "cwhqsam",
+                          "supersecurepassword", "Sam", "Hoffman")
+        assert retval.get_json()["status"] == "success"
+        assert len(outbox) == 1
+        assert "Sheldon, you've accepted" in outbox[0].html
 
 
 def test_registration_failure_invalid_password(client):
