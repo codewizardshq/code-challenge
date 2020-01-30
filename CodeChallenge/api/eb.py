@@ -35,7 +35,8 @@ def worker():
                       sender=current_app.config["MAIL_DEFAULT_SENDER"],
                       recipients=[current_app.config["MG_LIST"]])
 
-        msg.html = render_template("CHANGEME")
+        msg.html = render_template("challenge_daily_email.html",
+                                   name="%recipient_fname%")
 
         mail.send(msg)
 

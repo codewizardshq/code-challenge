@@ -133,14 +133,27 @@ def register():
                         f"{new_u.studentfirstname} {new_u.studentlastname}",
                         data=mg_vars)
 
-    msg = Message("Welcome Pilgrim! You have accepted the Code Challenge",
-                  sender=current_app.config["MAIL_DEFAULT_SENDER"],
-                  recipients=[new_u.parent_email])
+    rcpts = [new_u.parent_email]
+    if new_u.student_email:
+        rcpts.append(new_u.student_email)
+
+    confirm_email = Message("Welcome Pilgrim! You have accepted the Code Challenge",
+                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
+                            recipients=rcpts)
     name = new_u.studentfirstname or new_u.parentfirstname
-    msg.html = render_template("challenge_account_confirm.html",
-                               name=name)
-    msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
-    mail.send(msg)
+    confirm_email.html = render_template("challenge_account_confirm.html",
+                                         name=name)
+    confirm_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
+
+    welcome_email = Message("CHANGEME",
+                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
+                            recipients=rcpts)
+    welcome_email.html = render_template("challenge_welcome.html", name=name)
+    welcome_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
+
+    # send emails
+    mail.send(confirm_email)
+    mail.send(welcome_email)
 
     return jsonify({"status": "success"})
 
