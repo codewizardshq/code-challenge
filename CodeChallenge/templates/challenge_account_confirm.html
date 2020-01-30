@@ -3,9 +3,9 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CodeWizardsHQ Code Challenge Welcome Email</title>
+<title>CodeWizardsHQ Code Challenge Daily Email</title>
 <style>
-	/* -------------------------------------
+  /* -------------------------------------
     GLOBAL
     A very basic CSS reset
 ------------------------------------- */
@@ -39,11 +39,11 @@ table td {
     BODY & CONTAINER
 ------------------------------------- */
 body {
-  background-color: #f6f6f6;
+  background-color: #353535;
 }
 
 .body-wrap {
-  background-color: #f6f6f6;
+  background-color: #353535;
   width: 100%;
 }
 
@@ -67,7 +67,6 @@ body {
 ------------------------------------- */
 .main {
   background-color: #fff;
-  border: 1px solid #e9e9e9;
   border-radius: 3px;
 }
 
@@ -83,7 +82,7 @@ body {
   width: 100%;
   margin-bottom: 20px;
   background-color: #353535;
-  padding: 60px 40px;
+  padding: 20px;
   color: #fff;
 }
 
@@ -108,7 +107,7 @@ body {
 h1, h2, h3 {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   color: #000;
-  margin: 40px 0 0;
+  margin: 20px 0 0;
   line-height: 1.2em;
   font-weight: 600;
 }
@@ -278,79 +277,60 @@ a {
 <body itemscope itemtype="http://schema.org/EmailMessage">
 
 <table class="body-wrap">
-	<tr>
-		<td></td>
-		<td class="container" width="800">
-			<div class="content">
-				<table class="main" width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td class="header aligncenter">
-							<img src="https://challenge.codewizardshq.com/images/logo-small.png">
-							<h3>{{NAME}}, you've accepted the CodeWizardsHQ Code Challenge! </h3>
-							<br>
-							<a href="https://challenge.codewizardshq.com/login" class="btn-primary">SIGN IN</a>
-						</td>
-					</tr>				
-					<tr>
-						<td class="content-wrap">
-							<table width="100%" cellpadding="0" cellspacing="0">
-								<tr>
-									<td class="content-block">
-										
-									</td>
-								</tr>
-								<tr>
-									<td class="content-block">
-										<p>Welcome {{NAME}},</p>
-										<br/>
-
-										<p>Your mission is to defeat the evil dragon who has invaded CWHQ land. Only the bravest and brightest kid coders, like you, are prepared for this quest. </p>
-
-										<h3>How to play The Dragon Quest? </h3>
-										<br/>
-
-										<p>To prove yourself worthy, you must log in every day between March 1 and March 21 to answer the Code Challenge question. </p>
-
-										<p>When you have answered the final question, you will take on the mighty dragon in the boss level by writing a piece of code in Python or JavaScript. If your answer unlocks the correct answer, you are worthy to be called Code Challenge champion and a chance to win a $100 cash prize!</p>
-										
-										<p>See the <a href="http://codewizardshq.com/challenge">full FAQ</a> for more answers.</p>
-
-										<h3>Who will win the challenge?</h3>
-										<br/>
-
-										<p>The final champions will be determined by public vote from March 23-29 so share the challenge with your family and friends.</p>
-
-										<p>Visit the <a href="http://codewizardshq.com/challenge">Code Challenge</a> page for the latest details and updates.</p>
-									</td>
-								</tr>
-								<tr>
-									<td class="content-block">
-										<p>Good luck and safe travels! </p>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td class="alert alert-warning">
-							<a href="https://challenge.codewizardshq.com/login">Share With Friends</a>
-							<br/>
-							<img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg">
-							<img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg">
-							<img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg">
-						</td>
-					</tr>
-				</table>
-				<div class="footer">
-					<table width="100%">
-						<tr>
-							<td class="aligncenter content-block"><a href="">Unsubscribe</a> from code challenge updates.</td>
-						</tr>
-					</table>
-				</div></div>
-		</td>
-		<td></td>
-	</tr>
+  <tr>
+    <td></td>
+    <td class="container" width="800">
+      <div class="content">
+        <table class="main alignleft" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="header aligncenter">
+              <img src="https://challenge.codewizardshq.com/images/logo-small.png">
+            </td>
+          </tr>       
+          <tr>
+            <td class="content-wrap">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="content-block">
+                    <p><b>{{NAME}}, your account has been created.</b></p>
+                    <br/>
+                    <p>Login:</p>
+                    <p>Password:</p>
+                    <br/>
+                    <p>Forgot your password? Reset your password.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p><a href="https://challenge.codewizardshq.com/login">Sign in to play</a><br/>
+                    <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
+                    <a href="http://codewizardshq.com/challenge">Prizes</a><br/>
+                    <a href="http://codewizardshq.com/challenge">Frequently Asked Questions</a></p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="alert alert-warning">
+              <a href="https://challenge.codewizardshq.com/login">Share With Friends</a>
+              <br/>
+              <img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg">
+              <img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg">
+              <img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg">
+            </td>
+          </tr>
+        </table>
+        <div class="footer">
+          <table width="100%">
+            <tr>
+              <td class="aligncenter content-block"><a href="">Unsubscribe</a> from code challenge updates.</td>
+            </tr>
+          </table>
+        </div></div>
+    </td>
+    <td></td>
+  </tr>
 </table>
 
 </body>
