@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="cwhq-app">
     <CWHQ-bar />
     <app-bar />
     <quiz-bar />

@@ -11,24 +11,24 @@
       <br />BOARD
     </div>
     <div class="fade"></div>
-    <!-- <marquee-text :duration="(items.length / 5) * 10">
+    <marquee-text :duration="(items.length / 5) * 10">
       <div class="lb-item" v-for="(item, i) in items" :key="i">
         <img src="/images/shield.png" class="rank float-left" />
         <div class="rank">{{ item.rank }}</div>
         <div class="display float-left">{{ item.username }}</div>
       </div>
-    </marquee-text> -->
+    </marquee-text>
   </v-toolbar>
 </template>
 
 <script>
-// import MarqueeText from "vue-marquee-text-component";
+import MarqueeText from "vue-marquee-text-component";
 import * as api from "@/api";
 import { shuffle } from "@/util";
 
 export default {
   components: {
-    // MarqueeText
+    MarqueeText
   },
   async mounted() {
     const leaders = (await api.quiz.getLeaderboard()).items;

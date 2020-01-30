@@ -1,18 +1,17 @@
+// don't mess with this order
 import "@/styles/fonts.scss";
+import "@/styles/styles.scss";
 
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./plugins/router";
+
 import vuetify from "./plugins/vuetify";
+import router from "./plugins/router";
 import "./plugins/moment";
-
-
-// import "./plugins/codemirror";
+import "./plugins/codemirror";
 
 import store from "./store";
 import { auth } from "@/api";
-
-import "@/styles/styles.scss";
 
 Vue.config.productionTip = false;
 
@@ -24,13 +23,15 @@ Vue.config.productionTip = false;
   try {
     await auth.autoLogin();
   } catch (err) {
-    // console.error("Was unable to authenticate user");
+    // eslint-disable-next-line no-console
+    console.error("Was unable to authenticate user");
   }
 
   try {
     await store.dispatch("Quiz/refresh");
   } catch (err) {
-    // console.error("Was unable to refresh question status", err.reason);
+    // eslint-disable-next-line no-console
+    console.error("Was unable to refresh question status", err.reason);
   }
 
   new Vue({
