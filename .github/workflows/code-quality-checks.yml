@@ -25,7 +25,7 @@ jobs:
         npm install -g yarn
         yarn install
     - name: Install MySQL Client
-      run: sudo apt install default-libmysqlclient-dev
+      run: sudo apt update && sudo apt install default-libmysqlclient-dev
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip

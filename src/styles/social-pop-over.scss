@@ -7,21 +7,21 @@ $arrowSize: 20px;
   margin-right: 20px;
   background: url("/images/answer-area-bg.png") no-repeat;
   background-size: 100% 100%;
-  background-repeat: none; 
+  background-repeat: none;
   z-index: 200;
 
-  &:after {
-    width: 0;
-    height: 0;
-    border-left: $arrowSize solid transparent;
-    border-right: $arrowSize solid transparent;
+  // &:after {
+  //   width: 0;
+  //   height: 0;
+  //   border-left: $arrowSize solid transparent;
+  //   border-right: $arrowSize solid transparent;
 
-    border-bottom: $arrowSize solid $dark;
-    position: absolute;
-    right: 12px;
-    top: -$arrowSize;
-    content: "";
-  }
+  //   border-bottom: $arrowSize solid $dark;
+  //   position: absolute;
+  //   right: 12px;
+  //   top: -$arrowSize;
+  //   content: "";
+  // }
 
   .v-btn {
     i {

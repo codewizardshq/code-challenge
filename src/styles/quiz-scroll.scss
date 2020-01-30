@@ -1,71 +1,31 @@
-// .quiz-scroll {
-//   .v-card {
-//     background: url("/images/scroll.png");
-//     background-size: 100%;
-//     width: 669px;
-//     height: 1042px;
-//   }
-
-//   .scroll-content {
-//     position: relative;
-//     margin-top: 120px;
-//     width: 460px;
-//     margin-left: auto;
-//     margin-right: auto;
-//     font-size: 30px;
-//     color: #30231a !important;
-//     font-family: "Barrow2Light";
-//     letter-spacing: 2px;
-//   }
-
-//   .scroll-title {
-//     text-align: center;
-//     font-size: 40px;
-//     position: relative;
-//     top: 15px;
-//     color: #30231a !important;
-//     font-family: "buWicked";
-//     // letter-spacing: 2px;
-
-//     &:after {
-//       content: "";
-//       top: 55px;
-//       position: absolute;
-//       background-image: url("/images/underline.png");
-//       background-position-x: center;
-//       width: 100%;
-//       height: 27px;
-//       left: 0;
-//       background-size: contain;
-//       background-repeat: no-repeat;
-//     }
-//   }
-// }
-
-$left: -166px;
 .quiz-scroll {
   width: 669px;
   position: relative;
-  // left: -250px;
-  // border: solid thin #ddd;
+  // background: white;
   // clip-path: inset(42px -250px -1000px 0px);
-  //T  R  B L
-  clip-path: inset(42px -250px -1000px 0px);
+  overflow: hidden;
+  padding-bottom: 400px;
+  top: -30px;
+  color: #031e41;
+  font-size: 24px;
+  letter-spacing: 2px;
 
   .scroll-head {
-    left: $left;
+    top: -43px;
+    left: -166px;
     width: 1000px;
     height: 270px;
     position: relative;
     background-image: url("/images/scroll-top.png");
+    background-size: contain;
     z-index: 2;
 
     .scroll-title {
       text-align: center;
       font-size: 50px;
+      top: 42px;
       position: relative;
-      top: 45px;
-      color: #30231a !important;
+      color: #031e41 !important;
       font-family: "buWicked";
 
       &:after {
@@ -83,18 +43,23 @@ $left: -166px;
     }
   }
 
-  $offset: 200px;
-  .scroll-body {
-    z-index: 1;
-    left: $left;
+  // $offset: 200px;
+
+  .scroll-graphic {
     width: 1000px;
     height: 2238px;
-    position: relative;
-    top: -$offset;
+    position: absolute;
+    bottom: 0;
+    left: -166px;
     background-image: url("/images/scroll-bottom.png");
-    border: solid thin #00000000;
+    z-index: 0;
+  }
+
+  .scroll-body {
+    z-index: 1;
+    position: relative;
+    margin-top: -130px;
     text-align: center;
-    padding-top: $offset - 80px;
 
     .asset {
       width: 400px;
@@ -110,9 +75,16 @@ $left: -166px;
       margin-left: auto;
       margin-right: auto;
       font-size: 24px;
-      color: #30231a !important;
+      color: #031e41 !important;
       font-family: "Barrow2Light";
       letter-spacing: 2px;
+      text-align: left;
+      white-space: pre-wrap;
+
+      pre {
+        font-size: 18px;
+        white-space: pre-wrap;
+      }
     }
   }
 }

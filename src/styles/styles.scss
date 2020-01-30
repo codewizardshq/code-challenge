@@ -1,4 +1,5 @@
 @import "~vuetify/src/styles/styles.sass";
+@import "./colors.scss";
 @import "./application.scss";
 @import "./quiz-scroll.scss";
 @import "./quiz-answer.scss";
@@ -6,4 +7,26 @@
 @import "./quiz-bar-rank.scss";
 @import "./content.scss";
 @import "./social-pop-over.scss";
-@import "./casing.scss"
+@import "./casing.scss";
+@import "./cwhq-bar.scss";
+@import "./quiz-bar.scss";
+@import "./leaderboard-bar.scss";
+
+.v-alert {
+  font-size: 20px;
+}
+
+.v-input {
+  font-size: 20px;
+}
+
+.v-messages {
+  font-size: 16px;
+}
+
+.v-snack {
+  .v-snack__content {
+    font-size: 20px;
+    padding: 20px;
+  }
+}

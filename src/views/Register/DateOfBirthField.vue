@@ -13,6 +13,7 @@
   >
     <template v-slot:activator="{ on }">
       <v-text-field
+        color="input"
         autocomplete="off"
         v-model="formattedDate"
         :label="label"

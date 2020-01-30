@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {auth} from "@/api";
+import { auth } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -9,7 +9,9 @@ const routes = [
   {
     path: "/home",
     name: "home",
-    component: () => import("@/views/Home")
+    redirect: {
+      name: "quiz"
+    }
   },
   {
     path: "/login",
@@ -33,8 +35,10 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
-      auth.logout().then(() => next({ name: "home" }));
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/reset");
+      await auth.logout();
+      next({ name: "login" });
     },
     meta: {
       secured: true
@@ -57,41 +61,73 @@ const routes = [
     }
   },
   {
+    path: "/voting",
+    name: "voting",
+    component: () => import("@/views/Voting/Ballot.vue")
+  },
+  {
+    // dev only
+    path: "/leader-board",
+    name: "leader-board",
+    component: () => import("@/views/Voting/Leaderboard.vue")
+  },
+  {
+    path: "/frequently-asked-questions",
+    name: "faq",
+    component: () => import("@/views/FAQ.vue")
+  },
+  {
     path: "/quiz",
     name: "quiz",
-    component: () => import("@/views/Quiz"),
-    meta: {
-      secured: true
+    component: async () => {
+      await store.dispatch("Quiz/refresh");
+
+      // CHALLENGE IS OVER
+      if (store.state.Quiz.quizHasEnded) {
+        return import("@/views/Quiz/QuizFinished");
+      }
+
+      // CHALLENGE HAS NOT STARTED
+      if (!store.state.Quiz.quizHasStarted) {
+        return import("@/views/Quiz/QuizCountdown");
+      }
+
+      // USER HAS FINISHED QUIZ
+      if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+        return import("@/views/Quiz/QuizFinished");
+      }
+
+      // MUST WAIT FOR NEXT QUESTION
+      if (store.state.Quiz.awaitNextQuestion) {
+        return import("@/views/Quiz/QuizCountdown");
+      }
+
+      // SHOW THE LAST QUESTION
+      if (store.state.Quiz.isLastQuestion) {
+        return import("@/views/Quiz/QuizFinalQuestion");
+      }
+      // NORMAL QUIZ MODE
+      return import("@/views/Quiz/Quiz");
     },
-    beforeEnter: (to, from, next) => {
-      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 0) {
+    beforeEnter(from, to, next) {
+      // USER MUST SEE INTRO VIDEO
+      if (!store.state.Quiz.hasSeenIntro && store.state.User.rank == 1) {
         next({ name: "quiz-intro" });
-      } else {
-        next();
+        return;
       }
-    }
-  },
-  {
-    path: "/quiz-scores",
-    name: "quiz-scores",
-    component: () => import("@/views/QuizScores"),
-    meta: {
-      secured: true
+      next();
     },
-    beforeEnter: (to, from, next) => {
-      if (!store.state.Quiz.hasScores) {
-        next({ name: "quiz" });
-      } else {
-        next();
-      }
+    meta: {
+      secured: true
     }
   },
   {
-    path: "/quiz-intro",
+    path: "/quiz/intro",
     name: "quiz-intro",
-    component: () => import("@/views/QuizIntro"),
-    meta: {
-      secured: true
+    component: () => import("@/views/Quiz/QuizIntro"),
+    async beforeEnter(to, from, next) {
+      await store.dispatch("Quiz/refresh");
+      next();
     }
   },
   {
@@ -114,7 +150,7 @@ router.beforeEach((to, from, next) => {
   const requireAnon = to.matched.some(record => record.meta.anon);
 
   if (!isAuthenticated && requireAuth) {
-    next({ name: "home" });
+    next({ name: "register" });
     return;
   }
 
