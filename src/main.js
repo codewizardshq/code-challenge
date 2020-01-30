@@ -1,12 +1,19 @@
+import "@/styles/fonts.scss";
+
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./plugins/router";
 import vuetify from "./plugins/vuetify";
 import "./plugins/moment";
+
+
+// import "./plugins/codemirror";
+
 import store from "./store";
-import "@/styles/styles.scss";
 import { auth } from "@/api";
-import "./plugins/codemirror";
+
+import "@/styles/styles.scss";
+
 Vue.config.productionTip = false;
 
 (async function() {

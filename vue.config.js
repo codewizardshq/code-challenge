@@ -2,9 +2,6 @@ module.exports = {
   lintOnSave: false,
   transpileDependencies: ["vuetify"],
   outputDir: "dist",
-  css: {
-    extract: { ignoreOrder: true },
-  },
   devServer: {
     disableHostCheck: true,
     proxy: {
