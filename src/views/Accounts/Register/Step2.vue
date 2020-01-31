@@ -4,6 +4,7 @@
       <v-row no-gutters>
         <v-col>
           <v-text-field
+            class="mr-5"
             color="input"
             v-bind="fields.firstName"
             v-model="fields.firstName.value"

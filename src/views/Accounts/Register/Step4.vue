@@ -57,7 +57,7 @@
 import TermsOfServiceContent from "@/components/TermsOfServiceContent";
 
 export default {
-  name: "register-step-2",
+  name: "register-step-4",
   props: ["fields"],
   components: { TermsOfServiceContent },
   methods: {

@@ -94,7 +94,12 @@ async function resetPassword(token, password) {
   );
 }
 
+async function doesUsernameExist(username) {
+  return await request(routes.userapi_user_exists(username));
+}
+
 export default {
+  doesUsernameExist,
   logout,
   login,
   autoLogin,
