@@ -19,7 +19,9 @@ export default new Vuetify({
         dark: "#282828",
         dark2: "#1E1E1E",
         button: "#4CAF50",
-        input: "#4CAF50"
+        input: "#4CAF50",
+        cwhqBlue: "#0d1d41",
+        cwhqYellow: "#fdc743"
       }
     }
   }

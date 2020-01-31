@@ -2,4 +2,14 @@
   // background: url("/images/background.jpg");
   // background-size: cover;
   background-color: #21252d;
+
+  &.voting {
+    background-color: #f8f8f9;
+    font-family: "Barlow", sans-serif;
+    .v-btn {
+      font-weight: bold;
+      font-size: 14px;
+      font-family: "Barlow", sans-serif;
+    }
+  }
 }

@@ -1,0 +1,58 @@
+$ballot-blue: $cwhqBlue;
+$ballot-yellow: $cwhqYellow;
+$ballot-gray: #ddd;
+
+.ballot {
+  .circle {
+    width: 100px;
+    height: 100px;
+    background-color: $ballot-blue;
+    color: $ballot-yellow;
+    border-radius: 50% !important;
+    display: inline-block;
+    font-size: 50px;
+    line-height: 90px;
+    text-align: center;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+}
+
+.ballot-card {
+  margin: 25px;
+  width: 200px;
+  height: 300px;
+  background-color: #fff !important;
+
+  border: solid 2px $ballot-gray !important;
+  border-radius: 0 !important;
+  text-align: center;
+  font-family: "Barlow", sans-serif;
+  color: $ballot-blue;
+  padding: 20px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $ballot-yellow !important;
+  }
+
+  .v-btn {
+    margin-bottom: 10px;
+  }
+
+  .vote-count {
+    padding: 0;
+    text-transform: uppercase;
+    line-height: 12px;
+    margin-bottom: 20px;
+    &:after {
+      content: "";
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      height: 1px;
+      background-color: $ballot-gray;
+    }
+  }
+}

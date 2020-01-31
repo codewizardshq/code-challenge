@@ -9,6 +9,7 @@ import vuetify from "./plugins/vuetify";
 import router from "./plugins/router";
 import "./plugins/moment";
 import "./plugins/codemirror";
+import "./plugins/highlightjs";
 
 import store from "./store";
 import { auth } from "@/api";

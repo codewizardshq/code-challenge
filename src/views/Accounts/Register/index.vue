@@ -27,22 +27,35 @@
 
               <v-divider></v-divider>
 
-              <v-stepper-step color="button" step="3"
+              <v-stepper-step
+                color="button"
+                :complete="stepperIndex > 3"
+                step="3"
+                >Parent Details</v-stepper-step
+              >
+
+              <v-divider></v-divider>
+
+              <v-stepper-step color="button" step="4"
                 >Terms Of Use</v-stepper-step
               >
             </v-stepper-header>
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <step-1 :fields="fields" @submit="submit1" />
+                <step-1 :fields="fields" @submit="next" />
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <step-2 :fields="fields" @back="back" @submit="submit2" />
+                <step-2 :fields="fields" @back="back" @submit="next" />
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <step-3 :fields="fields" @back="back" @submit="submit3" />
+                <step-3 :fields="fields" @back="back" @submit="next" />
+              </v-stepper-content>
+
+              <v-stepper-content step="4">
+                <step-4 :fields="fields" @back="back" @submit="submit" />
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -57,13 +70,16 @@ import PageCard from "@/components/PageCard";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import { auth } from "@/api";
+import Step4 from "./Step4";
+
+import * as api from "@/api";
 
 export default {
   components: {
     Step1,
     Step2,
     Step3,
+    Step4,
     PageCard
   },
   methods: {
@@ -73,23 +89,25 @@ export default {
         this.stepperIndex = 1;
       }
     },
-    submit1(cb) {
+    next(cb) {
       this.stepperIndex++;
       cb();
     },
-    submit2(cb) {
-      this.stepperIndex++;
-      cb();
-    },
-    async submit3(cb) {
+    async submit(cb) {
       if (this.isSubmitting) {
         return;
       }
       this.isSubmitting = true;
       try {
-        await auth.createAccount({
+        await api.auth.createAccount({
+          foundUs:
+            this.fields.heardAboutUs === "Other"
+              ? this.fields.heardAboutUsText.value
+              : this.fields.heardAboutUs.value,
           studentFirstName: this.fields.firstName.value,
           studentLastName: this.fields.lastName.value,
+          parentFirstName: this.fields.parentFirstName.value,
+          parentLastName: this.fields.parentLastName.value,
           username: this.fields.username.value,
           parentEmail: this.fields.parentEmail.value,
           studentEmail: this.fields.studentEmail.value,
@@ -108,7 +126,6 @@ export default {
       cb();
     }
   },
-
   data() {
     return {
       isSubmitting: false,
@@ -119,7 +136,15 @@ export default {
           hint: "You will use this to log in",
           type: "text",
           value: "",
-          rules: [v => !!v || "Please provide a email"]
+          rules: [
+            v => !!v || "Please provide a username",
+            () =>
+              !this.fields.username.inUse || "This username is already in use"
+          ],
+          inUse: false,
+          requestCount: 0,
+          requestIndex: 0,
+          errorMessages: []
         },
         parentEmail: {
           label: "Parent's E-mail Address",
@@ -139,7 +164,9 @@ export default {
           value: "",
           rules: [
             v => !!v || "Don't forget to give a password",
-            v => v.length >= 8 || "Password must be at least 8 characters"
+            v => v.length >= 8 || "Password must be at least 8 characters",
+            v =>
+              v.length < 100 || "Password must be at less than 100 characters"
           ]
         },
         passwordConfirm: {
@@ -161,6 +188,44 @@ export default {
           type: "text",
           value: "",
           rules: [v => !!v || "Please tell us your name"]
+        },
+        parentFirstName: {
+          label: "Parent's First Name",
+          type: "text",
+          value: "",
+          rules: [v => !!v || "Please tell us your name"]
+        },
+        parentLastName: {
+          label: "Parent's Last Name",
+          type: "text",
+          value: "",
+          rules: [v => !!v || "Please tell us your name"]
+        },
+        heardAboutUs: {
+          label: "How did you hear about the Code Challange?",
+          type: "select",
+          items: [
+            "Choose an option",
+            "I'm a CodeWizardsHQ Student",
+            "CWHQ newsletter",
+            "CWHQ website",
+            "Facebook, Twitter, Instagram, or LinkedIn",
+            "Friend or family member ",
+            "Google or search engine",
+            "Your school or PTA",
+            "Other"
+          ],
+          value: "Choose an option",
+          rules: [v => v !== "Choose an option" || "Please choose an option"]
+        },
+        heardAboutUsText: {
+          label: "Tell us where you heard about the Code Challenge!",
+          type: "text",
+          value: "",
+          rules: [
+            v =>
+              !!v || "Please tell us where you heard about the code challenge"
+          ]
         },
         dateOfBirth: {
           label: "Student's Date Of Birth",
