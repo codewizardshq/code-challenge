@@ -16,8 +16,9 @@ def test_registration_success(client):
         retval = register(client, "sam@codewizardshq.com", "cwhqsam",
                           "supersecurepassword", "Sam", "Hoffman")
         assert retval.get_json()["status"] == "success"
-        assert len(outbox) == 1
-        assert "Sheldon, you've accepted" in outbox[0].html
+        assert len(outbox) == 2
+        assert "Sheldon, your account has been created" in outbox[0].html
+        assert "Welcome to Defeat the Dragon, Sheldon!" in outbox[1].html
 
 
 def test_registration_failure_invalid_password(client):
