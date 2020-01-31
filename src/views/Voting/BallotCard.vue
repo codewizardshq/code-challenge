@@ -1,5 +1,10 @@
 <template>
-  <v-card class="ballot ballot-card" light elevation="0" @click="$emit('click')">
+  <v-card
+    class="ballot ballot-card"
+    light
+    elevation="0"
+    @click="$emit('click')"
+  >
     <div class="circle">
       KA
     </div>
