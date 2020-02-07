@@ -30,6 +30,7 @@ class DefaultConfig:
     MG_PRIVATE_KEY = os.getenv("MG_PRIVATE_KEY")
     MG_LIST = "codechallenge@school.codewizardshq.com"
     WORKER_PASSWORD = os.getenv("WORKER_PASSWORD")
+    SLACK_WEBHOOK = os.getenv("SLACK_WEBHOOK")
 
     # no trailing /
     EXTERNAL_URL = "https://challenge.codewizardshq.com"
