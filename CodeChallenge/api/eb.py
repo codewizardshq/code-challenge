@@ -1,5 +1,6 @@
 from hmac import compare_digest
 
+import requests
 from flask import Blueprint, request, current_app, render_template
 from flask_mail import Message
 
@@ -40,5 +41,11 @@ def worker():
         msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
 
         mail.send(msg)
+
+        webhook = current_app.config.get("SLACK_WEBHOOK")
+        if webhook is not None:
+            requests.post(webhook, json=dict(
+                text=f"*NEW RANK* {core.current_rank()}"
+            ))
 
     return "", 200
