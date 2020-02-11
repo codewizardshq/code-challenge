@@ -19,7 +19,7 @@
             :cols="i == icons.length - 1 ? 12 : 6"
             class="text-center"
           >
-            <v-btn :to="{{icon.to}}" target="_blank">
+            <v-btn :to="icon.to" target="_blank">
               <v-icon>mdi-{{ icon.icon }}</v-icon>
             </v-btn>
           </v-col>
