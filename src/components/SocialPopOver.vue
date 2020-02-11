@@ -19,7 +19,7 @@
             :cols="i == icons.length - 1 ? 12 : 6"
             class="text-center"
           >
-            <v-btn>
+            <v-btn :to="icon.to" target="_blank">
               <v-icon>mdi-{{ icon.icon }}</v-icon>
             </v-btn>
           </v-col>
@@ -35,19 +35,20 @@ export default {
     isOpen: false,
     icons: [
       {
-        icon: "twitter"
+        icon: "twitter",
+        to: "https://twitter.com/CodeWizardsHQ"
       },
       {
-        icon: "facebook"
+        icon: "facebook",
+        to: "https://www.facebook.com/events/501020200554546/"
       },
       {
-        icon: "whatsapp"
+        icon: "linkedin",
+        to: "https://www.linkedin.com/company/codewizardshq"
       },
       {
-        icon: "linkedin"
-      },
-      {
-        icon: "email"
+        icon: "email",
+        to: "mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
       }
     ]
   })
