@@ -30,16 +30,19 @@
         </template>
       </quiz-scroll>
     </v-row>
+    <quiz-need-help />
   </div>
 </template>
 
 <script>
+import QuizNeedHelp from "@/components/QuizNeedHelp";
 import QuizScroll from "@/components/QuizScroll";
 import { Quiz, User } from "@/store";
 export default {
   name: "quiz",
   components: {
-    QuizScroll
+    QuizScroll,
+    QuizNeedHelp
   },
   computed: {
     ...User.mapState(),
