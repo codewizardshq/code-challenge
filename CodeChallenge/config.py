@@ -30,6 +30,10 @@ class DefaultConfig:
     MG_PRIVATE_KEY = os.getenv("MG_PRIVATE_KEY")
     MG_LIST = "codechallenge@school.codewizardshq.com"
     WORKER_PASSWORD = os.getenv("WORKER_PASSWORD")
+    SLACK_WEBHOOK = os.getenv("SLACK_WEBHOOK")
+    SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET")
+    SLACK_OAUTH_TOKEN = os.getenv("SLACK_OAUTH_TOKEN")
+    SLACK_CHANNEL = os.getenv("SLACK_CHANNEL")
 
     # no trailing /
     EXTERNAL_URL = "https://challenge.codewizardshq.com"
