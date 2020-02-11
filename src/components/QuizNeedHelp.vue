@@ -9,12 +9,12 @@
         <v-card-text>
           <v-row no-gutters class="pt-3">
             <v-col
-              v-for="(icon, i) in icons"
+              v-for="icon in icons"
               :key="icon.icon"
-              :cols="i == icons.length - 1 ? 12 : 6"
+              cols="6"
               class="text-center"
             >
-              <v-btn :to="icon.to" target="_blank">
+              <v-btn :href="icon.to" target="_blank">
                 <v-icon>mdi-{{ icon.icon }}</v-icon>
               </v-btn>
             </v-col>
