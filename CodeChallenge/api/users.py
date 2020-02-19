@@ -148,8 +148,7 @@ def register():
     name = new_u.studentfirstname or new_u.parentfirstname
     confirm_email.html = render_template("challenge_account_confirm.html",
                                          name=name,
-                                         username=new_u.username,
-                                         password=password)
+                                         username=new_u.username)
     confirm_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
 
     # welcome email
