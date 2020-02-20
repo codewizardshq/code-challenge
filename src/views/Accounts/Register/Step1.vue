@@ -26,6 +26,7 @@
       />
 
       <v-select
+        single-line
         color="input"
         v-bind="fields.heardAboutUs"
         v-model="fields.heardAboutUs.value"
