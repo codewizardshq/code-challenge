@@ -5,18 +5,21 @@
     <v-content>
       <router-view />
     </v-content>
+    <mobile-warning />
   </v-app>
 </template>
 
 <script>
-import AppBar from "@/components/Toolbars/AppBar";
-import CWHQBar from "@/components/Toolbars/CWHQBar";
+import AppBar from '@/components/Toolbars/AppBar';
+import CWHQBar from '@/components/Toolbars/CWHQBar';
+import MobileWarning from '@/components/MobileWarning';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     AppBar,
-    CWHQBar
+    CWHQBar,
+    MobileWarning
   }
 };
 </script>
