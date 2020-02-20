@@ -55,10 +55,15 @@ def get_contestants():
             display = f"{ans.user.studentfirstname} " \
                       f"{ans.user.studentlastname[0]}."
 
+        confirmed_votes = []
+        for v in ans.votes:
+            if v.confirmed:
+                confirmed_votes.append(v)
+
         contestants.append(dict(
             id=ans.id,
             text=ans.text,
-            numVotes=len(ans.votes),
+            numVotes=len(confirmed_votes),
             firstName=ans.user.studentfirstname,
             lastName=ans.user.studentlastname,
             username=ans.user.username,
