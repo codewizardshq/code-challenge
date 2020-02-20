@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import AppBar from '@/components/Toolbars/AppBar';
-import CWHQBar from '@/components/Toolbars/CWHQBar';
-import MobileWarning from '@/components/MobileWarning';
+import AppBar from "@/components/Toolbars/AppBar";
+import CWHQBar from "@/components/Toolbars/CWHQBar";
+import MobileWarning from "@/components/MobileWarning";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     AppBar,
     CWHQBar,
