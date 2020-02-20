@@ -1,7 +1,9 @@
 <template>
   <v-toolbar class="cwhq-bar" :height="height" :max-height="height">
     <v-container>
-      <v-spacer />
+      <a href="https://github.com/codewizardshq/code-challenge"
+        >See the source on Github</a
+      >
       <a href="https://codewizardshq.com/challenge">Back to CodeWizardsHQ</a>
     </v-container>
   </v-toolbar>

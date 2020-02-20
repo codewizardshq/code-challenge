@@ -19,6 +19,9 @@
               </v-btn>
             </v-col>
           </v-row>
+          <a class="mt-6" href="https://github.com/codewizardshq/code-challenge"
+            >Check out the source code on Github!</a
+          >
         </v-card-text>
       </v-card>
     </v-dialog>
