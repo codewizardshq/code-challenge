@@ -1,14 +1,33 @@
-import { mapState } from "vuex";
-import { quiz } from "@/api";
-import moment from "moment";
-import Vue from "vue";
+import { mapState } from 'vuex';
+import { quiz } from '@/api';
+import moment from 'moment';
+import Vue from 'vue';
 
-const moduleName = "Quiz";
+moment.updateLocale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s ago',
+    s: 'a few seconds',
+    ss: '%d seconds',
+    m: 'a minute',
+    mm: '%d minutes',
+    h: 'an hour',
+    hh: '%d hours',
+    d: 'a day',
+    dd: '%d days',
+    M: 'one month',
+    MM: '%d months',
+    y: 'a year',
+    yy: '%d years'
+  }
+});
+
+const moduleName = 'Quiz';
 
 function parseDateResponse(dateResponse) {
-  const timeSplit = dateResponse.split(",");
-  let daysString = "0 days";
-  let timeString = "0:0:0";
+  const timeSplit = dateResponse.split(',');
+  let daysString = '0 days';
+  let timeString = '0:0:0';
 
   if (timeSplit.length == 1) {
     // returning only timeString
@@ -18,18 +37,18 @@ function parseDateResponse(dateResponse) {
     daysString = timeSplit[0];
     timeString = timeSplit[1];
   } else {
-    throw new Error("Unexpected error with time response");
+    throw new Error('Unexpected error with time response');
   }
   const days = parseInt(daysString);
-  const time = timeString.split(":");
+  const time = timeString.split(':');
   const hours = time[0];
   const minutes = time[1];
   const seconds = time[2];
   return moment()
-    .add(days, "days")
-    .add(hours, "hours")
-    .add(minutes, "minutes")
-    .add(seconds, "seconds");
+    .add(days, 'days')
+    .add(hours, 'hours')
+    .add(minutes, 'minutes')
+    .add(seconds, 'seconds');
 }
 
 function getDefaultState() {
@@ -37,15 +56,13 @@ function getDefaultState() {
     hasSeenIntro: false,
     nextUnlockMoment: moment(),
     quizStartedMoment: moment(),
-    question: "",
-    asset: "",
+    question: '',
+    asset: '',
     rank: 0,
     maxRank: 0,
     isLastQuestion: false,
-    hints: ["", ""],
-    wrongCount: localStorage.getItem("wrongCount")
-      ? parseInt(localStorage.getItem("wrongCount"))
-      : 0,
+    hints: ['', ''],
+    wrongCount: localStorage.getItem('wrongCount') ? parseInt(localStorage.getItem('wrongCount')) : 0,
     quizHasStarted: false,
     quizHasEnded: false,
     awaitNextQuestion: false
@@ -58,41 +75,38 @@ const state = {
 
 const actions = {
   async reset({ commit }) {
-    commit("reset");
+    commit('reset');
   },
   async markAsSeen({ commit }) {
-    commit("hasSeenIntro", true);
+    commit('hasSeenIntro', true);
   },
   async addWrongCount({ state, commit }) {
-    commit("wrongCount", state.wrongCount + 1);
+    commit('wrongCount', state.wrongCount + 1);
   },
   async clearWrongCount({ commit }) {
-    commit("wrongCount", 0);
+    commit('wrongCount', 0);
   },
   async refresh({ state, commit }) {
     // get current rank and see if quiz has started
     try {
       const rank = await quiz.getRank();
-      commit("maxRank", rank.maxRank);
-      commit(
-        "quizStartedMoment",
-        moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z")
-      );
+      commit('maxRank', rank.maxRank);
+      commit('quizStartedMoment', moment(rank.startsOn + '+0000', 'MM/DD/YYYY HH:mm   Z'));
       if (rank.rank < 0) {
-        commit("quizHasStarted", false);
-        commit("awaitNextQuestion", false);
-        commit("question", "");
-        commit("asset", "");
-        commit("rank", 0);
-        commit("hints", ["", ""]);
-        commit("nextUnlockMoment", parseDateResponse(rank.timeUntilNextRank));
+        commit('quizHasStarted', false);
+        commit('awaitNextQuestion', false);
+        commit('question', '');
+        commit('asset', '');
+        commit('rank', 0);
+        commit('hints', ['', '']);
+        commit('nextUnlockMoment', parseDateResponse(rank.timeUntilNextRank));
         return;
       }
-      commit("quizHasStarted", true);
-      commit("rank", rank.rank);
+      commit('quizHasStarted', true);
+      commit('rank', rank.rank);
     } catch (err) {
       if (err.status === 403) {
-        commit("quizHasEnded", true);
+        commit('quizHasEnded', true);
         return;
       }
       throw new Error(err);
@@ -101,29 +115,26 @@ const actions = {
     // get current question and see if question is even unlocked
     try {
       const response = await quiz.getQuestion();
-      commit("awaitNextQuestion", false);
-      commit("question", response.question);
-      commit("asset", response.asset);
-      commit("rank", response.rank);
-      commit("hints", response.hints);
-      commit("nextUnlockMoment", moment());
-      commit("isLastQuestion", response.rank === state.maxRank);
+      commit('awaitNextQuestion', false);
+      commit('question', response.question);
+      commit('asset', response.asset);
+      commit('rank', response.rank);
+      commit('hints', response.hints);
+      commit('nextUnlockMoment', moment());
+      commit('isLastQuestion', response.rank === state.maxRank);
     } catch (err) {
       if (err.status === 404) {
-        commit("awaitNextQuestion", true);
-        commit("question", "");
-        commit("asset", "");
-        commit("rank", 0);
-        commit("hints", ["", ""]);
-        commit(
-          "nextUnlockMoment",
-          parseDateResponse(err.data.timeUntilNextRank)
-        );
+        commit('awaitNextQuestion', true);
+        commit('question', '');
+        commit('asset', '');
+        commit('rank', 0);
+        commit('hints', ['', '']);
+        commit('nextUnlockMoment', parseDateResponse(err.data.timeUntilNextRank));
       } else if (err.status === 401) {
-        commit("question", "");
-        commit("asset", "");
-        commit("rank", 0);
-        commit("hints", ["", ""]);
+        commit('question', '');
+        commit('asset', '');
+        commit('rank', 0);
+        commit('hints', ['', '']);
       } else {
         return Promise.reject(err);
       }
@@ -158,7 +169,7 @@ const mutations = {
   },
   wrongCount(state, value) {
     state.wrongCount = value;
-    localStorage.setItem("wrongCount", state.wrongCount);
+    localStorage.setItem('wrongCount', state.wrongCount);
   },
   hints(state, value) {
     state.hints = value;

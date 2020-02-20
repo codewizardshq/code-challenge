@@ -26,7 +26,20 @@
         <template v-slot:title>Woah Slow Down!</template>
         <template v-slot:default>
           <p class="text-center">The challenge has not yet begun!</p>
-          <p>Challenge begins: {{ Quiz.quizStartedMoment.fromNow() }}</p>
+          <p>Challenge begins in {{ Quiz.quizStartedMoment.fromNow() }}</p>
+          <p>Challenge starts April 3rd</p>
+          <v-btn
+            class="mr-3 mt-5"
+            :style="{ backgroundColor: 'white !important' }"
+            x-large
+            color="blue"
+            href="https://www.facebook.com/events/501020200554546/"
+            icon
+            ><v-icon>mdi-facebook</v-icon></v-btn
+          >
+          <v-btn class="mt-5" :style="{ backgroundColor: 'white !important' }" x-large color="blue" href="https://www.facebook.com/events/501020200554546/" icon
+            ><v-icon>mdi-twitter</v-icon></v-btn
+          >
         </template>
       </quiz-scroll>
     </v-row>
@@ -35,11 +48,11 @@
 </template>
 
 <script>
-import QuizNeedHelp from "@/components/QuizNeedHelp";
-import QuizScroll from "@/components/QuizScroll";
-import { Quiz, User } from "@/store";
+import QuizNeedHelp from '@/components/QuizNeedHelp';
+import QuizScroll from '@/components/QuizScroll';
+import { Quiz, User } from '@/store';
 export default {
-  name: "quiz",
+  name: 'quiz',
   components: {
     QuizScroll,
     QuizNeedHelp
@@ -50,8 +63,8 @@ export default {
   },
   methods: {
     async onClick() {
-      await this.$store.dispatch("Quiz/markAsSeen");
-      this.$router.push({ name: "quiz" });
+      await this.$store.dispatch('Quiz/markAsSeen');
+      this.$router.push({ name: 'quiz' });
     }
   }
 };
