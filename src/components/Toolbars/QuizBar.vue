@@ -37,7 +37,7 @@
               <a href="#" v-on="menu">Get Help</a>
             </template>
             <v-list class="list">
-              <v-list-item :to="{ name: 'faq' }">
+              <v-list-item href="https://codewizardshq.com/challenge" target="_blank">
                 <v-list-item-title>Check The FAQ</v-list-item-title>
               </v-list-item>
               <v-list-item href="https://discord.gg/HKnpzjQ" target="_blank">
@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import { User, Quiz } from "@/store";
+  import {Quiz, User} from "@/store";
 
-export default {
+  export default {
   name: "quizBar",
   computed: {
     ...User.mapState(),
