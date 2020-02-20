@@ -7,18 +7,21 @@
       <router-view />
     </v-content>
     <leaderboard-bar />
+    <mobile-warning />
   </v-app>
 </template>
 
 <script>
-import AppBar from "@/components/Toolbars/AppBar";
-import QuizBar from "@/components/Toolbars/QuizBar";
-import CWHQBar from "@/components/Toolbars/CWHQBar";
-import LeaderboardBar from "@/components/Toolbars/LeaderboardBar";
+import AppBar from '@/components/Toolbars/AppBar';
+import QuizBar from '@/components/Toolbars/QuizBar';
+import CWHQBar from '@/components/Toolbars/CWHQBar';
+import LeaderboardBar from '@/components/Toolbars/LeaderboardBar';
+import MobileWarning from '@/components/MobileWarning';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
+    MobileWarning,
     AppBar,
     QuizBar,
     CWHQBar,

@@ -48,7 +48,8 @@ export default {
       },
       {
         icon: "email",
-        to: "mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
+        to:
+          "mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
       }
     ]
   })
