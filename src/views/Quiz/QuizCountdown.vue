@@ -37,15 +37,7 @@
             icon
             ><v-icon>mdi-facebook</v-icon></v-btn
           >
-          <v-btn
-            class="mt-5"
-            :style="{ backgroundColor: 'white !important' }"
-            x-large
-            color="blue"
-            href="https://www.facebook.com/events/501020200554546/"
-            icon
-            ><v-icon>mdi-twitter</v-icon></v-btn
-          >
+          <v-btn class="mt-5" :style="{ backgroundColor: 'white !important' }" x-large color="blue" href="https://twitter.com/CodeWizardsHQ" icon><v-icon>mdi-twitter</v-icon></v-btn>
         </template>
       </quiz-scroll>
     </v-row>
