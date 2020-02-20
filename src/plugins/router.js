@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {auth} from "@/api";
+import { auth } from "@/api";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -47,7 +47,8 @@ const routes = [
       {
         path: "frequently-asked-questions",
         name: "faq",
-        beforeEnter: () => window.location = "https://codewizardshq.com/challenge"
+        beforeEnter: () =>
+          (window.location = "https://codewizardshq.com/challenge")
       }
     ]
   },

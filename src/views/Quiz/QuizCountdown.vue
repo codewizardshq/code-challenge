@@ -37,7 +37,13 @@
             icon
             ><v-icon>mdi-facebook</v-icon></v-btn
           >
-          <v-btn class="mt-5" :style="{ backgroundColor: 'white !important' }" x-large color="blue" href="https://www.facebook.com/events/501020200554546/" icon
+          <v-btn
+            class="mt-5"
+            :style="{ backgroundColor: 'white !important' }"
+            x-large
+            color="blue"
+            href="https://www.facebook.com/events/501020200554546/"
+            icon
             ><v-icon>mdi-twitter</v-icon></v-btn
           >
         </template>
@@ -48,11 +54,11 @@
 </template>
 
 <script>
-import QuizNeedHelp from '@/components/QuizNeedHelp';
-import QuizScroll from '@/components/QuizScroll';
-import { Quiz, User } from '@/store';
+import QuizNeedHelp from "@/components/QuizNeedHelp";
+import QuizScroll from "@/components/QuizScroll";
+import { Quiz, User } from "@/store";
 export default {
-  name: 'quiz',
+  name: "quiz",
   components: {
     QuizScroll,
     QuizNeedHelp
@@ -63,8 +69,8 @@ export default {
   },
   methods: {
     async onClick() {
-      await this.$store.dispatch('Quiz/markAsSeen');
-      this.$router.push({ name: 'quiz' });
+      await this.$store.dispatch("Quiz/markAsSeen");
+      this.$router.push({ name: "quiz" });
     }
   }
 };
