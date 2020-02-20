@@ -27,6 +27,7 @@
         :disabled="isSubmitting"
       />
       <v-select
+        single-line
         v-bind="fields.age"
         v-model="fields.age.value"
         :disabled="isSubmitting"
@@ -92,7 +93,8 @@ export default {
   props: ["fields"],
   computed: {
     needsParentConsent() {
-      return this.fields.age.value === "12 years old or lower";
+      const ageNum = parseInt(this.fields.age.value);
+      return ageNum < 13;
     }
   },
   methods: {

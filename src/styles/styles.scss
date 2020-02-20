@@ -1,20 +1,20 @@
 .cwhq-app {
-  @import "./colors.scss";
-  @import "./application.scss";
-  @import "./quiz-scroll.scss";
-  @import "./quiz-answer.scss";
-  @import "./quiz-need-help.scss";
-  @import "./quiz-bar-rank.scss";
-  @import "./content.scss";
-  @import "./social-pop-over.scss";
-  @import "./casing.scss";
-  @import "./cwhq-bar.scss";
-  @import "./quiz-bar.scss";
-  @import "./leaderboard-bar.scss";
-  @import "./ballot-card.scss";
-  @import "./ballot-modal.scss";
-  @import "./buttons.scss";
-  @import "./mobile-warning.scss";
+  @import './colors.scss';
+  @import './application.scss';
+  @import './quiz-scroll.scss';
+  @import './quiz-answer.scss';
+  @import './quiz-need-help.scss';
+  @import './quiz-bar-rank.scss';
+  @import './content.scss';
+  @import './social-pop-over.scss';
+  @import './casing.scss';
+  @import './cwhq-bar.scss';
+  @import './quiz-bar.scss';
+  @import './leaderboard-bar.scss';
+  @import './ballot-card.scss';
+  @import './ballot-modal.scss';
+  @import './buttons.scss';
+  @import './mobile-warning.scss';
 
   .v-alert {
     font-size: 20px;
@@ -22,6 +22,7 @@
 
   .v-input {
     font-size: 20px;
+    margin-bottom: 12px;
   }
 
   .v-messages {
@@ -33,5 +34,16 @@
       font-size: 20px;
       padding: 20px;
     }
+  }
+}
+
+.v-form {
+  .v-select__slot {
+    padding-top: 10px;
+  }
+
+  label {
+    font-size: 22px !important;
+    top: -2px;
   }
 }

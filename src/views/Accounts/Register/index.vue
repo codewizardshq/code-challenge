@@ -208,7 +208,7 @@ export default {
           label: "How did you hear about the Code Challange?",
           type: "select",
           items: [
-            "Choose an option",
+            "How did you hear about the Code Challange?",
             "I'm a CodeWizardsHQ Student",
             "CWHQ newsletter",
             "CWHQ website",
@@ -218,8 +218,12 @@ export default {
             "Your school or PTA",
             "Other"
           ],
-          value: "Choose an option",
-          rules: [v => v !== "Choose an option" || "Please choose an option"]
+          value: "How did you hear about the Code Challange?",
+          rules: [
+            v =>
+              v !== "How did you hear about the Code Challange?" ||
+              "Please choose an option"
+          ]
         },
         heardAboutUsText: {
           label: "Tell us where you heard about the Code Challenge!",
@@ -237,11 +241,15 @@ export default {
           rules: [v => !!v || "Please enter a date of birth"]
         },
         age: {
-          label: "Hold old is the student?",
+          label: "How old is the student?",
           type: "select",
           items: [
-            "Choose an option",
-            "12 years old or lower",
+            "How old is the student?",
+            "8 years old",
+            "9 years old",
+            "10 years old",
+            "11 years old",
+            "12 years old",
             "13 years old",
             "14 years old",
             "15 years old",
@@ -249,8 +257,10 @@ export default {
             "17 years old",
             "18 years old or older"
           ],
-          value: "Choose an option",
-          rules: [v => v !== "Choose an option" || "Please choose an option"]
+          value: "How old is the student?",
+          rules: [
+            v => v !== "How old is the student?" || "Please choose an option"
+          ]
         },
         tos: {
           label: "I agree to the Terms of Use and Privacy Policy",
