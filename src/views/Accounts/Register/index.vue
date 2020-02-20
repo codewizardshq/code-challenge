@@ -9,36 +9,19 @@
 
           <v-stepper v-model="stepperIndex">
             <v-stepper-header class="elevation-0">
-              <v-stepper-step
-                color="button"
-                :complete="stepperIndex > 1"
-                step="1"
-                >Account Details</v-stepper-step
-              >
+              <v-stepper-step color="button" :complete="stepperIndex > 1" step="1">Account Details</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step
-                color="button"
-                :complete="stepperIndex > 2"
-                step="2"
-                >Student Details</v-stepper-step
-              >
+              <v-stepper-step color="button" :complete="stepperIndex > 2" step="2">Student Details</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step
-                color="button"
-                :complete="stepperIndex > 3"
-                step="3"
-                >Parent Details</v-stepper-step
-              >
+              <v-stepper-step color="button" :complete="stepperIndex > 3" step="3">Parent Details</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step color="button" step="4"
-                >Terms Of Use</v-stepper-step
-              >
+              <v-stepper-step color="button" step="4">Terms Of Use</v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
@@ -66,13 +49,13 @@
 </template>
 
 <script>
-import PageCard from "@/components/PageCard";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
+import PageCard from '@/components/PageCard';
+import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
+import Step4 from './Step4';
 
-import * as api from "@/api";
+import * as api from '@/api';
 
 export default {
   components: {
@@ -100,10 +83,7 @@ export default {
       this.isSubmitting = true;
       try {
         await api.auth.createAccount({
-          foundUs:
-            this.fields.heardAboutUs === "Other"
-              ? this.fields.heardAboutUsText.value
-              : this.fields.heardAboutUs.value,
+          foundUs: this.fields.heardAboutUs === 'Other' ? this.fields.heardAboutUsText.value : this.fields.heardAboutUs.value,
           studentFirstName: this.fields.firstName.value,
           studentLastName: this.fields.lastName.value,
           parentFirstName: this.fields.parentFirstName.value,
@@ -111,17 +91,20 @@ export default {
           username: this.fields.username.value,
           parentEmail: this.fields.parentEmail.value,
           studentEmail: this.fields.studentEmail.value,
-          DOB: this.fields.dateOfBirth.value,
+          DOB: parseInt(this.fields.age.value) + '',
           password: this.fields.password.value
         });
-        localStorage.setItem("lastUsername", this.fields.username.value);
-        this.$store.dispatch("Snackbar/showInfo", "Successfully Logged In");
+        localStorage.setItem('lastUsername', this.fields.username.value);
+        this.$store.dispatch('Snackbar/showInfo', 'Successfully Logged In');
         this.isSubmitting = false;
         this.stepperIndex = 0;
-        this.$router.push({ name: "quiz" });
+        this.$router.push({ name: 'quiz' });
       } catch (err) {
+        alert(err.message);
+        // eslint-disable-next-line no-console
+        console.error(err);
         this.isSubmitting = false;
-        this.$store.dispatch("Snackbar/showError", err);
+        this.$store.dispatch('Snackbar/showError', err);
       }
       cb();
     }
@@ -132,15 +115,11 @@ export default {
       stepperIndex: 1,
       fields: {
         username: {
-          label: "Username",
-          hint: "You will use this to log in",
-          type: "text",
-          value: "",
-          rules: [
-            v => !!v || "Please provide a username",
-            () =>
-              !this.fields.username.inUse || "This username is already in use"
-          ],
+          label: 'Username',
+          hint: 'You will use this to log in',
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please provide a username', () => !this.fields.username.inUse || 'This username is already in use'],
           inUse: false,
           requestCount: 0,
           requestIndex: 0,
@@ -148,103 +127,110 @@ export default {
         },
         parentEmail: {
           label: "Parent's E-mail Address",
-          type: "email",
-          value: "",
-          rules: [v => !!v || "Please provide a email"]
+          type: 'email',
+          value: '',
+          rules: [v => !!v || 'Please provide a email']
         },
         studentEmail: {
           label: "Student's E-mail Address (optional)",
-          type: "email",
-          value: ""
+          type: 'email',
+          value: ''
         },
         password: {
-          label: "Password",
-          type: "password",
-          autocomplete: "new-password",
-          value: "",
+          label: 'Password',
+          type: 'password',
+          autocomplete: 'new-password',
+          value: '',
           rules: [
             v => !!v || "Don't forget to give a password",
-            v => v.length >= 8 || "Password must be at least 8 characters",
-            v =>
-              v.length < 100 || "Password must be at less than 100 characters"
+            v => v.length >= 8 || 'Password must be at least 8 characters',
+            v => v.length < 100 || 'Password must be at less than 100 characters'
           ]
         },
         passwordConfirm: {
-          label: "Confirm Password",
-          type: "password",
-          value: "",
-          rules: [
-            v => v == this.fields.password.value || "Passwords do not match"
-          ]
+          label: 'Confirm Password',
+          type: 'password',
+          value: '',
+          rules: [v => v == this.fields.password.value || 'Passwords do not match']
         },
         firstName: {
           label: "Student's First Name",
-          type: "text",
-          value: "",
-          rules: [v => !!v || "Please tell us your name"]
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please tell us your name']
         },
         lastName: {
           label: "Student's Last Name",
-          type: "text",
-          value: "",
-          rules: [v => !!v || "Please tell us your name"]
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please tell us your name']
         },
         parentFirstName: {
           label: "Parent's First Name",
-          type: "text",
-          value: "",
-          rules: [v => !!v || "Please tell us your name"]
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please tell us your name']
         },
         parentLastName: {
           label: "Parent's Last Name",
-          type: "text",
-          value: "",
-          rules: [v => !!v || "Please tell us your name"]
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please tell us your name']
         },
         heardAboutUs: {
-          label: "How did you hear about the Code Challange?",
-          type: "select",
+          label: 'How did you hear about the Code Challange?',
+          type: 'select',
           items: [
-            "Choose an option",
+            'Choose an option',
             "I'm a CodeWizardsHQ Student",
-            "CWHQ newsletter",
-            "CWHQ website",
-            "Facebook, Twitter, Instagram, or LinkedIn",
-            "Friend or family member ",
-            "Google or search engine",
-            "Your school or PTA",
-            "Other"
+            'CWHQ newsletter',
+            'CWHQ website',
+            'Facebook, Twitter, Instagram, or LinkedIn',
+            'Friend or family member ',
+            'Google or search engine',
+            'Your school or PTA',
+            'Other'
           ],
-          value: "Choose an option",
-          rules: [v => v !== "Choose an option" || "Please choose an option"]
+          value: 'Choose an option',
+          rules: [v => v !== 'Choose an option' || 'Please choose an option']
         },
         heardAboutUsText: {
-          label: "Tell us where you heard about the Code Challenge!",
-          type: "text",
-          value: "",
-          rules: [
-            v =>
-              !!v || "Please tell us where you heard about the code challenge"
-          ]
+          label: 'Tell us where you heard about the Code Challenge!',
+          type: 'text',
+          value: '',
+          rules: [v => !!v || 'Please tell us where you heard about the code challenge']
         },
         dateOfBirth: {
           label: "Student's Date Of Birth",
-          type: "date",
+          type: 'date',
           value: new Date().toISOString().substr(0, 10),
-          rules: [v => !!v || "Please enter a date of birth"]
+          rules: [v => !!v || 'Please enter a date of birth']
+        },
+        age: {
+          label: 'Hold old is the student?',
+          type: 'select',
+          items: [
+            'Choose an option',
+            '12 years old or lower',
+            '13 years old',
+            '14 years old',
+            '15 years old',
+            '16 years old',
+            '17 years old',
+            '18 years old or older'
+          ],
+          value: 'Choose an option',
+          rules: [v => v !== 'Choose an option' || 'Please choose an option']
         },
         tos: {
-          label: "I agree to the Terms of Use and Privacy Policy",
+          label: 'I agree to the Terms of Use and Privacy Policy',
           value: false,
-          rules: [
-            v => !!v || "You must agree to the Terms of Use and Privacy Policy"
-          ]
+          rules: [v => !!v || 'You must agree to the Terms of Use and Privacy Policy']
         },
         tos2: {
-          label:
-            "I agree to receive Code Challenge related updates and offers (you may unsubscribe at any time)",
+          label: 'I agree to receive Code Challenge related updates and offers (you may unsubscribe at any time)',
           value: false,
-          rules: [v => !!v || "You must agree to recieve e-mail"]
+          rules: [v => !!v || 'You must agree to recieve e-mail']
         }
       }
     };
