@@ -26,7 +26,7 @@
         <template v-slot:title>Woah Slow Down!</template>
         <template v-slot:default>
           <p class="text-center">The challenge has not yet begun!</p>
-          <p>Challenge begins in {{ Quiz.quizStartedMoment.fromNow() }}</p>
+          <p>Challenge begins {{ Quiz.quizStartedMoment.fromNow() }}</p>
           <p>Challenge starts April 3rd</p>
           <v-btn
             class="mr-3 mt-5"
