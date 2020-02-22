@@ -9,7 +9,7 @@
 
           <FAQ-card>
             <template #title>How do I sign up for the challenge? </template>
-            Create an account anytime until Mar 20 at
+            Create an account anytime until April 3rd at
             <router-link :to="{ name: 'register' }"
               >https://challenge.codewizardshq.com/create-account </router-link
             >. You will need a parent's email address to sign up.
@@ -17,9 +17,9 @@
 
           <FAQ-card>
             <template #title>How do I play the challenge? </template>
-            Login every day between March 1-21 to answer a challenge question.
+            Login every day between April 3-24 to answer a challenge question.
             When you get the question right, you will move on to the next level.
-            You can answer questions as many times as you want until March 21
+            You can answer questions as many times as you want until April 23
             11:59 PM. If you have answered all 21 questions correctly, you will
             move on to the boss challenge. Challengers who place in the boss
             challenge will win a $100 CWHQ gift card plus a cash prize.
@@ -105,10 +105,10 @@
 </template>
 
 <script>
-import PageCard from "@/components/PageCard";
-import FAQCard from "./FAQCard";
+  import PageCard from "@/components/PageCard";
+  import FAQCard from "./FAQCard";
 
-export default {
+  export default {
   name: "faq",
   components: {
     PageCard,
