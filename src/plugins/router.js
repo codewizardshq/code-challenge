@@ -47,8 +47,7 @@ const routes = [
       {
         path: "frequently-asked-questions",
         name: "faq",
-        beforeEnter: () =>
-          (window.location = "https://codewizardshq.com/challenge")
+        component: () => import("@/views/Public/FAQ")
       }
     ]
   },
