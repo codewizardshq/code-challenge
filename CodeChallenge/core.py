@@ -72,4 +72,4 @@ def challenge_ended() -> bool:
 
 
 def user_count() -> int:
-    return db.session.query(func.count(Users)).scalar()
+    return db.session.query(func.count(Users.id)).scalar()
