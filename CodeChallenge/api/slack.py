@@ -4,8 +4,11 @@ import time
 
 import requests
 from flask import Blueprint, request, jsonify, current_app, abort
+from sqlalchemy import func
 
 from .. import core
+from ..auth import Users
+from ..models import db
 
 bp = Blueprint("slackapi", __name__, url_prefix="/api/v1/slack")
 
@@ -57,6 +60,19 @@ def handle_message(text, channel):
         resp += f"*Max Rank:* {core.max_rank()}\n"
         resp += f"*Next Rank:* {core.time_until_next_rank()}\n"
         resp += f"*Total Users:* {core.user_count()}"
+
+        post_message(channel, resp)
+
+    if command == "foundus":
+        found_us = db.session.query(Users.found_us,
+                                    func.count(Users.found_us)) \
+            .group_by(Users.found_us) \
+            .order_by(Users.found_us) \
+            .all()
+
+        resp = ""
+        for row in found_us:
+            resp += f"*{row[0]}*: {row[1]}\n"
 
         post_message(channel, resp)
 
