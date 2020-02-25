@@ -101,7 +101,7 @@ export default {
       try {
         await api.auth.createAccount({
           foundUs:
-            this.fields.heardAboutUs === "Other"
+            this.fields.heardAboutUs.value === "Other"
               ? this.fields.heardAboutUsText.value
               : this.fields.heardAboutUs.value,
           studentFirstName: this.fields.firstName.value,
