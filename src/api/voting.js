@@ -1,8 +1,10 @@
 import routes from "./routes";
 import request from "./request";
 
-async function getBallot() {
-  return request(routes.voting_ballot);
+async function getBallot(page, per) {
+  return request(routes.voting_ballot, {
+    params: { page, per }
+  });
 }
 
 async function cast(answerId, email) {

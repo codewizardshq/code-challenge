@@ -51,22 +51,9 @@
         </v-row>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="showSuccess" max-width="600">
-      <v-card color="white" light v-if="isOpen">
-        <v-card-title>
-          We have sent a voting confirmation e-mail.
-        </v-card-title>
-        <v-card-text>
-          Please check your inbox to confirm your vote.
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="cwhqBlue" tile flat @click="showSuccess = false"
-            >Okay</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+
+    <success-modal v-model="showSuccess" />
+
     <v-dialog v-model="showError" max-width="600">
       <v-card color="white" light v-if="isOpen">
         <v-card-title>
@@ -77,7 +64,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="cwhqBlue" tile flat @click="showError = false"
+          <v-btn color="cwhqBlue" tile text @click="showError = false"
             >Okay</v-btn
           >
         </v-card-actions>
@@ -88,11 +75,15 @@
 
 <script>
 import * as api from "@/api";
+import SuccessModal from "./SuccessModal";
 
 export default {
+  components: {
+    SuccessModal
+  },
   data() {
     return {
-      showSuccess: false,
+      showSuccess: true,
       showError: false,
       errorMessage: "",
       isOpen: this.value,
