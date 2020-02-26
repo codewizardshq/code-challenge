@@ -36,6 +36,18 @@
 <script>
 export default {
   props: ["value"],
+  watch: {
+    show() {
+      if (this.show != this.value) {
+        this.$emit("input", this.show);
+      }
+    },
+    value() {
+      if (this.show != this.value) {
+        this.show = this.value;
+      }
+    }
+  },
   data() {
     return {
       show: this.value

@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      showSuccess: true,
+      showSuccess: false,
       showError: false,
       errorMessage: "",
       isOpen: this.value,
@@ -140,7 +140,6 @@ export default {
         this.errorMessage = err.message;
         this.showError = true;
       }
-
       this.isSubmitting = false;
     }
   }
