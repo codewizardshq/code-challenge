@@ -40,10 +40,13 @@
               <v-list-item :to="{ name: 'faq' }">
                 <v-list-item-title>Check The FAQ</v-list-item-title>
               </v-list-item>
-              <v-list-item href="https://discord.gg/fDWbCj9" target="_blank">
+              <v-list-item href="https://discord.gg/HKnpzjQ" target="_blank">
                 <v-list-item-title>Get Help On Discord</v-list-item-title>
               </v-list-item>
-              <v-list-item href="https://www.facebook.com" target="_blank">
+              <v-list-item
+                href="https://www.facebook.com/events/501020200554546/"
+                target="_blank"
+              >
                 <v-list-item-title>Get Help On Facebook</v-list-item-title>
               </v-list-item>
             </v-list>

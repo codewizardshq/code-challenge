@@ -74,6 +74,10 @@ import Step4 from "./Step4";
 
 import * as api from "@/api";
 
+function validateEmail(mail) {
+  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
+}
+
 export default {
   components: {
     Step1,
@@ -101,8 +105,8 @@ export default {
       try {
         await api.auth.createAccount({
           foundUs:
-            this.fields.heardAboutUs === "Other"
-              ? this.fields.heardAboutUsText.value
+            this.fields.heardAboutUs.value === "Other"
+              ? "Other - " + this.fields.heardAboutUsText.value
               : this.fields.heardAboutUs.value,
           studentFirstName: this.fields.firstName.value,
           studentLastName: this.fields.lastName.value,
@@ -111,7 +115,7 @@ export default {
           username: this.fields.username.value,
           parentEmail: this.fields.parentEmail.value,
           studentEmail: this.fields.studentEmail.value,
-          DOB: this.fields.dateOfBirth.value,
+          DOB: parseInt(this.fields.age.value) + "",
           password: this.fields.password.value
         });
         localStorage.setItem("lastUsername", this.fields.username.value);
@@ -120,6 +124,9 @@ export default {
         this.stepperIndex = 0;
         this.$router.push({ name: "quiz" });
       } catch (err) {
+        alert(err.message);
+        // eslint-disable-next-line no-console
+        console.error(err);
         this.isSubmitting = false;
         this.$store.dispatch("Snackbar/showError", err);
       }
@@ -150,7 +157,7 @@ export default {
           label: "Parent's E-mail Address",
           type: "email",
           value: "",
-          rules: [v => !!v || "Please provide a email"]
+          rules: [v => validateEmail(v) || "Please provide a valid e-mail"]
         },
         studentEmail: {
           label: "Student's E-mail Address (optional)",
@@ -205,7 +212,7 @@ export default {
           label: "How did you hear about the Code Challange?",
           type: "select",
           items: [
-            "Choose an option",
+            "How did you hear about the Code Challange?",
             "I'm a CodeWizardsHQ Student",
             "CWHQ newsletter",
             "CWHQ website",
@@ -215,8 +222,12 @@ export default {
             "Your school or PTA",
             "Other"
           ],
-          value: "Choose an option",
-          rules: [v => v !== "Choose an option" || "Please choose an option"]
+          value: "How did you hear about the Code Challange?",
+          rules: [
+            v =>
+              v !== "How did you hear about the Code Challange?" ||
+              "Please choose an option"
+          ]
         },
         heardAboutUsText: {
           label: "Tell us where you heard about the Code Challenge!",
@@ -232,6 +243,28 @@ export default {
           type: "date",
           value: new Date().toISOString().substr(0, 10),
           rules: [v => !!v || "Please enter a date of birth"]
+        },
+        age: {
+          label: "How old is the student?",
+          type: "select",
+          items: [
+            "How old is the student?",
+            "8 years old",
+            "9 years old",
+            "10 years old",
+            "11 years old",
+            "12 years old",
+            "13 years old",
+            "14 years old",
+            "15 years old",
+            "16 years old",
+            "17 years old",
+            "18 years old or older"
+          ],
+          value: "How old is the student?",
+          rules: [
+            v => v !== "How old is the student?" || "Please choose an option"
+          ]
         },
         tos: {
           label: "I agree to the Terms of Use and Privacy Policy",

@@ -1,3 +1,4 @@
+import requests
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_current_user, get_jwt_identity,
@@ -6,6 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 unset_jwt_cookies)
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
+from sqlalchemy import func
 
 from .. import core
 from ..auth import (Users, hash_password, password_reset_token,
@@ -146,8 +148,7 @@ def register():
     name = new_u.studentfirstname or new_u.parentfirstname
     confirm_email.html = render_template("challenge_account_confirm.html",
                                          name=name,
-                                         username=new_u.username,
-                                         password=password)
+                                         username=new_u.username)
     confirm_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
 
     # welcome email
@@ -161,6 +162,18 @@ def register():
     # send emails
     mail.send(confirm_email)
     mail.send(welcome_email)
+
+    if "SLACK_WEBHOOK" in current_app.config and not current_app.config.get("TESTING", False):
+        regcount = db.session.query(func.count(Users.id)).scalar()
+        webhook = current_app.config.get("SLACK_WEBHOOK")
+        requests.post(webhook, json=dict(
+            text="Event: New Registration\n\n"
+                 f"*User*: {new_u.username}\n"
+                 f"*Student*: {new_u.studentfirstname} {new_u.studentlastname}\n"
+                 f"*Parent*: {new_u.parentfirstname} {new_u.parentlastname}\n"
+                 f"*How'd you find us?* {new_u.found_us}\n"
+                 f"\n*Total Registrations*: {regcount}"
+        ))
 
     return jsonify({"status": "success"})
 

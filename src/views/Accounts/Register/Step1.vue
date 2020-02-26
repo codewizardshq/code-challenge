@@ -10,26 +10,27 @@
         color="input"
         v-bind="fields.username"
         v-model="fields.username.value"
-        :disabled="!allowSubmit"
+        :disabled="isSubmitting"
       />
       <v-text-field
         color="input"
         v-bind="fields.password"
         v-model="fields.password.value"
-        :disabled="!allowSubmit"
+        :disabled="isSubmitting"
       />
       <v-text-field
         color="input"
         v-bind="fields.passwordConfirm"
         v-model="fields.passwordConfirm.value"
-        :disabled="!allowSubmit"
+        :disabled="isSubmitting"
       />
 
       <v-select
+        single-line
         color="input"
         v-bind="fields.heardAboutUs"
         v-model="fields.heardAboutUs.value"
-        :disabled="!allowSubmit"
+        :disabled="isSubmitting"
       />
 
       <v-textarea

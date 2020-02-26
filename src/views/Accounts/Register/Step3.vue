@@ -28,34 +28,6 @@
       />
     </v-card-text>
 
-    <v-card-text v-if="showParentConsentAlert">
-      <v-alert colored-border icon="mdi-firework">
-        You are not 13 years of age.
-        <p>
-          In order to continue with the code challenge you must have your
-          parent's permission. Have your parent or guardian complete the rest of
-          this page.
-        </p>
-        <v-switch
-          v-model="hasParentConsent"
-          color="button"
-          class="mx-2"
-          :rules="[
-            v =>
-              !!v ||
-              'Please have your parent or guardian review this form before continuing'
-          ]"
-          :label="
-            'I, the parent or guardian of ' +
-              this.fields.firstName.value +
-              ' ' +
-              this.fields.lastName.value +
-              ', give my consent to participate in the CodeWizardsHQ Code Challenge.'
-          "
-        ></v-switch>
-      </v-alert>
-    </v-card-text>
-
     <v-card-actions>
       <v-btn
         color="button"
@@ -82,13 +54,6 @@ export default {
   name: "register-step-3",
   props: ["fields"],
   components: {},
-  watch: {
-    "fields.dateOfBirth.value"() {
-      if (!this.needsParentConsent) {
-        this.showParentConsentAlert = false;
-      }
-    }
-  },
   methods: {
     async submit() {
       if (this.isSubmitting) {

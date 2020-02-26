@@ -90,11 +90,12 @@ export default {
     const jsCode = `function calculateAnswer(){
   return 100;
 }
+// we check your answer by looking at the output var
 var output = calculateAnswer();`;
     const pyCode = `def calculateAnswer():
   return 100
-
-output = calculateAnswer()`;
+# we check your answer by what you print
+print(calculateAnswer())`;
     return {
       isLoading: false,
       isSubmitting: false,
