@@ -3,21 +3,34 @@
     <v-row>
       <v-col>
         <h2 class="ballot-header">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+          Cast your vote below!
         </h2></v-col
       >
     </v-row>
-    <v-row justify="center">
+    <v-row justify="center" v-if="isLoading">
+      <v-col class="text-center">
+        <v-progress-circular
+          class="mt-6"
+          color="cwhqBlue"
+          size="100"
+          width="10"
+          indeterminate
+        />
+        <h2 class="mt-6">
+          Loading Results <small><br />Please Wait</small>
+        </h2>
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-else>
       <ballot-card
         v-for="(item, i) in items"
         :key="i"
         v-bind="item"
         @click="showCode(item)"
-      >
-      </ballot-card>
+      />
+    </v-row>
+    <v-row justify="center" v-if="totalPages > 1">
+      <v-pagination v-model="page" :length="totalPages" circle></v-pagination>
     </v-row>
     <code-modal v-bind="this.item" v-model="showModal" />
   </v-container>
@@ -36,12 +49,14 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
+      per: 16,
       item: null,
       showModal: false,
       hasNext: false,
       hasPrev: false,
       nextNum: false,
-      page: 0,
+      page: 1,
       prevNum: null,
       totalItems: 0,
       totalPages: 0,
@@ -53,30 +68,28 @@ export default {
     showCode(item) {
       this.item = item;
       this.showModal = true;
+    },
+    async loadPage() {
+      this.isLoading = true;
+      try {
+        const results = await voting.getBallot(this.page, this.per);
+        for (const [key, value] of Object.entries(results)) {
+          Vue.set(this, key, value);
+        }
+        // console.log(results);
+      } catch (err) {
+        this.$router.push({ name: "redirect" });
+      }
+      this.isLoading = false;
+    }
+  },
+  watch: {
+    page(val) {
+      this.loadPage(val);
     }
   },
   async mounted() {
-    // for (let i = 0; i < 100; i++) {
-    //   this.items.push({
-    //     display: "Kyle A.",
-    //     firstName: "Kyle",
-    //     id: 45,
-    //     lastName: "Askew",
-    //     numVotes: 0,
-    //     text:
-    //       "function calculateAnswer(){\n  return 100;\n}\nvar output = calculateAnswer();;output",
-    //     username: "net8floz2"
-    //   });
-    // }
-    try {
-      const results = await voting.getBallot();
-      for (const [key, value] of Object.entries(results)) {
-        Vue.set(this, key, value);
-      }
-      // console.log(results);
-    } catch (err) {
-      this.$router.push({ name: "redirect" });
-    }
+    this.loadPage();
   }
 };
 </script>

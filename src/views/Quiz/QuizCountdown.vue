@@ -7,7 +7,7 @@
           <div v-if="Quiz.awaitNextQuestion">
             Congratulations, {{ User.displayName }}!
             <br />
-            You've conquered Level {{ User.rank }}.
+            You've conquered Level {{ User.rank - 1 }}.
             <br />
             <br />That's all the questions available for now.
             <br />
@@ -16,7 +16,7 @@
           <div v-else>
             Congratulations, {{ User.displayName }}!
             <br />
-            You've conquered Level {{ User.rank }}.
+            You've conquered Level {{ User.rank - 1 }}.
             <br />
             <br />
           </div>
@@ -37,7 +37,15 @@
             icon
             ><v-icon>mdi-facebook</v-icon></v-btn
           >
-          <v-btn class="mt-5" :style="{ backgroundColor: 'white !important' }" x-large color="blue" href="https://twitter.com/CodeWizardsHQ" icon><v-icon>mdi-twitter</v-icon></v-btn>
+          <v-btn
+            class="mt-5"
+            :style="{ backgroundColor: 'white !important' }"
+            x-large
+            color="blue"
+            href="https://twitter.com/CodeWizardsHQ"
+            icon
+            ><v-icon>mdi-twitter</v-icon></v-btn
+          >
         </template>
       </quiz-scroll>
     </v-row>

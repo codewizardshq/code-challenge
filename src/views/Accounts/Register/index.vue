@@ -74,6 +74,10 @@ import Step4 from "./Step4";
 
 import * as api from "@/api";
 
+function validateEmail(mail) {
+  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
+}
+
 export default {
   components: {
     Step1,
@@ -102,7 +106,7 @@ export default {
         await api.auth.createAccount({
           foundUs:
             this.fields.heardAboutUs.value === "Other"
-              ? this.fields.heardAboutUsText.value
+              ? "Other - " + this.fields.heardAboutUsText.value
               : this.fields.heardAboutUs.value,
           studentFirstName: this.fields.firstName.value,
           studentLastName: this.fields.lastName.value,
@@ -153,7 +157,7 @@ export default {
           label: "Parent's E-mail Address",
           type: "email",
           value: "",
-          rules: [v => !!v || "Please provide a email"]
+          rules: [v => validateEmail(v) || "Please provide a valid e-mail"]
         },
         studentEmail: {
           label: "Student's E-mail Address (optional)",
