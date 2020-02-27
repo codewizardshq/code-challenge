@@ -1,37 +1,40 @@
 <template>
   <v-form @submit.prevent="validate" ref="form" v-model="isValid">
     <v-card-text>
-      <p>
-        Welcome to the CodeWizardsHQ Code Challenge. To begin your journey you
-        must first create your account.
-      </p>
-      <v-text-field
-        color="input"
-        v-bind="fields.username"
-        v-model="fields.username.value"
-        :disabled="isSubmitting"
-      />
+      <v-row no-gutters>
+        <v-col>
+          <v-text-field
+            class="mr-5"
+            color="input"
+            v-bind="fields.parentFirstName"
+            v-model="fields.parentFirstName.value"
+            :disabled="isSubmitting"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            color="input"
+            v-bind="fields.parentLastName"
+            v-model="fields.parentLastName.value"
+            :disabled="isSubmitting"
+          />
+        </v-col>
+      </v-row>
       <v-text-field
         color="input"
         v-bind="fields.parentEmail"
         v-model="fields.parentEmail.value"
         :disabled="isSubmitting"
       />
-      <v-text-field
-        color="input"
-        v-bind="fields.password"
-        v-model="fields.password.value"
-        :disabled="isSubmitting"
-      />
-      <v-text-field
-        color="input"
-        v-bind="fields.passwordConfirm"
-        v-model="fields.passwordConfirm.value"
-        :disabled="isSubmitting"
-      />
     </v-card-text>
 
     <v-card-actions>
+      <v-btn
+        color="button"
+        @click="() => $emit('back')"
+        :disabled="isSubmitting"
+        >Back</v-btn
+      >
       <v-spacer />
       <v-btn color="button" type="submit" :disabled="isSubmitting">
         Next
@@ -48,8 +51,9 @@
 
 <script>
 export default {
-  name: "register-step-1",
+  name: "register-step-3",
   props: ["fields"],
+  components: {},
   methods: {
     async submit() {
       if (this.isSubmitting) {

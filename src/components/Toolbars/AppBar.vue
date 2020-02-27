@@ -8,7 +8,7 @@
     class="pl-4"
   >
     <div class="text-center" style="width: 100%;">
-      <router-link :to="{ name: 'home' }">
+      <router-link :to="{ name: 'redirect' }">
         <img src="/images/logo-small.png" class="mt-2" :height="imageHeight" />
       </router-link>
     </div>

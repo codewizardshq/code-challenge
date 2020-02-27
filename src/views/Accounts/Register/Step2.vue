@@ -4,6 +4,7 @@
       <v-row no-gutters>
         <v-col>
           <v-text-field
+            class="mr-5"
             color="input"
             v-bind="fields.firstName"
             v-model="fields.firstName.value"
@@ -25,13 +26,19 @@
         v-model="fields.studentEmail.value"
         :disabled="isSubmitting"
       />
-      <date-of-birth-field
+      <v-select
+        single-line
+        v-bind="fields.age"
+        v-model="fields.age.value"
+        :disabled="isSubmitting"
+      />
+      <!-- <date-of-birth-field
         :label="fields.dateOfBirth.label"
         v-model="fields.dateOfBirth.value"
-      />
+      /> -->
     </v-card-text>
 
-    <v-card-text v-if="showParentConsentAlert">
+    <v-card-text v-if="needsParentConsent">
       <v-alert colored-border icon="mdi-firework">
         You are not 13 years of age.
         <p>
@@ -81,28 +88,13 @@
 </template>
 
 <script>
-import DateOfBirthField from "./DateOfBirthField";
-import moment from "moment";
-
 export default {
   name: "register-step-2",
   props: ["fields"],
-  components: {
-    DateOfBirthField
-  },
-  watch: {
-    "fields.dateOfBirth.value"() {
-      if (!this.needsParentConsent) {
-        this.showParentConsentAlert = false;
-      }
-    }
-  },
   computed: {
-    age() {
-      return moment().diff(this.fields.dateOfBirth.value, "years", false);
-    },
     needsParentConsent() {
-      return this.age < 13;
+      const ageNum = parseInt(this.fields.age.value);
+      return ageNum < 13;
     }
   },
   methods: {

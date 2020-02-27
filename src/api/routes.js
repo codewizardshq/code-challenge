@@ -15,6 +15,9 @@ export default {
   userapi_refresh: route("/api/v1/users/token/refresh", "POST"),
   userapi_forgot_password: route("/api/v1/users/forgot", "POST"),
   userapi_reset_password: route("/api/v1/users/reset-password", "POST"),
+  userapi_user_exists: username => {
+    return route(`/api/v1/users/${username}/exists`);
+  },
   questionsapi_rank_reset: route("/api/v1/questions/reset", "DELETE"),
   questionsapi_answer_next_question: route("/api/v1/questions/answer", "POST"),
   questionsapi_answer_final_question: route("/api/v1/questions/final", "POST"),

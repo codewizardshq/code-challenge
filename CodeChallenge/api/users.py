@@ -1,3 +1,4 @@
+import requests
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_current_user, get_jwt_identity,
@@ -6,6 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 unset_jwt_cookies)
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
+from sqlalchemy import func
 
 from .. import core
 from ..auth import (Users, hash_password, password_reset_token,
@@ -98,6 +100,7 @@ def register():
     new_u.studentlastname = user_data.get("studentLastName")
     new_u.dob = dob
     new_u.student_email = user_data.get("studentEmail", None)
+    new_u.found_us = user_data.get("foundUs", None)
 
     new_u.active = True
 
@@ -133,14 +136,44 @@ def register():
                         f"{new_u.studentfirstname} {new_u.studentlastname}",
                         data=mg_vars)
 
-    msg = Message("Welcome Pilgrim! You have accepted the Code Challenge",
-                  sender=current_app.config["MAIL_DEFAULT_SENDER"],
-                  recipients=[new_u.parent_email])
+    rcpts = [new_u.parent_email]
+    if new_u.student_email:
+        rcpts.append(new_u.student_email)
+
+    # account confirmation email
+    # only contains login/password
+    confirm_email = Message("Your Code Challenge Account",
+                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
+                            recipients=rcpts)
     name = new_u.studentfirstname or new_u.parentfirstname
-    msg.html = render_template("challenge_account_confirm.html",
-                               name=name)
-    msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
-    mail.send(msg)
+    confirm_email.html = render_template("challenge_account_confirm.html",
+                                         name=name,
+                                         username=new_u.username)
+    confirm_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
+
+    # welcome email
+    # more in depth
+    welcome_email = Message("Welcome Pilgrim! You have accepted the Code Challenge",
+                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
+                            recipients=rcpts)
+    welcome_email.html = render_template("challenge_welcome.html", name=name)
+    welcome_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
+
+    # send emails
+    mail.send(confirm_email)
+    mail.send(welcome_email)
+
+    if "SLACK_WEBHOOK" in current_app.config and not current_app.config.get("TESTING", False):
+        regcount = db.session.query(func.count(Users.id)).scalar()
+        webhook = current_app.config.get("SLACK_WEBHOOK")
+        requests.post(webhook, json=dict(
+            text="Event: New Registration\n\n"
+                 f"*User*: {new_u.username}\n"
+                 f"*Student*: {new_u.studentfirstname} {new_u.studentlastname}\n"
+                 f"*Parent*: {new_u.parentfirstname} {new_u.parentlastname}\n"
+                 f"*How'd you find us?* {new_u.found_us}\n"
+                 f"\n*Total Registrations*: {regcount}"
+        ))
 
     return jsonify({"status": "success"})
 
@@ -175,29 +208,33 @@ def forgot_password():
         return jsonify(status="error",
                        reason="no account with that email"), 400
 
-    for user in users:
+    multiple_accounts = len(users) > 1
+
+    for user in users:  # type: Users
         token = password_reset_token(user)
-        msg = Message(subject="Password Reset",
-                      body="You are receiving this message because a password "
-                           "reset request has been issued for your account. If you "
-                           "did not make this request, you can ignore this email. "
-                           "To reset your password, use this link within 24 hours. "
-                           f"\n\n{current_app.config['EXTERNAL_URL']}/reset-password/{token}"
-                           f"\n\nAccount Username: {user.username}",
-                      recipients=[user.parent_email])
+
+        rcpts = [user.parent_email]
+        if user.student_email:
+            rcpts.append(user.student_email)
+
+        if user.studentfirstname:
+            name = user.studentfirstname
+        else:
+            name = user.username
+
+        msg = Message(subject="Reset your Code Challenge password",
+                      html=render_template("challenge_password_reset.html",
+                                           name=name,
+                                           token=token,
+                                           multiple=multiple_accounts),
+                      recipients=rcpts)
 
         if current_app.config.get("TESTING", False):
             msg.extra_headers = {"X-Password-Reset-Token": token}
 
-        if len(users) > 1:
-            msg.body += "\n\nNOTICE: Your email address matched multiple " \
-                        "student accounts. Double check to make sure you " \
-                        "are resetting the intended account, as an email " \
-                        "was sent for all matching accounts."
-
         mail.send(msg)
 
-    return jsonify(status="success", reason="password reset email sent", multiple=len(users) > 1)
+    return jsonify(status="success", reason="password reset email sent", multiple=multiple_accounts)
 
 
 @bp.route("/reset-password", methods=["POST"])

@@ -1,5 +1,6 @@
 <template>
   <v-toolbar
+    elevation="0"
     color="white"
     :height="height"
     :min-height="height"

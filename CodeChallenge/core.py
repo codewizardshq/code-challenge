@@ -3,6 +3,7 @@ from datetime import datetime, timezone, timedelta, time
 from flask import current_app
 from sqlalchemy import func
 
+from .auth import Users
 from .models import Question, db
 
 
@@ -68,3 +69,7 @@ def challenge_ended() -> bool:
         return True
 
     return False
+
+
+def user_count() -> int:
+    return db.session.query(func.count(Users)).scalar()
