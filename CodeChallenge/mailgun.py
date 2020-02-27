@@ -29,3 +29,13 @@ def mg_list_add(email_address, name, data=None):
     r.raise_for_status()
     return r
 
+
+def mg_validate(email_address):
+    r = requests.get(
+        "https://api.mailgun.net/v4/address/validate",
+        auth=__auth(),
+        params={"address": email_address})
+
+    r.raise_for_status()
+
+    return r
