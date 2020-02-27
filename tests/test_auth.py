@@ -1,8 +1,11 @@
+import os
+
+import pytest
+
 import CodeChallenge
 
 
 def register(client, email, username, password, firstname, lastname):
-
     return client.post("/api/v1/users/register", json=dict(
         username=username, parentEmail=email, password=password,
         parentFirstName=firstname, parentLastName=lastname, DOB="1994-04-13",
@@ -82,7 +85,6 @@ def test_logout(client):
 
 
 def test_forgot_password(client, app):
-
     with CodeChallenge.mail.record_messages() as outbox:
         retval = client.post("/api/v1/users/forgot", json=dict(
             email="sam@codewizardshq.com"
@@ -104,7 +106,6 @@ def test_forgot_password(client, app):
 
 
 def test_user_exists(client):
-
     rv = client.get("/api/v1/users/cwhqsam/exists")
     assert rv.status_code == 200
     assert rv.json["exists"] is True
@@ -114,3 +115,19 @@ def test_user_exists(client):
     assert rv2.status_code == 200
     assert rv2.json["username"] == "foobar"
     assert rv2.json["exists"] is False
+
+
+@pytest.mark.skipif(not os.getenv("VALIDATION_TEST_EMAIL"), reason="envvar VALIDATION_TEST_EMAIL not set")
+def test_validation(client):
+
+    rv = client.post("/api/v1/users/validate", json=dict(email=os.getenv("VALIDATION_TEST_EMAIL")))
+
+    assert rv.status_code >= 200
+
+    data = rv.json
+
+    assert "address" in data
+    assert "result" in data
+    assert "reason" in data
+    assert "risk" in data
+

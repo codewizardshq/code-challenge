@@ -14,7 +14,7 @@ from ..auth import (Users, hash_password, password_reset_token,
                     reset_password_from_token)
 from ..limiter import limiter
 from ..mail import mail
-from ..mailgun import mg_list_add
+from ..mailgun import mg_list_add, mg_validate
 from ..models import db
 
 bp = Blueprint("userapi", __name__, url_prefix="/api/v1/users")
@@ -264,3 +264,15 @@ def username_exists(username):
     return jsonify(status="success",
                    exists=exists,
                    username=username)
+
+
+@bp.route("/validate", methods=["POST"])
+def email_validation():
+
+    if "email" not in request.json:
+        return jsonify(status="error", reason="missing 'email' field"), 400
+
+    mg_res = mg_validate(request.json["email"])
+
+    return mg_res.json(), mg_res.status_code
+
