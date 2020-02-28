@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CodeWizardsHQ Code Challenge Password Reset</title>
+<title>CodeWizardsHQ Code Challenge Reminder</title>
 <style>
   /* -------------------------------------
     GLOBAL
@@ -104,9 +104,9 @@ body {
 /* -------------------------------------
     TYPOGRAPHY
 ------------------------------------- */
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  color: #000;
+  color: #27ae82;
   margin: 20px 0 0;
   line-height: 1.2em;
   font-weight: 600;
@@ -154,7 +154,7 @@ a {
 
 .btn-primary {
   text-decoration: none;
-  color: #FFF !important;
+  color: #FFF;
   background-color: #00774f;
   border: solid #00774f;
   border-width: 10px 20px;
@@ -197,7 +197,7 @@ a {
 }
 
 .social {
-  max-width: 25px;
+  max-width: 40px;
   display: inline-block;
 }
 
@@ -269,8 +269,6 @@ a {
 
 }
 
-/*# sourceMappingURL=styles.css.map */
-
 </style>
 </head>
 
@@ -281,7 +279,7 @@ a {
     <td></td>
     <td class="container" width="800">
       <div class="content">
-        <table class="main alignleft" width="100%" cellpadding="0" cellspacing="0">
+        <table class="main aligncenter" width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td class="header aligncenter">
               <img src="https://challenge.codewizardshq.com/images/logo-small.png">
@@ -292,25 +290,20 @@ a {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <p><b>{{name}}, reset your Code Challenge password.</b></p>
+                    <a href="http://codewizardshq.com/challenge"><img src="https://codewizardshq.com/wp-content/uploads/2020/02/website-banner-min-v3.png"></a>
+                    <h2>The Dragon Quest starts in one month! </h2>
                     <br/>
-                    <p><a href="https://challenge.codewizardshq.com/reset-password/{{token}}" class="btn-primary">Reset Your Password</a></p>
-                    <br/>
-                    <p>We received a request to reset your password. If you didn't ask to change your passsword, your password is still safe and you can delete this message.</p>
-                    {% if multiple %}
-                    <br/>
-                    <p>
-                      Your email address matched multiple student accounts. Double check to make sure you are resetting the intended account, as an email was sent for all matching accounts
-                    </p>
-                    {% endif %}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p><a href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
-                    <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
-                    <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
-                    <a href="https://challenge.codewizardshq.com/frequently-asked-questions">Frequently Asked Questions</a></p>
+                    <p><b>We are counting down the days until our hero arrives. You will receive your first challenge question on Friday, April 3.</b></p>
+
+                    <p>Before then, share the coding challenge with friends on social media and brush up on your coding basics.</p>
+
+                    <div>
+                      <h4>Share With Friends</h4>
+                      <br/>
+                      <a href="https://www.facebook.com/events/501020200554546/" target="_blank"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
+                      <a href="https://twitter.com/CodeWizardsHQ" target="_blank"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg" ></a>
+                      <a href="mailto:?" target="_blank"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -319,13 +312,19 @@ a {
         </table>
         <div class="footer">
           <table width="100%">
+            <tr class="aligncenter">
+              <td>
+                <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
+                <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
+                <a href="https://challenge.codewizardshq.com/frequently-asked-questions">Frequently Asked Questions</a></p>
+              </td>
+            </tr>
             <tr>
               <td class="aligncenter content-block"><a href="%unsubscribe_url%">Unsubscribe</a> from code challenge updates.</td>
             </tr>
           </table>
         </div></div>
     </td>
-    <td></td>
   </tr>
 </table>
 
