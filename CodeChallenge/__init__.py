@@ -17,6 +17,7 @@ from .api.vote import bp as vote_bp
 from .auth import jwt
 from .cli.clock import bp as clock_cli_bp
 from .cli.db import bp as db_cli_bp
+from .cli.email import bp as email_cli_bp
 from .cli.questions import bp as q_cli_bp
 from .cli.users import bp as users_cli_bp
 from .limiter import limiter
@@ -64,6 +65,7 @@ def create_app(config):
     app.register_blueprint(clock_cli_bp)
     app.register_blueprint(vote_bp)
     app.register_blueprint(slack_bp)
+    app.register_blueprint(email_cli_bp)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):
@@ -71,6 +73,7 @@ def create_app(config):
             jsonify(
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
+
 
     js_dir = os.path.join(app.config["DIST_DIR"], "js")
     css_dir = os.path.join(app.config["DIST_DIR"], "css")

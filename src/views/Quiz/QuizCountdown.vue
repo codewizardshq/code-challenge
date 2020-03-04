@@ -33,7 +33,7 @@
             :style="{ backgroundColor: 'white !important' }"
             x-large
             color="blue"
-            href="https://www.facebook.com/events/501020200554546/"
+            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;src=sdkpreparse"
             icon
             ><v-icon>mdi-facebook</v-icon></v-btn
           >
@@ -42,7 +42,7 @@
             :style="{ backgroundColor: 'white !important' }"
             x-large
             color="blue"
-            href="https://twitter.com/CodeWizardsHQ"
+            href="https://twitter.com/intent/tweet?text=The%20Dragon%20Quest%20%E2%80%93%20Code%20Challenge&url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&original_referer="
             icon
             ><v-icon>mdi-twitter</v-icon></v-btn
           >
@@ -54,10 +54,11 @@
 </template>
 
 <script>
-import QuizNeedHelp from "@/components/QuizNeedHelp";
-import QuizScroll from "@/components/QuizScroll";
-import { Quiz, User } from "@/store";
-export default {
+  import QuizNeedHelp from "@/components/QuizNeedHelp";
+  import QuizScroll from "@/components/QuizScroll";
+  import {Quiz, User} from "@/store";
+
+  export default {
   name: "quiz",
   components: {
     QuizScroll,

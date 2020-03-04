@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CodeWizardsHQ Code Challenge Daily Email</title>
+<title>CodeWizardsHQ Code Challenge Reminder</title>
 <style>
   /* -------------------------------------
     GLOBAL
@@ -104,9 +104,9 @@ body {
 /* -------------------------------------
     TYPOGRAPHY
 ------------------------------------- */
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  color: #000;
+  color: #27ae82;
   margin: 20px 0 0;
   line-height: 1.2em;
   font-weight: 600;
@@ -197,7 +197,7 @@ a {
 }
 
 .social {
-  max-width: 25px;
+  max-width: 40px;
   display: inline-block;
 }
 
@@ -269,19 +269,18 @@ a {
 
 }
 
-/*# sourceMappingURL=styles.css.map */
-
 </style>
 </head>
 
 <body itemscope itemtype="http://schema.org/EmailMessage">
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <table class="body-wrap">
   <tr>
     <td></td>
     <td class="container" width="800">
       <div class="content">
-        <table class="main alignleft" width="100%" cellpadding="0" cellspacing="0">
+        <table class="main aligncenter" width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td class="header aligncenter">
               <img src="https://challenge.codewizardshq.com/images/logo-small.png">
@@ -292,43 +291,50 @@ a {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <p><b>{{name}}, your account has been created.</b></p>
+                    <a href="http://codewizardshq.com/challenge"><img src="https://codewizardshq.com/wp-content/uploads/2020/02/website-banner-min-v3.png"></a>
+                    <h2>The Dragon Quest starts in one month! </h2>
                     <br/>
-                    <p>Login: {{username}}</p>
-                    <br/>
-                    <p>Forgot your password? <a href="https://challenge.codewizardshq.com/forgot-password">Reset your password.</a></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p><a href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
-                    <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
-                    <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
-                    <a href="https://challenge.codewizardshq.com/frequently-asked-questions">Frequently Asked Questions</a></p>
+                    <p><b>We are counting down the days until our hero arrives. Could it be you?</b></p>
+                    <p>You will receive your first challenge question on Friday, April 3. Before then, brush up on your coding basics and why not play The Dragon Question with friends! </p>
+                    <div>
+                      <h4>Share The Dragon Quest Today</h4>
+                      <br/>
+
+                      <a target="_blank"
+                         href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;src=sdkpreparse"
+                         class="fb-xfbml-parse-ignore"><img class="social"
+                                                            src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
+
+                      <a href="https://twitter.com/intent/tweet?text=The%20Dragon%20Quest%20%E2%80%93%20Code%20Challenge&url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&original_referer="
+                         data-text="The Dragon Quest – Code Challenge https://codewizardshq.com/challenge/"
+                         data-show-count="false"><img class="social"
+                                                      src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg"></a>
+
+                      <a href="mailto:?subject=Join me in the CodeWizardsHQ kids coding challenge"
+                         target="_blank"><img class="social"
+                                              src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
+                    </div>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-          <tr>
-            <td class="alert alert-warning">
-              Share With Friends
-              <br/>
-              <a href="https://www.facebook.com/events/501020200554546/"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
-              <a href="https://twitter.com/CodeWizardsHQ"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg"></a>
-              <a href="mailto:?"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
-            </td>
-          </tr>
         </table>
         <div class="footer">
           <table width="100%">
+            <tr class="aligncenter">
+              <td>
+                <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
+                <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
+                <a href="https://challenge.codewizardshq.com/frequently-asked-questions">Frequently Asked Questions</a></p>
+              </td>
+            </tr>
             <tr>
               <td class="aligncenter content-block"><a href="%unsubscribe_url%">Unsubscribe</a> from code challenge updates.</td>
             </tr>
           </table>
         </div></div>
     </td>
-    <td></td>
   </tr>
 </table>
 
