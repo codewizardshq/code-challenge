@@ -74,6 +74,7 @@ def create_app(config):
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
 
+
     js_dir = os.path.join(app.config["DIST_DIR"], "js")
     css_dir = os.path.join(app.config["DIST_DIR"], "css")
     fonts_dir = os.path.join(app.config["DIST_DIR"], "fonts")
