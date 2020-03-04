@@ -40,7 +40,7 @@
               <v-list-item :to="{ name: 'faq' }">
                 <v-list-item-title>Check The FAQ</v-list-item-title>
               </v-list-item>
-              <v-list-item href="https://discord.gg/HKnpzjQ" target="_blank">
+              <v-list-item href="https://discord.gg/NuKfKZ8" target="_blank">
                 <v-list-item-title>Get Help On Discord</v-list-item-title>
               </v-list-item>
               <v-list-item
@@ -66,9 +66,9 @@
 </template>
 
 <script>
-import { User, Quiz } from "@/store";
+  import {Quiz, User} from "@/store";
 
-export default {
+  export default {
   name: "quizBar",
   computed: {
     ...User.mapState(),
