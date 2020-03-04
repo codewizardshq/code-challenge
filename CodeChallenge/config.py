@@ -86,8 +86,8 @@ class DevelopmentConfig(ProductionConfig):
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
     ALLOW_RESET = True
-    MAIL_SUPPRESS_SEND = True
-    TESTING = True
+    #MAIL_SUPPRESS_SEND = True
+    #TESTING = True
 
     @property
     def DIST_DIR(self):
