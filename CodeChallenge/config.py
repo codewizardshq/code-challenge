@@ -81,11 +81,13 @@ class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
                               "/code_challenge_local"
     JWT_COOKIE_SECURE = False
-    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1578596347")
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1581415200")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
     ALLOW_RESET = True
+    #MAIL_SUPPRESS_SEND = True
+    #TESTING = True
 
     @property
     def DIST_DIR(self):
