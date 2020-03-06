@@ -163,17 +163,18 @@ def register():
     mail.send(confirm_email)
     mail.send(welcome_email)
 
-    if "SLACK_WEBHOOK" in current_app.config and not current_app.config.get("TESTING", False):
-        regcount = db.session.query(func.count(Users.id)).scalar()
+    if not current_app.config.get("TESTING", False):
         webhook = current_app.config.get("SLACK_WEBHOOK")
-        requests.post(webhook, json=dict(
-            text="Event: New Registration\n\n"
-                 f"*User*: {new_u.username}\n"
-                 f"*Student*: {new_u.studentfirstname} {new_u.studentlastname}\n"
-                 f"*Parent*: {new_u.parentfirstname} {new_u.parentlastname}\n"
-                 f"*How'd you find us?* {new_u.found_us}\n"
-                 f"\n*Total Registrations*: {regcount}"
-        ))
+        if webhook is not None:
+            regcount = db.session.query(func.count(Users.id)).scalar()
+            requests.post(webhook, json=dict(
+                text="Event: New Registration\n\n"
+                     f"*User*: {new_u.username}\n"
+                     f"*Student*: {new_u.studentfirstname} {new_u.studentlastname}\n"
+                     f"*Parent*: {new_u.parentfirstname} {new_u.parentlastname}\n"
+                     f"*How'd you find us?* {new_u.found_us}\n"
+                     f"\n*Total Registrations*: {regcount}"
+            ))
 
     return jsonify({"status": "success"})
 
