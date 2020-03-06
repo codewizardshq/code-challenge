@@ -66,9 +66,10 @@
 </template>
 
 <script>
-import { Quiz, User } from "@/store";
+  import {Quiz, User} from "@/store";
 
-export default {
+
+  export default {
   name: "quizBar",
   computed: {
     ...User.mapState(),
