@@ -65,7 +65,7 @@ class ProductionConfig(DefaultConfig):
     JWT_COOKIE_SECURE = True
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
-    MAIL_SUPPRESS_SEND = False
+    MAIL_SUPPRESS_SEND = os.getenv("MAIL_SUPPRESS_SEND", False)
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     JWT_ACCESS_TOKEN_EXPIRES = 604800

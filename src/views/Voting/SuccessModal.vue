@@ -6,12 +6,22 @@
         <v-btn icon x-large @click="show = false">X</v-btn></v-card-title
       >
 
-      <h3>ALMOST DONE</h3>
+      <div v-if="User.isAuthorized">
+        <h3>SUCCESS!</h3>
 
-      <p>
-        Your vote has been cast! In order for your vote to count you must first
-        confirm your it. Please check your inbox for the confirmation email.
-      </p>
+        <p style="text-align:center">
+          Your vote has been cast!
+        </p>
+      </div>
+      <div v-else>
+        <h3>ALMOST DONE</h3>
+
+        <p>
+          Your vote has been cast! In order for your vote to count you must
+          first confirm your it. Please check your inbox for the confirmation
+          email.
+        </p>
+      </div>
       <hr />
       <h4>
         Share this code with your friends!
@@ -34,8 +44,12 @@
 </template>
 
 <script>
+import { User } from "@/store";
 export default {
   props: ["value"],
+  computed: {
+    ...User.mapState()
+  },
   watch: {
     show() {
       if (this.show != this.value) {
