@@ -11,7 +11,7 @@
         <v-row class="main-row" no-gutters>
           <v-col cols="3" sm="12" md="3" class="left">
             <div class="circle">
-              KA
+              {{ initials }}
             </div>
             <hr />
             <v-form lazy-validation @submit.prevent="submit">
@@ -106,7 +106,8 @@ export default {
     "numVotes",
     "text",
     "username",
-    "value"
+    "value",
+    "initials"
   ],
   watch: {
     isOpen() {
