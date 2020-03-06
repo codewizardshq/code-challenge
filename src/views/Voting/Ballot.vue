@@ -9,14 +9,25 @@
     </v-row>
     <v-row justify="center" v-if="isLoading">
       <v-col class="text-center">
-        <v-progress-circular class="mt-6" color="cwhqBlue" size="100" width="10" indeterminate />
+        <v-progress-circular
+          class="mt-6"
+          color="cwhqBlue"
+          size="100"
+          width="10"
+          indeterminate
+        />
         <h2 class="mt-6">
           Loading Results <small><br />Please Wait</small>
         </h2>
       </v-col>
     </v-row>
     <v-row justify="center" v-else>
-      <ballot-card v-for="(item, i) in items" :key="i" v-bind="item" @click="showCode(item)" />
+      <ballot-card
+        v-for="(item, i) in items"
+        :key="i"
+        v-bind="item"
+        @click="showCode(item)"
+      />
     </v-row>
     <v-row justify="center" v-if="totalPages > 1">
       <v-pagination v-model="page" :length="totalPages" circle></v-pagination>
@@ -26,10 +37,10 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { voting } from '@/api';
-import BallotCard from './BallotCard';
-import CodeModal from './CodeModal';
+import Vue from "vue";
+import { voting } from "@/api";
+import BallotCard from "./BallotCard";
+import CodeModal from "./CodeModal";
 
 export default {
   components: {
@@ -66,7 +77,7 @@ export default {
           Vue.set(this, key, value);
         }
       } catch (err) {
-        this.$router.push({ name: 'redirect' });
+        this.$router.push({ name: "redirect" });
       }
       this.isLoading = false;
     }
@@ -86,7 +97,7 @@ export default {
 h2 {
   text-align: center;
   color: #0d1d41;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
 }

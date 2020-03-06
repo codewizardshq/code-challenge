@@ -1,13 +1,13 @@
-import routes from './routes';
-import request from './request';
+import routes from "./routes";
+import request from "./request";
 
 function lastInitial(item) {
   if (item.lastName) {
     return item.lastName[0];
   }
 
-  const split = item.username.split(' ');
-  return split.length >= 2 ? split[1] : '';
+  const split = item.username.split(" ");
+  return split.length >= 2 ? split[1] : "";
 }
 
 function firstInitial(item) {
@@ -18,7 +18,7 @@ function firstInitial(item) {
     return item.display[0];
   }
 
-  return item.username.split(' ')[0];
+  return item.username.split(" ")[0];
 }
 
 function initials(item) {
