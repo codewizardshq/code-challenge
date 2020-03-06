@@ -54,11 +54,11 @@
 </template>
 
 <script>
-  import QuizNeedHelp from "@/components/QuizNeedHelp";
-  import QuizScroll from "@/components/QuizScroll";
-  import {Quiz, User} from "@/store";
+import QuizNeedHelp from "@/components/QuizNeedHelp";
+import QuizScroll from "@/components/QuizScroll";
+import { Quiz, User } from "@/store";
 
-  export default {
+export default {
   name: "quiz",
   components: {
     QuizScroll,
