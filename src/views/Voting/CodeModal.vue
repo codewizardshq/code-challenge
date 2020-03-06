@@ -22,6 +22,7 @@
                 v-bind="fields.email"
                 v-model="fields.email.value"
                 :disabled="isSubmitting"
+                v-if="!User.isAuthorized"
               />
               <v-btn
                 block
@@ -29,7 +30,7 @@
                 color="cwhqBlue"
                 type="submit"
                 :disabled="isSubmitting"
-                >Confirm</v-btn
+                >Confirm Vote</v-btn
               >
 
               <v-row no-gutters class="icons" justify="center">
@@ -76,6 +77,7 @@
 <script>
 import * as api from "@/api";
 import SuccessModal from "./SuccessModal";
+import { User } from "@/store";
 
 export default {
   components: {
@@ -97,6 +99,9 @@ export default {
         }
       }
     };
+  },
+  computed: {
+    ...User.mapState()
   },
   props: [
     "display",
@@ -127,7 +132,7 @@ export default {
         return;
       }
       this.isSubmitting = true;
-      if (!this.fields.email.value) {
+      if (!this.fields.email.value && !this.User.isAuthorized) {
         this.errorMessage = "You forgot to tell us your email";
         this.showError = true;
         this.isSubmitting = false;
