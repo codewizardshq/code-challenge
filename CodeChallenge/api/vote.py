@@ -183,22 +183,29 @@ def vote_confirm():
 @bp.route("/search", methods=["GET"])
 def search():
     keyword = request.args.get("q")
+    try:
+        page = int(request.args.get("page", 1))
+        per = int(request.args.get("per", 20))
+    except ValueError:
+        return jsonify(status="error",
+                       reason="invalid 'page' or 'per' parameter"), 400
 
     if keyword is None:
         return jsonify(status="error", reason="missing 'q' parameter"), 400
 
     keyword = f"%{keyword}%"
 
-    answers = Answer.query \
+    p = Answer.query \
         .join(Answer.question) \
         .join(Answer.user) \
         .filter(Question.rank == core.max_rank(),
                 Answer.correct, or_(Users.username.ilike(keyword), Users.studentlastname.ilike(keyword),
-                                    Users.studentlastname.ilike(keyword)))
+                                    Users.studentlastname.ilike(keyword))) \
+        .paginate(page=page, per_page=per)
 
     results = []
 
-    for ans in answers.all():  # type: Answer
+    for ans in p.items:  # type: Answer
         results.append(dict(
             id=ans.id,
             text=ans.text,
@@ -209,4 +216,13 @@ def search():
             display=ans.user.display()
         ))
 
-    return jsonify(results=results)
+    return jsonify(
+        items=results,
+        totalItems=p.total,
+        page=p.page,
+        totalPages=p.pages,
+        hasNext=p.has_next,
+        nextNum=p.next_num,
+        hasPrev=p.has_prev,
+        prevNum=p.prev_num
+    )

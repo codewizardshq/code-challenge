@@ -385,7 +385,7 @@ def test_vote_search(client_challenge_lastq):
     rv = client_challenge_lastq.get("/api/v1/vote/search?q=sam")
     assert rv.status_code == 200
 
-    results = rv.json["results"]
+    results = rv.json["items"]
     assert len(results) == 1
     assert results[0]["username"] == "cwhqsam"
     assert results[0]["numVotes"] == 1
@@ -393,7 +393,7 @@ def test_vote_search(client_challenge_lastq):
     rv2 = client_challenge_lastq.get("/api/v1/vote/search?q=hOffMan")
     assert rv2.status_code == 200
 
-    results2 = rv.json["results"]
+    results2 = rv.json["items"]
     assert len(results2) == 1
     assert results2[0]["username"] == "cwhqsam"
 
