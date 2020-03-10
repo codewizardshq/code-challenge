@@ -6,7 +6,7 @@
     @click="$emit('click')"
   >
     <div class="circle">
-      KA
+      {{ initials }}
     </div>
     <div class="vote-count">
       {{ numVotes }} {{ numVotes.length == 1 ? "vote" : "votes" }}
@@ -27,7 +27,8 @@ export default {
     "numVotes",
     "text",
     "username",
-    "value"
+    "value",
+    "initials"
   ]
 };
 </script>

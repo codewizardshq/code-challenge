@@ -82,7 +82,7 @@ const routes = [
         path: "create-account",
         name: "register",
         component: () => import("@/views/Accounts/Register"),
-        meta: { anon: true }
+        meta: { anon: true, challengeOpenOrPending: true }
       },
       {
         path: "logout",
@@ -197,7 +197,6 @@ router.beforeEach(async (to, from, next) => {
   const requireChallengeOpenPending = to.matched.some(
     record => record.meta.challengeOpenOrPending
   );
-
   if (
     requireChallengePending ||
     requireChallengeOpen ||

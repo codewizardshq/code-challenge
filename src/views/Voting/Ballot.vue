@@ -76,7 +76,6 @@ export default {
         for (const [key, value] of Object.entries(results)) {
           Vue.set(this, key, value);
         }
-        // console.log(results);
       } catch (err) {
         this.$router.push({ name: "redirect" });
       }
