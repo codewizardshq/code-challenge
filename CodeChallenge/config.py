@@ -74,6 +74,7 @@ class ProductionConfig(DefaultConfig):
     SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
     SHEET_ID = os.getenv("SHEET_ID")
+    MG_LIST = os.getenv("MG_LIST")
 
 
 class DevelopmentConfig(ProductionConfig):
