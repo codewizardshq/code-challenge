@@ -142,7 +142,7 @@ def vote_cast(answer_id: int):
         msg = Message(subject="Vote Confirmation",
                       body="Click the following link to confirm "
                            " your vote. You may only vote once. "
-                           f"\n\n{current_app.config['EXTERNAL_URL']}/vote-confirmation?token={tok}",
+                           f"\n\n{current_app.config['EXTERNAL_URL']}vote-confirmation?token={tok}",
                       recipients=[v.voter_email])
 
         if current_app.config.get("TESTING", False):
