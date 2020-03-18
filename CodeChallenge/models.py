@@ -40,6 +40,14 @@ class Answer(db.Model):
     votes = db.relationship("Vote", cascade="all,delete",
                             lazy=True, uselist=True)
 
+    def confirmed_votes(self) -> int:
+        confirmed = 0
+        for vote in self.votes:
+            if vote.confirmed:
+                confirmed += 1
+
+        return confirmed
+
 
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)

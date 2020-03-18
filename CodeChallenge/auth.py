@@ -53,6 +53,13 @@ class Users(db.Model):
             .all()
         return v
 
+    def display(self):
+        if self.studentfirstname is not None \
+                and self.studentlastname is not None \
+                and len(self.studentlastname):
+            return f"{self.studentfirstname} " \
+                   f"{self.studentlastname[0]}."
+
 
 def hash_password(plaintext):
     ph = argon2.PasswordHasher()
