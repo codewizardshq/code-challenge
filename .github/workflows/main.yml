@@ -7,6 +7,7 @@ on:
 
 env:
   EB_ENV_NAME: code-challenge-prod
+  EB_ENV_TEST: code-challenge-testing
 
 jobs:
   deploy:
@@ -50,3 +51,5 @@ jobs:
         echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
     - name: Deploy
       run: eb deploy ${{ env.EB_ENV_NAME }}
+    - name: Deploy (TESTING ENV)
+      run: eb deploy ${{ env.EB_ENV_TEST }}
