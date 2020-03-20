@@ -34,13 +34,31 @@
               >
 
               <v-row no-gutters class="icons" justify="center">
-                <v-btn fab color="cwhqBlue" icon>
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="facebookUrl"
+                >
                   <v-icon>mdi-facebook</v-icon>
                 </v-btn>
-                <v-btn fab color="cwhqBlue" icon>
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="twitterUrl"
+                >
                   <v-icon>mdi-twitter</v-icon>
                 </v-btn>
-                <v-btn fab color="cwhqBlue" icon>
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="mailUrl"
+                >
                   <v-icon>mdi-email</v-icon>
                 </v-btn>
               </v-row>
@@ -101,7 +119,30 @@ export default {
     };
   },
   computed: {
-    ...User.mapState()
+    ...User.mapState(),
+    socialText() {
+      return "Vote for my code at ";
+    },
+    socialUrl() {
+      return encodeURI(
+        `https://challenge.codewizardshq.com/voting?search=${this.username}&open=true`
+      );
+    },
+    twitterUrl() {
+      return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        this.socialText
+      )}&url=${this.socialUrl}&original_referer=`;
+    },
+    facebookUrl() {
+      return `https://www.facebook.com/sharer/sharer.php?u=${this.socialUrl};src=sdkpreparse`;
+    },
+    mailUrl() {
+      return `mailto:?subject=${encodeURIComponent(
+        this.socialText
+      )}!&body=${encodeURIComponent(this.socialText)} ${encodeURIComponent(
+        this.socialUrl
+      )}`;
+    }
   },
   props: [
     "display",
