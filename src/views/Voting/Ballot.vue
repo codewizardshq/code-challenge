@@ -73,7 +73,7 @@ export default {
       showModal: false,
       searchText: "",
       item: null,
-      per: 1,
+      per: 50,
       pageData: {
         hasNext: false,
         hasPrev: false,
@@ -124,7 +124,12 @@ export default {
         }
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error(err);
+        if (err.status === 404) {
+          this.pageData.page = 1;
+          await this.search();
+        } else {
+          this.$router.push({ name: "redirect" });
+        }
       }
       this.requestCount--;
     },
@@ -135,7 +140,7 @@ export default {
         await this.setResult(results);
       } catch (err) {
         if (err.status === 404) {
-          this.page = 1;
+          this.pageData.page = 1;
           await this.loadPage();
         } else {
           this.$router.push({ name: "redirect" });

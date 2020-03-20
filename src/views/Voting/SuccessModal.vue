@@ -18,8 +18,7 @@
 
         <p>
           Your vote has been cast! In order for your vote to count you must
-          first confirm your it. Please check your inbox for the confirmation
-          email.
+          first confirm it. Please check your inbox for the confirmation email.
         </p>
       </div>
       <hr />
