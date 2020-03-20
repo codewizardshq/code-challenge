@@ -1,13 +1,22 @@
-import routes from './routes';
-import request from './request';
+import routes from "./routes";
+import request from "./request";
+
+function processBallotResponse(result) {
+  if (result.items) {
+    result.items = result.items.map(item => {
+      return { ...item, ...{ initials: initials(item) } };
+    });
+  }
+  return result;
+}
 
 function lastInitial(item) {
   if (item.lastName) {
     return item.lastName[0];
   }
 
-  const split = item.username.split(' ');
-  return split.length >= 2 ? split[1] : '';
+  const split = item.username.split(" ");
+  return split.length >= 2 ? split[1] : "";
 }
 
 function firstInitial(item) {
@@ -18,7 +27,7 @@ function firstInitial(item) {
     return item.display[0];
   }
 
-  return item.username.split(' ')[0];
+  return item.username.split(" ")[0];
 }
 
 function initials(item) {
@@ -26,16 +35,11 @@ function initials(item) {
 }
 
 async function getBallot(page, per) {
-  const result = await request(routes.voting_ballot, {
-    params: { page, per }
-  });
-
-  if (result.items) {
-    result.items = result.items.map(item => {
-      return { ...item, ...{ initials: initials(item) } };
-    });
-  }
-  return result;
+  return processBallotResponse(
+    await request(routes.voting_ballot, {
+      params: { page, per }
+    })
+  );
 }
 
 async function cast(answerId, email) {
@@ -46,8 +50,12 @@ async function confirm(token) {
   return request(routes.voting_confirm, { data: { token } });
 }
 
-async function search(text) {
-  return request(routes.voting_ballot_search, { query: { search: text } });
+async function search(text, page, per) {
+  return processBallotResponse(
+    await request(routes.voting_ballot_search, {
+      params: { q: text, page, per }
+    })
+  );
 }
 
 export default {
