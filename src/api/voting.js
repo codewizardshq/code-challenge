@@ -1,6 +1,15 @@
 import routes from "./routes";
 import request from "./request";
 
+function processBallotResponse(result) {
+  if (result.items) {
+    result.items = result.items.map(item => {
+      return { ...item, ...{ initials: initials(item) } };
+    });
+  }
+  return result;
+}
+
 function lastInitial(item) {
   if (item.lastName) {
     return item.lastName[0];
@@ -26,16 +35,11 @@ function initials(item) {
 }
 
 async function getBallot(page, per) {
-  const result = await request(routes.voting_ballot, {
-    params: { page, per }
-  });
-
-  if (result.items) {
-    result.items = result.items.map(item => {
-      return { ...item, ...{ initials: initials(item) } };
-    });
-  }
-  return result;
+  return processBallotResponse(
+    await request(routes.voting_ballot, {
+      params: { page, per }
+    })
+  );
 }
 
 async function cast(answerId, email) {
@@ -46,8 +50,17 @@ async function confirm(token) {
   return request(routes.voting_confirm, { data: { token } });
 }
 
+async function search(text, page, per) {
+  return processBallotResponse(
+    await request(routes.voting_ballot_search, {
+      params: { q: text, page, per }
+    })
+  );
+}
+
 export default {
   getBallot,
   cast,
-  confirm
+  confirm,
+  search
 };

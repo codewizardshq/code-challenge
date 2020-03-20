@@ -8,6 +8,9 @@
     <div class="circle">
       {{ initials }}
     </div>
+    <div class="username">
+      {{ username }}
+    </div>
     <div class="vote-count">
       {{ numVotes }} {{ numVotes.length == 1 ? "vote" : "votes" }}
     </div>

@@ -29,7 +29,8 @@ export default {
   voting_cast: id => {
     return route(`/api/v1/vote/${id}/cast`, "POST");
   },
-  voting_confirm: route("/api/v1/vote/confirm", "POST")
+  voting_confirm: route("/api/v1/vote/confirm", "POST"),
+  voting_ballot_search: route("/api/v1/vote/search", "GET")
 };
 
 // export default {
