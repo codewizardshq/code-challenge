@@ -20,7 +20,7 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header color="cwhqBlue">How do I play the challenge? </v-expansion-panel-header>
+                <v-expansion-panel-header color="cwhqBlue">How do I play the challenge?! </v-expansion-panel-header>
                 <v-expansion-panel-content color="white" style="color: #333;">
                   <v-card-text>
                     Login every day between Apr 3 8:00AM CT - Apr 23 11:59PM CT to answer a challenge question. When you get the question right, you will move

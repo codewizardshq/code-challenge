@@ -6,6 +6,7 @@
     <v-content>
       <router-view />
     </v-content>
+    LOLOL
     <leaderboard-bar />
     <mobile-warning />
   </v-app>
