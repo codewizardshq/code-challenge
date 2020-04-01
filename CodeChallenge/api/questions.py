@@ -220,6 +220,9 @@ def answer_eval():
     eval_error = eval_data["error"]
     eval_output = str(eval_data["output"])
 
+    if language == "python":
+        eval_output = eval_output.rstrip()  # remove trailing \n from print()
+
     # any API error is an automatic failure
     if eval_error:
         return jsonify(status="success",
