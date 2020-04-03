@@ -139,7 +139,7 @@ func main() {
 	r, e := json.Marshal(Response{stdout, stderr})
 
 	if e != nil {
-		fmt.Printf(`{"output": "", "error": "unexpected error code output to JSON!"`)
+		fmt.Printf(`{"output": "", "error": "unexpected error code output to JSON!"}`)
 		return
 	}
 
