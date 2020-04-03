@@ -32,7 +32,6 @@ export default {
     MarqueeText
   },
   async mounted() {
-    this.items.clear();
     const leaders = (await api.quiz.getLeaderboard()).items;
 
     if (leaders.length === 0) {
