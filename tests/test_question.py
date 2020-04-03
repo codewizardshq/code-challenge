@@ -11,8 +11,8 @@ app = CodeChallenge.create_app("DefaultConfig")
 NOW = datetime.now(timezone.utc)
 
 CC_CLOSED = (NOW - timedelta(days=5)).timestamp()
-CC_2D_PRIOR = (NOW - timedelta(days=2)).timestamp()
-CC_4D_PRIOR = (NOW - timedelta(days=4)).timestamp()
+CC_2D_PRIOR = (NOW - timedelta(days=1)).timestamp()
+CC_4D_PRIOR = (NOW - timedelta(days=3)).timestamp()
 CC_2D_FUTURE = (NOW + timedelta(days=2)).timestamp()
 
 
