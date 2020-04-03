@@ -21,9 +21,6 @@ def day_number() -> int:
 
     delta = now - start
 
-    if delta.days == 0:
-        return 1
-
     return delta.days + 1
 
 
