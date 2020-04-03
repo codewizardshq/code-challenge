@@ -38,14 +38,14 @@ export default {
       return;
     }
 
-    while (this.items.length < 100) {
-      for (const leader of leaders) {
-        this.items.push({
-          username: leader[0],
-          rank: leader[1]
-        });
-      }
-    }
+    // while (this.items.length < 100) {
+    //   for (const leader of leaders) {
+    //     this.items.push({
+    //       username: leader[0],
+    //       rank: leader[1]
+    //     });
+    //   }
+    // }
 
     this.items = shuffle(this.items);
   },
