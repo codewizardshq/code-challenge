@@ -32,20 +32,19 @@ export default {
     MarqueeText
   },
   async mounted() {
+    this.items.clear();
     const leaders = (await api.quiz.getLeaderboard()).items;
 
     if (leaders.length === 0) {
       return;
     }
 
-    // while (this.items.length < 100) {
-    //   for (const leader of leaders) {
-    //     this.items.push({
-    //       username: leader[0],
-    //       rank: leader[1]
-    //     });
-    //   }
-    // }
+    for (const leader of leaders) {
+      this.items.push({
+        username: leader[0],
+        rank: leader[1]
+      });
+    }
 
     this.items = shuffle(this.items);
   },
