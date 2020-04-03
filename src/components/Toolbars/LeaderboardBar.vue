@@ -1,12 +1,5 @@
 <template>
-  <v-toolbar
-    elevation="0"
-    color="white"
-    :height="height"
-    :min-height="height"
-    :max-height="height"
-    class="leaderboard-bar"
-  >
+  <v-toolbar elevation="0" color="white" :height="height" :min-height="height" :max-height="height" class="leaderboard-bar">
     <div class="rotated-text">
       LEADER
       <br />BOARD
@@ -23,13 +16,13 @@
 </template>
 
 <script>
-import MarqueeText from "vue-marquee-text-component";
-import * as api from "@/api";
-import { shuffle } from "@/util";
+import MarqueeText from 'vue-marquee-text-component';
+import * as api from '@/api';
+import { shuffle } from '@/util';
 
 export default {
   components: {
-    MarqueeText
+    MarqueeText,
   },
   async mounted() {
     const leaders = (await api.quiz.getLeaderboard()).items;
@@ -38,20 +31,26 @@ export default {
       return;
     }
 
-    for (const leader of leaders) {
-      this.items.push({
-        username: leader[0],
-        rank: leader[1]
-      });
+    while (this.items.length < 100) {
+      for (const leader of leaders) {
+        this.items.push({
+          username: leader[0],
+          rank: leader[1],
+        });
+      }
     }
 
     this.items = shuffle(this.items);
+
+    while (this.items.length > 100) {
+      this.items.splice(this.items.length - 1, 1);
+    }
   },
   data() {
     return {
       height: 50,
-      items: []
+      items: [],
     };
-  }
+  },
 };
 </script>
