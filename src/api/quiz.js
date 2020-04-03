@@ -23,7 +23,7 @@ async function submit(answer) {
 }
 
 async function getLeaderboard() {
-  return request(routes.questionsapi_leaderboard, { per: 1000000 });
+  return request(routes.questionsapi_leaderboard, { params: { per: 1000 } });
 }
 
 async function submitFinal(answer, language, checkOnly) {
