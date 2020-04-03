@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta, time
+from datetime import datetime, timezone, timedelta
 
 from flask import current_app
 from sqlalchemy import func
@@ -20,7 +20,11 @@ def day_number() -> int:
         return -1
 
     delta = now - start
-    return 1 if delta.days == 0 else delta.days
+
+    if delta.days == 0:
+        return 1
+
+    return delta.days + 1
 
 
 def current_rank() -> int:
@@ -42,16 +46,8 @@ def time_until_next_rank() -> str:
     epoch = int(current_app.config["CODE_CHALLENGE_START"])
     start = datetime.fromtimestamp(epoch, timezone.utc)
     now = datetime.now(timezone.utc)
-
-    if start > now:
-        diff = datetime.combine(start, time.min, now.tzinfo) - now
-        return str(diff)
-
-    tomorrow = now + timedelta(days=1)
-
-    diff = datetime.combine(tomorrow, time.min, now.tzinfo) - now
-
-    return str(diff)
+    next_date = start + timedelta(days=day_number())
+    return str(next_date - now)
 
 
 def friendly_starts_on() -> str:
