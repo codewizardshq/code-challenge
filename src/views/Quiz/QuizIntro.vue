@@ -17,7 +17,7 @@
           </p>
           <p class="text-center">
             <v-btn color="secondary darken-2" @click="onClick" x-large
-              >Okay!</v-btn
+              >OK!</v-btn
             >
           </p>
         </template>
