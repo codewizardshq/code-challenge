@@ -105,7 +105,11 @@ def answer_next_question():
 
     data = request.get_json()
     text = data["text"]
-    correct = str_cmp(text.lower(), q.answer.lower())
+
+    try:
+        correct = str_cmp(text.lower(), q.answer.lower())
+    except TypeError:
+        return jsonify(status="success", correct=False)
 
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
