@@ -162,7 +162,7 @@ export default {
         studentEmail: {
           label: "Student's E-mail Address (optional)",
           type: "email",
-          value: ""
+          rules: [v => validateEmail(v) || "Please provide a valid e-mail"]
         },
         password: {
           label: "Password",
