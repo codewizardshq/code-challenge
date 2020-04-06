@@ -226,7 +226,11 @@ def answer_eval():
                        correct=False,
                        js_error=eval_error)
 
-    correct = str_cmp(eval_output, q.answer)
+    try:
+        correct = str_cmp(eval_output, q.answer)
+    except TypeError:
+        return jsonify(correct=False,
+                       status="success")
 
     if request.json.get("checkOnly", False):
         return jsonify(correct=correct,
