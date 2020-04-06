@@ -75,6 +75,7 @@ class ProductionConfig(DefaultConfig):
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
     SHEET_ID = os.getenv("SHEET_ID")
     MG_LIST = os.getenv("MG_LIST")
+    ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
 
 
 class DevelopmentConfig(ProductionConfig):

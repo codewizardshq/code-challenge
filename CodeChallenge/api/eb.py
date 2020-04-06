@@ -37,7 +37,8 @@ def worker():
                       recipients=[current_app.config["MG_LIST"]])
 
         msg.html = render_template("challenge_daily_email.html",
-                                   name="%recipient_fname%")
+                                   name="%recipient_fname%",
+                                   external_url=current_app.config["EXTERNAL_URL"])
         msg.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
 
         mail.send(msg)

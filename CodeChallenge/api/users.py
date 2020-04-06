@@ -7,6 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 unset_jwt_cookies)
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
+from requests import HTTPError
 from sqlalchemy import func
 
 from .. import core
@@ -125,16 +126,22 @@ def register():
         )
 
         mg_vars["type"] = "parent"
-        mg_list_add(new_u.parent_email,
-                    f"{new_u.parentfirstname} {new_u.parentlastname}",
-                    data=mg_vars)
+        try:
+            mg_list_add(new_u.parent_email,
+                        f"{new_u.parentfirstname} {new_u.parentlastname}",
+                        data=mg_vars)
+        except HTTPError as error:
+            current_app.logger.exception(f"failed to add {new_u.parent_email!r} to mailing list: {error}")
 
         # if provided, also add student to mailing list
         if new_u.student_email:
             mg_vars["type"] = "student"
-            mg_list_add(new_u.student_email,
-                        f"{new_u.studentfirstname} {new_u.studentlastname}",
-                        data=mg_vars)
+            try:
+                mg_list_add(new_u.student_email,
+                            f"{new_u.studentfirstname} {new_u.studentlastname}",
+                            data=mg_vars)
+            except HTTPError as error:
+                current_app.logger.exception(f"failed to add {new_u.parent_email!r} to mailing list: {error}")
 
     rcpts = [new_u.parent_email]
     if new_u.student_email:
