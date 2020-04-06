@@ -259,7 +259,7 @@ export default {
             "15 years old",
             "16 years old",
             "17 years old",
-            "18 years old or older"
+            "18 years old"
           ],
           value: "How old is the student?",
           rules: [
