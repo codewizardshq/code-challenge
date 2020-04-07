@@ -162,7 +162,9 @@ export default {
         studentEmail: {
           label: "Student's E-mail Address (optional)",
           type: "email",
-          value: ""
+          rules: [
+            v => !v || validateEmail(v) || "Please provide a valid e-mail"
+          ]
         },
         password: {
           label: "Password",
@@ -259,7 +261,7 @@ export default {
             "15 years old",
             "16 years old",
             "17 years old",
-            "18 years old or older"
+            "18 years old"
           ],
           value: "How old is the student?",
           rules: [

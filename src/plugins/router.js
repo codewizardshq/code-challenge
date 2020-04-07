@@ -96,6 +96,12 @@ const routes = [
         name: "admin",
         component: () => import("@/views/Accounts/Admin"),
         meta: { auth: true }
+      },
+      {
+        path: "super-secret-rank-page",
+        name: "super-secret-rank-page",
+        component: () => import("@/views/Accounts/SuperSecretRank"),
+        meta: { auth: true }
       }
     ]
   },
