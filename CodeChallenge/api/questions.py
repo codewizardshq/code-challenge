@@ -105,7 +105,7 @@ def answer_next_question():
 
     data = request.get_json()
     text = data["text"]
-    correct = str_cmp(text.lower(), q.answer.lower())
+    correct = str_cmp(text.casefold().strip(), q.answer.lower())
 
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
