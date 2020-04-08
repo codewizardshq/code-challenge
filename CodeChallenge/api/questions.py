@@ -105,7 +105,12 @@ def answer_next_question():
 
     data = request.get_json()
     text = data["text"]
-    correct = str_cmp(text.casefold().strip(), q.answer.lower())
+
+    try:
+        correct = str_cmp(text.casefold().strip(), q.answer.lower())
+    except TypeError:
+        return jsonify(status="success", correct=False)
+
 
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
@@ -226,7 +231,11 @@ def answer_eval():
                        correct=False,
                        js_error=eval_error)
 
-    correct = str_cmp(eval_output, q.answer)
+    try:
+        correct = str_cmp(eval_output, q.answer)
+    except TypeError:
+        return jsonify(correct=False,
+                       status="success")
 
     if request.json.get("checkOnly", False):
         return jsonify(correct=correct,
