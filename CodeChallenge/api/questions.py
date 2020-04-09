@@ -107,9 +107,10 @@ def answer_next_question():
     text = data["text"]
 
     try:
-        correct = str_cmp(text.lower(), q.answer.lower())
+        correct = str_cmp(text.casefold().strip(), q.answer.lower())
     except TypeError:
         return jsonify(status="success", correct=False)
+
 
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
@@ -203,6 +204,10 @@ def answer_eval():
         return jsonify(status="error",
                        reason="missing 'language' property in JSON body"), 400
 
+    if language not in ("js", "python"):
+        return jsonify(status="error",
+                       reason="unsupported language. valid choices are 'js' or 'python'"), 400
+
     # designated output variable for evaluation
     if language == "js":
         code += ";output"
@@ -223,6 +228,9 @@ def answer_eval():
 
     eval_error = eval_data["error"]
     eval_output = str(eval_data["output"])
+
+    if language == "python":
+        eval_output = eval_output.rstrip()  # remove trailing \n from print()
 
     # any API error is an automatic failure
     if eval_error:
