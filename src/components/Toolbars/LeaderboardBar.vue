@@ -48,6 +48,10 @@ export default {
     }
 
     this.items = shuffle(this.items);
+
+    while (this.items.length > 100) {
+      this.items.splice(this.items.length - 1, 1);
+    }
   },
   data() {
     return {

@@ -215,7 +215,7 @@ export default {
             "Snackbar/showError",
             "That answer was not correct"
           );
-          this.fields.answer.errorMessages = ["That answer was not correct"];
+          this.fields.answer.errorMessages = ["Your answer was not correct"];
         }
       } catch (err) {
         if (err.status === 429) {
