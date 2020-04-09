@@ -381,6 +381,24 @@ def test_cast_vote(client_challenge_lastq):
 
 
 @pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
+def test_vote_search(client_challenge_lastq):
+    rv = client_challenge_lastq.get("/api/v1/vote/search?q=sam")
+    assert rv.status_code == 200
+
+    results = rv.json["items"]
+    assert len(results) == 1
+    assert results[0]["username"] == "cwhqsam"
+    assert results[0]["numVotes"] == 1
+
+    rv2 = client_challenge_lastq.get("/api/v1/vote/search?q=hOffMan")
+    assert rv2.status_code == 200
+
+    results2 = rv.json["items"]
+    assert len(results2) == 1
+    assert results2[0]["username"] == "cwhqsam"
+
+
+@pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")
 def test_cast_notregistered(client_challenge_lastq):
     client_challenge_lastq.cookie_jar.clear()  # logout
 

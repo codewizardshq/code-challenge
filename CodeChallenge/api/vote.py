@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, current_app, request, abort
 from flask_jwt_extended import get_current_user, jwt_optional
 from flask_mail import Message
 from itsdangerous import URLSafeSerializer
+from sqlalchemy import or_
 
 from .. import core
 from ..auth import Users
@@ -49,25 +50,14 @@ def get_contestants():
     contestants = []
     for ans in p.items:  # type: Answer
 
-        display = None
-        if ans.user.studentfirstname \
-                and ans.user.studentlastname:
-            display = f"{ans.user.studentfirstname} " \
-                      f"{ans.user.studentlastname[0]}."
-
-        confirmed_votes = []
-        for v in ans.votes:
-            if v.confirmed:
-                confirmed_votes.append(v)
-
         contestants.append(dict(
             id=ans.id,
             text=ans.text,
-            numVotes=len(confirmed_votes),
+            numVotes=ans.confirmed_votes(),
             firstName=ans.user.studentfirstname,
             lastName=ans.user.studentlastname,
             username=ans.user.username,
-            display=display
+            display=ans.user.display()
         ))
 
     return jsonify(
@@ -188,3 +178,51 @@ def vote_confirm():
 
     return jsonify(status="success",
                    reason="vote confirmed")
+
+
+@bp.route("/search", methods=["GET"])
+def search():
+    keyword = request.args.get("q")
+    try:
+        page = int(request.args.get("page", 1))
+        per = int(request.args.get("per", 20))
+    except ValueError:
+        return jsonify(status="error",
+                       reason="invalid 'page' or 'per' parameter"), 400
+
+    if keyword is None:
+        return jsonify(status="error", reason="missing 'q' parameter"), 400
+
+    keyword = f"%{keyword}%"
+
+    p = Answer.query \
+        .join(Answer.question) \
+        .join(Answer.user) \
+        .filter(Question.rank == core.max_rank(),
+                Answer.correct, or_(Users.username.ilike(keyword), Users.studentlastname.ilike(keyword),
+                                    Users.studentlastname.ilike(keyword))) \
+        .paginate(page=page, per_page=per)
+
+    results = []
+
+    for ans in p.items:  # type: Answer
+        results.append(dict(
+            id=ans.id,
+            text=ans.text,
+            numVotes=ans.confirmed_votes(),
+            firstName=ans.user.studentfirstname,
+            lastName=ans.user.studentlastname,
+            username=ans.user.username,
+            display=ans.user.display()
+        ))
+
+    return jsonify(
+        items=results,
+        totalItems=p.total,
+        page=p.page,
+        totalPages=p.pages,
+        hasNext=p.has_next,
+        nextNum=p.next_num,
+        hasPrev=p.has_prev,
+        prevNum=p.prev_num
+    )
