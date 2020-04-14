@@ -76,6 +76,7 @@ class ProductionConfig(DefaultConfig):
     SHEET_ID = os.getenv("SHEET_ID")
     MG_LIST = os.getenv("MG_LIST")
     ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
+    CODE_CHALLENGE_START = 1586703600
 
 
 class DevelopmentConfig(ProductionConfig):
@@ -94,3 +95,24 @@ class DevelopmentConfig(ProductionConfig):
     @property
     def DIST_DIR(self):
         return os.path.join(self.ROOT_DIR, "dist")
+
+    
+class TestingConfig(DefaultConfig):
+    # read as much as possible from envvars
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    JWT_COOKIE_SECURE = True
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
+    MAIL_SUPPRESS_SEND = os.getenv("MAIL_SUPPRESS_SEND", False)
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    JWT_ACCESS_TOKEN_EXPIRES = 604800
+    ALLOW_RESET = os.getenv("ALLOW_RESET")
+    EXTERNAL_URL = os.getenv("EXTERNAL_URL")
+    SANDBOX_API_URL = os.getenv("SANDBOX_API_URL")
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    SHEET_ID = os.getenv("SHEET_ID")
+    MG_LIST = os.getenv("MG_LIST")
+    ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
+    CODE_CHALLENGE_START = 1586703600
