@@ -16,11 +16,11 @@
       box-sizing: border-box;
       font-size: 14px;
     }
-
+​
     img {
       max-width: 100%;
     }
-
+​
     body {
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: none;
@@ -30,24 +30,24 @@
       /* 1.6em * 14px = 22.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
       /*line-height: 22px;*/
     }
-
+​
     /* Let's make sure all tables have defaults */
     table td {
       vertical-align: top;
     }
-
+​
     /* -------------------------------------
         BODY & CONTAINER
     ------------------------------------- */
     body {
       background-color: #353535;
     }
-
+​
     .body-wrap {
       background-color: #353535;
       width: 100%;
     }
-
+​
     .container {
       display: block !important;
       max-width: 600px !important;
@@ -55,14 +55,14 @@
       /* makes it centered */
       clear: both !important;
     }
-
+​
     .content {
       max-width: 600px;
       margin: 0 auto;
       display: block;
       padding: 20px;
     }
-
+​
     /* -------------------------------------
         HEADER, FOOTER, MAIN
     ------------------------------------- */
@@ -70,15 +70,15 @@
       background-color: #fff;
       border-radius: 3px;
     }
-
+​
     .content-wrap {
       padding: 40px;
     }
-
+​
     .content-block {
       padding: 0 0 20px;
     }
-
+​
     .header {
       width: 100%;
       margin-bottom: 20px;
@@ -86,23 +86,23 @@
       padding: 20px;
       color: #fff;
     }
-
+​
     .header h3 {
       color: #fff;
     }
-
+​
     .footer {
       width: 100%;
       clear: both;
       color: #999;
       padding: 20px;
     }
-
+​
     .footer p, .footer a, .footer td {
       color: #999;
       font-size: 12px;
     }
-
+​
     /* -------------------------------------
         TYPOGRAPHY
     ------------------------------------- */
@@ -113,40 +113,40 @@
       line-height: 1.2em;
       font-weight: 600;
     }
-
+​
     h1 {
       font-size: 32px;
       /* 1.2em * 32px = 38.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
       /*line-height: 38px;*/
     }
-
+​
     h2 {
       font-size: 24px;
       /* 1.2em * 24px = 28.8px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
       /*line-height: 29px;*/
     }
-
+​
     h3 {
       font-size: 18px;
       /* 1.2em * 18px = 21.6px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
       /*line-height: 22px;*/
     }
-
+​
     h4 {
       font-size: 14px;
       font-weight: 600;
     }
-
+​
     p, ul, ol {
       margin-bottom: 10px;
       font-weight: normal;
     }
-
+​
     p li, ul li, ol li {
       margin-left: 5px;
       list-style-position: inside;
     }
-
+​
     /* -------------------------------------
         LINKS & BUTTONS
     ------------------------------------- */
@@ -154,7 +154,7 @@
       color: #348eda;
       text-decoration: underline;
     }
-
+​
     .btn-primary {
       text-decoration: none;
       color: #FFF !important;
@@ -171,39 +171,39 @@
       border-radius: 5px;
       text-transform: capitalize;
     }
-
+​
     /* -------------------------------------
         OTHER STYLES THAT MIGHT BE USEFUL
     ------------------------------------- */
     .last {
       margin-bottom: 0;
     }
-
+​
     .first {
       margin-top: 0;
     }
-
+​
     .aligncenter {
       text-align: center;
     }
-
+​
     .alignright {
       text-align: right;
     }
-
+​
     .alignleft {
       text-align: left;
     }
-
+​
     .clear {
       clear: both;
     }
-
+​
     .social {
       max-width: 25px;
       display: inline-block;
     }
-
+​
     /* -------------------------------------
         ALERTS
         Change the class depending on warning email, good email or bad email
@@ -216,26 +216,26 @@
       text-align: center;
       border-radius: 3px 3px 0 0;
     }
-
+​
     .alert a {
       color: #fff;
       text-decoration: none;
       font-weight: 500;
       font-size: 10px;
     }
-
+​
     .alert.alert-warning {
       background-color: #353535;
     }
-
+​
     .alert.alert-bad {
       background-color: #D0021B;
     }
-
+​
     .alert.alert-good {
       background-color: #0fad80;
     }
-
+​
     /* -------------------------------------
         RESPONSIVE AND MOBILE FRIENDLY STYLES
     ------------------------------------- */
@@ -243,46 +243,46 @@
       body {
         padding: 0 !important;
       }
-
+​
       h1, h2, h3, h4 {
         font-weight: 800 !important;
         margin: 20px 0 5px !important;
       }
-
+​
       h1 {
         font-size: 22px !important;
       }
-
+​
       h2 {
         font-size: 18px !important;
       }
-
+​
       h3 {
         font-size: 16px !important;
       }
-
+​
       .container {
         padding: 0 !important;
         width: 100% !important;
       }
-
+​
       .content {
         padding: 0 !important;
       }
-
+​
       .content-wrap {
         padding: 10px !important;
       }
-
+​
     }
-
+​
     /*# sourceMappingURL=styles.css.map */
-
+​
   </style>
 </head>
-
+​
 <body itemscope itemtype="http://schema.org/EmailMessage">
-
+​
 <table class="body-wrap">
   <tr>
     <td></td>
@@ -301,19 +301,26 @@
                   <td class="content-block">
                     <h2>{{name}}, today's code challenge question is unlocked!</h2>
                     <br/>
-                    <p>Continue your quest by <a href="{{ external_url }}/login"> logging in.</a></p>
+                    <p>Continue your quest by <a href="https://challenge.codewizardshq.com/login"> logging in.</a></p>
                     <p>Good luck and safe travels! </p>
                     <br/>
-                    <a href="{{ external_url }}/login" class="btn-primary">ANSWER TODAY'S QUESTION</a>
+                    <a href="https://challenge.codewizardshq.com/login" class="btn-primary">ANSWER TODAY'S QUESTION</a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <p><a href="{{ external_url }}/login">Login to Play</a><br/>
+                    <p><a href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
                       <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
                       <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
-                      <a href="{{ external_url }}/frequently-asked-questions">Frequently Asked Questions</a></p>
                   </td>
+                </tr>
+                <tr>
+                  <td style="padding: 20px 0px 10px 0px;">                   
+                    <b>Need Help?</b> Get it on <a href="https://discordapp.com/invite/NuKfKZ8">Discord</a>, <a href="https://www.facebook.com/events/501020200554546/">Facebook</a>, and <a href="https://challenge.codewizardshq.com/frequently-asked-questions">FAQs</a></p>
+                </tr>
+                <tr>
+                  <td style="padding: 20px 0px 10px 0px;">                   
+                    <a  style="text-decoration: none;"href="https://codewizardshq.com/covid-19"><i>Learn to Code with CodeWizardsHQ Today!</i></a><br/></td>
                 </tr>
               </table>
             </td>
@@ -322,7 +329,6 @@
             <td class="alert alert-warning">
               Share With Friends
               <br/>
-
               <a href="https://www.facebook.com/events/501020200554546/"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
               <a href="https://twitter.com/CodeWizardsHQ"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg"></a>
               <a href="mailto:?"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
@@ -343,3 +349,7 @@
 </table>
 </body>
 </html>
+Collapse
+
+
+
