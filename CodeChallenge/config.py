@@ -115,4 +115,4 @@ class TestingConfig(DefaultConfig):
     SHEET_ID = os.getenv("SHEET_ID")
     MG_LIST = os.getenv("MG_LIST")
     ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
-    CODE_CHALLENGE_START = 1586703600
+    CODE_CHALLENGE_START = 1586764800
