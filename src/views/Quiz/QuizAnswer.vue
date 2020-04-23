@@ -51,7 +51,7 @@
             from Endless.
             <br />
             <br />
-            You have made it to the final boss level of The Dragon Quest.
+            Are you prepared?
             <br />
             <br />
             <span v-if="Quiz.awaitNextQuestion">
