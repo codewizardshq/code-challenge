@@ -3,8 +3,11 @@
     <v-row>
       <v-col>
         <h2 class="ballot-header">
-          Voting Begins On April 26th at 5:00PM CT
+          Woah, voting has not started yet!
         </h2>
+        <p>
+          Our challengers are hard at work. Come back on April 26 5 PM CT to vote for the winner.
+        </p>
       </v-col>
     </v-row>
   </v-container>
@@ -12,7 +15,7 @@
 
 <script>
 export default {
-  name: "VotingWoah"
+  name: 'VotingWoah',
 };
 </script>
 
@@ -20,8 +23,14 @@ export default {
 h2 {
   text-align: center;
   color: #0d1d41;
-  font-family: "Barlow", sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
+}
+
+p {
+  text-align: center;
+  color: #0d1d41;
+  font-family: 'Barlow', sans-serif;
 }
 </style>
