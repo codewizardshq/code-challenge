@@ -37,7 +37,7 @@
     <v-dialog v-model="showSuccessModal" persistent max-width="400">
       <v-card>
         <v-card-title class="headline">Your answer was correct!</v-card-title>
-        <div v-if="Quiz.rank === Quiz.maxRank">
+        <div v-if="isLastQuiz">
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
@@ -135,9 +135,7 @@
       </v-card>
     </v-dialog>
 
-    <final-question-success
-      v-if="showSuccessModal && Quiz.rank === Quiz.maxRank"
-    />
+    <final-question-success v-if="showSuccessModal && isLastQuiz" />
   </div>
 </template>
 
@@ -184,6 +182,8 @@ export default {
         "The grand prize could be yours.",
         "You must be the hero we're seeking."
       ],
+      entryRank: -1,
+      isLastQuiz: false,
       isSubmitting: false,
       wasCorrect: false,
       attemptsRemaining: 3,
@@ -203,6 +203,11 @@ export default {
         }
       }
     };
+  },
+  mounted() {
+    if (this.Quiz.rank === this.Quiz.maxRank - 1) {
+      this.isLastQuiz = true;
+    }
   },
   methods: {
     onBlur() {
