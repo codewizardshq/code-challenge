@@ -6,7 +6,8 @@
           Woah, voting has not started yet!
         </h2>
         <p>
-          Our challengers are hard at work. Come back on April 26 5 PM CT to vote for the winner.
+          Our challengers are hard at work. Come back on April 26 5 PM CT to
+          vote for the winner.
         </p>
       </v-col>
     </v-row>
@@ -15,7 +16,7 @@
 
 <script>
 export default {
-  name: 'VotingWoah',
+  name: "VotingWoah"
 };
 </script>
 
@@ -23,7 +24,7 @@ export default {
 h2 {
   text-align: center;
   color: #0d1d41;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
 }
@@ -31,6 +32,6 @@ h2 {
 p {
   text-align: center;
   color: #0d1d41;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
 }
 </style>
