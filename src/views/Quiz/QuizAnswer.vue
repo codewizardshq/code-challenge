@@ -206,6 +206,7 @@ export default {
   },
   mounted() {
     if (this.Quiz.rank === this.Quiz.maxRank - 1) {
+      console.log("Is last quiz");
       this.isLastQuiz = true;
     }
   },
