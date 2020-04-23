@@ -41,16 +41,17 @@
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
-            You have made it to the final boss level of The Dragon Quest.
+            Not only can you call yourself one of the best kid coders in the
+            land, you also win a $100 CodeWizardsHQ Gift Certificate.
             <br />
             <br />
-            Your skills are quite impressive and you will be rewarded with a
-            prize for your work.
-            <br /><br />
-            Tomorrow, 8:00 AM CT April 24, you will receive the final boss level
-            question. If you are able to conquer this question, you will be
-            eligible for the grand prize of $100 cash and free STEAM access code
+            Check your email tomorrow for your prize. You've qualified for the
+            final boss level round of The Dragon Quest tomorrow at 8:00 AM CT
+            April 24 and the chance to win $100 cash and free STEAM access code
             from Endless.
+            <br />
+            <br />
+            You have made it to the final boss level of The Dragon Quest.
             <br />
             <br />
             <span v-if="Quiz.awaitNextQuestion">
