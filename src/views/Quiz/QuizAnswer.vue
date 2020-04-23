@@ -37,7 +37,7 @@
     <v-dialog v-model="showSuccessModal" persistent max-width="400">
       <v-card>
         <v-card-title class="headline">Your answer was correct!</v-card-title>
-        <div v-if="Quiz.rank === Quiz.maxRank">
+        <div v-if="Quiz.rank === Quiz.maxRank-1">
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
@@ -136,7 +136,7 @@
     </v-dialog>
 
     <final-question-success
-      v-if="showSuccessModal && Quiz.rank === Quiz.maxRank"
+      v-if="showSuccessModal && Quiz.rank === Quiz.maxRank-1"
     />
   </div>
 </template>
