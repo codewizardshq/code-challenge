@@ -37,7 +37,32 @@
     <v-dialog v-model="showSuccessModal" persistent max-width="400">
       <v-card>
         <v-card-title class="headline">Your answer was correct!</v-card-title>
-        <div v-if="Quiz.awaitNextQuestion">
+        <div v-if="Quiz.rank === Quiz.maxRank">
+          <v-card-text>
+            Congratulations, {{ User.displayName }}!
+            <br />
+            You have made it to the final boss level of The Dragon Quest.
+            <br />
+            <br />
+            Your skills are quite impressive and you will be rewarded with a
+            prize for your work.
+            <br /><br />
+            Tomorrow, 8:00 AM CT April 24, you will receive the final boss level
+            question. If you are able to conquer this question, you will be
+            eligible for the grand prize of $100 cash and free STEAM access code
+            from Endless.
+            <br />
+            <br />
+            <span v-if="Quiz.awaitNextQuestion">
+              That's all the questions available for now. The next question
+              unlocks {{ Quiz.nextUnlockMoment.fromNow() }}
+            </span>
+            <v-card-actions>
+              <v-btn block color="primary darken-1" @click="next">OKAY</v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </div>
+        <div v-else-if="Quiz.awaitNextQuestion">
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
@@ -109,15 +134,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <final-question-success
+      v-if="showSuccessModal && Quiz.rank === Quiz.maxRank"
+    />
   </div>
 </template>
 
 <script>
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
+import FinalQuestionSuccess from "@/components/FinalQuestionSuccess";
 
 export default {
   name: "quizAnswer",
+  components: {
+    FinalQuestionSuccess
+  },
   props: ["rank"],
   computed: {
     ...Quiz.mapState(),
