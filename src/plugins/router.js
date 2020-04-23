@@ -109,16 +109,24 @@ const routes = [
     // voting routes
     path: "/",
     component: () => import("@/views/Voting/App"),
-    meta: { challengeOver: true },
     children: [
       {
         path: "voting",
         name: "voting",
-        component: () => import("@/views/Voting/Ballot")
+        component: () => {
+          if (isChallengeClosed()) {
+            return import("@/views/Voting/Ballot");
+          } else {
+            return import("@/views/Voting/VoteWoah");
+          }
+        }
       },
       {
         path: "vote-confirmation",
         name: "voting-confirmation",
+        meta: {
+          challengeOver: true
+        },
         component: () => import("@/views/Voting/Confirm")
       }
     ]
