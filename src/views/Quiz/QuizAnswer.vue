@@ -207,6 +207,7 @@ export default {
   },
   mounted() {
     if (this.Quiz.rank === this.Quiz.maxRank - 1) {
+      // eslint-disable-next-line no-console
       console.log("Is last quiz!!");
       this.isLastQuiz = true;
     }
