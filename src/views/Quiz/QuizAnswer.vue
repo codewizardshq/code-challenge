@@ -41,10 +41,17 @@
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
-            You've conquered Level {{ rank }}. {{ successMessage }}
+            You have made it to the final boss level of The Dragon Quest.
             <br />
             <br />
-            Are you ready for the boss round? A secret level 22 awaits you...
+            Your skills are quite impressive and you will be rewarded with a
+            prize for your work.
+            <br /><br />
+            Tomorrow, 8:00 AM CT April 24, you will receive the final boss level
+            question. If you are able to conquer this question, you will be
+            eligible for the grand prize of $100 cash and free STEAM access code
+            from Endless.
+            <br />
             <br />
             <span v-if="Quiz.awaitNextQuestion">
               That's all the questions available for now. The next question
