@@ -88,6 +88,37 @@ func execJs(timeout time.Duration, code *string) (stdout string, stderr string) 
 	return
 }
 
+func execNode(timeout time.Duration, code *string) (stdout string, stderr string) {
+	debug("applying seccomp filter for NodeJS")
+
+	ApplySyscallRestrictions()
+
+	debug("building command context with %v timeout", timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "node")
+	cmd.Stdin = strings.NewReader(*code)
+	debug("stdin: %s", *code)
+
+	var errBuffer bytes.Buffer
+	cmd.Stderr = &errBuffer
+
+	debug("executing command ...")
+	out, _ := cmd.Output()
+
+	if ctx.Err() == context.DeadlineExceeded {
+		debug("command timed out")
+		stderr = "command timed out"
+		return
+	}
+
+	stdout = string(out)
+	stderr = errBuffer.String()
+
+	return
+}
+
 func debug(msg string, args ...interface{}) {
 	if DEBUG {
 		log.Println(fmt.Sprintf(msg, args...))
@@ -134,6 +165,8 @@ func main() {
 		stdout, stderr = execPython(duration, &data)
 	} else if language == "javascript" || language == "js" {
 		stdout, stderr = execJs(duration, &data)
+	} else if language == "node" {
+		stdout, stderr = execNode(duration, &data)
 	}
 
 	r, e := json.Marshal(Response{stdout, stderr})

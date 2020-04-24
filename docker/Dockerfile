@@ -7,7 +7,7 @@ ENV TIMEOUT="5"
 ENV DEBUG="0"
 VOLUME "/mnt/code"
 
-RUN apk --update add --no-cache python3 bash binutils libc-dev python3-dev gcc git libseccomp-dev strace
+RUN apk --update add --no-cache python3 bash binutils libc-dev python3-dev gcc git libseccomp-dev strace nodejs
 RUN pip3 install -U pip
 RUN pip3 install pyduktape
 
