@@ -151,6 +151,14 @@ const routes = [
             return import("@/views/Quiz/QuizFinished");
           }
 
+          // User did not make the cut
+          if (
+            store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
+            store.state.User.rank != store.state.Quiz.rankToday
+          ) {
+            return import("@/views/Quiz/QuizFinishedFail");
+          }
+
           // MUST WAIT FOR NEXT QUESTION
           if (store.state.Quiz.awaitNextQuestion) {
             return import("@/views/Quiz/QuizCountdown");

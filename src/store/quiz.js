@@ -59,6 +59,7 @@ function getDefaultState() {
     question: "",
     asset: "",
     rank: 0,
+    rankToday: 0,
     maxRank: 0,
     isLastQuestion: false,
     hints: ["", ""],
@@ -92,6 +93,7 @@ const actions = {
     // get current rank and see if quiz has started
     try {
       const rank = await quiz.getRank();
+      commit("rankToday", rank.rank);
       commit("maxRank", rank.maxRank);
       commit(
         "quizStartedMoment",
@@ -184,6 +186,9 @@ const mutations = {
   },
   maxRank(state, value) {
     state.maxRank = value;
+  },
+  rankToday(state, value) {
+    state.rankToday = value;
   },
   isLastQuestion(state, value) {
     state.isLastQuestion = value;
