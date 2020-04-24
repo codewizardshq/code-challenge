@@ -78,12 +78,12 @@ const routes = [
         name: "reset-password",
         component: () => import("@/views/Accounts/ResetPassword")
       },
-      {
-        path: "create-account",
-        name: "register",
-        component: () => import("@/views/Accounts/Register"),
-        meta: { anon: true, challengeOpenOrPending: true }
-      },
+      // {
+      //   path: "create-account",
+      //   name: "register",
+      //   component: () => import("@/views/Accounts/Register"),
+      //   meta: { anon: true, challengeOpenOrPending: true }
+      // },
       {
         path: "logout",
         name: "logout",
