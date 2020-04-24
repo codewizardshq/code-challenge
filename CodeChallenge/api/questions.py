@@ -204,13 +204,13 @@ def answer_eval():
         return jsonify(status="error",
                        reason="missing 'language' property in JSON body"), 400
 
-    if language not in ("js", "python", "node"):
+    if language not in ("js", "python"):
         return jsonify(status="error",
                        reason="unsupported language. valid choices are 'js' or 'python'"), 400
 
     # designated output variable for evaluation
     if language == "js":
-        code += ";output"
+        code += ";console.log(output);"
 
     r = requests.post(current_app.config["SANDBOX_API_URL"],
                       json={"code": code, "language": language})
