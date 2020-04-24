@@ -13,11 +13,23 @@ export default {
   data() {
     return {
       dynamicClass: "idle",
-      isOpen: true
+      isOpen: true,
+      isClosing: false
     };
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this) {
+        this.onClick();
+      }
+    }, 1000 * 4);
   },
   methods: {
     onClick() {
+      if (this.isClosing) {
+        return;
+      }
+      this.isClosing = true;
       this.dynamicClass = "hidden";
       setTimeout(() => {
         this.isOpen = false;
