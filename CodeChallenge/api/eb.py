@@ -29,9 +29,8 @@ def worker():
                           current_app.config["WORKER_PASSWORD"]):
         return "", 401
 
-    # send daily reminder emails only while challenge is active
-
-    if core.day_number() >= 1 and not core.challenge_ended():
+    # send daily reminder emails only while challenge is active, up until the first day of the final challenge
+    if 1 <= core.day_number() <= core.max_rank():
         msg = Message("New code challenge question is unlocked!",
                       sender=current_app.config["MAIL_DEFAULT_SENDER"],
                       recipients=[current_app.config["MG_LIST"]])
@@ -43,10 +42,8 @@ def worker():
 
         mail.send(msg)
 
-        webhook = current_app.config.get("SLACK_WEBHOOK")
-        if webhook is not None:
-            requests.post(webhook, json=dict(
-                text=f"*NEW RANK* {core.current_rank()}"
-            ))
+    elif core.challenge_ended():
+        # TODO: email everyone individually how many votes they have
+        pass
 
     return "", 200
