@@ -12,13 +12,14 @@
 
             <div style="max-width:600px; margin: auto;">
               <h2>
-                Vote for the winner of CodeWizardsHQ’s Code Challenge, Defeat
-                the Dragon.
+                Vote For The Winner of The Dragon Question
               </h2>
-              Congratulations to all {{ totalEntries }} finalists, kid coders
-              who have correctly solved 21 levels of coding questions! Each
-              challenger below has also correctly answered our boss question
-              correctly and qualified for the grand prize.
+              <div>
+                Congratulations to all {{ totalEntries }} finalists, kid coders
+                who have correctly solved 21 levels of coding questions! Each
+                challenger below has also correctly answered our boss question
+                correctly and qualified for the grand prize.
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -41,12 +42,9 @@
               <h2 class="ballot-header">
                 Cast your vote below!
               </h2>
-              <div>
+              <div class="text-center">
                 Click “Vote” to enter your choice for the winners of our 1st,
-                2nd, and 3rd place prize. One vote per person. An evil dragon
-                has invaded CWHQ Land! We are seeking the bravest and brightest
-                kid coders to be our heroes. To defeat the intruder you must
-                complete 21 levels of coding challenges in Python or JavaScript.
+                2nd, and 3rd place prize. One vote per person.
               </div>
             </div>
           </v-col>
