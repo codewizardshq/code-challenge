@@ -111,7 +111,6 @@ def answer_next_question():
     except TypeError:
         return jsonify(status="success", correct=False)
 
-
     ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
 
     if ans is None:
@@ -227,10 +226,7 @@ def answer_eval():
                        reason="response from sandbox API was not JSON"), 500
 
     eval_error = eval_data["error"]
-    eval_output = str(eval_data["output"])
-
-    if language in ("python", "node"):
-        eval_output = eval_output.rstrip()  # remove trailing \n from print()
+    eval_output = str(eval_data["output"]).rstrip()
 
     # any API error is an automatic failure
     if eval_error:
