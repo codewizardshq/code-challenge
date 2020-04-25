@@ -209,7 +209,7 @@ def answer_eval():
 
     # designated output variable for evaluation
     if language == "js":
-        code += ";console.log(output);"
+        code += "\n\nconsole.log(output)"
 
     r = requests.post(current_app.config["SANDBOX_API_URL"],
                       json={"code": code, "language": language})
@@ -232,6 +232,7 @@ def answer_eval():
     if eval_error:
         return jsonify(status="success",
                        correct=False,
+                       output=eval_output,
                        js_error=eval_error)
 
     try:
