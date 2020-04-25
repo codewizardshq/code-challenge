@@ -11,9 +11,14 @@
             </div>
 
             <div style="max-width:600px; margin: auto;">
-              <h2>Vote for the winner of CodeWizardsHQ’s Code Challenge, Defeat the Dragon.</h2>
-              Congratulations to all {{ totalEntries }} finalists, kid coders who have correctly solved 21 levels of coding questions! Each challenger below has
-              also correctly answered our boss question correctly and qualified for the grand prize.
+              <h2>
+                Vote for the winner of CodeWizardsHQ’s Code Challenge, Defeat
+                the Dragon.
+              </h2>
+              Congratulations to all {{ totalEntries }} finalists, kid coders
+              who have correctly solved 21 levels of coding questions! Each
+              challenger below has also correctly answered our boss question
+              correctly and qualified for the grand prize.
             </div>
           </v-col>
         </v-row>
@@ -37,9 +42,11 @@
                 Cast your vote below!
               </h2>
               <div>
-                Click “Vote” to enter your choice for the winners of our 1st, 2nd, and 3rd place prize. One vote per person. An evil dragon has invaded CWHQ
-                Land! We are seeking the bravest and brightest kid coders to be our heroes. To defeat the intruder you must complete 21 levels of coding
-                challenges in Python or JavaScript.
+                Click “Vote” to enter your choice for the winners of our 1st,
+                2nd, and 3rd place prize. One vote per person. An evil dragon
+                has invaded CWHQ Land! We are seeking the bravest and brightest
+                kid coders to be our heroes. To defeat the intruder you must
+                complete 21 levels of coding challenges in Python or JavaScript.
               </div>
             </div>
           </v-col>
@@ -52,24 +59,49 @@
           <v-col>
             <search-bar v-model="searchText" />
 
-            <h2 v-if="!isLoading && pageData.items.length === 0 && searchText !== ''">Could not find any results for "{{ searchText }}"</h2>
-            <h2 v-else-if="searchText !== ''">Showing results for "{{ searchText }}"</h2>
+            <h2
+              v-if="
+                !isLoading && pageData.items.length === 0 && searchText !== ''
+              "
+            >
+              Could not find any results for "{{ searchText }}"
+            </h2>
+            <h2 v-else-if="searchText !== ''">
+              Showing results for "{{ searchText }}"
+            </h2>
           </v-col>
         </v-row>
         <v-row justify="center" v-if="isLoading">
           <v-col class="text-center">
-            <v-progress-circular class="mt-6" color="cwhqBlue" size="100" width="10" indeterminate />
+            <v-progress-circular
+              class="mt-6"
+              color="cwhqBlue"
+              size="100"
+              width="10"
+              indeterminate
+            />
             <h2 class="mt-6">
               Loading Results <small><br />Please Wait</small>
             </h2>
           </v-col>
         </v-row>
-        <v-row v-else-if="pageData.items === 0"> No results were found for "{{ searchText }}" </v-row>
+        <v-row v-else-if="pageData.items === 0">
+          No results were found for "{{ searchText }}"
+        </v-row>
         <v-row justify="center" v-else>
-          <ballot-card v-for="(item, i) in pageData.items" :key="i" v-bind="item" @click="showCode(item)" />
+          <ballot-card
+            v-for="(item, i) in pageData.items"
+            :key="i"
+            v-bind="item"
+            @click="showCode(item)"
+          />
         </v-row>
         <v-row justify="center" v-if="pageData.totalPages > 1 && !isLoading">
-          <v-pagination v-model="pageData.page" :length="pageData.totalPages" circle></v-pagination>
+          <v-pagination
+            v-model="pageData.page"
+            :length="pageData.totalPages"
+            circle
+          ></v-pagination>
         </v-row>
         <code-modal v-bind="this.item" v-model="showModal" />
       </v-container>
@@ -79,27 +111,27 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { voting } from '@/api';
-import BallotCard from './BallotCard';
-import CodeModal from './CodeModal';
-import SearchBar from './SearchBar';
-import BallotLeaders from './BallotLeaders';
+import Vue from "vue";
+import { voting } from "@/api";
+import BallotCard from "./BallotCard";
+import CodeModal from "./CodeModal";
+import SearchBar from "./SearchBar";
+import BallotLeaders from "./BallotLeaders";
 
 export default {
   components: {
     BallotCard,
     CodeModal,
     SearchBar,
-    BallotLeaders,
+    BallotLeaders
   },
   data() {
     return {
-      totalEntries: '',
+      totalEntries: "",
       requestIndex: 0,
       requestCount: 0,
       showModal: false,
-      searchText: '',
+      searchText: "",
       item: null,
       per: 50,
       pageData: {
@@ -110,8 +142,8 @@ export default {
         items: [],
         prevNum: null,
         totalItems: 0,
-        totalPages: 0,
-      },
+        totalPages: 0
+      }
     };
   },
   methods: {
@@ -120,7 +152,7 @@ export default {
       this.showModal = true;
     },
     async setResult(result) {
-      await new Promise((resolve) =>
+      await new Promise(resolve =>
         setTimeout(async () => {
           for (const [key, value] of Object.entries(result)) {
             Vue.set(this.pageData, key, value);
@@ -131,7 +163,7 @@ export default {
       );
     },
     async search() {
-      if (this.searchText === '') {
+      if (this.searchText === "") {
         return this.loadPage();
       }
       this.requestIndex++;
@@ -139,8 +171,15 @@ export default {
       const requestIndex = this.requestIndex;
       const searchText = this.searchText;
       try {
-        const results = await voting.search(this.searchText, this.pageData.page, this.per);
-        if (this.searchText === searchText && this.requestIndex === requestIndex) {
+        const results = await voting.search(
+          this.searchText,
+          this.pageData.page,
+          this.per
+        );
+        if (
+          this.searchText === searchText &&
+          this.requestIndex === requestIndex
+        ) {
           await this.setResult(results);
         }
       } catch (err) {
@@ -149,7 +188,7 @@ export default {
           this.pageData.page = 1;
           await this.search();
         } else {
-          this.$router.push({ name: 'redirect' });
+          this.$router.push({ name: "redirect" });
         }
       }
       this.requestCount--;
@@ -164,7 +203,7 @@ export default {
           this.pageData.page = 1;
           await this.loadPage();
         } else {
-          this.$router.push({ name: 'redirect' });
+          this.$router.push({ name: "redirect" });
         }
       }
       this.requestCount--;
@@ -172,9 +211,9 @@ export default {
     async updateQueryParams() {
       try {
         const query = {
-          page: this.pageData.page,
+          page: this.pageData.page
         };
-        if (this.searchText !== '') {
+        if (this.searchText !== "") {
           query.search = encodeURIComponent(this.searchText);
         }
         await this.$router.replace({ name: this.$route.name, query });
@@ -183,38 +222,42 @@ export default {
       }
     },
     async refresh() {
-      if (this.searchText === '') {
+      if (this.searchText === "") {
         this.loadPage();
       } else {
         this.search();
       }
-    },
+    }
   },
   computed: {
     isLoading() {
       return this.requestCount > 0;
-    },
+    }
   },
   watch: {
     searchText() {
       this.search();
     },
-    ['pageData.page']() {
+    ["pageData.page"]() {
       this.refresh();
     },
-    ['$route.query.page'](val) {
+    ["$route.query.page"](val) {
       const page = parseInt(val);
       if (this.pageData.page === page) {
         return;
       }
       this.pageData.page = page;
       this.refresh();
-    },
+    }
   },
   async mounted() {
-    this.searchText = this.$route.query.search === undefined ? '' : this.$route.query.search;
-    this.pageData.page = this.$route.query.page === undefined ? 1 : parseInt(this.$route.query.page);
-  },
+    this.searchText =
+      this.$route.query.search === undefined ? "" : this.$route.query.search;
+    this.pageData.page =
+      this.$route.query.page === undefined
+        ? 1
+        : parseInt(this.$route.query.page);
+  }
 };
 </script>
 
@@ -222,7 +265,7 @@ export default {
 h2 {
   text-align: center;
   color: #0d1d41;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
 }
@@ -236,9 +279,9 @@ h2 {
   $height: 550px;
   background-size: cover;
   min-height: $height;
-  background-image: url('https://codewizardshq.com/wp-content/uploads/2020/01/landing-bg.jpg');
+  background-image: url("https://codewizardshq.com/wp-content/uploads/2020/01/landing-bg.jpg");
   &:after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     z-index: 2;
@@ -246,7 +289,8 @@ h2 {
     left: 0;
     height: $height;
     width: 100%;
-    background: url('https://codewizardshq.com/wp-content/themes/codewizards/assets/images/banner-bg-2.png') no-repeat center top;
+    background: url("https://codewizardshq.com/wp-content/themes/codewizards/assets/images/banner-bg-2.png")
+      no-repeat center top;
     background-size: cover;
   }
 

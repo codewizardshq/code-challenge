@@ -1,7 +1,13 @@
 <template>
   <div>
     <v-dialog v-model="isOpen" max-width="1000">
-      <v-card class="ballot ballot-modal" height="600" color="white" light v-if="isOpen">
+      <v-card
+        class="ballot ballot-modal"
+        height="600"
+        color="white"
+        light
+        v-if="isOpen"
+      >
         <v-row class="main-row" no-gutters>
           <v-col cols="3" sm="12" md="3" class="left">
             <div class="circle">
@@ -12,17 +18,50 @@
             </div>
             <hr />
             <v-form lazy-validation @submit.prevent="submit">
-              <v-text-field single-line outlined solo v-bind="fields.email" v-model="fields.email.value" :disabled="isSubmitting" v-if="!User.isAuthorized" />
-              <v-btn block tile color="cwhqBlue" type="submit" :disabled="isSubmitting">Confirm Vote</v-btn>
+              <v-text-field
+                single-line
+                outlined
+                solo
+                v-bind="fields.email"
+                v-model="fields.email.value"
+                :disabled="isSubmitting"
+                v-if="!User.isAuthorized"
+              />
+              <v-btn
+                block
+                tile
+                color="cwhqBlue"
+                type="submit"
+                :disabled="isSubmitting"
+                >Confirm Vote</v-btn
+              >
 
               <v-row no-gutters class="icons" justify="center">
-                <v-btn fab color="cwhqBlue" icon target="_blank" :href="facebookUrl">
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="facebookUrl"
+                >
                   <v-icon>mdi-facebook</v-icon>
                 </v-btn>
-                <v-btn fab color="cwhqBlue" icon target="_blank" :href="twitterUrl">
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="twitterUrl"
+                >
                   <v-icon>mdi-twitter</v-icon>
                 </v-btn>
-                <v-btn fab color="cwhqBlue" icon target="_blank" :href="mailUrl">
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="mailUrl"
+                >
                   <v-icon>mdi-email</v-icon>
                 </v-btn>
               </v-row>
@@ -47,7 +86,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="cwhqBlue" tile text @click="showError = false">Okay</v-btn>
+          <v-btn color="cwhqBlue" tile text @click="showError = false"
+            >Okay</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -55,65 +96,83 @@
 </template>
 
 <script>
-import * as api from '@/api';
-import SuccessModal from './SuccessModal';
-import { User } from '@/store';
-import 'highlight.js/styles/darcula.css';
+import * as api from "@/api";
+import SuccessModal from "./SuccessModal";
+import { User } from "@/store";
+import "highlight.js/styles/darcula.css";
 
 export default {
   components: {
-    SuccessModal,
+    SuccessModal
   },
   data() {
     return {
       showSuccess: false,
       showError: false,
-      errorMessage: '',
+      errorMessage: "",
       isOpen: this.value,
-      sourcecode: 'derp',
+      sourcecode: "derp",
       isSubmitting: false,
       fields: {
         email: {
-          type: 'email',
-          value: '',
-          label: 'ENTER E-MAIL TO VOTE',
-        },
-      },
+          type: "email",
+          value: "",
+          label: "ENTER E-MAIL TO VOTE"
+        }
+      }
     };
   },
   computed: {
     ...User.mapState(),
     codeType() {
-      return this.text.indexOf('print(') >= 0 ? 'python' : 'javascript';
+      return this.text.indexOf("print(") >= 0 ? "python" : "javascript";
     },
     socialText() {
-      return 'Vote for my code at ';
+      return "Vote for my code at ";
     },
     socialUrl() {
-      return encodeURI(`https://challenge.codewizardshq.com/voting?search=${this.username}&open=true`);
+      return encodeURI(
+        `https://challenge.codewizardshq.com/voting?search=${this.username}&open=true`
+      );
     },
     twitterUrl() {
-      return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.socialText)}&url=${this.socialUrl}&original_referer=`;
+      return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        this.socialText
+      )}&url=${this.socialUrl}&original_referer=`;
     },
     facebookUrl() {
       return `https://www.facebook.com/sharer/sharer.php?u=${this.socialUrl};src=sdkpreparse`;
     },
     mailUrl() {
-      return `mailto:?subject=${encodeURIComponent(this.socialText)}!&body=${encodeURIComponent(this.socialText)} ${encodeURIComponent(this.socialUrl)}`;
-    },
+      return `mailto:?subject=${encodeURIComponent(
+        this.socialText
+      )}!&body=${encodeURIComponent(this.socialText)} ${encodeURIComponent(
+        this.socialUrl
+      )}`;
+    }
   },
-  props: ['display', 'firstName', 'id', 'lastName', 'numVotes', 'text', 'username', 'value', 'initials'],
+  props: [
+    "display",
+    "firstName",
+    "id",
+    "lastName",
+    "numVotes",
+    "text",
+    "username",
+    "value",
+    "initials"
+  ],
   watch: {
     isOpen() {
       if (this.isOpen != this.value) {
-        this.$emit('input', this.isOpen);
+        this.$emit("input", this.isOpen);
       }
     },
     value() {
       if (this.isOpen != this.value) {
         this.isOpen = this.value;
       }
-    },
+    }
   },
   methods: {
     async submit() {
@@ -122,7 +181,7 @@ export default {
       }
       this.isSubmitting = true;
       if (!this.fields.email.value && !this.User.isAuthorized) {
-        this.errorMessage = 'You forgot to tell us your email';
+        this.errorMessage = "You forgot to tell us your email";
         this.showError = true;
         this.isSubmitting = false;
         return;
@@ -136,7 +195,7 @@ export default {
         this.showError = true;
       }
       this.isSubmitting = false;
-    },
-  },
+    }
+  }
 };
 </script>
