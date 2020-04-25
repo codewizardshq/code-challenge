@@ -8,6 +8,9 @@
           </template>
 
           <v-card-text>
+            <v-alert type="info">
+              Registration is closed! Thanks for playing.
+            </v-alert>
             <form-alert
               :message="errorMessage"
               @dismiss="errorMessage = false"

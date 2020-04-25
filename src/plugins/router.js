@@ -81,7 +81,9 @@ const routes = [
       {
         path: "create-account",
         name: "register",
-        component: () => import("@/views/Accounts/Register"),
+        component: () => {
+          return import("@/views/Accounts/Login");
+        },
         meta: { anon: true, challengeOpenOrPending: true }
       },
       {
@@ -109,16 +111,24 @@ const routes = [
     // voting routes
     path: "/",
     component: () => import("@/views/Voting/App"),
-    meta: { challengeOver: true },
     children: [
       {
         path: "voting",
         name: "voting",
-        component: () => import("@/views/Voting/Ballot")
+        component: () => {
+          if (isChallengeClosed()) {
+            return import("@/views/Voting/Ballot");
+          } else {
+            return import("@/views/Voting/VoteWoah");
+          }
+        }
       },
       {
         path: "vote-confirmation",
         name: "voting-confirmation",
+        meta: {
+          challengeOver: true
+        },
         component: () => import("@/views/Voting/Confirm")
       }
     ]
@@ -141,6 +151,14 @@ const routes = [
           // USER HAS FINISHED QUIZ
           if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
             return import("@/views/Quiz/QuizFinished");
+          }
+
+          // User did not make the cut
+          if (
+            store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
+            store.state.User.rank != store.state.Quiz.rankToday
+          ) {
+            return import("@/views/Quiz/QuizFinishedFail");
           }
 
           // MUST WAIT FOR NEXT QUESTION

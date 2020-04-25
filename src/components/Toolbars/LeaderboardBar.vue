@@ -38,14 +38,16 @@ export default {
       return;
     }
 
-    while (this.items.length < 100) {
-      for (const leader of leaders) {
+    // while (this.items.length < 100) {
+    for (const leader of leaders) {
+      if (leader[1] > 15) {
         this.items.push({
           username: leader[0],
           rank: leader[1]
         });
       }
     }
+    // }
 
     this.items = shuffle(this.items);
 

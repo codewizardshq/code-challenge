@@ -58,8 +58,8 @@ func execPython(timeout time.Duration, code *string) (stdout string, stderr stri
 	return
 }
 
-func execJs(timeout time.Duration, code *string) (stdout string, stderr string) {
-	debug("applying seccomp filter for JavaScript")
+func execNode(timeout time.Duration, code *string) (stdout string, stderr string) {
+	debug("applying seccomp filter for NodeJS")
 
 	ApplySyscallRestrictions()
 
@@ -67,8 +67,9 @@ func execJs(timeout time.Duration, code *string) (stdout string, stderr string) 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "./js.py")
+	cmd := exec.CommandContext(ctx, "node")
 	cmd.Stdin = strings.NewReader(*code)
+	debug("stdin: %s", *code)
 
 	var errBuffer bytes.Buffer
 	cmd.Stderr = &errBuffer
@@ -132,8 +133,8 @@ func main() {
 
 	if language == "python" || language == "py" {
 		stdout, stderr = execPython(duration, &data)
-	} else if language == "javascript" || language == "js" {
-		stdout, stderr = execJs(duration, &data)
+	} else if language == "javascript" || language == "js" || language == "node" {
+		stdout, stderr = execNode(duration, &data)
 	}
 
 	r, e := json.Marshal(Response{stdout, stderr})

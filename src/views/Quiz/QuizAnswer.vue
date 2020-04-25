@@ -37,7 +37,33 @@
     <v-dialog v-model="showSuccessModal" persistent max-width="400">
       <v-card>
         <v-card-title class="headline">Your answer was correct!</v-card-title>
-        <div v-if="Quiz.awaitNextQuestion">
+        <div v-if="isLastQuiz">
+          <v-card-text>
+            Congratulations, {{ User.displayName }}!
+            <br />
+            Not only can you call yourself one of the best kid coders in the
+            land, you also win a $100 CodeWizardsHQ Gift Certificate.
+            <br />
+            <br />
+            Check your email tomorrow for your prize. You've qualified for the
+            final boss level round of The Dragon Quest tomorrow at 8:00 AM CT
+            April 24 and the chance to win $100 cash and free STEAM access code
+            from Endless.
+            <br />
+            <br />
+            Are you prepared?
+            <br />
+            <br />
+            <span v-if="Quiz.awaitNextQuestion">
+              That's all the questions available for now. The next question
+              unlocks {{ Quiz.nextUnlockMoment.fromNow() }}
+            </span>
+            <v-card-actions>
+              <v-btn block color="primary darken-1" @click="next">OKAY</v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </div>
+        <div v-else-if="Quiz.awaitNextQuestion">
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
@@ -109,15 +135,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <final-question-success v-if="showSuccessModal && isLastQuiz" />
   </div>
 </template>
 
 <script>
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
+import FinalQuestionSuccess from "@/components/FinalQuestionSuccess";
 
 export default {
   name: "quizAnswer",
+  components: {
+    FinalQuestionSuccess
+  },
   props: ["rank"],
   computed: {
     ...Quiz.mapState(),
@@ -151,6 +183,8 @@ export default {
         "The grand prize could be yours.",
         "You must be the hero we're seeking."
       ],
+      entryRank: -1,
+      isLastQuiz: false,
       isSubmitting: false,
       wasCorrect: false,
       attemptsRemaining: 3,
@@ -170,6 +204,13 @@ export default {
         }
       }
     };
+  },
+  mounted() {
+    if (this.Quiz.rank === this.Quiz.maxRank - 1) {
+      // eslint-disable-next-line no-console
+      console.log("Is last quiz!!");
+      this.isLastQuiz = true;
+    }
   },
   methods: {
     onBlur() {
