@@ -12,13 +12,14 @@ func ApplySyscallRestrictions() {
 		"rt_sigaction", "rt_sigprocmask", "clone", "execve", "sigaltstack",
 		"arch_prctl", "gettid", "futex", "sched_getaffinity", "epoll_ctl",
 		"openat", "newfstatat", "readlinkat", "pselect6", "epoll_pwait",
-		"epoll_create1", "exit_group", "pipe2", "brk", "exit",
+		"epoll_wait", "epoll_create1", "exit_group", "pipe2", "brk", "exit",
 		"dup2", "writev", "fstat", "mprotect", "fcntl", "open", "sched_yield",
 		"pread64", "getpid", "rt_sigsuspend", "stat", "rt_sigreturn",
 		"getrandom", "sysinfo", "lseek", "getdents64", "ioctl",
 		"membarrier", "waitid", "wait4", "readlink", "nanosleep",
 		"getgid", "getegid", "getuid", "geteuid", "dup", "clock_gettime",
-		"access", "getcwd", "set_tid_address", "kill", "tgkill"}
+		"access", "getcwd", "set_tid_address", "kill", "tgkill", "set_robust_list",
+		"prlimit64", "clock_getres", "eventfd2"}
 
 	whiteList(syscalls)
 }
