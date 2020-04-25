@@ -195,6 +195,19 @@ const routes = [
     ]
   },
   {
+    // quiz routes
+    path: "/",
+    component: () => import("@/views/Public/App"),
+    meta: { secured: false },
+    children: [
+      {
+        path: "voting-tips",
+        name: "voting-faq",
+        component: () => import("@/views/Public/FAQ/VotingFAQ")
+      }
+    ]
+  },
+  {
     path: "*",
     name: "wildcard",
     redirect: { name: "redirect" }

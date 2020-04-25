@@ -13,6 +13,9 @@
             <div class="circle">
               {{ initials }}
             </div>
+            <div class="username mb-2">
+              {{ username }}
+            </div>
             <hr />
             <v-form lazy-validation @submit.prevent="submit">
               <v-text-field
@@ -65,7 +68,7 @@
             </v-form>
           </v-col>
           <v-col class="right">
-            <pre v-highlightjs="text"><code class="javascript"></code></pre>
+            <pre v-highlightjs="text"><code :class="codeType"></code></pre>
           </v-col>
         </v-row>
       </v-card>
@@ -96,6 +99,7 @@
 import * as api from "@/api";
 import SuccessModal from "./SuccessModal";
 import { User } from "@/store";
+import "highlight.js/styles/darcula.css";
 
 export default {
   components: {
@@ -120,6 +124,9 @@ export default {
   },
   computed: {
     ...User.mapState(),
+    codeType() {
+      return this.text.indexOf("print(") >= 0 ? "python" : "javascript";
+    },
     socialText() {
       return "Vote for my code at ";
     },
