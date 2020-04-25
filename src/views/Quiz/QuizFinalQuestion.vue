@@ -57,6 +57,7 @@
                 >
                 <v-btn
                   type="submit"
+                  v-if="hasRightAnswer"
                   :disabled="isSubmitting || !hasRightAnswer"
                   large
                   color="secondary darken-2"

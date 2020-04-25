@@ -2,22 +2,19 @@
   <div class="mt-6">
     <v-row justify="center">
       <quiz-scroll>
-        <template v-slot:title>Congratulations!</template>
+        <template v-slot:title>It's Over!</template>
         <template v-slot:default>
           <div style="padding-left:130px; padding-right: 130px;">
-            Congratulations young pilgrim!
+            Sorry my young pilgrim, your quest has ended.
             <br />
             <br />
-            You've qualified for the final round of The Dragon Quest.
+            Be proud of the work you did!
+            <br />
+            <br />
+            Brush up on your coding skills and follow us on Facebook and Twitter
+            to compete again next year. You can still vote on The Dragon Quest
+            winner starting 5 PM CT On Sunday, April 26.
             <br /><br />
-            To win the grand prize of $100 and a free STEAM access code from
-            Endless, come back when the voting period begins, April 26 at 5:00
-            PM CT, to gather votes and cast your vote on who you think has the
-            best solution for the final answer.
-            <br /><br />
-            The player with the highest number of votes will be crowned the
-            champion on May 1. Will you be the champion …
-            <br /><br />Good luck! <br /><br />
             <v-btn :to="{ name: 'voting' }" color="white" light
               >Cast Your Votes Here</v-btn
             ><br />
@@ -49,7 +46,7 @@
 <script>
 import QuizScroll from "@/components/QuizScroll";
 export default {
-  name: "quiz",
+  name: "quiz-finished-fail",
   components: {
     QuizScroll
   },
