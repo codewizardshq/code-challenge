@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      height: 60,
+      height: 80,
       imageHeight: 50
     };
   }
