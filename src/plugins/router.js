@@ -201,7 +201,7 @@ const routes = [
     meta: { secured: false },
     children: [
       {
-        path: "voting/faq",
+        path: "voting-tips",
         name: "voting-faq",
         component: () => import("@/views/Public/FAQ/VotingFAQ")
       }
