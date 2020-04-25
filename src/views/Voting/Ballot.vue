@@ -12,7 +12,7 @@
 
             <div style="max-width:600px; margin: auto;">
               <h2>
-                Vote For The Winner of The Dragon Question
+                Vote For The Winner of The Dragon Quest
               </h2>
               <div>
                 Congratulations to all {{ totalEntries }} finalists, kid coders
