@@ -53,7 +53,7 @@ def get_contestants():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank()) \
+        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True)) \
         .group_by(Answer.id)
 
     if desc is not None:
