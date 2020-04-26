@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CodeWizardsHQ Code Challenge Password Reset</title>
+<title>CodeWizardsHQ Vote Confirmation Email</title>
 <style>
   /* -------------------------------------
     GLOBAL
@@ -61,6 +61,7 @@ body {
   display: block;
   padding: 20px;
 }
+
 
 /* -------------------------------------
     HEADER, FOOTER, MAIN
@@ -154,7 +155,7 @@ a {
 
 .btn-primary {
   text-decoration: none;
-  color: #FFF !important;
+  color: #FFF;
   background-color: #00774f;
   border: solid #00774f;
   border-width: 10px 20px;
@@ -292,17 +293,8 @@ a {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <p><b>{{name}}, reset your Code Challenge password.</b></p>
-                    <br/>
-                    <p><a href="https://challenge.codewizardshq.com/reset-password/{{token}}" class="btn-primary">Reset Your Password</a></p>
-                    <br/>
-                    <p>We received a request to reset your password. If you didn't ask to change your password, your password is still safe and you can delete this message.</p>
-                    {% if multiple %}
-                    <br/>
-                    <p>
-                      Your email address matched multiple student accounts. Double check to make sure you are resetting the intended account, as an email was sent for all matching accounts
-                    </p>
-                    {% endif %}
+                  	<p>Click the following link to confirm your vote. You may only vote once.<p>
+					<p> <a href="https://challenge.codewizardshq.com/vote-confirmation?token={{token}}">Click to Confirm!</a></p>
                   </td>
                 </tr>
                 <tr>
@@ -314,6 +306,15 @@ a {
                   </td>
                 </tr>
               </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="alert alert-warning">
+              Share With Friends
+              <br/>
+              <a href="https://www.facebook.com/events/501020200554546/"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
+              <a href="https://twitter.com/CodeWizardsHQ"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg"></a>
+              <a href="mailto:?"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
             </td>
           </tr>
         </table>
