@@ -188,7 +188,7 @@ export default {
     },
     linkUrl() {
       return (
-        "https://challenge.codewizardshq.com/voting?page=1&&search=" +
+        "https://challenge.codewizardshq.com/voting?page=1&search=" +
         this.username
       );
     }
