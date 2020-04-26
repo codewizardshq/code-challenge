@@ -63,6 +63,15 @@
                 >
                   <v-icon>mdi-email</v-icon>
                 </v-btn>
+                <v-btn
+                  fab
+                  color="cwhqBlue"
+                  icon
+                  target="_blank"
+                  :href="linkUrl"
+                >
+                  <v-icon>mdi-link</v-icon>
+                </v-btn>
               </v-row>
             </v-form>
           </v-col>
@@ -125,11 +134,34 @@ export default {
   },
   computed: {
     ...User.mapState(),
+    isPython() {
+      return this.text.indexOf("print(") >= 0;
+    },
+    instructionComments() {
+      if (this.isPython) {
+        return `
+# A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
+# I want you to create a computer program, written in Python that does the following; 
+# find all prime numbers < 1000
+#add all those prime numbers up and display the result
+
+
+        `;
+      } else {
+        return `
+// A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
+// I want you to create a computer program, written in Python that does the following; 
+// find all prime numbers < 1000
+// add all those prime numbers up and display the result
+
+`;
+      }
+    },
     sourceCode() {
-      return this.text.replace(";output", ";");
+      return this.instructionComments + this.text.replace(";output", ";");
     },
     codeType() {
-      return this.text.indexOf("print(") >= 0 ? "python" : "javascript";
+      return this.isPython ? "python" : "javascript";
     },
     socialText() {
       return "Vote for my code at ";
@@ -153,6 +185,12 @@ export default {
       )}!&body=${encodeURIComponent(this.socialText)} ${encodeURIComponent(
         this.socialUrl
       )}`;
+    },
+    linkUrl() {
+      return (
+        "https://challenge.codewizardshq.com/voting?page=1&&search=" +
+        this.username
+      );
     }
   },
   props: [
