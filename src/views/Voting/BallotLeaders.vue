@@ -72,14 +72,16 @@ export default {
       await new Promise(resolve =>
         setTimeout(async () => {
           for (const [key, value] of Object.entries(result)) {
-            Vue.set(this.pageData, key, value);
+            if (key !== "items") {
+              Vue.set(this.pageData, key, value);
+            }
           }
           this.$emit("input", this.pageData.items.length);
-          this.pageData.items = this.pageData.items
-            .sort((a, b) => {
-              return a.numVotes < b.numVotes;
-            })
-            .slice(0, 3);
+          const items = result.items.sort((a, b) => {
+            return a.numVotes < b.numVotes;
+          });
+          items.splice(0, 3);
+          Vue.set(this.pageData, "items", items);
           resolve();
         }, 1000)
       );
