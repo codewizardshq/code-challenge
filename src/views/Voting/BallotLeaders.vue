@@ -9,26 +9,37 @@
     </v-row>
     <v-row justify="center" v-if="isLoading">
       <v-col class="text-center">
-        <v-progress-circular class="mt-6" color="cwhqBlue" size="100" width="10" indeterminate />
+        <v-progress-circular
+          class="mt-6"
+          color="cwhqBlue"
+          size="100"
+          width="10"
+          indeterminate
+        />
       </v-col>
     </v-row>
     <v-row justify="center" v-else>
-      <ballot-card v-for="(item, i) in pageData.items" :key="i" v-bind="item" @click="showCode(item)" />
+      <ballot-card
+        v-for="(item, i) in pageData.items"
+        :key="i"
+        v-bind="item"
+        @click="showCode(item)"
+      />
     </v-row>
     <code-modal v-bind="this.item" v-model="showModal" />
   </v-container>
 </template>
 
 <script>
-import Vue from 'vue';
-import { voting } from '@/api';
-import BallotCard from './BallotCard';
-import CodeModal from './CodeModal';
+import Vue from "vue";
+import { voting } from "@/api";
+import BallotCard from "./BallotCard";
+import CodeModal from "./CodeModal";
 
 export default {
   components: {
     BallotCard,
-    CodeModal,
+    CodeModal
   },
   data() {
     return {
@@ -45,8 +56,8 @@ export default {
         items: [],
         prevNum: null,
         totalItems: 0,
-        totalPages: 0,
-      },
+        totalPages: 0
+      }
     };
   },
   mounted() {
@@ -58,19 +69,19 @@ export default {
       this.showModal = true;
     },
     async setResult(result) {
-      await new Promise((resolve) =>
+      await new Promise(resolve =>
         setTimeout(async () => {
           for (const [key, value] of Object.entries(result)) {
-            if (key !== 'items') {
+            if (key !== "items") {
               Vue.set(this.pageData, key, value);
             }
           }
-          this.$emit('input', this.pageData.items.length);
+          this.$emit("input", this.pageData.items.length);
           const items = result.items.sort((a, b) => {
-            return a.numVotes < b.numVotes;
+            return a.numVotes > b.numVotes ? 1 : -1;
           });
           items.splice(3, items.length - 3);
-          Vue.set(this.pageData, 'items', items);
+          Vue.set(this.pageData, "items", items);
           resolve();
         }, 1000)
       );
@@ -82,13 +93,13 @@ export default {
       await this.setResult(results);
 
       this.requestCount--;
-    },
+    }
   },
   computed: {
     isLoading() {
       return this.requestCount > 0;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -96,7 +107,7 @@ export default {
 h2 {
   text-align: center;
   color: #0d1d41;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
 }
