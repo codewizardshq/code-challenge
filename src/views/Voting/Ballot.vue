@@ -48,7 +48,7 @@
                 <a href="/voting-rules"
                   ><small
                     >Cheaters will be disqualified. Read the full rules and
-                    regulations." and link rules and regulations</small
+                    regulations.</small
                   ></a
                 >
               </div>
