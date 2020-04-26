@@ -4,17 +4,24 @@ import request from "./request";
 function processBallotResponse(result) {
   if (result.items) {
     result.items = result.items.map(item => {
-      return { id: item[0], text: item[1], numVotes: item[2],
-        firstName: item[3], lastName: item[4], username: item[5],
+      return {
+        id: item[0],
+        text: item[1],
+        numVotes: item[2],
+        firstName: item[3],
+        lastName: item[4],
+        username: item[5],
         displayName: item[6],
-        ...{ initials: initials(item) } };
+        ...{ initials: initials(item) }
+      };
     });
   }
   return result;
 }
 
 function lastInitial(item) {
-  if (item[4]) { // lastName
+  if (item[4]) {
+    // lastName
     return item[4][0];
   }
 
@@ -23,10 +30,12 @@ function lastInitial(item) {
 }
 
 function firstInitial(item) {
-  if (item[3]) { // firstName
+  if (item[3]) {
+    // firstName
     return item[3][0];
   }
-  if (item[6]) { // displayName
+  if (item[6]) {
+    // displayName
     return item[6][0];
   }
 
