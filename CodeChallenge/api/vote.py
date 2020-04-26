@@ -101,6 +101,10 @@ def vote_cast(answer_id: int):
                 Answer.correct) \
         .first()
 
+    if ans.disqualified is not None:
+        return jsonify(status="error",
+                       reason=f"This user was disqualified: {ans.disqualified}"), 400
+
     if ans is None:
         return jsonify(status="error",
                        reason="qualifying answer not found"), 400
