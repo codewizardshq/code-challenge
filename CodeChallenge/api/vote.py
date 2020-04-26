@@ -182,6 +182,10 @@ def vote_confirm():
                        reason="token is not valid"), 400
 
     v = Vote.query.get(vote_id)
+    if not v:
+        return jsonify(status="error",
+                       reason="vote not found - try voting again, or contestant may have been disqualified.")
+
     delete_votes = Vote.query \
         .filter(Vote.voter_email == v.voter_email,
                 Vote.id != v.id) \
