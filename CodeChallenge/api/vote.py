@@ -73,7 +73,6 @@ def get_contestants():
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
-@jwt_optional
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
@@ -89,60 +88,39 @@ def vote_cast(answer_id: int):
         return jsonify(status="error",
                        reason="qualifying answer not found"), 400
 
-    u = get_current_user()  # type: Users
     v = Vote()
+    v.confirmed = False
     v.answer_id = ans.id
 
-    if u is not None and u.student_email is not None:
-        # user as a participant and we have a unique
-        # email for this user.
-        v.voter_email = u.student_email
-        v.confirmed = True
-
-        # delete any existing vote before adding a new one
-        delete_votes = Vote.query \
-            .filter(Vote.voter_email == v.voter_email) \
-            .all()
-
-        for d in delete_votes:
-            db.session.delete(d)
-
-    else:
-        try:
-            v.voter_email = request.json["email"]
-        except (TypeError, KeyError):
-            return jsonify(status="error",
-                           message="no student email defined. an 'email' property "
-                                   "is required on the JSON body."), 400
+    try:
+        v.voter_email = request.json["email"]
+    except (TypeError, KeyError):
+        return jsonify(status="error",
+                       message="no student email defined. an 'email' property "
+                               "is required on the JSON body."), 400
 
     if v.voter_email is None:
         return jsonify(status="error",
-                       reason="voter email required. either log into your "
-                              "existing Code Challenge account or provide "
-                              "an email address"), 400
+                       reason="voter email required"), 400
 
     db.session.add(v)
     db.session.commit()
 
     # only used if the user is not logged in
-    if not v.confirmed:
-        s = URLSafeSerializer(current_app.config["SECRET_KEY"])
-        tok = s.dumps(v.id, "vote-confirmation")
+    s = URLSafeSerializer(current_app.config["SECRET_KEY"])
+    tok = s.dumps(v.id, "vote-confirmation")
 
-        msg = Message(subject="Vote Confirmation",
-                      recipients=[v.voter_email])
-        msg.html = render_template("challenge_vote_confirm.html", token=tok)
+    msg = Message(subject="Vote Confirmation",
+                  recipients=[v.voter_email])
+    msg.html = render_template("challenge_vote_confirm.html", token=tok)
 
-        if current_app.config.get("TESTING", False):
-            msg.extra_headers = {"X-Vote-Confirmation-Token": tok}
+    if current_app.config.get("TESTING", False):
+        msg.extra_headers = {"X-Vote-Confirmation-Token": tok}
 
-        mail.send(msg)
-
-        return jsonify(status="success",
-                       reason="email confirmation needed")
+    mail.send(msg)
 
     return jsonify(status="success",
-                   reason="vote has been cast")
+                   reason="email confirmation needed")
 
 
 @bp.route("/confirm", methods=["POST"])
