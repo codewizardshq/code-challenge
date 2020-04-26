@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="isOpen" max-width="1000">
+    <v-dialog v-model="isOpen">
       <v-card
         class="ballot ballot-modal"
         height="600"
