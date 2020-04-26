@@ -126,7 +126,7 @@ export default {
   computed: {
     ...User.mapState(),
     sourceCode() {
-      return this.text.replace(";;output", ";");
+      return this.text.replace(";output", ";");
     },
     codeType() {
       return this.text.indexOf("print(") >= 0 ? "python" : "javascript";
