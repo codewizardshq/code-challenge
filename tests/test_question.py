@@ -85,6 +85,17 @@ def client_challenge_lastq():
         yield client
 
 
+def test_email_normalize():
+    from CodeChallenge.api.vote import normalize_email
+
+    assert normalize_email("foo.bar@gmail.com") == "foobar@gmail.com"
+    assert normalize_email("foo.bar.baz@gmail.com") == "foobarbaz@gmail.com"
+    assert normalize_email("sam.h+test@live.com") == "sam.h@live.com"
+
+    assert normalize_email("sam+test@gmail.com") == "sam@gmail.com"
+    assert normalize_email("sam.hoffman+test.test@gmail.com") == "samhoffman@gmail.com"
+
+
 def register(client, email, username, password, firstname, lastname, studentemail=None):
 
     return client.post("/api/v1/users/register", json=dict(
@@ -360,16 +371,8 @@ def test_vote_ballot(client_challenge_lastq):
     assert rv.status_code == 200
 
     items = rv.json["items"]
-    assert len(items) > 0
-    assert "id" in items[0]
-    assert "numVotes" in items[0]
-    assert "text" in items[0]
-    assert items[0]["firstName"] == "Sam"
-    assert items[0]["lastName"] == "Hoffman"
-    assert items[0]["username"] == "cwhqsam"
-    assert items[0]["display"] == "Sam H."
-
-    VALID_ANSWER = items[0]["id"]
+    assert len(items) == 6
+    VALID_ANSWER = items[0][0]
 
 
 @pytest.mark.skipif(not os.getenv("SANDBOX_API_URL"), reason="no final question")

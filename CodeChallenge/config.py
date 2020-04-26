@@ -81,8 +81,8 @@ class ProductionConfig(DefaultConfig):
 
 class DevelopmentConfig(ProductionConfig):
     EXTERNAL_URL = "http://localhost:8080"
-    SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
-                              "/code_challenge_local"
+    #SQLALCHEMY_DATABASE_URI = "mysql://cc-user:password@localhost" \
+    #                          "/code_challenge_local"
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1581415200")
     JWT_SECRET_KEY = "SuperSecret"

@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, current_app, request, abort, render_template
-from flask_jwt_extended import get_current_user, jwt_optional
+from flask_limiter.util import get_remote_address
 from flask_mail import Message
 from itsdangerous import URLSafeSerializer
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 from .. import core
+from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..models import Answer, db, Vote, Question
@@ -35,33 +36,35 @@ def get_contestants():
     try:
         page = int(request.args.get("page", 1))
         per = int(request.args.get("per", 20))
+        desc = request.args.get("desc")
     except ValueError:
         return jsonify(status="error",
                        reason="invalid 'page' or 'per' parameter"), 400
 
-    max_rank = core.max_rank()
-
-    p = Answer.query \
+    q = Answer.query.with_entities(
+        Answer.id,
+        Answer.text,
+        func.count(Answer.votes),
+        Users.studentfirstname,
+        Users.studentlastname,
+        Users.username,
+        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+    ) \
         .join(Answer.question) \
-        .filter(Question.rank == max_rank,
-                Answer.correct) \
-        .paginate(page=page, per_page=per)
+        .join(Answer.user) \
+        .outerjoin(Answer.votes) \
+        .filter(Question.rank == core.max_rank()) \
+        .group_by(Answer.id)
 
-    contestants = []
-    for ans in p.items:  # type: Answer
+    if desc is not None:
+        q = q.order_by(func.count(Answer.votes).desc())
+    else:
+        q = q.order_by(Answer.id)
 
-        contestants.append(dict(
-            id=ans.id,
-            text=ans.text,
-            numVotes=ans.confirmed_votes(),
-            firstName=ans.user.studentfirstname,
-            lastName=ans.user.studentlastname,
-            username=ans.user.username,
-            display=ans.user.display()
-        ))
+    p = q.paginate(page=page, per_page=per)
 
     return jsonify(
-        items=contestants,
+        items=p.items,
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
@@ -72,7 +75,21 @@ def get_contestants():
     )
 
 
+def normalize_email(email):
+
+    local, domain = email.rsplit("@")
+
+    if domain == "gmail.com":
+        local = local.replace(".", "")
+
+    if "+" in local:
+        local = local.split("+")[0]
+
+    return local + "@" + domain
+
+
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
+@limiter.limit("4 per day", key_func=get_remote_address)
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
@@ -93,13 +110,13 @@ def vote_cast(answer_id: int):
     v.answer_id = ans.id
 
     try:
-        v.voter_email = request.json["email"]
+        v.voter_email = normalize_email(request.json["email"])
     except (TypeError, KeyError):
         return jsonify(status="error",
                        message="no student email defined. an 'email' property "
                                "is required on the JSON body."), 400
 
-    if v.voter_email is None:
+    if v.voter_email is None or v.voter_email == "":
         return jsonify(status="error",
                        reason="voter email required"), 400
 
