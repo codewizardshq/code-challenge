@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, current_app, request, abort
+from flask import Blueprint, jsonify, current_app, request, abort, render_template
 from flask_jwt_extended import get_current_user, jwt_optional
 from flask_mail import Message
 from itsdangerous import URLSafeSerializer
@@ -130,10 +130,8 @@ def vote_cast(answer_id: int):
         tok = s.dumps(v.id, "vote-confirmation")
 
         msg = Message(subject="Vote Confirmation",
-                      body="Click the following link to confirm "
-                           " your vote. You may only vote once. "
-                           f"\n\n{current_app.config['EXTERNAL_URL']}vote-confirmation?token={tok}",
                       recipients=[v.voter_email])
+        msg.html = render_template("challenge_vote_confirm.html", token=tok)
 
         if current_app.config.get("TESTING", False):
             msg.extra_headers = {"X-Vote-Confirmation-Token": tok}
