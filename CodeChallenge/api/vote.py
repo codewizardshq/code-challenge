@@ -52,7 +52,7 @@ def get_contestants():
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
         .filter(Question.rank == core.max_rank()) \
-        .group_by(Answer.id) \
+        .group_by(Answer.id)
 
     if desc is not None:
         q = q.order_by(func.count(Answer.votes).desc())
