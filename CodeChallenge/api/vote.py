@@ -4,7 +4,8 @@ from flask_mail import Message
 from itsdangerous import URLSafeSerializer
 from sqlalchemy import or_, func
 
-from .. import core, limiter
+from .. import core
+from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..models import Answer, db, Vote, Question
