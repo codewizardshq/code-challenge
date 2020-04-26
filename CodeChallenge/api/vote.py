@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, current_app, request, abort, render_template
+from flask_limiter.util import get_remote_address
 from flask_mail import Message
 from itsdangerous import URLSafeSerializer
 from sqlalchemy import or_, func
 
-from .. import core
+from .. import core, limiter
 from ..auth import Users
 from ..mail import mail
 from ..models import Answer, db, Vote, Question
@@ -87,6 +88,7 @@ def normalize_email(email):
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
+@limiter.limit("2 per hour", key_func=get_remote_address)
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
