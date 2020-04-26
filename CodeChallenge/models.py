@@ -39,6 +39,7 @@ class Answer(db.Model):
     user = db.relationship("Users", lazy=True, uselist=False)
     votes = db.relationship("Vote", cascade="all,delete",
                             lazy=True, uselist=True)
+    disqualified = db.Column(db.String)
 
     def confirmed_votes(self) -> int:
         confirmed = 0

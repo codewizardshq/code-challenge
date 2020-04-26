@@ -101,6 +101,10 @@ def vote_cast(answer_id: int):
                 Answer.correct) \
         .first()
 
+    if ans.disqualified is not None:
+        return jsonify(status="error",
+                       reason=f"This user was disqualified: {ans.disqualified}"), 400
+
     if ans is None:
         return jsonify(status="error",
                        reason="qualifying answer not found"), 400
@@ -111,7 +115,7 @@ def vote_cast(answer_id: int):
 
     try:
         v.voter_email = normalize_email(request.json["email"])
-    except (TypeError, KeyError):
+    except (TypeError, KeyError, ValueError):
         return jsonify(status="error",
                        message="no student email defined. an 'email' property "
                                "is required on the JSON body."), 400
