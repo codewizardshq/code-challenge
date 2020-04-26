@@ -202,8 +202,13 @@ const routes = [
     children: [
       {
         path: "voting-tips",
-        name: "voting-faq",
-        component: () => import("@/views/Public/FAQ/VotingFAQ")
+        name: "voting-tips",
+        component: () => import("@/views/Public/VotingFAQ")
+      },
+      {
+        path: "voting-rules",
+        name: "voting-rules",
+        component: () => import("@/views/Public/VotingRules")
       }
     ]
   },
