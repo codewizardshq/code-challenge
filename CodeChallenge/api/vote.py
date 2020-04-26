@@ -126,7 +126,7 @@ def vote_cast(answer_id: int):
                        reason="voter email required"), 400
 
     # see if you already voted for this
-    if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).scalar():
+    if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).all():
         return jsonify(status="error",
                        reason="you already voted for this one."), 400
 
