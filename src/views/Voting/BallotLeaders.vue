@@ -74,6 +74,7 @@ export default {
           for (const [key, value] of Object.entries(result)) {
             Vue.set(this.pageData, key, value);
           }
+          this.$emit("input", this.pageData.items.length);
           this.pageData.items = this.pageData.items
             .sort((a, b) => {
               return a.numVotes < b.numVotes;
@@ -82,7 +83,6 @@ export default {
           resolve();
         }, 1000)
       );
-      this.$emit("input", this.pageData.items.length);
     },
     async loadPage() {
       this.requestCount++;
