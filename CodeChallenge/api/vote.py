@@ -115,7 +115,7 @@ def vote_cast(answer_id: int):
 
     try:
         v.voter_email = normalize_email(request.json["email"])
-    except (TypeError, KeyError):
+    except (TypeError, KeyError, ValueError):
         return jsonify(status="error",
                        message="no student email defined. an 'email' property "
                                "is required on the JSON body."), 400
