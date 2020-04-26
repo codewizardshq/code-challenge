@@ -67,7 +67,9 @@
             </v-form>
           </v-col>
           <v-col class="right">
-            <pre v-highlightjs="text"><code :class="codeType"></code></pre>
+            <pre
+              v-highlightjs="sourceCode"
+            ><code :class="codeType"></code></pre>
           </v-col>
         </v-row>
       </v-card>
@@ -123,6 +125,9 @@ export default {
   },
   computed: {
     ...User.mapState(),
+    sourceCode() {
+      return this.text.replace(";;output", ";");
+    },
     codeType() {
       return this.text.indexOf("print(") >= 0 ? "python" : "javascript";
     },
