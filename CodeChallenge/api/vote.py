@@ -54,7 +54,7 @@ def get_contestants():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True), Answer.correct) \
+        .filter(Question.rank == core.max_rank(), Answer.correct) \
         .group_by(Answer.id)
 
     if desc is not None:
@@ -226,7 +226,7 @@ def search():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True), Answer.correct,
+        .filter(Question.rank == core.max_rank(), Answer.correct,
                 or_(Users.username.ilike(keyword), Users.studentfirstname.ilike(keyword),
                 Users.studentlastname.ilike(keyword))) \
         .group_by(Answer.id)\
