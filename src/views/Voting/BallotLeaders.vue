@@ -78,7 +78,7 @@ export default {
           }
           this.$emit("input", this.pageData.items.length);
           const items = result.items.sort((a, b) => {
-            return a.numVotes > b.numVotes ? 1 : -1;
+            return a.numVotes < b.numVotes ? 1 : -1;
           });
           items.splice(3, items.length - 3);
           Vue.set(this.pageData, "items", items);
