@@ -145,8 +145,7 @@ export default {
 # find all prime numbers < 1000
 #add all those prime numbers up and display the result
 
-
-        `;
+`;
       } else {
         return `
 // A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
