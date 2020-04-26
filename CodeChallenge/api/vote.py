@@ -4,7 +4,8 @@ from flask_mail import Message
 from itsdangerous import URLSafeSerializer
 from sqlalchemy import or_, func
 
-from .. import core, limiter
+from .. import core
+from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..models import Answer, db, Vote, Question
@@ -88,7 +89,7 @@ def normalize_email(email):
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
-@limiter.limit("2 per hour", key_func=get_remote_address)
+@limiter.limit("4 per day", key_func=get_remote_address)
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
