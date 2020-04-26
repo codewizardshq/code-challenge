@@ -114,14 +114,14 @@ import { voting } from "@/api";
 import BallotCard from "./BallotCard";
 import CodeModal from "./CodeModal";
 import SearchBar from "./SearchBar";
-// import BallotLeaders from "./BallotLeaders";
+import BallotLeaders from "./BallotLeaders";
 
 export default {
   components: {
     BallotCard,
     CodeModal,
-    SearchBar
-    // BallotLeaders
+    SearchBar,
+    BallotLeaders
   },
   data() {
     return {
