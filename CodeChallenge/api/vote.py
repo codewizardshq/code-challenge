@@ -8,6 +8,7 @@ from .. import core
 from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
+from ..mailgun import mg_validate
 from ..models import Answer, db, Vote, Question
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
@@ -53,7 +54,7 @@ def get_contestants():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True)) \
+        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True), Answer.correct) \
         .group_by(Answer.id)
 
     if desc is not None:
@@ -89,7 +90,7 @@ def normalize_email(email):
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
-@limiter.limit("2 per hour", key_func=get_remote_address)
+@limiter.limit("4 per day", key_func=get_remote_address)
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
@@ -123,6 +124,27 @@ def vote_cast(answer_id: int):
     if v.voter_email is None or v.voter_email == "":
         return jsonify(status="error",
                        reason="voter email required"), 400
+
+    # see if you already voted for this
+    if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).all():
+        return jsonify(status="error",
+                       reason="you already voted for this one."), 400
+
+    try:
+        mg_res = mg_validate(v.voter_email)
+    except:
+        return jsonify(status="error",
+                       reason="That email address doesn't pass our validation check.")
+
+    validation = mg_res.json()
+
+    if validation["risk"] in ("high", "medium"):
+        return jsonify(status="error",
+                       reason="refusing to allow vote: that email is rated as high risk"), 400
+
+    if validation["result"] in ("undeliverable", "unknown"):
+        return jsonify(status="error",
+                       reason="we can't deliver email to that address"), 400
 
     db.session.add(v)
     db.session.commit()
@@ -192,29 +214,26 @@ def search():
 
     keyword = f"%{keyword}%"
 
-    p = Answer.query \
+    p = Answer.query.with_entities(
+        Answer.id,
+        Answer.text,
+        func.count(Answer.votes),
+        Users.studentfirstname,
+        Users.studentlastname,
+        Users.username,
+        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+    ) \
         .join(Answer.question) \
         .join(Answer.user) \
-        .filter(Question.rank == core.max_rank(),
-                Answer.correct, or_(Users.username.ilike(keyword), Users.studentlastname.ilike(keyword),
-                                    Users.studentlastname.ilike(keyword))) \
+        .outerjoin(Answer.votes) \
+        .filter(Question.rank == core.max_rank(), Vote.confirmed.is_(True), Answer.correct,
+                or_(Users.username.ilike(keyword), Users.studentfirstname.ilike(keyword),
+                Users.studentlastname.ilike(keyword))) \
+        .group_by(Answer.id)\
         .paginate(page=page, per_page=per)
 
-    results = []
-
-    for ans in p.items:  # type: Answer
-        results.append(dict(
-            id=ans.id,
-            text=ans.text,
-            numVotes=ans.confirmed_votes(),
-            firstName=ans.user.studentfirstname,
-            lastName=ans.user.studentlastname,
-            username=ans.user.username,
-            display=ans.user.display()
-        ))
-
     return jsonify(
-        items=results,
+        items=p.items,
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
