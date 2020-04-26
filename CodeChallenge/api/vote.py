@@ -8,6 +8,7 @@ from .. import core
 from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
+from ..mailgun import mg_validate
 from ..models import Answer, db, Vote, Question
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
@@ -101,6 +102,10 @@ def vote_cast(answer_id: int):
                 Answer.correct) \
         .first()
 
+    if ans.disqualified is not None:
+        return jsonify(status="error",
+                       reason=f"This user was disqualified: {ans.disqualified}"), 400
+
     if ans is None:
         return jsonify(status="error",
                        reason="qualifying answer not found"), 400
@@ -111,7 +116,7 @@ def vote_cast(answer_id: int):
 
     try:
         v.voter_email = normalize_email(request.json["email"])
-    except (TypeError, KeyError):
+    except (TypeError, KeyError, ValueError):
         return jsonify(status="error",
                        message="no student email defined. an 'email' property "
                                "is required on the JSON body."), 400
@@ -119,6 +124,27 @@ def vote_cast(answer_id: int):
     if v.voter_email is None or v.voter_email == "":
         return jsonify(status="error",
                        reason="voter email required"), 400
+
+    # see if you already voted for this
+    if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).scalar():
+        return jsonify(status="error",
+                       reason="you already voted for this one."), 400
+
+    try:
+        mg_res = mg_validate(v.voter_email)
+    except:
+        return jsonify(status="error",
+                       reason="That email address doesn't pass our validation check.")
+
+    validation = mg_res.json()
+
+    if validation["risk"] in ("high", "medium"):
+        return jsonify(status="error",
+                       reason="refusing to allow vote: that email is rated as high risk"), 400
+
+    if validation["result"] in ("undeliverable", "unknown"):
+        return jsonify(status="error",
+                       reason="we can't deliver email to that address"), 400
 
     db.session.add(v)
     db.session.commit()
