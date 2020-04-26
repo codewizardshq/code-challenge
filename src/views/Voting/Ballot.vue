@@ -29,7 +29,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <ballot-leaders v-model="totalEntries" />
+            <!-- <ballot-leaders v-model="totalEntries" /> -->
           </v-col>
         </v-row>
       </v-container>
