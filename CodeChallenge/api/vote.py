@@ -125,6 +125,11 @@ def vote_cast(answer_id: int):
         return jsonify(status="error",
                        reason="voter email required"), 400
 
+    # see if you already voted for this
+    if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).scalar():
+        return jsonify(status="error",
+                       reason="you already voted for this one."), 400
+
     try:
         mg_res = mg_validate(v.voter_email)
     except:
