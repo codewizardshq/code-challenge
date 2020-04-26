@@ -25,7 +25,6 @@
                 v-bind="fields.email"
                 v-model="fields.email.value"
                 :disabled="isSubmitting"
-                v-if="!User.isAuthorized"
               />
               <v-btn
                 block
@@ -180,7 +179,7 @@ export default {
         return;
       }
       this.isSubmitting = true;
-      if (!this.fields.email.value && !this.User.isAuthorized) {
+      if (!this.fields.email.value) {
         this.errorMessage = "You forgot to tell us your email";
         this.showError = true;
         this.isSubmitting = false;
