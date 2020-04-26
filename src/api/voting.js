@@ -4,30 +4,33 @@ import request from "./request";
 function processBallotResponse(result) {
   if (result.items) {
     result.items = result.items.map(item => {
-      return { ...item, ...{ initials: initials(item) } };
+      return { id: item[0], text: item[1], numVotes: item[2],
+        firstName: item[3], lastName: item[4], username: item[5],
+        displayName: item[6],
+        ...{ initials: initials(item) } };
     });
   }
   return result;
 }
 
 function lastInitial(item) {
-  if (item.lastName) {
-    return item.lastName[0];
+  if (item[4]) { // lastName
+    return item[4][0];
   }
 
-  const split = item.username.split(" ");
+  const split = item[5].split(" "); // userName
   return split.length >= 2 ? split[1] : "";
 }
 
 function firstInitial(item) {
-  if (item.firstName) {
-    return item.firstName[0];
+  if (item[3]) { // firstName
+    return item[3][0];
   }
-  if (item.display) {
-    return item.display[0];
+  if (item[6]) { // displayName
+    return item[6][0];
   }
 
-  return item.username.split(" ")[0];
+  return item[5].split(" ")[0];
 }
 
 function initials(item) {
