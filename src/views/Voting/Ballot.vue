@@ -170,6 +170,7 @@ export default {
       if (this.searchText === "") {
         return this.loadPage();
       }
+      this.pageData.page = 1;
       this.requestIndex++;
       this.requestCount++;
       const requestIndex = this.requestIndex;

@@ -54,7 +54,7 @@ def get_contestants():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank()) \
+        .filter(Question.rank == core.max_rank(), Answer.correct) \
         .group_by(Answer.id)
 
     if desc is not None:
@@ -182,6 +182,10 @@ def vote_confirm():
                        reason="token is not valid"), 400
 
     v = Vote.query.get(vote_id)
+    if not v:
+        return jsonify(status="error",
+                       reason="vote not found - try voting again, or contestant may have been disqualified.")
+
     delete_votes = Vote.query \
         .filter(Vote.voter_email == v.voter_email,
                 Vote.id != v.id) \
@@ -214,29 +218,26 @@ def search():
 
     keyword = f"%{keyword}%"
 
-    p = Answer.query \
+    p = Answer.query.with_entities(
+        Answer.id,
+        Answer.text,
+        func.count(Answer.votes),
+        Users.studentfirstname,
+        Users.studentlastname,
+        Users.username,
+        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+    ) \
         .join(Answer.question) \
         .join(Answer.user) \
-        .filter(Question.rank == core.max_rank(),
-                Answer.correct, or_(Users.username.ilike(keyword), Users.studentlastname.ilike(keyword),
-                                    Users.studentlastname.ilike(keyword))) \
+        .outerjoin(Answer.votes) \
+        .filter(Question.rank == core.max_rank(), Answer.correct,
+                or_(Users.username.ilike(keyword), Users.studentfirstname.ilike(keyword),
+                Users.studentlastname.ilike(keyword))) \
+        .group_by(Answer.id)\
         .paginate(page=page, per_page=per)
 
-    results = []
-
-    for ans in p.items:  # type: Answer
-        results.append(dict(
-            id=ans.id,
-            text=ans.text,
-            numVotes=ans.confirmed_votes(),
-            firstName=ans.user.studentfirstname,
-            lastName=ans.user.studentlastname,
-            username=ans.user.username,
-            display=ans.user.display()
-        ))
-
     return jsonify(
-        items=results,
+        items=p.items,
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
