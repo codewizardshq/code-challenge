@@ -73,6 +73,19 @@ def get_contestants():
     )
 
 
+def normalize_email(email):
+
+    local, domain = email.rsplit("@")
+
+    if domain == "gmail.com":
+        local = local.replace(".", "")
+
+    if "+" in local:
+        local = local.split("+")[0]
+
+    return local + "@" + domain
+
+
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
@@ -94,13 +107,13 @@ def vote_cast(answer_id: int):
     v.answer_id = ans.id
 
     try:
-        v.voter_email = request.json["email"]
+        v.voter_email = normalize_email(request.json["email"])
     except (TypeError, KeyError):
         return jsonify(status="error",
                        message="no student email defined. an 'email' property "
                                "is required on the JSON body."), 400
 
-    if v.voter_email is None:
+    if v.voter_email is None or v.voter_email == "":
         return jsonify(status="error",
                        reason="voter email required"), 400
 
