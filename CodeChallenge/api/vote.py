@@ -8,6 +8,7 @@ from .. import core
 from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
+from ..mailgun import mg_validate
 from ..models import Answer, db, Vote, Question
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
@@ -123,6 +124,22 @@ def vote_cast(answer_id: int):
     if v.voter_email is None or v.voter_email == "":
         return jsonify(status="error",
                        reason="voter email required"), 400
+
+    try:
+        mg_res = mg_validate(v.voter_email)
+    except:
+        return jsonify(status="error",
+                       reason="That email address doesn't pass our validation check.")
+
+    validation = mg_res.json()
+
+    if validation["risk"] in ("high", "medium"):
+        return jsonify(status="error",
+                       reason="refusing to allow vote: that email is rated as high risk"), 400
+
+    if validation["result"] in ("undeliverable", "unknown"):
+        return jsonify(status="error",
+                       reason="we can't deliver email to that address"), 400
 
     db.session.add(v)
     db.session.commit()
