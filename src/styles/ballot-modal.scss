@@ -1,6 +1,13 @@
+.v-dialog {
+  width: fit-content;
+  max-width: 90%;
+}
+
 .v-card.ballot-modal {
   padding: 0;
   height: 600px;
+  width: fit-content;
+  min-width: 1000px;
 
   pre,
   code {
