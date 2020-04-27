@@ -5,9 +5,9 @@
         <v-row class="content">
           <v-col class="text-center">
             <div class="text-center" style="width: 100%;">
-              <router-link :to="{ name: 'redirect' }">
+              <a href="#" @click="reload">
                 <img src="/images/logo-small.png" class="mt-2" />
-              </router-link>
+              </a>
             </div>
 
             <div style="max-width:600px; margin: auto;">
@@ -61,7 +61,24 @@
       <v-container>
         <v-row>
           <v-col>
+            <h2 class="ballot-header mt-8 mb-8">
+              Vote Now
+            </h2>
             <search-bar v-model="searchText" />
+
+            <div style="color:#0d1d41" class="mb-6 mt-4 text-center">
+              Behold, the final contestants who have completed 21 coding
+              challenges, a noble and righteous accomplishment! Now, they have
+              defeated the mighty dragon in the end boss level and qualified for
+              the grand prize, but they need your help!
+              <br />
+              <br />
+              <b>
+                View the contestants and their code, then Vote for the winner of
+                our first ever kids coding challenge, The Dragon Quest. Their
+                fate is in your hands.
+              </b>
+            </div>
 
             <h2
               v-if="
@@ -165,6 +182,9 @@ export default {
           resolve();
         }, 1000)
       );
+    },
+    reload() {
+      window.location = "/voting?page=1";
     },
     async search() {
       if (this.searchText === "") {
@@ -313,6 +333,14 @@ h2 {
 .footer {
   background-color: #0d1d41;
   height: 150px;
+}
+
+.bubble {
+  max-width: 700px;
+  border: #011e41;
+  border-radius: 20px;
+  padding: 30px;
+  margin: auto;
 }
 
 .colored {
