@@ -65,9 +65,9 @@ async function confirm(token) {
 async function search(text, page, per) {
   let usePage = !page ? 1 : page;
   return processBallotResponse(
-      await request(routes.voting_ballot_search, {
-        params: { q: text, page: usePage, per }
-      })
+    await request(routes.voting_ballot_search, {
+      params: { q: text, page: usePage, per }
+    })
   );
 }
 export default {
