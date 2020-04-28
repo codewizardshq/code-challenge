@@ -15,16 +15,19 @@ def drop_all():
 
 def ranking(answer_id: int) -> Tuple[int, int]:
     return db.session.execute("""
-    SELECT votes, placing FROM (
-            SELECT 
-                answer_id,
-                COUNT(*) AS votes,
-                RANK() OVER (
-                    ORDER BY COUNT(*) DESC
-                ) placing
-            FROM vote
-            GROUP BY answer_id) ranking
-        WHERE ranking.answer_id = :answer_id
+        select rainv.num_votes, rainv.rank
+        from (
+                 select @rownum := @rownum + 1 as 'rank',
+                        prequery.answer_id,
+                        prequery.num_votes
+                 from (select @rownum := 0) sqlvars,
+                      (select answer_id,
+                              count(*) as num_votes
+                       from vote
+                       group by answer_id
+                       order by count(*) desc) prequery
+             ) as rainv
+        where answer_id = :answer_id
     """, {'answer_id': answer_id}).first()
 
 
