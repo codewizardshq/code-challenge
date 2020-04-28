@@ -104,9 +104,9 @@ body {
 /* -------------------------------------
     TYPOGRAPHY
 ------------------------------------- */
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  color: #000;
+  color: #27ae82;
   margin: 20px 0 0;
   line-height: 1.2em;
   font-weight: 600;
@@ -292,11 +292,12 @@ a {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <p><b>{{name}}, your vote is submitted!</b></p>
+                    <h3>Your vote for {{username}} is submitted!</h3>
                     <br/>
-                    <p>Share the <a href="http://challenge.codewizardshq.com/voting">voting page</a> on <a href="http://www.facebook.com/codewizardshq">Facebook</a> and <a href="http://www.twitter.com/codewizardshq">Twitter</a> to support your challenger. </p>
-                    <br/>
-                    <p>The winner will be crowned May 1.</p>
+                    <p><b>{{username}} is currently ranked number {{rank}} with {{votes}} votes.</b></p>
+                    <h4>Share this link to help {{username}} win The Dragon Quest:<br/> <a href="https://challenge.codewizardshq.com/voting?page=1&search={{ username }}">https://challenge.codewizardshq.com/voting?page=1&search={{ username }}</a></h4>
+                    <br>
+                    <p>The winner will be crowned on May 1.</p>
                   </td>
                 </tr>
               </table>
