@@ -5,9 +5,9 @@
         <v-row class="content">
           <v-col class="text-center">
             <div class="text-center" style="width: 100%;">
-              <router-link :to="{ name: 'redirect' }">
+              <a href="#" @click="reload">
                 <img src="/images/logo-small.png" class="mt-2" />
-              </router-link>
+              </a>
             </div>
 
             <div style="max-width:600px; margin: auto;">
@@ -45,6 +45,12 @@
               <div class="text-center">
                 Click “Vote” to enter your choice for the winners of our 1st,
                 2nd, and 3rd place prize. One vote per person.
+                <a href="/voting-rules"
+                  ><small
+                    >Cheaters will be disqualified. Read the full rules and
+                    regulations.</small
+                  ></a
+                >
               </div>
             </div>
           </v-col>
@@ -55,7 +61,24 @@
       <v-container>
         <v-row>
           <v-col>
+            <h2 class="ballot-header mt-8 mb-8">
+              Vote Now
+            </h2>
             <search-bar v-model="searchText" />
+
+            <div style="color:#0d1d41" class="mb-6 mt-4 text-center">
+              Behold, the final contestants who have completed 21 coding
+              challenges, a noble and righteous accomplishment! Now, they have
+              defeated the mighty dragon in the end boss level and qualified for
+              the grand prize, but they need your help!
+              <br />
+              <br />
+              <b>
+                View the contestants and their code, then Vote for the winner of
+                our first ever kids coding challenge, The Dragon Quest. Their
+                fate is in your hands.
+              </b>
+            </div>
 
             <h2
               v-if="
@@ -159,6 +182,9 @@ export default {
           resolve();
         }, 1000)
       );
+    },
+    reload() {
+      window.location = "/voting?page=1";
     },
     async search() {
       if (this.searchText === "") {
@@ -309,6 +335,14 @@ h2 {
   height: 150px;
 }
 
+.bubble {
+  max-width: 700px;
+  border: #011e41;
+  border-radius: 20px;
+  padding: 30px;
+  margin: auto;
+}
+
 .colored {
   display: block;
   position: relative;
@@ -319,5 +353,13 @@ h2 {
     url(data:image/png;base64,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);
   background-position: left center, right center;
   background-repeat: no-repeat;
+
+  a {
+    small {
+      color: white;
+      display: block;
+      padding-top: 12px;
+    }
+  }
 }
 </style>

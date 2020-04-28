@@ -9,10 +9,11 @@
   z-index: 10000;
   text-align: center;
   display: block;
+  display: none !important;
 }
 
 @media (min-width: 600px) {
   .mobile-warning {
-    display: none !important;
+    // display: none !important;
   }
 }

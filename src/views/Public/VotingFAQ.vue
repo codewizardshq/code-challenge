@@ -128,21 +128,11 @@
 
 <script>
 import PageCard from '@/components/PageCard';
-import FAQCard from './FAQCard';
 
 export default {
-  name: 'faq',
+  name: 'voting-faq',
   components: {
     PageCard,
-    FAQCard,
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.faq {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  font-family: 'Barlow', sans-serif !important;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="isOpen" max-width="1000">
+    <v-dialog v-model="isOpen">
       <v-card
         class="ballot ballot-modal"
         height="600"
@@ -135,7 +135,8 @@ export default {
   computed: {
     ...User.mapState(),
     isPython() {
-      return this.text.indexOf("print(") >= 0;
+      const re = new RegExp(/print\s*\(/g);
+      return re.test(this.text);
     },
     instructionComments() {
       if (this.isPython) {
@@ -143,16 +144,17 @@ export default {
 # A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
 # I want you to create a computer program, written in Python that does the following; 
 # find all prime numbers < 1000
-#add all those prime numbers up and display the result
+# add all those prime numbers up and display the result
 
 
-        `;
+`;
       } else {
         return `
 // A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
 // I want you to create a computer program, written in Python that does the following; 
 // find all prime numbers < 1000
 // add all those prime numbers up and display the result
+
 
 `;
       }
