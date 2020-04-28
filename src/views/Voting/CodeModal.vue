@@ -135,9 +135,8 @@ export default {
   computed: {
     ...User.mapState(),
     isPython() {
-      return (
-        this.text.indexOf("print(") >= 0 || this.text.indexOf("print (") >= 0
-      );
+      const re = new RegExp(/print\s*\(/g);
+      return re.test(this.text);
     },
     instructionComments() {
       if (this.isPython) {
