@@ -9,7 +9,7 @@ from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..mailgun import mg_validate
-from ..models import Answer, db, Vote, Question
+from ..models import Answer, db, Vote, Question, ranking
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 
@@ -198,6 +198,18 @@ def vote_confirm():
     v.confirmed = True
 
     db.session.commit()
+
+    msg = Message(subject="Vote confirmation successful!",
+                  recipients=[v.voter_email])
+
+    votes, rank = v.ranking()
+
+    msg.html = render_template("challenge_vote_submitted.html",
+                               username=v.answer.user.username,
+                               votes=votes,
+                               rank=rank)
+
+    mail.send(msg)
 
     return jsonify(status="success",
                    reason="vote confirmed")
