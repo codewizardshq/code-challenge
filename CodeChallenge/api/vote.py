@@ -186,6 +186,10 @@ def vote_confirm():
         return jsonify(status="error",
                        reason="vote not found - try voting again, or contestant may have been disqualified.")
 
+    if v.confirmed:
+        return jsonify(status="success",
+                       reason="vote already confirmed")
+
     delete_votes = Vote.query \
         .filter(Vote.voter_email == v.voter_email,
                 Vote.id != v.id) \
@@ -206,7 +210,7 @@ def vote_confirm():
 
     msg.html = render_template("challenge_vote_submitted.html",
                                username=v.answer.user.username,
-                               votes=votes,
+                               votes=int(votes),
                                rank=rank)
 
     mail.send(msg)
