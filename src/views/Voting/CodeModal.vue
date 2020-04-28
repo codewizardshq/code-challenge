@@ -135,7 +135,9 @@ export default {
   computed: {
     ...User.mapState(),
     isPython() {
-      return this.text.indexOf("print(") >= 0;
+      return (
+        this.text.indexOf("print(") >= 0 || this.text.indexOf("print (") >= 0
+      );
     },
     instructionComments() {
       if (this.isPython) {
