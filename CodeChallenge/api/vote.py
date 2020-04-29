@@ -9,7 +9,7 @@ from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..mailgun import mg_validate
-from ..models import Answer, db, Vote, Question, ranking
+from ..models import Answer, db, Vote, Question
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 

@@ -31,6 +31,23 @@ def ranking(answer_id: int) -> Tuple[int, int]:
     """, {'answer_id': answer_id}).first()
 
 
+def next_rank_up(rank: int) -> Tuple[int, int]:
+    return db.session.execute("""
+        select rainv.num_votes, rainv.rank
+        from (
+                 select @rownum := @rownum + 1 as 'rank',
+                        prequery.num_votes
+                 from (select @rownum := 0) sqlvars,
+                      (select answer_id,
+                              count(*) as num_votes
+                       from vote
+                       group by answer_id
+                       order by count(*) desc) prequery
+             ) as rainv
+        where rainv.rank = :rank
+    """, {'rank': rank - 1}).first()
+
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)

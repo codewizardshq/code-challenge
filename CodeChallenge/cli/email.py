@@ -6,6 +6,9 @@ from flask_mail import Message
 from jinja2 import Environment, FileSystemLoader, meta
 
 from ..mail import mail
+from ..api.eb import make_vote_reminder, ballot_reminders
+from ..models import Answer, Question
+from ..auth import Users
 
 bp = Blueprint("emailcli", __name__, cli_group="email")
 
@@ -42,3 +45,28 @@ def email_send(to, subject, template):
     mail.send(msg)
 
     click.secho("message sent", fg="green")
+
+
+@bp.cli.command("vote-test")
+@click.argument("username")
+def voter_test(username):
+    ans = Answer.query \
+        .join(Answer.user) \
+        .join(Answer.question) \
+        .filter(
+            Users.username == username,
+            Question.rank == 22,
+            Answer.correct
+        ).first()
+
+    if ans is None:
+        click.secho("no answer found for that user", fg="red")
+        return
+
+    msg = make_vote_reminder(ans)
+    print(msg.html)
+
+
+@bp.cli.command("send-daily-votes")
+def send_daily_votes():
+    ballot_reminders()

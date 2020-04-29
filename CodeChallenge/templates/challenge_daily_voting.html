@@ -303,14 +303,14 @@
                     <h3>Rank {{rank}}</h3>
                     <br/>
                     <p>
-                      {{name}}, you are ranked number {{rank}} with {{votes}} votes in The Dragon Quest.
+                      {{name}}, you are ranked number {{rank}} with {{votes}} {% if votes == 1 %}vote{% else %}votes{% endif %} in The Dragon Quest.
                     </p>
                     <p>
-                      Every vote counts towards winning the grand prize. You are only X votes away from the next highest challenger! 
+                      Every vote counts towards winning the grand prize. You are only {{ away }} {% if away == 1 %}vote{% else %}votes{% endif %} away from the next highest challenger!
                     </p>
                     <h4>
                       Share your code challenge link to win: <br/>
-                      {{challenge_link}}
+                      <a href="https://challenge.codewizardshq.com/voting?page=1&search={{ username }}">https://challenge.codewizardshq.com/voting?page=1&search={{ username }}</a>
                     </h4>
                   </td>
                 </tr>

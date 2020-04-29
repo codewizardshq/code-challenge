@@ -1,9 +1,8 @@
 from hmac import compare_digest
 
-import requests
 from flask import Blueprint, request, current_app, render_template
 from flask_mail import Message
-
+from ..models import Answer, Question, ranking, next_rank_up
 from .. import core
 from ..mail import mail
 
@@ -43,7 +42,57 @@ def worker():
         mail.send(msg)
 
     elif core.challenge_ended():
-        # TODO: email everyone individually how many votes they have
-        pass
+        ballot_reminders()
 
     return "", 200
+
+
+def make_vote_reminder(answer: Answer) -> Message:
+    rcpts = [answer.user.parent_email]
+    if answer.user.student_email:
+        rcpts.append(answer.user.student_email)
+
+    if answer.user.studentfirstname:
+        name = answer.user.studentfirstname
+    else:
+        name = answer.user.username
+
+    votes, rank = ranking(answer.id)
+    up1votes, up1rank = next_rank_up(rank)
+    diff = (up1votes - votes) + 1
+
+    msg = Message(
+        f"You're rank {rank} in the Dragon Quest!",
+        sender=current_app.config["MAIL_DEFAULT_SENDER"],
+        recipients=rcpts
+    )
+
+    msg.html = render_template("challenge_daily_voting.html",
+                               votes=votes,
+                               rank=int(rank),
+                               name=name,
+                               username=answer.user.username,
+                               away=diff)
+
+    return msg
+
+
+def ballot_reminders():
+    # email everyone who qualified
+
+    answers = Answer.query \
+        .join(Question) \
+        .filter(
+            Question.rank == core.max_rank(),
+            Answer.correct,
+            Answer.disqualified.is_(None)
+        ) \
+        .all()
+
+    for answer in answers:  # type: Answer
+        try:
+            msg = make_vote_reminder(answer)
+        except TypeError:
+            continue
+
+        mail.send(msg)
