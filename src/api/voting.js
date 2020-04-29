@@ -12,6 +12,7 @@ function processBallotResponse(result) {
         lastName: item[4],
         username: item[5],
         displayName: item[6],
+        disqualified: item[7],
         ...{ initials: initials(item) }
       };
     });
