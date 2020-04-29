@@ -49,7 +49,8 @@ def get_contestants():
         Users.studentfirstname,
         Users.studentlastname,
         Users.username,
-        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1)),
+        Answer.disqualified
     ) \
         .join(Answer.question) \
         .join(Answer.user) \

@@ -76,7 +76,7 @@ export default {
               Vue.set(this.pageData, key, value);
             }
           }
-          const items = result.items.sort((a, b) => {
+          const items = result.items.filter(i => i.disqualified === null).sort((a, b) => {
             return a.numVotes < b.numVotes ? 1 : -1;
           });
           this.$emit("input", items.length);
