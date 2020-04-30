@@ -55,7 +55,7 @@ def get_contestants():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Answer.correct) \
+        .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None)) \
         .group_by(Answer.id)
 
     if desc is not None:
