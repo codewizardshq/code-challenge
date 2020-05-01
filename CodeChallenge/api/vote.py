@@ -16,7 +16,7 @@ bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 
 @bp.before_request
 def time_gate():
-    if not core.challenge_ended() or current_app.config["VOTING_DISABLED"]:
+    if not core.challenge_ended() or current_app.config.get("VOTING_DISABLED", False):
         r = jsonify(status="error",
                     reason="voting unavailable until code challenge ends")
         r.status_code = 403

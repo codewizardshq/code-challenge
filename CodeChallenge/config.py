@@ -77,7 +77,7 @@ class ProductionConfig(DefaultConfig):
     MG_LIST = os.getenv("MG_LIST")
     ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START")
-    VOTING_DISALBED = True
+    VOTING_DISABLED = True
 
 
 class DevelopmentConfig(ProductionConfig):
