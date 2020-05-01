@@ -2,7 +2,7 @@ import os
 import re
 
 import sentry_sdk
-from flask import Flask, jsonify, make_response, send_from_directory
+from flask import Flask, jsonify, make_response, send_from_directory, redirect
 from flask_cors import CORS
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -56,15 +56,12 @@ def create_app(config):
     mail.init_app(app)
 
     # Register Blueprints
-    app.register_blueprint(users_bp)
-    app.register_blueprint(questions_bp)
-    app.register_blueprint(eb_bp)
+
     app.register_blueprint(users_cli_bp)
     app.register_blueprint(db_cli_bp)
     app.register_blueprint(q_cli_bp)
     app.register_blueprint(clock_cli_bp)
-    app.register_blueprint(vote_bp)
-    app.register_blueprint(slack_bp)
+
     app.register_blueprint(email_cli_bp)
 
     @app.errorhandler(429)
@@ -80,33 +77,44 @@ def create_app(config):
     fonts_dir = os.path.join(app.config["DIST_DIR"], "fonts")
     images_dir = os.path.join(app.config["DIST_DIR"], "images")
 
-    @app.route("/js/<path:path>")
-    def send_js(path):
-        return send_from_directory(js_dir, path)
+    if app.config.get("ALL_DONE", False):
+        @app.route("/")
+        def go_to_wp():
+            return redirect("https://codewizardshq.com/challenge/")
+    else:
+        app.register_blueprint(vote_bp)
+        app.register_blueprint(slack_bp)
+        app.register_blueprint(users_bp)
+        app.register_blueprint(questions_bp)
+        app.register_blueprint(eb_bp)
 
-    @app.route("/css/<path:path>")
-    def send_css(path):
-        return send_from_directory(css_dir, path)
+        @app.route("/js/<path:path>")
+        def send_js(path):
+            return send_from_directory(js_dir, path)
 
-    @app.route("/fonts/<path:path>")
-    def send_fonts(path):
-        return send_from_directory(fonts_dir, path)
+        @app.route("/css/<path:path>")
+        def send_css(path):
+            return send_from_directory(css_dir, path)
 
-    @app.route("/images/<path:path>")
-    def send_images(path):
-        return send_from_directory(images_dir, path)
+        @app.route("/fonts/<path:path>")
+        def send_fonts(path):
+            return send_from_directory(fonts_dir, path)
 
-    @app.route("/assets/<path:path>")
-    def send_assets(path):
-        return send_from_directory("assets", path)
+        @app.route("/images/<path:path>")
+        def send_images(path):
+            return send_from_directory(images_dir, path)
 
-    @app.route("/", defaults={"path": ""})
-    @app.route("/<path:path>")
-    def catch_all(path):
+        @app.route("/assets/<path:path>")
+        def send_assets(path):
+            return send_from_directory("assets", path)
 
-        if STATIC_FILES.search(path):
-            return send_from_directory(app.config["DIST_DIR"], path)
+        @app.route("/", defaults={"path": ""})
+        @app.route("/<path:path>")
+        def catch_all(path):
 
-        return send_from_directory(app.config["DIST_DIR"], "index.html")
+            if STATIC_FILES.search(path):
+                return send_from_directory(app.config["DIST_DIR"], path)
+
+            return send_from_directory(app.config["DIST_DIR"], "index.html")
 
     return app
