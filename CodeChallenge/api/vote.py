@@ -9,7 +9,7 @@ from ..limiter import limiter
 from ..auth import Users
 from ..mail import mail
 from ..mailgun import mg_validate
-from ..models import Answer, db, Vote, Question
+from ..models import Answer, db, Vote, Question, ranking
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 
@@ -49,12 +49,13 @@ def get_contestants():
         Users.studentfirstname,
         Users.studentlastname,
         Users.username,
-        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1)),
+        Answer.disqualified
     ) \
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Answer.correct) \
+        .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None)) \
         .group_by(Answer.id)
 
     if desc is not None:
@@ -186,6 +187,10 @@ def vote_confirm():
         return jsonify(status="error",
                        reason="vote not found - try voting again, or contestant may have been disqualified.")
 
+    if v.confirmed:
+        return jsonify(status="success",
+                       reason="vote already confirmed")
+
     delete_votes = Vote.query \
         .filter(Vote.voter_email == v.voter_email,
                 Vote.id != v.id) \
@@ -198,6 +203,18 @@ def vote_confirm():
     v.confirmed = True
 
     db.session.commit()
+
+    msg = Message(subject="Vote confirmation successful!",
+                  recipients=[v.voter_email])
+
+    votes, rank = v.ranking()
+
+    msg.html = render_template("challenge_vote_submitted.html",
+                               username=v.answer.user.username,
+                               votes=int(votes),
+                               rank=rank)
+
+    mail.send(msg)
 
     return jsonify(status="success",
                    reason="vote confirmed")
@@ -230,7 +247,7 @@ def search():
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Answer.correct,
+        .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None),
                 or_(Users.username.ilike(keyword), Users.studentfirstname.ilike(keyword),
                 Users.studentlastname.ilike(keyword))) \
         .group_by(Answer.id)\

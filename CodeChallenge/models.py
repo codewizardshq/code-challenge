@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from typing import Tuple
+
 
 db = SQLAlchemy()
 
@@ -9,6 +11,24 @@ def init_db():
 
 def drop_all():
     db.drop_all()
+
+
+def ranking(answer_id: int) -> Tuple[int, int]:
+    return db.session.execute("""
+        select rainv.num_votes, rainv.rank
+        from (
+                 select @rownum := @rownum + 1 as 'rank',
+                        prequery.answer_id,
+                        prequery.num_votes
+                 from (select @rownum := 0) sqlvars,
+                      (select answer_id,
+                              count(*) as num_votes
+                       from vote
+                       group by answer_id
+                       order by count(*) desc) prequery
+             ) as rainv
+        where answer_id = :answer_id
+    """, {'answer_id': answer_id}).first()
 
 
 class Question(db.Model):
@@ -39,7 +59,7 @@ class Answer(db.Model):
     user = db.relationship("Users", lazy=True, uselist=False)
     votes = db.relationship("Vote", cascade="all,delete",
                             lazy=True, uselist=True)
-    disqualified = db.Column(db.String)
+    disqualified = db.Column(db.String(255))
 
     def confirmed_votes(self) -> int:
         confirmed = 0
@@ -55,6 +75,7 @@ class Vote(db.Model):
     answer_id = db.Column(db.Integer,
                           db.ForeignKey("answer.id", ondelete="cascade"),
                           nullable=False)
+    answer = db.relationship("Answer", lazy=True, uselist=False)
     voter_email = db.Column(db.String(255), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -62,4 +83,7 @@ class Vote(db.Model):
     def existing_vote(email: str) -> bool:
         v = Vote.query.filter_by(voter_email=email).first()
         return v
+
+    def ranking(self):
+        return ranking(self.answer.id)
 
