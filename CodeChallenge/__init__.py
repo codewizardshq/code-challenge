@@ -2,7 +2,7 @@ import os
 import re
 
 import sentry_sdk
-from flask import Flask, jsonify, make_response, send_from_directory
+from flask import Flask, jsonify, make_response, send_from_directory, redirect
 from flask_cors import CORS
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -74,8 +74,12 @@ def create_app(config):
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
 
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def temp_redirect(path):
+        return redirect("http://codewizardshq.com/challenge")
 
-    js_dir = os.path.join(app.config["DIST_DIR"], "js")
+    """js_dir = os.path.join(app.config["DIST_DIR"], "js")
     css_dir = os.path.join(app.config["DIST_DIR"], "css")
     fonts_dir = os.path.join(app.config["DIST_DIR"], "fonts")
     images_dir = os.path.join(app.config["DIST_DIR"], "images")
@@ -107,6 +111,6 @@ def create_app(config):
         if STATIC_FILES.search(path):
             return send_from_directory(app.config["DIST_DIR"], path)
 
-        return send_from_directory(app.config["DIST_DIR"], "index.html")
+        return send_from_directory(app.config["DIST_DIR"], "index.html")"""
 
     return app
