@@ -211,10 +211,10 @@ export default {
           rules: [v => !!v || "Please tell us your name"]
         },
         heardAboutUs: {
-          label: "How did you hear about the Code Challange?",
+          label: "How did you hear about the Code Challenge?",
           type: "select",
           items: [
-            "How did you hear about the Code Challange?",
+            "How did you hear about the Code Challenge?",
             "I'm a CodeWizardsHQ Student",
             "CWHQ newsletter",
             "CWHQ website",
@@ -224,10 +224,10 @@ export default {
             "Your school or PTA",
             "Other"
           ],
-          value: "How did you hear about the Code Challange?",
+          value: "How did you hear about the Code Challenge?",
           rules: [
             v =>
-              v !== "How did you hear about the Code Challange?" ||
+              v !== "How did you hear about the Code Challenge?" ||
               "Please choose an option"
           ]
         },
