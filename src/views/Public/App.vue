@@ -1,11 +1,11 @@
 <template>
   <v-app class="cwhq-app public">
     <CWHQ-bar />
-    <app-bar />
+    <!-- <app-bar /> -->
     <quiz-bar />
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
     <leaderboard-bar />
     <mobile-warning />
   </v-app>

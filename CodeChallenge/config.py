@@ -85,7 +85,7 @@ class DevelopmentConfig(ProductionConfig):
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI",
                                         "mysql://cc-user:password@localhost/code_challenge_local")
     JWT_COOKIE_SECURE = False
-    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1581415200")
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1618349460")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
@@ -97,7 +97,7 @@ class DevelopmentConfig(ProductionConfig):
     def DIST_DIR(self):
         return os.path.join(self.ROOT_DIR, "dist")
 
-    
+
 class TestingConfig(DefaultConfig):
     # read as much as possible from envvars
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")

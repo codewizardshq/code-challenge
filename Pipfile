@@ -13,7 +13,6 @@ werkzeug = {extras = ["watchdog"],version = "*"}
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-mysqlclient = "*"
 flask-cors = "*"
 flask-jwt-extended = "*"
 argon2-cffi = "*"
@@ -23,6 +22,7 @@ flask-mail = "*"
 tabulate = "*"
 sentry-sdk = {extras = ["flask"],version = "==0.14.1"}
 requests = "*"
+pymysql = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

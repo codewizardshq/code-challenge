@@ -2,7 +2,7 @@
   <div class="mt-6">
     <v-row justify="center">
       <quiz-scroll>
-        <template v-slot:title>Welcome Pilgrim</template>
+        <template v-slot:title>Welcome Hero</template>
         <template v-slot:default>
           <p class="text-center">Watch the video</p>
           <p class="text-center">

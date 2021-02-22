@@ -2,9 +2,9 @@
   <v-app class="cwhq-app voting">
     <CWHQ-bar />
     <!-- <app-bar /> -->
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
     <mobile-warning />
   </v-app>
 </template>

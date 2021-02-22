@@ -4,13 +4,15 @@
       <v-col cols="12" sm="12" md="7">
         <page-card>
           <template #title>
-            <v-toolbar-title>Login form</v-toolbar-title>
+            Login
           </template>
 
           <v-card-text>
+            <!-- Temp hack for when voting begins.
             <v-alert type="info">
               Registration is closed! Thanks for playing.
             </v-alert>
+            -->
             <form-alert
               :message="errorMessage"
               @dismiss="errorMessage = false"

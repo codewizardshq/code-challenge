@@ -4,7 +4,7 @@
       <v-col cols="12" lg="10">
         <page-card>
           <template #title>
-            <v-toolbar-title>Create Your Account</v-toolbar-title>
+            Create Your Account
           </template>
 
           <v-stepper v-model="stepperIndex">

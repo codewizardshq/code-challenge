@@ -1,7 +1,7 @@
 <template>
   <div class="mt-6">
     <v-row justify="center">
-      <quiz-scroll v-if="Quiz.awaitNextQuestion">
+      <speech-area v-if="Quiz.awaitNextQuestion">
         <template v-slot:title>Next Challenge</template>
         <template v-slot:default>
           <div v-if="Quiz.awaitNextQuestion">
@@ -21,13 +21,13 @@
             <br />
           </div>
         </template>
-      </quiz-scroll>
-      <quiz-scroll v-else-if="!Quiz.quizHasStarted">
+      </speech-area>
+      <speech-area v-else-if="!Quiz.quizHasStarted">
         <template v-slot:title>Woah Slow Down!</template>
         <template v-slot:default>
           <p class="text-center">The challenge has not yet begun!</p>
           <p>Challenge begins {{ Quiz.quizStartedMoment.fromNow() }}</p>
-          <p>Challenge starts April 3rd</p>
+          <p>Challenge starts April 5th</p>
           <v-btn
             class="mr-3 mt-5"
             :style="{ backgroundColor: 'white !important' }"
@@ -47,7 +47,7 @@
             ><v-icon>mdi-twitter</v-icon></v-btn
           >
         </template>
-      </quiz-scroll>
+      </speech-area>
     </v-row>
     <quiz-need-help />
   </div>
@@ -55,13 +55,13 @@
 
 <script>
 import QuizNeedHelp from "@/components/QuizNeedHelp";
-import QuizScroll from "@/components/QuizScroll";
 import { Quiz, User } from "@/store";
+import SpeechArea from "@/components/SpeechArea";
 
 export default {
   name: "quiz",
   components: {
-    QuizScroll,
+    SpeechArea,
     QuizNeedHelp
   },
   computed: {

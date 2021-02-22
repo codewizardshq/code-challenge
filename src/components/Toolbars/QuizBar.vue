@@ -3,8 +3,8 @@
     color="dark2 quiz-bar"
     flat
     class="secondary--text"
-    :height="60"
-    :max-height="60"
+    :height="100"
+    :max-height="100"
   >
     <div
       class="quiz-bar-rank"
@@ -13,11 +13,22 @@
       <div class="level-display">Level</div>
       <div class="rank">{{ User.rank }}</div>
     </div>
-    <v-container>
+    <v-container fluid>
       <v-row>
         <v-col>
-          <span v-if="User.isAuthorized" class="barrow-bold"
-            >Welcome pilgrim {{ User.displayName }}</span
+          <router-link :to="{ name: 'redirect' }">
+            <img
+              src="/images/logo-with-code-challenge.svg"
+              height="80"
+              alt="CodeWizardsHQ Code Challenge"
+            />
+          </router-link>
+
+          <span
+            v-if="User.isAuthorized"
+            class="archivo"
+            style="position: absolute; top: 40%; left: 15%;"
+            >Welcome, {{ User.displayName }}</span
           >
 
           <router-link
@@ -31,7 +42,7 @@
           >
         </v-col>
 
-        <v-col class="text-right">
+        <v-col class="text-right mt-7">
           <v-menu offset-y>
             <template v-slot:activator="{ on: menu }">
               <a href="#" v-on="menu">Get Help</a>
@@ -40,9 +51,10 @@
               <v-list-item :to="{ name: 'faq' }">
                 <v-list-item-title>Check The FAQ</v-list-item-title>
               </v-list-item>
+              <!-- FIXME: uncomment this when we have a CodeChallenge discord
               <v-list-item href="https://discord.gg/NuKfKZ8" target="_blank">
                 <v-list-item-title>Get Help On Discord</v-list-item-title>
-              </v-list-item>
+              </v-list-item> -->
               <v-list-item
                 href="https://www.facebook.com/events/501020200554546/"
                 target="_blank"
@@ -57,7 +69,7 @@
           >
 
           <router-link v-if="User.isAuthorized" :to="{ name: 'logout' }"
-            >Sign Out</router-link
+            >Logout</router-link
           >
         </v-col>
       </v-row>
@@ -77,8 +89,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.list {
-  padding: 20px;
-}
+<style lang="sass" scoped>
+.list
+  padding: 20px
+
+.v-toolbar__content
+  background-image: url("/images/navbar-patterned-background.png")
 </style>
+d

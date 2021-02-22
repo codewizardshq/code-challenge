@@ -17,8 +17,8 @@
   font-family: "buWicked";
   src: url("/fonts/buWicked.eot");
   src: url("/fonts/buWicked.eot?#iefix") format("embedded-opentype"), url("/fonts/buWicked.svg#buWicked") format("svg"),
-    url("/fonts/buWicked.ttf") format("truetype"), url("/fonts/buWicked.woff") format("woff"),
-    url("/fonts/buWicked.woff2") format("woff2");
+  url("/fonts/buWicked.ttf") format("truetype"), url("/fonts/buWicked.woff") format("woff"),
+  url("/fonts/buWicked.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -37,6 +37,10 @@
 
 .bu-wicked {
   font-family: "buWicked" !important;
+}
+
+.archivo {
+  font-family: "Archivo", sans-serif !important;
 }
 
 

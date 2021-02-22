@@ -1,15 +1,16 @@
 .quiz-need-help {
-  background-image: url("/images/book.png");
+  background-image: url("/images/social-media-sidebar.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position-y: 10px;
-  width: 329px;
-  height: 276px;
+  width: 524px;
+  height: 281px;
   position: fixed;
-  right: 0;
+  right: -250px;
   bottom: 0;
   z-index: 100;
 
+  /*
   transition: all 1000ms;
 
   &:hover {
@@ -18,4 +19,5 @@
     height: 286px;
     filter: saturate(200%) sepia(100%);
   }
+   */
 }

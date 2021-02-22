@@ -1,7 +1,8 @@
 &.theme--dark.v-application {
-  // background: url("/images/background.jpg");
-  // background-size: cover;
-  background-color: #21252d;
+  background: url("/images/space-background.jpg");
+  background-size: cover;
+  overflow: hidden;
+  // background-color: #21252d;
 
   &.voting {
     background-color: #f8f8f9;
