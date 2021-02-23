@@ -74,10 +74,12 @@ def create_app(config):
                 status="error",
                 reason=f"rate limit exceeded ({e.description})"), 429)
 
+    """
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def temp_redirect(path):
         return redirect("http://codewizardshq.com/challenge")
+    """
 
     """js_dir = os.path.join(app.config["DIST_DIR"], "js")
     css_dir = os.path.join(app.config["DIST_DIR"], "css")
