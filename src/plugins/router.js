@@ -82,7 +82,7 @@ const routes = [
         path: "create-account",
         name: "register",
         component: () => {
-          return import("@/views/Accounts/register");
+          return import("@/views/Accounts/Register");
         },
         meta: { anon: true, challengeOpenOrPending: true }
       },
