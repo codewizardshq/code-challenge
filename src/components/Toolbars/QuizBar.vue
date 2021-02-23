@@ -38,6 +38,7 @@
             x-large
             active-class="none"
             :to="{ name: 'register' }"
+            style="position: absolute; top: 40%; left: 15%;"
             >Start your journey</router-link
           >
         </v-col>
