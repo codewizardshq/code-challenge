@@ -81,7 +81,7 @@ def create_app(config):
         return redirect("http://codewizardshq.com/challenge")
     """
 
-    """js_dir = os.path.join(app.config["DIST_DIR"], "js")
+    js_dir = os.path.join(app.config["DIST_DIR"], "js")
     css_dir = os.path.join(app.config["DIST_DIR"], "css")
     fonts_dir = os.path.join(app.config["DIST_DIR"], "fonts")
     images_dir = os.path.join(app.config["DIST_DIR"], "images")
@@ -113,6 +113,6 @@ def create_app(config):
         if STATIC_FILES.search(path):
             return send_from_directory(app.config["DIST_DIR"], path)
 
-        return send_from_directory(app.config["DIST_DIR"], "index.html")"""
+        return send_from_directory(app.config["DIST_DIR"], "index.html")
 
     return app
