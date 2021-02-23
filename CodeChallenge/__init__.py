@@ -3,7 +3,7 @@ import re
 
 import sentry_sdk
 from flask import Flask, jsonify, make_response, send_from_directory, redirect
-from flask_cors import CORS
+# from flask_cors import CORS
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.utils import import_string
@@ -49,7 +49,7 @@ def create_app(config):
     app.config.from_object(cfg)
 
     # Initialize Plugins
-    CORS(app)
+    # CORS(app)
     jwt.init_app(app)
     db.init_app(app)  # SQLAlchemy must be loaded before Marshmallow
     limiter.init_app(app)
