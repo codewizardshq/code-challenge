@@ -13,7 +13,6 @@ werkzeug = {extras = ["watchdog"],version = "*"}
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-flask-cors = "*"
 flask-jwt-extended = "*"
 argon2-cffi = "*"
 python-dotenv = "*"
