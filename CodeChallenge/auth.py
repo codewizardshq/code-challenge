@@ -19,15 +19,17 @@ class Users(db.Model):
     parentfirstname = db.Column(db.String(80), nullable=True)
     parentlastname = db.Column(db.String(80), nullable=True)
 
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(32), unique=True, nullable=False)
     parent_email = db.Column(db.String(120), unique=False, nullable=False)
     student_email = db.Column(db.String(120), unique=False, nullable=True)
     dob = db.Column(db.String(10), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=True)
     password = db.Column(db.String(120), nullable=False)
-    is_active = db.Column(db.Boolean, default=False, nullable=False)
     rank = db.Column(db.Integer, default=0, nullable=False)
     found_us = db.Column(db.String(2000))
+    teacher = db.Column(db.String(200))
+    school_name = db.Column(db.String(200))
+    cwhq_username = db.Column(db.String(100))
 
     def __repr__(self):
         return f"<User {self.username!r}>"
