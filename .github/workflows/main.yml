@@ -6,12 +6,11 @@ on:
       - master
 
 env:
-  EB_ENV_NAME: code-challenge-prod
-  EB_ENV_TEST: code-challenge-testing
+  EB_ENV_NAME: CodeChallenge-env
 
 jobs:
   deploy:
-    name: deploy to production
+    name: Deploy to https://challenge.codewizardshq.com
 
     runs-on: ubuntu-latest
 
@@ -19,19 +18,17 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
       with:
-        python-version: '3.6'
+        python-version: '3.7'
         architecture: 'x64'
     - uses: actions/setup-node@v1
       with:
-        node-version: '12.13.1'
+        node-version: '14.15.5'
     - name: Install npm and yarn
       run: |
         npm install -g yarn
         yarn install
     - name: Build Vue with yarn
       run: yarn build
-    - name: Install MySQL Client
-      run: sudo apt update && sudo apt install default-libmysqlclient-dev
     - name: Install AWSCLI and AWSEBCLI
       run: |
         python -m pip install --upgrade pip
