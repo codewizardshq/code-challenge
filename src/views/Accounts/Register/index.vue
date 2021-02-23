@@ -268,6 +268,12 @@ export default {
             v => v !== "How old is the student?" || "Please choose an option"
           ]
         },
+        schoolName: {
+          label: "What school does your student attend?",
+          type: "text",
+          rules: [v => !!v || "A school name is required."],
+          value: null
+        },
         tos: {
           label: "I agree to the Terms of Use and Privacy Policy",
           value: false,

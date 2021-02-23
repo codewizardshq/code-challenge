@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="validate" ref="form" v-model="isValid">
+  <v-form @submit.prevent="validate" ref="form" v-model.trim="isValid">
     <v-card-text>
       <v-row no-gutters>
         <v-col>
@@ -7,7 +7,7 @@
             class="mr-5"
             color="input"
             v-bind="fields.firstName"
-            v-model="fields.firstName.value"
+            v-model.trim="fields.firstName.value"
             :disabled="isSubmitting"
           />
         </v-col>
@@ -15,7 +15,7 @@
           <v-text-field
             color="input"
             v-bind="fields.lastName"
-            v-model="fields.lastName.value"
+            v-model.trim="fields.lastName.value"
             :disabled="isSubmitting"
           />
         </v-col>
@@ -23,18 +23,25 @@
       <v-text-field
         color="input"
         v-bind="fields.studentEmail"
-        v-model="fields.studentEmail.value"
+        v-model.trim="fields.studentEmail.value"
         :disabled="isSubmitting"
+      />
+      <v-text-field
+        color="input"
+        v-model.trim="fields.schoolName.value"
+        :disabled="isSubmitting"
+        v-bind="fields.schoolName"
+        counter="200"
       />
       <v-select
         single-line
         v-bind="fields.age"
-        v-model="fields.age.value"
+        v-model.trim="fields.age.value"
         :disabled="isSubmitting"
       />
       <!-- <date-of-birth-field
         :label="fields.dateOfBirth.label"
-        v-model="fields.dateOfBirth.value"
+        v-model.trim="fields.dateOfBirth.value"
       /> -->
     </v-card-text>
 
@@ -47,7 +54,7 @@
           this page.
         </p>
         <v-switch
-          v-model="hasParentConsent"
+          v-model.trim="hasParentConsent"
           color="button"
           class="mx-2"
           :rules="[

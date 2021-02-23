@@ -102,8 +102,14 @@ def register():
     new_u.dob = dob
     new_u.student_email = user_data.get("studentEmail", None)
     new_u.found_us = user_data.get("foundUs", None)
+    new_u.school_name = user_data.get("school_name", None)
 
-    new_u.active = True
+    edit_cookie = request.cookies.get("edit", None)
+    if edit_cookie is not None:
+        try:
+            new_u.cwhq_username = edit_cookie.split(".")[0]
+        except IndexError:
+            pass
 
     db.session.add(new_u)
     db.session.commit()

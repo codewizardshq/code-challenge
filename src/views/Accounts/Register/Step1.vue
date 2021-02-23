@@ -9,8 +9,9 @@
       <v-text-field
         color="input"
         v-bind="fields.username"
-        v-model="fields.username.value"
+        v-model.trim="fields.username.value"
         :disabled="isSubmitting"
+        counter="32"
       />
       <v-text-field
         color="input"
@@ -38,6 +39,7 @@
         v-bind="fields.heardAboutUsText"
         v-model="fields.heardAboutUsText.value"
         v-if="fields.heardAboutUs.value === 'Other'"
+        counter="2000"
       />
     </v-card-text>
 
