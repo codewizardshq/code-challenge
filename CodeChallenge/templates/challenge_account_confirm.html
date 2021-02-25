@@ -3,11 +3,10 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>CodeWizardsHQ Code Challenge Daily Email</title>
+<title>CodeWizardsHQ Code Challenge Account Confirmation Email</title>
 <style>
   /* -------------------------------------
-    GLOBAL
-    A very basic CSS reset
+    GLOBAL RESET
 ------------------------------------- */
 * {
   margin: 0;
@@ -21,16 +20,11 @@ img {
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: none;
   width: 100% !important;
   height: 100%;
-  line-height: 1.6em;
-  /* 1.6em * 14px = 22.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
-  /*line-height: 22px;*/
+  line-height: 1.8em;
 }
 
-/* Let's make sure all tables have defaults */
 table td {
   vertical-align: top;
 }
@@ -39,19 +33,22 @@ table td {
     BODY & CONTAINER
 ------------------------------------- */
 body {
-  background-color: #353535;
+  background-color: #0E2228;
 }
 
 .body-wrap {
-  background-color: #353535;
+  background-image: url('https://codewizardshq.com/wp-content/uploads/2021/02/night-sky-stars.png');
+  background-size: 100%;
+  background-repeat: repeat;
+  background-color: #0E2228;
   width: 100%;
 }
+
 
 .container {
   display: block !important;
   max-width: 600px !important;
   margin: 0 auto !important;
-  /* makes it centered */
   clear: both !important;
 }
 
@@ -81,7 +78,7 @@ body {
 .header {
   width: 100%;
   margin-bottom: 20px;
-  background-color: #353535;
+  background-color: #0E2228;
   padding: 20px;
   color: #fff;
 }
@@ -114,20 +111,14 @@ h1, h2, h3 {
 
 h1 {
   font-size: 32px;
-  /* 1.2em * 32px = 38.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
-  /*line-height: 38px;*/
 }
 
 h2 {
   font-size: 24px;
-  /* 1.2em * 24px = 28.8px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
-  /*line-height: 29px;*/
 }
 
 h3 {
   font-size: 18px;
-  /* 1.2em * 18px = 21.6px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
-  /*line-height: 22px;*/
 }
 
 h4 {
@@ -155,12 +146,10 @@ a {
 .btn-primary {
   text-decoration: none;
   color: #FFF;
-  background-color: #00774f;
-  border: solid #00774f;
+  background-color: #F8A91A;
+  border: solid #F8A91A;
   border-width: 10px 20px;
   line-height: 2em;
-  /* 2em * 14px = 28px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
-  /*line-height: 28px;*/
   font-weight: bold;
   text-align: center;
   cursor: pointer;
@@ -170,15 +159,8 @@ a {
 }
 
 /* -------------------------------------
-    OTHER STYLES THAT MIGHT BE USEFUL
+    OTHER STYLES
 ------------------------------------- */
-.last {
-  margin-bottom: 0;
-}
-
-.first {
-  margin-top: 0;
-}
 
 .aligncenter {
   text-align: center;
@@ -192,10 +174,6 @@ a {
   text-align: left;
 }
 
-.clear {
-  clear: both;
-}
-
 .social {
   max-width: 25px;
   display: inline-block;
@@ -203,7 +181,6 @@ a {
 
 /* -------------------------------------
     ALERTS
-    Change the class depending on warning email, good email or bad email
 ------------------------------------- */
 .alert {
   font-size: 10px;
@@ -219,14 +196,8 @@ a {
   font-weight: 500;
   font-size: 10px;
 }
-.alert.alert-warning {
-  background-color: #353535;
-}
-.alert.alert-bad {
-  background-color: #D0021B;
-}
-.alert.alert-good {
-  background-color: #0fad80;
+.alert.alert-share {
+  background-color: #0E2228;
 }
 
 /* -------------------------------------
@@ -269,12 +240,10 @@ a {
 
 }
 
-/*# sourceMappingURL=styles.css.map */
-
 </style>
 </head>
 
-<body itemscope itemtype="http://schema.org/EmailMessage">
+<body>
 
 <table class="body-wrap">
   <tr>
@@ -284,7 +253,7 @@ a {
         <table class="main alignleft" width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td class="header aligncenter">
-              <img src="https://challenge.codewizardshq.com/images/logo-small.png">
+              <p><img width="200px" src="https://codewizardshq.com/wp-content/uploads/2021/02/code-challenge-logo-2021.svg"></p>
             </td>
           </tr>
           <tr>
@@ -301,20 +270,17 @@ a {
                 </tr>
                 <tr>
                   <td>
-                    <p><a href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
-                    <a href="http://codewizardshq.com/challenge">Challenge Details</a><br/>
-                    <a href="http://codewizardshq.com/challenge#challenge-prizes">Prizes</a><br/>
-                    <a href="https://challenge.codewizardshq.com/frequently-asked-questions">Frequently Asked Questions</a></p>
+                    <p><a class="btn-primary" href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td class="alert alert-warning">
+            <td class="alert alert-share">
               Share With Friends
               <br/>
-              <a href="https://www.facebook.com/events/501020200554546/"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
+              <a href="https://www.facebook.com/events/212184353938197"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_fb.jpg"></a>
               <a href="https://twitter.com/CodeWizardsHQ"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_twitter.jpg"></a>
               <a href="mailto:?"><img class="social" src="https://codewizardshq.com/wp-content/uploads/2020/01/challenge_icon_email.jpg"></a>
             </td>
@@ -323,7 +289,7 @@ a {
         <div class="footer">
           <table width="100%">
             <tr>
-              <td class="aligncenter content-block"><a href="%unsubscribe_url%">Unsubscribe</a> from code challenge updates.</td>
+              <td class="aligncenter content-block"><a href="%unsubscribe_url%">Unsubscribe</a> from Code Challenge updates.</td>
             </tr>
           </table>
         </div></div>
