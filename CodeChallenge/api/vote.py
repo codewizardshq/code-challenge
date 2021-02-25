@@ -46,10 +46,10 @@ def get_contestants():
         Answer.id,
         Answer.text,
         func.count(Answer.votes),
-        Users.studentfirstname,
-        Users.studentlastname,
+        Users.student_first_name,
+        Users.student_last_name,
         Users.username,
-        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1)),
+        func.concat(Users.student_first_name, func.right(Users.student_last_name, 1)),
         Answer.disqualified
     ) \
         .join(Answer.question) \
@@ -239,17 +239,17 @@ def search():
         Answer.id,
         Answer.text,
         func.count(Answer.votes),
-        Users.studentfirstname,
-        Users.studentlastname,
+        Users.student_first_name,
+        Users.student_last_name,
         Users.username,
-        func.concat(Users.studentfirstname, func.right(Users.studentlastname, 1))
+        func.concat(Users.student_first_name, func.right(Users.student_last_name, 1))
     ) \
         .join(Answer.question) \
         .join(Answer.user) \
         .outerjoin(Answer.votes) \
         .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None),
-                or_(Users.username.ilike(keyword), Users.studentfirstname.ilike(keyword),
-                Users.studentlastname.ilike(keyword))) \
+                or_(Users.username.ilike(keyword), Users.student_first_name.ilike(keyword),
+                    Users.student_last_name.ilike(keyword))) \
         .group_by(Answer.id)\
         .paginate(page=page, per_page=per)
 

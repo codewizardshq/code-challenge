@@ -95,10 +95,10 @@ def register():
     new_u.username = username
     new_u.password = hash_password(password)
 
-    new_u.parentfirstname = user_data.get("parentFirstName")
-    new_u.parentlastname = user_data.get("parentLastName")
-    new_u.studentfirstname = user_data.get("studentFirstName")
-    new_u.studentlastname = user_data.get("studentLastName")
+    new_u.parent_first_name = user_data.get("parentFirstName")
+    new_u.parent_last_name = user_data.get("parentLastName")
+    new_u.student_first_name = user_data.get("studentFirstName")
+    new_u.student_last_name = user_data.get("studentLastName")
     new_u.dob = dob
     new_u.student_email = user_data.get("studentEmail", None)
     new_u.found_us = user_data.get("foundUs", None)
@@ -114,80 +114,14 @@ def register():
     db.session.add(new_u)
     db.session.commit()
 
-    if current_app.config["MG_LIST"] \
-            and current_app.config["MG_PRIVATE_KEY"]:
-        # add parent to mailing list
-        mg_vars = dict(
-            codeChallengeUsername=new_u.username,
-            studentEmail=new_u.student_email,
-            studentFirstName=new_u.studentfirstname,
-            studentLastName=new_u.studentlastname,
-            studentName=f"{new_u.studentfirstname} {new_u.studentlastname}",
-            parentFirstName=new_u.parentfirstname,
-            parentLastName=new_u.parentlastname,
-            parentName=f"{new_u.parentfirstname} {new_u.parentlastname}",
-            userId=new_u.id,
-            studentDOB=new_u.dob,
-            type=""
-        )
-
-        mg_vars["type"] = "parent"
+    if current_app.config["MG_LIST"]:
         try:
-            mg_list_add(new_u.parent_email,
-                        f"{new_u.parentfirstname} {new_u.parentlastname}",
-                        data=mg_vars)
+            new_u.add_to_mailing_list(current_app.config["MG_LIST"])
         except HTTPError as error:
-            current_app.logger.exception(f"failed to add {new_u.parent_email!r} to mailing list: {error}")
+            current_app.logger.exception(f"failed to add {new_u} to mailing list: {error}")
 
-        # if provided, also add student to mailing list
-        if new_u.student_email:
-            mg_vars["type"] = "student"
-            try:
-                mg_list_add(new_u.student_email,
-                            f"{new_u.studentfirstname} {new_u.studentlastname}",
-                            data=mg_vars)
-            except HTTPError as error:
-                current_app.logger.exception(f"failed to add {new_u.parent_email!r} to mailing list: {error}")
-
-    rcpts = [new_u.parent_email]
-    if new_u.student_email:
-        rcpts.append(new_u.student_email)
-
-    # account confirmation email
-    # only contains login/password
-    confirm_email = Message("Your Code Challenge Account",
-                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
-                            recipients=rcpts)
-    name = new_u.studentfirstname or new_u.parentfirstname
-    confirm_email.html = render_template("challenge_account_confirm.html",
-                                         name=name,
-                                         username=new_u.username)
-    confirm_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
-
-    # welcome email
-    # more in depth
-    welcome_email = Message("Welcome Pilgrim! You have accepted the Code Challenge",
-                            sender=current_app.config["MAIL_DEFAULT_SENDER"],
-                            recipients=rcpts)
-    welcome_email.html = render_template("challenge_welcome.html", name=name)
-    welcome_email.extra_headers = {"List-Unsubscribe": "%unsubscribe_email%"}
-
-    # send emails
-    mail.send(confirm_email)
-    mail.send(welcome_email)
-
-    if not current_app.config.get("TESTING", False):
-        webhook = current_app.config.get("SLACK_WEBHOOK")
-        if webhook is not None:
-            regcount = db.session.query(func.count(Users.id)).scalar()
-            requests.post(webhook, json=dict(
-                text="Event: New Registration\n\n"
-                     f"*User*: {new_u.username}\n"
-                     f"*Student*: {new_u.studentfirstname} {new_u.studentlastname}\n"
-                     f"*Parent*: {new_u.parentfirstname} {new_u.parentlastname}\n"
-                     f"*How'd you find us?* {new_u.found_us}\n"
-                     f"\n*Total Registrations*: {regcount}"
-            ))
+    new_u.send_confirmation_email()
+    new_u.send_welcome_email()
 
     return jsonify({"status": "success"})
 
@@ -199,11 +133,11 @@ def hello_protected():
     user = get_current_user()
 
     return jsonify({"status": "success",
-                    "message": f"Hello {user.studentfirstname}! (id {identity})",
+                    "message": f"Hello {user.student_first_name}! (id {identity})",
                     "username": user.username,
                     "email": user.parent_email,
-                    "firstname": user.studentfirstname,
-                    "lastname": user.studentlastname,
+                    "firstname": user.student_first_name,
+                    "lastname": user.student_last_name,
                     "rank": user.rank,
                     "timeUntilNextRank": core.time_until_next_rank()})
 
@@ -231,8 +165,8 @@ def forgot_password():
         if user.student_email:
             rcpts.append(user.student_email)
 
-        if user.studentfirstname:
-            name = user.studentfirstname
+        if user.student_first_name:
+            name = user.student_first_name
         else:
             name = user.username
 

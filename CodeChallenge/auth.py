@@ -1,10 +1,12 @@
 from datetime import datetime
+from typing import List
 
 import argon2
 from flask import current_app
 from flask_jwt_extended import JWTManager
 from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import func
+from .mailgun import email_template, mg_list_add
 
 from .models import db, Vote
 
@@ -13,11 +15,11 @@ jwt = JWTManager()
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    studentfirstname = db.Column(db.String(80), nullable=True)
-    studentlastname = db.Column(db.String(80), nullable=True)
+    student_first_name = db.Column(db.String(80), nullable=True)
+    student_last_name = db.Column(db.String(80), nullable=True)
 
-    parentfirstname = db.Column(db.String(80), nullable=True)
-    parentlastname = db.Column(db.String(80), nullable=True)
+    parent_first_name = db.Column(db.String(80), nullable=True)
+    parent_last_name = db.Column(db.String(80), nullable=True)
 
     username = db.Column(db.String(32), unique=True, nullable=False)
     parent_email = db.Column(db.String(120), unique=False, nullable=False)
@@ -32,7 +34,10 @@ class Users(db.Model):
     cwhq_username = db.Column(db.String(100))
 
     def __repr__(self):
-        return f"<User {self.username!r}>"
+        return f"<User({self.username!r})>"
+
+    def __str__(self):
+        return self.username
 
     def check_password(self, password):
         ph = argon2.PasswordHasher()
@@ -56,11 +61,59 @@ class Users(db.Model):
         return v
 
     def display(self):
-        if self.studentfirstname is not None \
-                and self.studentlastname is not None \
-                and len(self.studentlastname):
-            return f"{self.studentfirstname} " \
-                   f"{self.studentlastname[0]}."
+        if self.student_first_name is not None \
+                and self.student_last_name is not None \
+                and len(self.student_last_name):
+            return f"{self.student_first_name} " \
+                   f"{self.student_last_name[0]}."
+
+    def _mail_recipients(self) -> List[str]:
+        if not self.student_email:
+            return [self.parent_email]
+        return [self.parent_email, self.student_email]
+
+    def send_welcome_email(self):
+        email_template(
+            self._mail_recipients(),
+            "Mission Confirmed! Welcome to the CodeWizardsHQ Code Challenge",
+            "challenge_welcome.html",
+            name=self.student_first_name or self.parent_first_name
+        )
+
+    def send_confirmation_email(self):
+        email_template(
+            self._mail_recipients(),
+            "Your Code Challenge Account",
+            "challenge_account_confirm.html",
+            username=self.username,
+            name=self.student_first_name or self.parent_first_name
+        )
+
+    def _mg_vars(self):
+        return dict(
+            codeChallengeUsername=self.username,
+            studentEmail=self.student_email,
+            studentFirstName=self.student_first_name,
+            studentLastName=self.student_last_name,
+            studentName=f"{self.student_first_name} {self.student_last_name}",
+            parentFirstName=self.parent_first_name,
+            parentLastName=self.parent_last_name,
+            parentName=f"{self.parent_first_name} {self.parent_last_name}",
+            userId=self.id,
+            studentDOB=self.dob,
+            type=""
+        )
+
+    def add_to_mailing_list(self, list_name: str):
+        for i, addr in enumerate(self._mail_recipients()):
+            mg_vars = self._mg_vars()
+
+            if i == 0:
+                mg_vars["type"] = "parent"
+            else:
+                mg_vars["type"] = "student"
+
+            mg_list_add(addr, list_name, mg_vars)
 
 
 def hash_password(plaintext):
@@ -75,8 +128,8 @@ def authenticate(username, password):
 
 
 @jwt.user_lookup_loader
-def identity(ident):
-    return Users.query.get(ident)
+def identity(_, jwt_payload):
+    return Users.query.get(jwt_payload["sub"])
 
 
 def create_user(email, username, password):

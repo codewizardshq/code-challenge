@@ -1,7 +1,8 @@
 import json
 
 import requests
-from flask import current_app
+from flask import current_app, render_template
+from typing import List
 
 
 def __auth():
@@ -39,3 +40,34 @@ def mg_validate(email_address):
     r.raise_for_status()
 
     return r
+
+
+def mg_send(to: List[str], subject: str, body: str) -> requests.Response:
+    r = requests.post(
+        "https://api.mailgun.net/v3/school.codewizardshq.com/messages",
+        auth=__auth(),
+        data={
+            "from": current_app.config["MAIL_DEFAULT_SENDER"],
+            "to": to,
+            "subject": subject,
+            "html": body,
+            "o:tracking": False,
+            "o:tag": ["code-challenge"]
+        }
+    )
+
+    r.raise_for_status()
+
+    return r
+
+
+def email_template(to: List[str], subject: str, template_name: str, **kwargs) -> requests.Response:
+    """Render an email template by name with the given context and send the body via Mailgun
+    :param to: list of recipient email addresses
+    :param subject: email subject
+    :param template_name: relative HTML template name
+    :param kwargs: values to pass to render_template()
+    :return: Mailgun Response
+    """
+    body = render_template(template_name, **kwargs)
+    return mg_send(to, subject, body)
