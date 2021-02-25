@@ -5,9 +5,9 @@
     </h1>
     <p class="c8">
       <span class="c0">
-        Students accessing the Defeat the Dragon Code Challenge websites or
-        CodeWizardsHQ Platform to view, upload, or edit content should refrain
-        from the following conduct:
+        Students accessing the 2021 Code Challenge websites or CodeWizardsHQ
+        Platform to view, upload, or edit content should refrain from the
+        following conduct:
       </span>
     </p>
     <p class="c8">
@@ -77,9 +77,9 @@
     <p class="c8">
       <span class="c0">
         9. Defaming, harassing, abusing, threatening or defrauding users of the
-        website or participants in the Defeat the Dragon Code Challenge, or
-        collecting, or attempting to collect, personal information about users,
-        participants, or third parties without their consent;
+        website or participants in the 2021 Code Challenge, or collecting, or
+        attempting to collect, personal information about users, participants,
+        or third parties without their consent;
       </span>
     </p>
     <p class="c8">
@@ -204,8 +204,8 @@
           We may collect your email address, or other information needed to
           contact you online. We also collect your student&rsquo;s email address
           and information. We use contact information to send you notices on
-          CodeWizardsHQ products and services, as well as updates about the
-          Defeat the Dragon Code Challenge.
+          CodeWizardsHQ products and services, as well as updates about the 2021
+          Code Challenge.
         </span>
       </li>
       <li class="c1">
