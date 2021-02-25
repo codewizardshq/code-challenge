@@ -1,52 +1,53 @@
 <template>
   <v-toolbar
-    color="dark2 quiz-bar"
-    flat
-    class="secondary--text"
     :height="100"
     :max-height="100"
+    class="secondary--text"
+    color="dark2 quiz-bar"
+    flat
   >
     <div
-      class="quiz-bar-rank"
       v-show="User.isAuthorized && Quiz.quizHasStarted && !Quiz.quizHasEnded"
+      class="quiz-bar-rank"
     >
       <div class="level-display">Level</div>
       <div class="rank">{{ User.rank }}</div>
     </div>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <router-link :to="{ name: 'redirect' }">
             <img
-              src="/images/logo-with-code-challenge.svg"
-              height="80"
               alt="CodeWizardsHQ Code Challenge"
+              height="80"
+              src="/images/logo-with-code-challenge.svg"
             />
           </router-link>
-
-          <span
+        </v-col>
+        <v-col>
+          <p
             v-if="User.isAuthorized"
-            class="archivo"
-            style="position: absolute; top: 40%; left: 15%;"
-            >Welcome, {{ User.displayName }}</span
+            class="archivo mt-7 ml-10"
+            style="position: relative;"
           >
+            Welcome, {{ User.displayName }}
+          </p>
 
           <router-link
             v-else
+            :to="{ name: 'register' }"
+            active-class="none"
             color="secondary"
             text
             x-large
-            active-class="none"
-            :to="{ name: 'register' }"
-            style="position: absolute; top: 40%; left: 15%;"
-            >Start your journey</router-link
-          >
+            >Start your journey
+          </router-link>
         </v-col>
 
         <v-col class="text-right mt-7">
           <v-menu offset-y>
             <template v-slot:activator="{ on: menu }">
-              <a href="#" v-on="menu">Get Help</a>
+              <a v-on="menu" href="#">Get Help</a>
             </template>
             <v-list class="list">
               <v-list-item :to="{ name: 'faq' }">
@@ -66,12 +67,12 @@
           </v-menu>
 
           <router-link v-if="!User.isAuthorized" :to="{ name: 'login' }"
-            >Sign In</router-link
-          >
+            >Sign In
+          </router-link>
 
           <router-link v-if="User.isAuthorized" :to="{ name: 'logout' }"
-            >Logout</router-link
-          >
+            >Logout
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
