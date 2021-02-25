@@ -36,7 +36,7 @@ def get_rank():
 
 
 @bp.route("/next", methods=["GET"])
-@jwt_required
+@jwt_required()
 def next_question():
     """Return next unanswered question up to the max rank"""
 
@@ -88,7 +88,7 @@ def answer_limit_attempts():
 
 
 @bp.route("/answer", methods=["POST"])
-@jwt_required
+@jwt_required()
 @limiter.limit(answer_limit_attempts, key_func=user_rank)
 def answer_next_question():
     user = get_current_user()
@@ -131,7 +131,7 @@ def answer_next_question():
 
 
 @bp.route("/history", methods=["GET"])
-@jwt_required
+@jwt_required()
 def history():
     """ Returns all past questions and answers for the current user"""
 
@@ -154,7 +154,7 @@ def history():
 
 
 @bp.route("/reset", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def reset_all():
     """ Reset rank for the current user """
     if current_app.config["ALLOW_RESET"]:
@@ -174,7 +174,7 @@ def reset_all():
 
 
 @bp.route("/final", methods=["POST"])
-@jwt_required
+@jwt_required()
 def answer_eval():
     user = get_current_user()
     if core.current_rank() == user.rank:

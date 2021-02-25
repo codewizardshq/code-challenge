@@ -74,7 +74,7 @@ def authenticate(username, password):
         return user
 
 
-@jwt.user_loader_callback_loader
+@jwt.user_lookup_loader
 def identity(ident):
     return Users.query.get(ident)
 

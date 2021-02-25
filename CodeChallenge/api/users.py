@@ -2,7 +2,7 @@ import requests
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_current_user, get_jwt_identity,
-                                jwt_refresh_token_required, jwt_required,
+                                jwt_required,
                                 set_access_cookies, set_refresh_cookies,
                                 unset_jwt_cookies)
 from flask_limiter.util import get_remote_address
@@ -45,7 +45,7 @@ def login():
 
 
 @bp.route("/token/refresh", methods=["POST"])
-@jwt_refresh_token_required
+@jwt_required(refresh=True)
 def refresh():
     u = get_jwt_identity()
     access_token = create_access_token(identity=u)
@@ -193,7 +193,7 @@ def register():
 
 
 @bp.route("/hello", methods=["GET"])
-@jwt_required
+@jwt_required()
 def hello_protected():
     identity = get_jwt_identity()
     user = get_current_user()
