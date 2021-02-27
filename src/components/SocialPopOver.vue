@@ -40,7 +40,7 @@ export default {
       },
       {
         icon: "facebook",
-        to: "https://www.facebook.com/events/501020200554546/"
+        to: "https://www.facebook.com/events/212184353938197/"
       },
       {
         icon: "linkedin",

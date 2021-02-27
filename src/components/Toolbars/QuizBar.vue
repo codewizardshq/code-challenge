@@ -58,7 +58,7 @@
                 <v-list-item-title>Get Help On Discord</v-list-item-title>
               </v-list-item> -->
               <v-list-item
-                href="https://www.facebook.com/events/501020200554546/"
+                href="https://www.facebook.com/events/212184353938197/"
                 target="_blank"
               >
                 <v-list-item-title>Get Help On Facebook</v-list-item-title>
