@@ -38,6 +38,7 @@
             :to="{ name: 'register' }"
             active-class="none"
             color="secondary"
+            class="archivo mt-7 ml-10"
             text
             x-large
             >Start your journey

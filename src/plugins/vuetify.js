@@ -15,7 +15,7 @@ export default new Vuetify({
         success: "#4CAF50",
         warning: "#FFC107",
         primary: "#fdc743",
-        secondary: "#27AE82",
+        secondary: "#30395f",
         dark: "#282828",
         dark2: "#1E1E1E",
         button: "#4CAF50",
