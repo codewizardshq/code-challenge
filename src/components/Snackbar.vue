@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="isOpen" v-bind="Snackbar">
+  <v-snackbar v-model="isOpen" :color="color">
     {{ Snackbar.text }}
   </v-snackbar>
 </template>
@@ -15,18 +15,21 @@ export default {
   },
   watch: {
     "Snackbar.isOpen"(value) {
-      if (this.isOpen != value) {
+      if (this.isOpen !== value) {
         this.isOpen = value;
       }
     },
-    isOpen(value) {
-      if (this.Snackbar.isOpen != value) {
-        this.$store.dispatch("Snackbar/isOpen", value);
+    async isOpen(value) {
+      if (this.Snackbar.isOpen !== value) {
+        await this.$store.dispatch("Snackbar/isOpen", value);
       }
     }
   },
   computed: {
-    ...Snackbar.mapState()
+    ...Snackbar.mapState(),
+    color() {
+      return Snackbar.color;
+    }
   }
 };
 </script>

@@ -72,7 +72,7 @@ export default {
       try {
         let res = await auth.forgotPassword(this.fields.username.value);
         this.multiple = res.multiple;
-        this.$store.dispatch(
+        await this.$store.dispatch(
           "Snackbar/showInfo",
           "A password reset link was sent to your email."
         );

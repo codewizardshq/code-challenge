@@ -71,11 +71,11 @@ export default {
           this.fields.password.value
         );
 
-        this.$store.dispatch(
+        await this.$store.dispatch(
           "Snackbar/showInfo",
           "Password reset successfully. You may now login."
         );
-        this.$router.push({ name: "login" });
+        await this.$router.push({ name: "login" });
       } catch (e) {
         this.errorMessage = "Request Failed";
       }
@@ -106,7 +106,7 @@ export default {
           type: "password",
           value: "",
           rules: [
-            v => v == this.fields.password.value || "Passwords do not match"
+            v => v === this.fields.password.value || "Passwords do not match"
           ]
         }
       }

@@ -7,6 +7,7 @@
       <router-view />
     </v-main>
     <!-- <leaderboard-bar /> -->
+    <snackbar/>
     <mobile-warning />
   </v-app>
 </template>
@@ -17,6 +18,7 @@ import QuizBar from '@/components/Toolbars/QuizBar';
 import CWHQBar from '@/components/Toolbars/CWHQBar';
 import LeaderboardBar from '@/components/Toolbars/LeaderboardBar';
 import MobileWarning from '@/components/MobileWarning';
+import Snackbar from '@/components/Snackbar'
 
 export default {
   name: 'App',
@@ -25,7 +27,8 @@ export default {
     AppBar,
     QuizBar,
     CWHQBar,
-    LeaderboardBar
+    LeaderboardBar,
+    Snackbar
   }
 };
 </script>
