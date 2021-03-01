@@ -144,7 +144,7 @@ def create_user(email, username, password):
 
 
 def reset_user(username, password):
-    u = Users.query.filter_by(username=username)
+    u = Users.query.filter_by(username=username).first()
     u.password = hash_password(password)
 
     db.session.commit()
