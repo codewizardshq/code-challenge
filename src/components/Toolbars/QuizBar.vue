@@ -27,7 +27,7 @@
         <v-col>
           <p
             v-if="User.isAuthorized"
-            class="archivo mt-7 ml-10"
+            class="archivo mt-7 ml-10 primary--text"
             style="position: relative;"
           >
             Welcome, {{ User.displayName }}

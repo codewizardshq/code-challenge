@@ -1,6 +1,7 @@
 <template>
   <div class="mt-6">
-    <v-row justify="center">
+    <v-row justify="center" align="center">
+      <!--
       <speech-area v-if="Quiz.awaitNextQuestion">
         <template v-slot:title>Next Challenge</template>
         <template v-slot:default>
@@ -48,6 +49,8 @@
           >
         </template>
       </speech-area>
+      -->
+      <img width="600px" src="/images/coming-soon.png" />
     </v-row>
     <quiz-need-help />
   </div>
@@ -56,12 +59,10 @@
 <script>
 import QuizNeedHelp from "@/components/QuizNeedHelp";
 import { Quiz, User } from "@/store";
-import SpeechArea from "@/components/SpeechArea";
 
 export default {
   name: "quiz",
   components: {
-    SpeechArea,
     QuizNeedHelp
   },
   computed: {
