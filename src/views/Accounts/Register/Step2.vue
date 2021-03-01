@@ -49,9 +49,9 @@
       <v-alert colored-border icon="mdi-firework">
         You are not 13 years of age.
         <p>
-          In order to continue with the code challenge you must have your
+          In order to continue with the Code Challenge you must have your
           parent's permission. Have your parent or guardian complete the rest of
-          this page.
+          this form.
         </p>
         <v-switch
           v-model.trim="hasParentConsent"

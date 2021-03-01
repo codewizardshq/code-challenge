@@ -33,16 +33,17 @@
             Welcome, {{ User.displayName }}
           </p>
 
-          <router-link
-            v-else
-            :to="{ name: 'register' }"
-            active-class="none"
-            color="secondary"
-            class="archivo mt-7 ml-10"
-            text
-            x-large
-            >Start your journey
-          </router-link>
+          <div v-else class="mt-7 ml-10">
+            <router-link
+              :to="{ name: 'register' }"
+              active-class="none"
+              color="secondary"
+              class="archivo"
+              text
+              x-large
+              >Start your journey
+            </router-link>
+          </div>
         </v-col>
 
         <v-col class="text-right mt-7">
