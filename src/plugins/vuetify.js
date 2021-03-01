@@ -18,7 +18,7 @@ export default new Vuetify({
         secondary: "#30395f",
         dark: "#282828",
         dark2: "#1E1E1E",
-        button: "#4CAF50",
+        button: "#30395f",
         input: "#4CAF50",
         cwhqBlue: "#0d1d41",
         cwhqYellow: "#fdc743"
