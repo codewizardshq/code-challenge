@@ -50,7 +50,7 @@
         </template>
       </speech-area>
       -->
-      <img width="600px" src="/images/coming-soon.png" />
+      <img width="400px" src="/images/coming-soon.png" />
     </v-row>
     <quiz-need-help />
   </div>
