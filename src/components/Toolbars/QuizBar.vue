@@ -15,7 +15,7 @@
     </div>
     <v-container fluid>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="3">
           <router-link :to="{ name: 'redirect' }">
             <img
               alt="CodeWizardsHQ Code Challenge"
@@ -25,11 +25,7 @@
           </router-link>
         </v-col>
         <v-col>
-          <p
-            v-if="User.isAuthorized"
-            class="archivo mt-7 ml-10 primary--text"
-            style="position: relative;"
-          >
+          <p v-if="User.isAuthorized" class="archivo mt-7 primary--text">
             Welcome, {{ User.displayName }}
           </p>
 
