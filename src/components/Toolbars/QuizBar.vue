@@ -29,7 +29,7 @@
             Welcome, {{ User.displayName }}
           </p>
 
-          <div v-else class="mt-7 ml-10">
+          <div v-else class="mt-7">
             <router-link
               :to="{ name: 'register' }"
               active-class="none"
