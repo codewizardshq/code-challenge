@@ -1,8 +1,8 @@
 import json
+from typing import List
 
 import requests
 from flask import current_app, render_template
-from typing import List
 
 
 def __auth():
@@ -42,18 +42,23 @@ def mg_validate(email_address):
     return r
 
 
-def mg_send(to: List[str], subject: str, body: str) -> requests.Response:
+def mg_send(to: List[str], subject: str, body: str, headers: dict = None) -> requests.Response:
+    data = {
+        "from": current_app.config["MAIL_DEFAULT_SENDER"],
+        "to": to,
+        "subject": subject,
+        "html": body,
+        "o:tracking": False,
+        "o:tag": ["code-challenge"]
+    }
+
+    for k, v in headers.items():
+        data[f"h:{k}"] = v
+
     r = requests.post(
         "https://api.mailgun.net/v3/school.codewizardshq.com/messages",
         auth=__auth(),
-        data={
-            "from": current_app.config["MAIL_DEFAULT_SENDER"],
-            "to": to,
-            "subject": subject,
-            "html": body,
-            "o:tracking": False,
-            "o:tag": ["code-challenge"]
-        }
+        data=data
     )
 
     r.raise_for_status()
