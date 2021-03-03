@@ -1,4 +1,4 @@
-import requests
+from flask import Blueprint, jsonify, request, current_app, render_template
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 get_current_user, get_jwt_identity,
@@ -8,14 +8,14 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
 from requests import HTTPError
-from sqlalchemy import func
 
 from .. import core
 from ..auth import (Users, hash_password, password_reset_token,
                     reset_password_from_token)
+from ..decorators import cors_allow
 from ..limiter import limiter
 from ..mail import mail
-from ..mailgun import mg_list_add, mg_validate
+from ..mailgun import mg_validate
 from ..models import db
 
 bp = Blueprint("userapi", __name__, url_prefix="/api/v1/users")
@@ -216,7 +216,6 @@ def username_exists(username):
 
 @bp.route("/validate", methods=["POST"])
 def email_validation():
-
     if "email" not in request.json:
         return jsonify(status="error", reason="missing 'email' field"), 400
 
@@ -224,3 +223,13 @@ def email_validation():
 
     return mg_res.json(), mg_res.status_code
 
+
+@bp.route("/<string:username>/query", methods=["GET", "OPTIONS", "HEAD"])
+@cors_allow
+def user_query(username):
+    if Users.query.filter_by(cwhq_username=username).first():
+        response = jsonify(username=username, exists=True)
+    else:
+        response = jsonify(username=username, exists=False)
+
+    return response
