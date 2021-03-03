@@ -25,7 +25,7 @@ def timer_process():
 @bp.route("/inbox", methods=["POST"])
 def webhook_inbox():
     if request.form.get("X-Mailgun-SFlag") == "Yes":
-        return "", 200
+        return "Message flagged as spam.", 200
 
     sender = request.form.get("Reply-To", request.form.get("From"))
     subject = "RE: " + request.form["Subject"]
@@ -46,12 +46,12 @@ def webhook_inbox():
                       "None of the attachments on your message appear to be Excel spreadsheets. Please ensure the "
                       "correct .xlsx spreadsheet is attached for CodeWizardsHQ Code Challenge bulk student creation.",
                       in_reply_to)
-        return "Rejected: none of the attachments are Excel."
+        return "Rejected: none of the attachments are Excel spreadsheets."
 
     reply_message(sender,
                   subject,
                   "You will receive another message after user creation has completed with the created student "
-                  f" account information attached. Import ID(s): {', '.join([str(i) for i in added])}",
+                  f" account information attached. Import Confirmation #: {', '.join([str(i) for i in added])}",
                   in_reply_to)
 
     return "Accepted.", 200
