@@ -1,17 +1,21 @@
 from flask import Blueprint, jsonify, request, current_app, render_template
 from flask import Blueprint, jsonify, request, current_app, render_template
-from flask_jwt_extended import (create_access_token, create_refresh_token,
-                                get_current_user, get_jwt_identity,
-                                jwt_required,
-                                set_access_cookies, set_refresh_cookies,
-                                unset_jwt_cookies)
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    get_current_user,
+    get_jwt_identity,
+    jwt_required,
+    set_access_cookies,
+    set_refresh_cookies,
+    unset_jwt_cookies,
+)
 from flask_limiter.util import get_remote_address
 from flask_mail import Message
 from requests import HTTPError
 
 from .. import core
-from ..auth import (Users, hash_password, password_reset_token,
-                    reset_password_from_token)
+from ..auth import Users, hash_password, password_reset_token, reset_password_from_token
 from ..decorators import cors_allow
 from ..limiter import limiter
 from ..mail import mail
@@ -118,7 +122,9 @@ def register():
         try:
             new_u.add_to_mailing_list(current_app.config["MG_LIST"])
         except HTTPError as error:
-            current_app.logger.exception(f"failed to add {new_u} to mailing list: {error}")
+            current_app.logger.exception(
+                f"failed to add {new_u} to mailing list: {error}"
+            )
 
     new_u.send_confirmation_email()
     new_u.send_welcome_email()
@@ -132,14 +138,18 @@ def hello_protected():
     identity = get_jwt_identity()
     user = get_current_user()
 
-    return jsonify({"status": "success",
-                    "message": f"Hello {user.student_first_name}! (id {identity})",
-                    "username": user.username,
-                    "email": user.parent_email,
-                    "firstname": user.student_first_name,
-                    "lastname": user.student_last_name,
-                    "rank": user.rank,
-                    "timeUntilNextRank": core.time_until_next_rank()})
+    return jsonify(
+        {
+            "status": "success",
+            "message": f"Hello {user.student_first_name}! (id {identity})",
+            "username": user.username,
+            "email": user.parent_email,
+            "firstname": user.student_first_name,
+            "lastname": user.student_last_name,
+            "rank": user.rank,
+            "timeUntilNextRank": core.time_until_next_rank(),
+        }
+    )
 
 
 @bp.route("/forgot", methods=["POST"])
@@ -153,8 +163,7 @@ def forgot_password():
     users = Users.query.filter_by(parent_email=email).all()
 
     if users is None or len(users) == 0:
-        return jsonify(status="error",
-                       reason="no account with that email"), 400
+        return jsonify(status="error", reason="no account with that email"), 400
 
     multiple_accounts = len(users) > 1
 
@@ -170,19 +179,25 @@ def forgot_password():
         else:
             name = user.username
 
-        msg = Message(subject="Reset your Code Challenge password",
-                      html=render_template("challenge_password_reset.html",
-                                           name=name,
-                                           token=token,
-                                           multiple=multiple_accounts),
-                      recipients=rcpts)
+        msg = Message(
+            subject="Reset your Code Challenge password",
+            html=render_template(
+                "challenge_password_reset.html",
+                name=name,
+                token=token,
+                multiple=multiple_accounts,
+            ),
+            recipients=rcpts,
+        )
 
         if current_app.config.get("TESTING", False):
             msg.extra_headers = {"X-Password-Reset-Token": token}
 
         mail.send(msg)
 
-    return jsonify(status="success", reason="password reset email sent", multiple=multiple_accounts)
+    return jsonify(
+        status="success", reason="password reset email sent", multiple=multiple_accounts
+    )
 
 
 @bp.route("/reset-password", methods=["POST"])
@@ -209,9 +224,7 @@ def reset_password():
 @bp.route("/<string:username>/exists", methods=["GET"])
 def username_exists(username):
     exists = Users.query.filter_by(username=username).first() is not None
-    return jsonify(status="success",
-                   exists=exists,
-                   username=username)
+    return jsonify(status="success", exists=exists, username=username)
 
 
 @bp.route("/validate", methods=["POST"])
@@ -234,3 +247,8 @@ def user_query(username):
         response = jsonify(exists=False)
 
     return response
+
+
+@bp.route("/count")
+def enrollment_count():
+    return f"<h1>{core.user_count()} users</h1>", 200
