@@ -227,9 +227,10 @@ def email_validation():
 @bp.route("/<string:username>/query", methods=["GET", "OPTIONS", "HEAD"])
 @cors_allow
 def user_query(username):
-    if Users.query.filter_by(cwhq_username=username).first():
-        response = jsonify(username=username, exists=True)
+    user = Users.query.filter_by(cwhq_username=username).first()
+    if user:
+        response = jsonify(username=user.username, exists=True, rank=user.rank)
     else:
-        response = jsonify(username=username, exists=False)
+        response = jsonify(exists=False)
 
     return response
