@@ -250,5 +250,6 @@ def user_query(username):
 
 
 @bp.route("/count")
+@cors_allow
 def enrollment_count():
     return f"<h1>{core.user_count()} users</h1>", 200
