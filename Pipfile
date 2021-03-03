@@ -22,6 +22,8 @@ tabulate = "*"
 sentry-sdk = {extras = ["flask"],version = "==0.14.1"}
 requests = "*"
 pymysql = "*"
+pandas = "*"
+openpyxl = "*"
 
 [requires]
 python_version = "3.8"
