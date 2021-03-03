@@ -129,6 +129,8 @@ class BulkImport(db.Model):
 
         rows = []
         for item in pending:  # type: cls
+
+            # set status = 2 so next loop doesn't catch this same row
             item.status = 2
             db.session.commit()
 
@@ -140,7 +142,13 @@ class BulkImport(db.Model):
             df = pd.read_excel(fp.name)
             fp.close()
 
-            rows.extend(df.values.tolist())
+            sheet = df.values.tolist()  # type: list
+
+            if sheet[0][0] == "Student First Name":
+                # header row, safe to discard
+                sheet.pop(0)
+
+            rows.extend(sheet)
 
         return len(rows)
 
