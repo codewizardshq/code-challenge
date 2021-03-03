@@ -52,8 +52,9 @@ def mg_send(to: List[str], subject: str, body: str, headers: dict = None) -> req
         "o:tag": ["code-challenge"]
     }
 
-    for k, v in headers.items():
-        data[f"h:{k}"] = v
+    if headers is not None:
+        for k, v in headers.items():
+            data[f"h:{k}"] = v
 
     r = requests.post(
         "https://api.mailgun.net/v3/school.codewizardshq.com/messages",
