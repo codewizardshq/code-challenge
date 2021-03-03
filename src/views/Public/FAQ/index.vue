@@ -111,7 +111,7 @@
                 <v-expansion-panel-header color="cwhqBlue">How is the winner determined? </v-expansion-panel-header>
                 <v-expansion-panel-content color="white" style="color: #333;">
                   <v-card-text>
-                    he 1st, 2nd, and 3rd place winners are determined by a public vote and review by our Wizard Panel. Any challengers who complete all 21 levels and the boss level question will be eligible to win.                   </v-card-text>
+                    The 1st, 2nd, and 3rd place winners are determined by a public vote and review by our Wizard Panel. Any challengers who complete all 21 levels and the boss level question will be eligible to win.                   </v-card-text>
                 </v-expansion-panel-content>
               </v-expansion-panel>
 
