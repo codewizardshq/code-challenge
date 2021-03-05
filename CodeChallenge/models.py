@@ -280,12 +280,6 @@ class Users(db.Model):
     def set_password(self, plaintext):
         self.password = argon2.PasswordHasher().hash(plaintext)
 
-    def log_error(self, message: str):
-        if not self.errors:
-            self.errors = []
-
-        self.errors.append(message)
-
     def set_username(self, username: str):
         if not username:
             raise ValidationError("username cannot be null or empty")
@@ -296,7 +290,7 @@ class Users(db.Model):
         self.username = username.strip()
 
     def set_parent_email(self, email: str):
-        if not email:
+        if not email or type(email) != str:
             raise ValidationError("parent email cannot be null or empty")
 
         email = email.strip()
@@ -305,24 +299,29 @@ class Users(db.Model):
         self.parent_email = email
 
     def set_parent_first_name(self, name: str):
+        assert type(name) == str
         self.parent_first_name = name.strip().title()
 
     def set_parent_last_name(self, name: str):
+        assert type(name) == str
         self.parent_last_name = name.strip().title()
 
     def set_student_first_name(self, name: str):
+        assert type(name) == str
         self.student_first_name = name.strip().title()
 
     def set_student_last_name(self, name: str):
+        assert type(name) == str
         self.student_last_name = name.strip().title()
 
     def set_school_name(self, name: str):
+        assert type(name) == str
         if not name:
             raise ValidationError("school name may not be None or empty")
         self.school_name = name
 
     def set_student_email(self, email: str):
-        if not email:
+        if not email or type(email) != str:
             raise ValidationError(
                 "may not set a None or empty student email. use clear_student_email()"
             )
@@ -497,8 +496,8 @@ class BulkImport(db.Model):
         if (
             not teacher_name
             or not teacher_email
-            or teacher_name == "nan"
-            or teacher_email == "nan"
+            or type(teacher_name) != str
+            or type(teacher_email) != str
         ):
             self.import_error(row_num, "Missing Teacher Email or Teacher name values.")
             return
@@ -533,7 +532,7 @@ class BulkImport(db.Model):
             user.set_parent_last_name(row[self.PARENT_LAST_NAME])
             user.set_parent_email(row[self.PARENT_EMAIL])
             user.set_school_name(row[self.SCHOOL])
-        except IndexError:
+        except (IndexError, AssertionError):
             self.import_error(
                 row_num,
                 "One of the required columns was missing. Please make sure you sent the correct template.",
