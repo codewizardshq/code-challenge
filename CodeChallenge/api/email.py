@@ -1,9 +1,7 @@
 from flask import Blueprint, request
 
-from ..mailgun import mg_send
-from ..models import BulkImport
-
-import pandas as pd
+from CodeChallenge.mailgun import mg_send
+from CodeChallenge.models import BulkImport
 
 bp = Blueprint("emailApi", __name__, url_prefix="/api/v1/emails")
 
@@ -32,26 +30,32 @@ def webhook_inbox():
     in_reply_to = request.form["Message-Id"]
 
     if len(request.files) == 0:
-        reply_message(sender,
-                      subject,
-                      "There were no attachments to your message. Please try again.",
-                      in_reply_to)
+        reply_message(
+            sender,
+            subject,
+            "There were no attachments to your message. Please try again.",
+            in_reply_to,
+        )
         return "Rejected: no suitable attachments found.", 200
 
     added = BulkImport.from_request_files(sender, subject, in_reply_to)
 
     if len(added) == 0:
-        reply_message(sender,
-                      subject,
-                      "None of the attachments on your message appear to be Excel spreadsheets. Please ensure the "
-                      "correct .xlsx spreadsheet is attached for CodeWizardsHQ Code Challenge bulk student creation.",
-                      in_reply_to)
+        reply_message(
+            sender,
+            subject,
+            "None of the attachments on your message appear to be Excel spreadsheets. Please ensure the "
+            "correct .xlsx spreadsheet is attached for CodeWizardsHQ Code Challenge bulk student creation.",
+            in_reply_to,
+        )
         return "Rejected: none of the attachments are Excel spreadsheets."
 
-    reply_message(sender,
-                  subject,
-                  "You will receive another message after user creation has completed with the created student "
-                  f" account information attached. Import Confirmation #: {', '.join([str(i) for i in added])}",
-                  in_reply_to)
+    reply_message(
+        sender,
+        subject,
+        "You will receive another message after user creation has completed with the created student "
+        f" account information attached. Import Confirmation #: {', '.join([str(i) for i in added])}",
+        in_reply_to,
+    )
 
     return "Accepted.", 200

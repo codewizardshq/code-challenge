@@ -1,0 +1,4 @@
+- name: "bulk-import-process"
+  url: "/api/v1/emails/process"
+  schedule: "*/15 * * * **"
+
