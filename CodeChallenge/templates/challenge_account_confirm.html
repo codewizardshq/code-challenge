@@ -265,6 +265,10 @@ a {
                     <br/>
                     <p>Login: {{username}}</p>
                     <br/>
+                    {% if password %}
+                    <p>Password: {{ password }}</p>
+                      <br/>
+                    {% endif %}
                     <p>Forgot your password? <a href="https://challenge.codewizardshq.com/forgot-password">Reset your password.</a></p>
                   </td>
                 </tr>

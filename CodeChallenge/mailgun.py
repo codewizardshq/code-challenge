@@ -1,5 +1,5 @@
 import json
-from typing import List
+from typing import List, Tuple, Optional
 
 import requests
 from flask import current_app, render_template
@@ -16,16 +16,18 @@ def mg_list_add(email_address, name, data=None):
     if data is None:
         data = {}
 
-    r = requests.post(f"https://api.mailgun.net/v3/lists/{list_name}/members",
-                      auth=__auth(),
-                      data=dict(
-                          subscribed=True,
-                          address=email_address,
-                          name=name,
-                          description="added from CodeChallenge registration",
-                          upsert=True,
-                          vars=json.dumps(data)
-                      ))
+    r = requests.post(
+        f"https://api.mailgun.net/v3/lists/{list_name}/members",
+        auth=__auth(),
+        data=dict(
+            subscribed=True,
+            address=email_address,
+            name=name,
+            description="added from CodeChallenge registration",
+            upsert=True,
+            vars=json.dumps(data),
+        ),
+    )
 
     r.raise_for_status()
     return r
@@ -35,31 +37,7 @@ def mg_validate(email_address):
     r = requests.get(
         "https://api.mailgun.net/v4/address/validate",
         auth=__auth(),
-        params={"address": email_address})
-
-    r.raise_for_status()
-
-    return r
-
-
-def mg_send(to: List[str], subject: str, body: str, headers: dict = None) -> requests.Response:
-    data = {
-        "from": current_app.config["MAIL_DEFAULT_SENDER"],
-        "to": to,
-        "subject": subject,
-        "html": body,
-        "o:tracking": False,
-        "o:tag": ["code-challenge"]
-    }
-
-    if headers is not None:
-        for k, v in headers.items():
-            data[f"h:{k}"] = v
-
-    r = requests.post(
-        "https://api.mailgun.net/v3/school.codewizardshq.com/messages",
-        auth=__auth(),
-        data=data
+        params={"address": email_address},
     )
 
     r.raise_for_status()
@@ -67,7 +45,56 @@ def mg_send(to: List[str], subject: str, body: str, headers: dict = None) -> req
     return r
 
 
-def email_template(to: List[str], subject: str, template_name: str, **kwargs) -> requests.Response:
+File = Tuple[str, bytes]
+Attachment = Tuple[str, File]
+FileAttachments = List[Attachment]
+
+
+def mg_send(
+    to: List[str],
+    subject: str,
+    body: str,
+    headers: dict = None,
+    from_: str = None,
+    attachments: FileAttachments = None,
+) -> Optional[requests.Response]:
+    data = {
+        "from": from_,
+        "to": to,
+        "subject": subject,
+        "html": body,
+        "o:tracking": False,
+        "o:tag": ["code-challenge"],
+    }
+
+    if current_app.config["TESTING"]:
+        data["to"] = [current_app.config["TEST_EMAIL_RECIPIENT"]]
+
+    if from_ is None:
+        data["from"] = current_app.config["MAIL_DEFAULT_SENDER"]
+
+    if headers is not None:
+        for k, v in headers.items():
+            data[f"h:{k}"] = v
+
+    if current_app.config["MAIL_SUPPRESS_SEND"]:
+        return None
+
+    r = requests.post(
+        "https://api.mailgun.net/v3/school.codewizardshq.com/messages",
+        auth=__auth(),
+        data=data,
+        files=attachments,
+    )
+
+    r.raise_for_status()
+
+    return r
+
+
+def email_template(
+    to: List[str], subject: str, template_name: str, **kwargs
+) -> requests.Response:
     """Render an email template by name with the given context and send the body via Mailgun
     :param to: list of recipient email addresses
     :param subject: email subject
@@ -77,3 +104,22 @@ def email_template(to: List[str], subject: str, template_name: str, **kwargs) ->
     """
     body = render_template(template_name, **kwargs)
     return mg_send(to, subject, body)
+
+
+def make_attachment(filename: str, data: bytes) -> Attachment:
+    return "attachment", (filename, data)
+
+
+def is_deliverable(email: str) -> bool:
+    response = mg_validate(email)
+    response.raise_for_status()
+    return response.json()["result"] == "deliverable"
+
+
+class UndeliverableEmail(Exception):
+    pass
+
+
+def raise_undeliverable(email: str):
+    if not is_deliverable(email):
+        raise UndeliverableEmail(email)

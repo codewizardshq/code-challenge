@@ -49,6 +49,8 @@ class DefaultConfig:
     # past the final rank
     CHALLENGE_ENDS = 1
 
+    BULK_IMPORT_SENDER = "Kelli at CodeWizardsHQ <kelli@codewizardshq.com>"
+
     @property
     def ROOT_DIR(self):
         return os.path.dirname(self.APP_DIR)
@@ -81,16 +83,19 @@ class ProductionConfig(DefaultConfig):
 
 class DevelopmentConfig(ProductionConfig):
     EXTERNAL_URL = "http://localhost:8080"
-    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI",
-                                        "mysql://cc-user:password@localhost/code_challenge_local")
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        "SQLALCHEMY_DATABASE_URI",
+        "mysql://cc-user:password@localhost/code_challenge_local",
+    )
     JWT_COOKIE_SECURE = False
     CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1618349460")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
     ALLOW_RESET = True
-    #MAIL_SUPPRESS_SEND = True
-    #TESTING = True
+    MAIL_SUPPRESS_SEND = False
+    TESTING = False
+    TEST_EMAIL_RECIPIENT = "sam@codewizardshq.com"
 
     @property
     def DIST_DIR(self):
