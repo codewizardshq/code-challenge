@@ -408,6 +408,15 @@ def list_to_csv(v: Iterable) -> bytes:
     return bytes(buf.getvalue(), "utf8")
 
 
+def empty_row(row: list) -> bool:
+    """Check if the first 3 columns of a row are 'nan'."""
+    import math
+
+    return any(
+        map(lambda column: type(column) == float and math.isnan(column), row[:3])
+    )
+
+
 class BulkImport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Integer, nullable=False, default=1)
@@ -580,6 +589,9 @@ class BulkImport(db.Model):
         self.generated_students = []
 
         for i, row in enumerate(self.read_excel()):
+            if empty_row(row):
+                continue
+
             self.generate_user_from_row(i + 1, row)
 
         db.session.commit()

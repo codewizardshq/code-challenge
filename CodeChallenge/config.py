@@ -93,8 +93,8 @@ class DevelopmentConfig(ProductionConfig):
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
     ALLOW_RESET = True
-    MAIL_SUPPRESS_SEND = False
-    TESTING = False
+    MAIL_SUPPRESS_SEND = True
+    TESTING = True
     TEST_EMAIL_RECIPIENT = "sam@codewizardshq.com"
 
     @property
