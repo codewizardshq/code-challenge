@@ -46,5 +46,7 @@ jobs:
         mkdir ~/.aws/
         echo -e "[default]\naws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > ~/.aws/credentials
         echo -e "[default]\nregion=${{ secrets.AWS_DEFAULT_REGION }}\noutput=json" > ~/.aws/config
-    - name: Deploy
+    - name: Deploy Web
       run: eb deploy ${{ env.EB_ENV_NAME }}
+    - name: Deploy Worker
+      run: eb deploy CodeChallenge-worker
