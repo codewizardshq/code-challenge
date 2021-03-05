@@ -1,5 +1,5 @@
 version: 1
 cron:
   - name: "bulk-import-process"
-      url: "/api/v1/emails/process"
-      schedule: "*/15 * * * **"
+    url: "/api/v1/emails/process"
+    schedule: "*/15 * * * **"
