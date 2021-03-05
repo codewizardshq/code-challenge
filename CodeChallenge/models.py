@@ -462,8 +462,8 @@ class BulkImport(db.Model):
 
     @classmethod
     def process_imports(cls):
-        # TODO: finish this stub
-        pass
+        for bulk_import in cls.query.filter_by(status=1):
+            bulk_import.run_import()
 
     def read_excel(self) -> List[List[str]]:
         """Convert the Excel spreadsheet on this BulkImport to a list."""
@@ -506,11 +506,11 @@ class BulkImport(db.Model):
 
         try:
             check = Users.query.filter_by(
-                student_first_name=row[self.STUDENT_FIRST_NAME],
-                student_last_name=row[self.STUDENT_LAST_NAME],
+                student_first_name=row[self.STUDENT_FIRST_NAME].strip(),
+                student_last_name=row[self.STUDENT_LAST_NAME].strip(),
                 parent_email=row[self.PARENT_EMAIL],
             ).first()
-        except IndexError:
+        except (IndexError, AttributeError):
             self.import_error(
                 row_num, "Missing Student First Name, Student Last Name values."
             )
