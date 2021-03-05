@@ -415,6 +415,8 @@ class BulkImport(db.Model):
     document = db.Column(db.LargeBinary(length=(2 ** 32) - 1))
     subject = db.Column(db.String(200), nullable=False)
     in_reply_to = db.Column(db.String(200), nullable=False)
+    users = db.Column(db.Text)
+    import_errors = db.Column(db.Text)
 
     STUDENT_FIRST_NAME = 0
     STUDENT_LAST_NAME = 1
@@ -590,11 +592,17 @@ class BulkImport(db.Model):
         )
         html = render_template("bulk_import_results.html", errors=len(self.errors))
 
-        attachments = [make_attachment("Users.csv", list_to_csv(created))]
+        self.users = list_to_csv(created)
+
+        attachments = [make_attachment("Users.csv", self.users)]
         if self.errors:
             errors = [("Row #", "Error Message")]
             errors.extend(self.errors)
-            attachments.append(make_attachment("ImportErrors.csv", list_to_csv(errors)))
+            self.import_errors = list_to_csv(errors)
+
+            attachments.append(make_attachment("ImportErrors.csv", self.import_errors))
+
+        db.session.commit()
 
         self.reply(html, attachments=attachments)
 
