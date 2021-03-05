@@ -512,7 +512,7 @@ class BulkImport(db.Model):
             ).first()
         except (IndexError, AttributeError):
             self.import_error(
-                row_num, "Missing Student First Name, Student Last Name values."
+                row_num, "Missing Student First Name or Student Last Name values."
             )
             return
 
