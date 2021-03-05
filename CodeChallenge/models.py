@@ -561,6 +561,16 @@ class BulkImport(db.Model):
             self.import_error(row_num, "did not pass database constraints: " + str(e))
             return
 
+        try:
+            user.send_confirmation_email(password=user.plaintext)
+            user.send_welcome_email()
+        except:
+            self.import_error(
+                row_num,
+                "user was created, but an error occurred sending welcome and confirmation emails. "
+                "please provide student with credentials",
+            )
+
     def run_import(self):
         self.status = 2
         db.session.commit()
