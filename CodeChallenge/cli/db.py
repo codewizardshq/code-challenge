@@ -1,4 +1,6 @@
 from flask import Blueprint
+
+from .. import core
 from ..models import init_db, drop_all, BulkImport, db
 
 import click
@@ -65,3 +67,8 @@ def run_import(doc_id: int):
         return
 
     b.run_import()
+
+
+@bp.cli.command("user-count")
+def user_count():
+    click.echo(core.user_count())
