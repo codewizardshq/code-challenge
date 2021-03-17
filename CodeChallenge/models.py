@@ -1,4 +1,5 @@
 import re
+from hmac import compare_digest as str_cmp
 from tempfile import NamedTemporaryFile
 from typing import Tuple, List, Iterable
 
@@ -60,9 +61,20 @@ class Question(db.Model):
     asset_ext = db.Column(db.String(10))
     hint1 = db.Column(db.String(5000))
     hint2 = db.Column(db.String(5000))
+    match_type = db.Column(db.Integer, nullable=False, default=1)
+
+    MATCH_STRCMP = 1
+    MATCH_REGEXP = 2
 
     def __repr__(self):
         return "<Question %r>" % self.id
+
+    def check_correct(self, answer: str) -> bool:
+        if self.match_type == Question.MATCH_STRCMP:
+            return str_cmp(answer.casefold().strip(), self.answer.casefold())
+        elif self.match_type == Question.MATCH_REGEXP:
+            return re.search(self.answer, answer) is not None
+        return False
 
 
 class Answer(db.Model):

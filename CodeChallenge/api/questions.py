@@ -107,27 +107,26 @@ def answer_next_question():
     text = data["text"]
 
     try:
-        correct = str_cmp(text.casefold().strip(), q.answer.lower())
+        correct = q.check_correct(data["text"])
     except TypeError:
         return jsonify(status="success", correct=False)
 
-    ans = Answer.query.filter_by(user_id=user.id, question_id=q.id).first()
+    if not correct:
+        return jsonify(status="success", correct=False)
 
-    if ans is None:
-        ans = Answer()
-        ans.question_id = q.id
-        ans.user_id = user.id
-        db.session.add(ans)
+    user.rank += 1
+
+    ans = Answer()
+    ans.question_id = q.id
+    ans.user_id = user.id
 
     ans.text = text
-    ans.correct = correct
+    ans.correct = True
 
-    if correct:
-        user.rank += 1
-
+    db.session.add(ans)
     db.session.commit()
 
-    return jsonify({"status": "success", "correct": correct})
+    return jsonify({"status": "success", "correct": True})
 
 
 @bp.route("/history", methods=["GET"])
