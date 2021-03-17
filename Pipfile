@@ -9,6 +9,7 @@ flake8 = "*"
 pytest = "*"
 python-dotenv = "*"
 werkzeug = {extras = ["watchdog"],version = "*"}
+black = "*"
 
 [packages]
 flask = "*"
@@ -26,6 +27,7 @@ pandas = "*"
 openpyxl = "*"
 sqlalchemy = "*"
 werkzeug = "*"
+itsdangerous = "*"
 
 [requires]
 python_version = "3.8"

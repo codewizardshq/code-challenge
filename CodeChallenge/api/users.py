@@ -19,13 +19,17 @@ from flask_limiter.util import get_remote_address
 from flask_mail import Message
 from requests import HTTPError
 
-from .. import core
-from ..auth import Users, hash_password, password_reset_token, reset_password_from_token
-from ..decorators import cors_allow
-from ..limiter import limiter
-from ..mail import mail
-from ..mailgun import mg_validate
-from ..models import db
+from CodeChallenge import core
+from CodeChallenge.models.user import (
+    hash_password,
+    password_reset_token,
+    reset_password_from_token,
+)
+from CodeChallenge.decorators import cors_allow
+from CodeChallenge.limiter import limiter
+from CodeChallenge.mail import mail
+from CodeChallenge.mailgun import mg_validate
+from CodeChallenge.models import User, db
 
 bp = Blueprint("userapi", __name__, url_prefix="/api/v1/users")
 
@@ -39,7 +43,7 @@ def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
 
-    user = Users.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
     if user is None or not user.check_password(password):
         return json_error("invalid username or password")
 
@@ -76,7 +80,7 @@ def logout():
 @bp.route("/register", methods=["POST"])
 def register():
     user_data = request.get_json()
-    new_u = Users()
+    new_u = User()
 
     # required fields first
 
@@ -97,7 +101,7 @@ def register():
     if password is None or len(password) < 8 or len(password) > 120:
         return json_error("invalid password length (between 8 and 120)")
 
-    if Users.query.filter_by(username=username).first():
+    if User.query.filter_by(username=username).first():
         return json_error("that username has been taken")
 
     new_u.parent_email = parent_email
@@ -165,14 +169,14 @@ def forgot_password():
     if email is None:
         return jsonify(status="error", reason="email missing"), 400
 
-    users = Users.query.filter_by(parent_email=email).all()
+    users = User.query.filter_by(parent_email=email).all()
 
     if users is None or len(users) == 0:
         return jsonify(status="error", reason="no account with that email"), 400
 
     multiple_accounts = len(users) > 1
 
-    for user in users:  # type: Users
+    for user in users:  # type: User
         token = password_reset_token(user)
 
         rcpts = [user.parent_email]
@@ -228,7 +232,7 @@ def reset_password():
 
 @bp.route("/<string:username>/exists", methods=["GET"])
 def username_exists(username):
-    exists = Users.query.filter_by(username=username).first() is not None
+    exists = User.query.filter_by(username=username).first() is not None
     return jsonify(status="success", exists=exists, username=username)
 
 
@@ -245,7 +249,7 @@ def email_validation():
 @bp.route("/<string:username>/query", methods=["GET", "OPTIONS", "HEAD"])
 @cors_allow
 def user_query(username):
-    user = Users.query.filter_by(cwhq_username=username).first()
+    user = User.query.filter_by(cwhq_username=username).first()
     if user:
         response = jsonify(username=user.username, exists=True, rank=user.rank)
     else:

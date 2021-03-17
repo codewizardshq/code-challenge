@@ -2,31 +2,21 @@ import os
 import re
 
 import sentry_sdk
-from flask import Flask, jsonify, make_response, send_from_directory, redirect
-# from flask_cors import CORS
+from flask import Flask, jsonify, make_response, send_from_directory
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.utils import import_string
 
-from . import core
-from .api.eb import bp as eb_bp
-from .api.questions import bp as questions_bp
-from .api.slack import bp as slack_bp
-from .api.users import bp as users_bp
-from .api.vote import bp as vote_bp
-from .api.email import bp as email_api_bp
-from .auth import jwt
-from .cli.clock import bp as clock_cli_bp
-from .cli.db import bp as db_cli_bp
-from .cli.email import bp as email_cli_bp
-from .cli.questions import bp as q_cli_bp
-from .cli.users import bp as users_cli_bp
-from .limiter import limiter
-from .mail import mail
-from .manage import add_question, del_question  # NoQA
-from .models import db, init_db  # NoQA
+from CodeChallenge import core
+from CodeChallenge.api import eb_api, email_api, questions_api, users_api, vote_api
+from CodeChallenge.cli import clock_cli, db_cli, email_cli, questions_cli, users_cli
+from CodeChallenge.limiter import limiter
+from CodeChallenge.mail import mail
+from CodeChallenge.models import db
+from CodeChallenge.models.user import jwt
 
 STATIC_FILES = re.compile(r"\.(ico|png|xml|json)$")
+
 
 # Globally accessible libraries
 
@@ -35,10 +25,7 @@ def create_app(config):
     """Initialize the core application."""
     sentry_dsn = os.getenv("SENTRY_DSN")
     if sentry_dsn:
-        sentry_sdk.init(
-            dsn=sentry_dsn,
-            integrations=[FlaskIntegration()]
-        )
+        sentry_sdk.init(dsn=sentry_dsn, integrations=[FlaskIntegration()])
 
     app = Flask(__name__)
 
@@ -50,31 +37,29 @@ def create_app(config):
     app.config.from_object(cfg)
 
     # Initialize Plugins
-    # CORS(app)
     jwt.init_app(app)
     db.init_app(app)  # SQLAlchemy must be loaded before Marshmallow
     limiter.init_app(app)
     mail.init_app(app)
 
     # Register Blueprints
-    app.register_blueprint(users_bp)
-    app.register_blueprint(questions_bp)
-    app.register_blueprint(eb_bp)
-    app.register_blueprint(users_cli_bp)
-    app.register_blueprint(db_cli_bp)
-    app.register_blueprint(q_cli_bp)
-    app.register_blueprint(clock_cli_bp)
-    app.register_blueprint(vote_bp)
-    app.register_blueprint(slack_bp)
-    app.register_blueprint(email_cli_bp)
-    app.register_blueprint(email_api_bp)
+    app.register_blueprint(users_api)
+    app.register_blueprint(questions_api)
+    app.register_blueprint(eb_api)
+    app.register_blueprint(users_cli)
+    app.register_blueprint(db_cli)
+    app.register_blueprint(questions_cli)
+    app.register_blueprint(clock_cli)
+    app.register_blueprint(vote_api)
+    app.register_blueprint(email_cli)
+    app.register_blueprint(email_api)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):
         return make_response(
-            jsonify(
-                status="error",
-                reason=f"rate limit exceeded ({e.description})"), 429)
+            jsonify(status="error", reason=f"rate limit exceeded ({e.description})"),
+            429,
+        )
 
     """
     @app.route("/", defaults={"path": ""})
