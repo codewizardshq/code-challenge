@@ -91,6 +91,7 @@ def next_question():
         jsonify(
             status="success",
             question=q.title,
+            input_type=q.input_type,
             hints=[q.hint1, q.hint2],
             rank=rank,
             asset=asset,

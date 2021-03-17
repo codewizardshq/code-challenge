@@ -68,9 +68,13 @@ class Question(db.Model):
     hint1 = db.Column(db.String(5000))
     hint2 = db.Column(db.String(5000))
     match_type = db.Column(db.Integer, nullable=False, default=1)
+    input_type = db.Column(db.Integer, nullable=False, default=1)
 
     MATCH_STRCMP = 1
     MATCH_REGEXP = 2
+
+    INPUT_TEXT_FIELD = 1
+    INPUT_TEXT_AREA = 2
 
     def __repr__(self):
         return "<Question %r>" % self.id
