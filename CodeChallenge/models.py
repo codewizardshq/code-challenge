@@ -70,6 +70,9 @@ class Question(db.Model):
         return "<Question %r>" % self.id
 
     def check_correct(self, answer: str) -> bool:
+        if answer is None:
+            return False
+
         if self.match_type == Question.MATCH_STRCMP:
             return str_cmp(answer.casefold().strip(), self.answer.casefold())
         elif self.match_type == Question.MATCH_REGEXP:
