@@ -1,9 +1,9 @@
+import click
 from flask import Blueprint
 
-from .. import core
-from ..models import init_db, drop_all, BulkImport, db
-
-import click
+from CodeChallenge import core
+from CodeChallenge.models import BulkImport, db
+from CodeChallenge.models.connection import init_db, drop_all
 
 bp = Blueprint("dbcli", __name__, cli_group="db")
 

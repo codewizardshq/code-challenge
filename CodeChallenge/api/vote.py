@@ -8,7 +8,7 @@ from CodeChallenge import core
 from CodeChallenge.limiter import limiter
 from CodeChallenge.mail import mail
 from CodeChallenge.mailgun import mg_validate
-from CodeChallenge.models import Answer, Vote, Question, Users, db
+from CodeChallenge.models import Answer, Vote, Question, User, db
 
 bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 
@@ -45,12 +45,10 @@ def get_contestants():
             Answer.id,
             Answer.text,
             func.count(Answer.votes),
-            Users.student_first_name,
-            Users.student_last_name,
-            Users.username,
-            func.concat(
-                Users.student_first_name, func.right(Users.student_last_name, 1)
-            ),
+            User.student_first_name,
+            User.student_last_name,
+            User.username,
+            func.concat(User.student_first_name, func.right(User.student_last_name, 1)),
             Answer.disqualified,
         )
         .join(Answer.question)
@@ -256,12 +254,10 @@ def search():
             Answer.id,
             Answer.text,
             func.count(Answer.votes),
-            Users.student_first_name,
-            Users.student_last_name,
-            Users.username,
-            func.concat(
-                Users.student_first_name, func.right(Users.student_last_name, 1)
-            ),
+            User.student_first_name,
+            User.student_last_name,
+            User.username,
+            func.concat(User.student_first_name, func.right(User.student_last_name, 1)),
         )
         .join(Answer.question)
         .join(Answer.user)
@@ -271,9 +267,9 @@ def search():
             Answer.correct,
             Answer.disqualified.is_(None),
             or_(
-                Users.username.ilike(keyword),
-                Users.student_first_name.ilike(keyword),
-                Users.student_last_name.ilike(keyword),
+                User.username.ilike(keyword),
+                User.student_first_name.ilike(keyword),
+                User.student_last_name.ilike(keyword),
             ),
         )
         .group_by(Answer.id)

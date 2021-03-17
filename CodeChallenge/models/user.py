@@ -10,7 +10,8 @@ from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import func, event
 
 from CodeChallenge.mailgun import email_template, mg_list_add, raise_undeliverable
-from CodeChallenge.models import db, Vote
+from CodeChallenge.models.connection import db
+from CodeChallenge.models.vote import Vote
 
 jwt = JWTManager()
 

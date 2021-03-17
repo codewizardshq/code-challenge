@@ -28,6 +28,7 @@ openpyxl = "*"
 sqlalchemy = "*"
 werkzeug = "*"
 itsdangerous = "*"
+click = "*"
 
 [requires]
 python_version = "3.8"

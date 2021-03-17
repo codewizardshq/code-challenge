@@ -8,7 +8,7 @@ from flask_jwt_extended import get_current_user, jwt_required
 
 from CodeChallenge import core
 from CodeChallenge.limiter import limiter, user_rank
-from CodeChallenge.models import Answer, Question, db, Users
+from CodeChallenge.models import Answer, Question, db, User
 
 bp = Blueprint("questionsapi", __name__, url_prefix="/api/v1/questions")
 
@@ -303,7 +303,7 @@ def leaderboard():
     page = request.args.get("page", type=int) or 1
     per = request.args.get("per", type=int) or 20
 
-    q = db.session.query(Users.username, Users.rank)
+    q = db.session.query(User.username, User.rank)
     p = q.paginate(page, per_page=per)
 
     return jsonify(

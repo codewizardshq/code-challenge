@@ -3,8 +3,7 @@ from datetime import datetime, timezone, timedelta
 from flask import current_app
 from sqlalchemy import func
 
-from .auth import Users
-from .models import Question, db
+from CodeChallenge.models import User, Question, db
 
 
 def max_rank() -> int:
@@ -66,9 +65,9 @@ def challenge_ended() -> bool:
 
 def user_count() -> int:
     return (
-        db.session.query(func.count(Users.id))
+        db.session.query(func.count(User.id))
         .filter(
-            Users.parent_email.notlike("%@codewizardshq.com"),
+            User.parent_email.notlike("%@codewizardshq.com"),
         )
         .scalar()
     )

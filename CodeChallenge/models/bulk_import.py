@@ -1,9 +1,26 @@
-def get_teacher(email: str, name: str) -> Users:
+from tempfile import NamedTemporaryFile
+from typing import List, Iterable
+
+from flask import request, render_template, current_app
+from sqlalchemy import orm
+from werkzeug.datastructures import FileStorage
+
+from CodeChallenge.mailgun import (
+    UndeliverableEmail,
+    make_attachment,
+    FileAttachments,
+    mg_send,
+)
+from CodeChallenge.models.connection import db
+from CodeChallenge.models.user import User, ValidationError
+
+
+def get_teacher(email: str, name: str) -> User:
     """Lookup a teacher user by email, creating a new one if one does not exist."""
-    teacher = Users.lookup_teacher(email)
+    teacher = User.lookup_teacher(email)
 
     if teacher is None:
-        teacher = Users()
+        teacher = User()
         teacher.set_parent_email(email)
         teacher.is_teacher = True
 
@@ -81,14 +98,14 @@ class BulkImport(db.Model):
     SCHOOL = 8
 
     def __init__(self):
-        self.generated_students = []  # type: List[Users]
-        self.generated_teachers = []  # type: List[Users]
+        self.generated_students = []  # type: List[User]
+        self.generated_teachers = []  # type: List[User]
         self.errors = []  # type: List[Tuple[int, str]]
 
     @orm.reconstructor
     def init_on_load(self):
-        self.generated_students = []  # type: List[Users]
-        self.generated_teachers = []  # type: List[Users]
+        self.generated_students = []  # type: List[User]
+        self.generated_teachers = []  # type: List[User]
         self.errors = []  # type: List[Tuple[int, str]]
 
     @classmethod
@@ -159,7 +176,7 @@ class BulkImport(db.Model):
         teacher = get_teacher(teacher_email, teacher_name)
 
         try:
-            check = Users.query.filter_by(
+            check = User.query.filter_by(
                 student_first_name=row[self.STUDENT_FIRST_NAME].strip(),
                 student_last_name=row[self.STUDENT_LAST_NAME].strip(),
                 parent_email=row[self.PARENT_EMAIL],
@@ -176,7 +193,7 @@ class BulkImport(db.Model):
             )
             return
 
-        user = Users()
+        user = User()
         self.generated_students.append(user)
 
         try:

@@ -1,9 +1,10 @@
 import click
 from flask import Blueprint
 
-from ..auth import create_user, reset_user
+from CodeChallenge.models.user import create_user, reset_user
 
-bp = Blueprint("usercli", __name__, cli_group="users")
+bp = Blueprint("user_cli", __name__, cli_group="users")
+
 
 # create new user with a password
 @bp.cli.command("create")
