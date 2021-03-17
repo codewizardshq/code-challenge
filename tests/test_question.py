@@ -11,8 +11,8 @@ import pytest
         ("name = 'sam'", r"^[a-z_]+ =", 2, True),
         ("name 'sam'", r"^[a-z_]+ =", 2, False),
         (None, "Foo", 1, False),
-        (None, r"^[a-z_]+ =", 2, False)
-    ]
+        (None, r"^[a-z_]+ =", 2, False),
+    ],
 )
 def test_check_correct(guess: str, answer: str, match_type: int, expected: bool):
     question = Question()

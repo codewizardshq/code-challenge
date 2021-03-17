@@ -3,6 +3,7 @@ import re
 
 import sentry_sdk
 from flask import Flask, jsonify, make_response, send_from_directory, redirect
+
 # from flask_cors import CORS
 from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -35,10 +36,7 @@ def create_app(config):
     """Initialize the core application."""
     sentry_dsn = os.getenv("SENTRY_DSN")
     if sentry_dsn:
-        sentry_sdk.init(
-            dsn=sentry_dsn,
-            integrations=[FlaskIntegration()]
-        )
+        sentry_sdk.init(dsn=sentry_dsn, integrations=[FlaskIntegration()])
 
     app = Flask(__name__)
 
@@ -72,9 +70,9 @@ def create_app(config):
     @app.errorhandler(429)
     def ratelimit_handler(e):
         return make_response(
-            jsonify(
-                status="error",
-                reason=f"rate limit exceeded ({e.description})"), 429)
+            jsonify(status="error", reason=f"rate limit exceeded ({e.description})"),
+            429,
+        )
 
     """
     @app.route("/", defaults={"path": ""})

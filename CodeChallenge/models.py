@@ -1,7 +1,7 @@
 import re
 from hmac import compare_digest as str_cmp
 from tempfile import NamedTemporaryFile
-from typing import Tuple, List, Iterable
+from typing import Tuple, List, Iterable, Optional
 
 import argon2
 import requests
@@ -52,6 +52,12 @@ def ranking(answer_id: int) -> Tuple[int, int]:
     ).first()
 
 
+class Transition(db.Model):
+    id: int = db.Column(db.Integer, primary_key=True)
+    after_rank: int = db.Column(db.Integer, nullable=False)
+    media: str = db.Column(db.String(200), nullable=False)
+
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)
@@ -78,6 +84,10 @@ class Question(db.Model):
         elif self.match_type == Question.MATCH_REGEXP:
             return re.search(self.answer, answer) is not None
         return False
+
+    def next_transition(self) -> Optional[Transition]:
+        """Helper function to lookup any Transition that is scheduled to follow this Question."""
+        return Transition.query.filter_by(after_rank=self.rank)
 
 
 class Answer(db.Model):
