@@ -84,8 +84,8 @@ def next_question():
     asset_path = os.path.join(current_app.config["APP_DIR"], asset)
 
     if not os.path.isfile(asset_path):
-        with open(asset_path, "wb") as fhandle:
-            fhandle.write(q.asset)
+        with open(asset_path, "wb") as fd:
+            fd.write(q.asset)
 
     return (
         jsonify(
@@ -150,7 +150,7 @@ def answer_next_question():
     return jsonify(
         status="success",
         correct=True,
-        transition=transition.media if transition is not None else None,
+        transition=transition if transition is not None else None,
     )
 
 
