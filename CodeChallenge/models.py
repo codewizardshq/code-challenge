@@ -54,15 +54,16 @@ def ranking(answer_id: int) -> Tuple[int, int]:
 
 class Transition(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
-    after_rank: int = db.Column(db.Integer, nullable=False)
+    after_rank: int = db.Column(db.Integer, nullable=False, unique=True, index=True)
     media: str = db.Column(db.String(200), nullable=False)
+    caption: str = db.Column(db.String(2000), nullable=False)
 
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)
     answer = db.Column(db.String(255), nullable=False)
-    rank = db.Column(db.Integer, nullable=False)
+    rank = db.Column(db.Integer, nullable=False, index=True)
     asset = db.Column(db.LargeBinary(length=(2 ** 32) - 1))
     asset_ext = db.Column(db.String(10))
     hint1 = db.Column(db.String(5000))
