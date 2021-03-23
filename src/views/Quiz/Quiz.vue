@@ -5,13 +5,13 @@
         <template v-slot:title>The Tale of Two Suns</template>
         <template v-slot:default>
           <!--
-          <img class="asset" :src="'/' + asset" v-if="!!asset" /> -->
+          <img class="asset" :src="'/' + asset" v-if="!!asset" />
+          -->
           <div v-html="question" />
         </template>
       </speech-area>
-      <!--
+
       <quiz-answer :rank="rank" @next="onNext" />
-      -->
     </v-row>
     <quiz-need-help />
   </v-container>
@@ -19,6 +19,7 @@
 
 <script>
 import QuizNeedHelp from "@/components/QuizNeedHelp";
+import QuizAnswer from "@/views/Quiz/QuizAnswer";
 import { User, Quiz } from "@/store";
 import SpeechArea from "@/components/SpeechArea";
 
@@ -26,6 +27,7 @@ export default {
   name: "quiz",
   components: {
     SpeechArea,
+    QuizAnswer,
     QuizNeedHelp
   },
   data() {
@@ -38,7 +40,7 @@ export default {
   async created() {
     this.question = this.Quiz.question;
     this.rank = this.Quiz.rank;
-    this.asset = this.Quiz.asset;
+    // this.asset = this.Quiz.asset;
   },
   methods: {
     async onNext(n) {

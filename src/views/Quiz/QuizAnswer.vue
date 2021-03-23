@@ -1,7 +1,9 @@
 <template>
   <div class="quiz-answer">
     <v-card flat>
+      <!--
       <img src="/images/dragon1.png" />
+      -->
       <v-card-text>
         <v-form ref="form" @submit.prevent="submit">
           <div class="text-field">
