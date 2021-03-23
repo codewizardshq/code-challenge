@@ -1,7 +1,9 @@
 <template>
   <div class="quiz-answer">
     <v-card flat>
+      <!--
       <img src="/images/dragon1.png" />
+      -->
       <v-card-text>
         <v-form ref="form" @submit.prevent="submit">
           <div class="text-field">
@@ -34,7 +36,7 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-dialog v-model="showSuccessModal" persistent max-width="400">
+    <v-dialog v-model="showSuccessModal" persistent max-width="900">
       <v-card>
         <v-card-title class="headline">Your answer was correct!</v-card-title>
         <div v-if="isLastQuiz">
@@ -70,6 +72,12 @@
             You've conquered Level {{ rank }}. {{ successMessage }}
             <br />
             <br />
+            <template v-if="transition !== null">
+              <quiz-transition
+                :media="transition.media"
+                :caption="transition.caption"
+              />
+            </template>
             That's all the questions available for now. The next question
             unlocks {{ Quiz.nextUnlockMoment.fromNow() }}
           </v-card-text>
@@ -84,6 +92,13 @@
             You've conquered Level {{ rank }}. {{ successMessage }}
             <br />
             <br />
+
+            <template v-if="transition !== null">
+              <quiz-transition
+                :media="transition.media"
+                :caption="transition.caption"
+              />
+            </template>
           </v-card-text>
           <v-card-actions>
             <v-btn block color="primary darken-1" @click="next"
@@ -144,10 +159,12 @@
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
 import FinalQuestionSuccess from "@/components/FinalQuestionSuccess";
+import QuizTransition from "@/components/QuizTransition";
 
 export default {
   name: "quizAnswer",
   components: {
+    QuizTransition,
     FinalQuestionSuccess
   },
   props: ["rank"],
@@ -202,7 +219,8 @@ export default {
           successMessages: [],
           success: false
         }
-      }
+      },
+      transition: null
     };
   },
   mounted() {
@@ -241,7 +259,10 @@ export default {
       }
       this.isSubmitting = true;
       try {
-        const isCorrect = await api.quiz.submit(this.fields.answer.value);
+        const { correct: isCorrect, transition } = await api.quiz.submit(
+          this.fields.answer.value
+        );
+        this.transition = transition;
 
         if (isCorrect) {
           await this.$store.dispatch("Quiz/clearWrongCount");
@@ -251,8 +272,8 @@ export default {
           this.fields.answer.successMessages = ["Your answer was correct!"];
           this.fields.answer.success = true;
         } else {
-          this.$store.dispatch("Quiz/addWrongCount");
-          this.$store.dispatch(
+          await this.$store.dispatch("Quiz/addWrongCount");
+          await this.$store.dispatch(
             "Snackbar/showError",
             "That answer was not correct"
           );
@@ -262,7 +283,7 @@ export default {
         if (err.status === 429) {
           this.showRateLimitModal = true;
         } else {
-          this.$store.dispatch("Snackbar/showError", err);
+          await this.$store.dispatch("Snackbar/showError", err);
         }
       }
       this.isSubmitting = false;

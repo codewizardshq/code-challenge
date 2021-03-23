@@ -1,7 +1,7 @@
 import re
 from hmac import compare_digest as str_cmp
 from tempfile import NamedTemporaryFile
-from typing import Tuple, List, Iterable
+from typing import Tuple, List, Iterable, Optional
 
 import argon2
 import requests
@@ -52,19 +52,33 @@ def ranking(answer_id: int) -> Tuple[int, int]:
     ).first()
 
 
+class Transition(db.Model):
+    id: int = db.Column(db.Integer, primary_key=True)
+    after_rank: int = db.Column(db.Integer, nullable=False, unique=True, index=True)
+    media: str = db.Column(db.String(200), nullable=False)
+    caption: str = db.Column(db.String(2000), nullable=False)
+
+    def serialize(self) -> dict:
+        return dict(id=self.id, media=self.media, caption=self.caption)
+
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(5000), nullable=False)
     answer = db.Column(db.String(255), nullable=False)
-    rank = db.Column(db.Integer, nullable=False)
+    rank = db.Column(db.Integer, nullable=False, index=True)
     asset = db.Column(db.LargeBinary(length=(2 ** 32) - 1))
     asset_ext = db.Column(db.String(10))
     hint1 = db.Column(db.String(5000))
     hint2 = db.Column(db.String(5000))
     match_type = db.Column(db.Integer, nullable=False, default=1)
+    input_type = db.Column(db.Integer, nullable=False, default=1)
 
     MATCH_STRCMP = 1
     MATCH_REGEXP = 2
+
+    INPUT_TEXT_FIELD = 1
+    INPUT_TEXT_AREA = 2
 
     def __repr__(self):
         return "<Question %r>" % self.id
@@ -78,6 +92,12 @@ class Question(db.Model):
         elif self.match_type == Question.MATCH_REGEXP:
             return re.search(self.answer, answer) is not None
         return False
+
+    def next_transition(self) -> Optional[Transition]:
+        """Helper function to lookup any Transition that is scheduled to follow this Question."""
+        r = Transition.query.filter_by(after_rank=self.rank).one_or_none()
+        if r is not None:
+            return r
 
 
 class Answer(db.Model):

@@ -19,7 +19,7 @@ async function submit(answer) {
       text: answer
     }
   });
-  return result.correct;
+  return result;
 }
 
 async function getLeaderboard() {

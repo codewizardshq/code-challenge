@@ -1,11 +1,13 @@
 <template>
   <div class="speech-area">
     <div class="speech-graphic"></div>
+
     <div class="speech-head">
       <div class="speech-title">
         <slot name="title" />
       </div>
     </div>
+
     <div class="speech-body">
       <slot name="default" />
     </div>
@@ -14,7 +16,14 @@
 
 <script>
 export default {
-  name: "SpeechArea"
+  name: "SpeechArea",
+  props: {
+    answerInputType: {
+      type: String,
+      default: "text-field"
+    },
+    value: [String]
+  }
 };
 </script>
 
@@ -32,19 +41,24 @@ export default {
     .speech-title
       text-align: center
       position: relative
+      left: -60px
+      top: -8px
 
   .speech-body
     z-index: 1
     position: relative
-    text-align: center
-    margin-top: 100px
+    text-align: left
+    width: 560px
+    left: -60px
+    top: 55px
+    height: 495px
 
   .speech-graphic
     position: absolute
     z-index: 0
-    width: 666px
-    height: 2238px
-    left: -166px
+    width: 1200px
+    height: 666px
+    left: -111px
     background-image: url("/images/main-text-area.svg")
     background-size: contain
 </style>

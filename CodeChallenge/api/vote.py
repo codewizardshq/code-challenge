@@ -17,16 +17,16 @@ bp = Blueprint("voteapi", __name__, url_prefix="/api/v1/vote")
 @bp.before_request
 def time_gate():
     if not core.challenge_ended() or current_app.config.get("VOTING_DISABLED", False):
-        r = jsonify(status="error",
-                    reason="voting unavailable until code challenge ends")
+        r = jsonify(
+            status="error", reason="voting unavailable until code challenge ends"
+        )
         r.status_code = 403
         abort(r)
 
 
 @bp.route("/check", methods=["GET"])
 def vote_check():
-    return jsonify(status="success",
-                   reason="voting is open")
+    return jsonify(status="success", reason="voting is open")
 
 
 @bp.route("/ballot", methods=["GET"])
@@ -39,24 +39,31 @@ def get_contestants():
         per = int(request.args.get("per", 20))
         desc = request.args.get("desc")
     except ValueError:
-        return jsonify(status="error",
-                       reason="invalid 'page' or 'per' parameter"), 400
+        return jsonify(status="error", reason="invalid 'page' or 'per' parameter"), 400
 
-    q = Answer.query.with_entities(
-        Answer.id,
-        Answer.text,
-        func.count(Answer.votes),
-        Users.student_first_name,
-        Users.student_last_name,
-        Users.username,
-        func.concat(Users.student_first_name, func.right(Users.student_last_name, 1)),
-        Answer.disqualified
-    ) \
-        .join(Answer.question) \
-        .join(Answer.user) \
-        .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None)) \
+    q = (
+        Answer.query.with_entities(
+            Answer.id,
+            Answer.text,
+            func.count(Answer.votes),
+            Users.student_first_name,
+            Users.student_last_name,
+            Users.username,
+            func.concat(
+                Users.student_first_name, func.right(Users.student_last_name, 1)
+            ),
+            Answer.disqualified,
+        )
+        .join(Answer.question)
+        .join(Answer.user)
+        .outerjoin(Answer.votes)
+        .filter(
+            Question.rank == core.max_rank(),
+            Answer.correct,
+            Answer.disqualified.is_(None),
+        )
         .group_by(Answer.id)
+    )
 
     if desc is not None:
         q = q.order_by(func.count(Answer.votes).desc())
@@ -73,7 +80,7 @@ def get_contestants():
         hasNext=p.has_next,
         nextNum=p.next_num,
         hasPrev=p.has_prev,
-        prevNum=p.prev_num
+        prevNum=p.prev_num,
     )
 
 
@@ -96,20 +103,22 @@ def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
 
-    ans = Answer.query \
-        .join(Answer.question) \
-        .filter(Answer.id == answer_id,
-                Question.rank == max_rank,
-                Answer.correct) \
+    ans = (
+        Answer.query.join(Answer.question)
+        .filter(Answer.id == answer_id, Question.rank == max_rank, Answer.correct)
         .first()
+    )
 
     if ans.disqualified is not None:
-        return jsonify(status="error",
-                       reason=f"This user was disqualified: {ans.disqualified}"), 400
+        return (
+            jsonify(
+                status="error", reason=f"This user was disqualified: {ans.disqualified}"
+            ),
+            400,
+        )
 
     if ans is None:
-        return jsonify(status="error",
-                       reason="qualifying answer not found"), 400
+        return jsonify(status="error", reason="qualifying answer not found"), 400
 
     v = Vote()
     v.confirmed = False
@@ -118,34 +127,46 @@ def vote_cast(answer_id: int):
     try:
         v.voter_email = normalize_email(request.json["email"])
     except (TypeError, KeyError, ValueError):
-        return jsonify(status="error",
-                       message="no student email defined. an 'email' property "
-                               "is required on the JSON body."), 400
+        return (
+            jsonify(
+                status="error",
+                message="no student email defined. an 'email' property "
+                "is required on the JSON body.",
+            ),
+            400,
+        )
 
     if v.voter_email is None or v.voter_email == "":
-        return jsonify(status="error",
-                       reason="voter email required"), 400
+        return jsonify(status="error", reason="voter email required"), 400
 
     # see if you already voted for this
     if Vote.query.filter_by(answer_id=answer_id, voter_email=v.voter_email).all():
-        return jsonify(status="error",
-                       reason="you already voted for this one."), 400
+        return jsonify(status="error", reason="you already voted for this one."), 400
 
     try:
         mg_res = mg_validate(v.voter_email)
     except:
-        return jsonify(status="error",
-                       reason="That email address doesn't pass our validation check.")
+        return jsonify(
+            status="error",
+            reason="That email address doesn't pass our validation check.",
+        )
 
     validation = mg_res.json()
 
     if validation["risk"] in ("high", "medium"):
-        return jsonify(status="error",
-                       reason="refusing to allow vote: that email is rated as high risk"), 400
+        return (
+            jsonify(
+                status="error",
+                reason="refusing to allow vote: that email is rated as high risk",
+            ),
+            400,
+        )
 
     if validation["result"] in ("undeliverable", "unknown"):
-        return jsonify(status="error",
-                       reason="we can't deliver email to that address"), 400
+        return (
+            jsonify(status="error", reason="we can't deliver email to that address"),
+            400,
+        )
 
     db.session.add(v)
     db.session.commit()
@@ -154,8 +175,7 @@ def vote_cast(answer_id: int):
     s = URLSafeSerializer(current_app.config["SECRET_KEY"])
     tok = s.dumps(v.id, "vote-confirmation")
 
-    msg = Message(subject="Vote Confirmation",
-                  recipients=[v.voter_email])
+    msg = Message(subject="Vote Confirmation", recipients=[v.voter_email])
     msg.html = render_template("challenge_vote_confirm.html", token=tok)
 
     if current_app.config.get("TESTING", False):
@@ -163,8 +183,7 @@ def vote_cast(answer_id: int):
 
     mail.send(msg)
 
-    return jsonify(status="success",
-                   reason="email confirmation needed")
+    return jsonify(status="success", reason="email confirmation needed")
 
 
 @bp.route("/confirm", methods=["POST"])
@@ -179,22 +198,21 @@ def vote_confirm():
     valid, vote_id = s.loads_unsafe(token, "vote-confirmation")
 
     if not valid:
-        return jsonify(status="error",
-                       reason="token is not valid"), 400
+        return jsonify(status="error", reason="token is not valid"), 400
 
     v = Vote.query.get(vote_id)
     if not v:
-        return jsonify(status="error",
-                       reason="vote not found - try voting again, or contestant may have been disqualified.")
+        return jsonify(
+            status="error",
+            reason="vote not found - try voting again, or contestant may have been disqualified.",
+        )
 
     if v.confirmed:
-        return jsonify(status="success",
-                       reason="vote already confirmed")
+        return jsonify(status="success", reason="vote already confirmed")
 
-    delete_votes = Vote.query \
-        .filter(Vote.voter_email == v.voter_email,
-                Vote.id != v.id) \
-        .all()
+    delete_votes = Vote.query.filter(
+        Vote.voter_email == v.voter_email, Vote.id != v.id
+    ).all()
 
     # delete any other vote that was clicked
     for d in delete_votes:
@@ -204,20 +222,20 @@ def vote_confirm():
 
     db.session.commit()
 
-    msg = Message(subject="Vote confirmation successful!",
-                  recipients=[v.voter_email])
+    msg = Message(subject="Vote confirmation successful!", recipients=[v.voter_email])
 
     votes, rank = v.ranking()
 
-    msg.html = render_template("challenge_vote_submitted.html",
-                               username=v.answer.user.username,
-                               votes=int(votes),
-                               rank=rank)
+    msg.html = render_template(
+        "challenge_vote_submitted.html",
+        username=v.answer.user.username,
+        votes=int(votes),
+        rank=rank,
+    )
 
     mail.send(msg)
 
-    return jsonify(status="success",
-                   reason="vote confirmed")
+    return jsonify(status="success", reason="vote confirmed")
 
 
 @bp.route("/search", methods=["GET"])
@@ -227,31 +245,41 @@ def search():
         page = int(request.args.get("page", 1))
         per = int(request.args.get("per", 20))
     except ValueError:
-        return jsonify(status="error",
-                       reason="invalid 'page' or 'per' parameter"), 400
+        return jsonify(status="error", reason="invalid 'page' or 'per' parameter"), 400
 
     if keyword is None:
         return jsonify(status="error", reason="missing 'q' parameter"), 400
 
     keyword = f"%{keyword}%"
 
-    p = Answer.query.with_entities(
-        Answer.id,
-        Answer.text,
-        func.count(Answer.votes),
-        Users.student_first_name,
-        Users.student_last_name,
-        Users.username,
-        func.concat(Users.student_first_name, func.right(Users.student_last_name, 1))
-    ) \
-        .join(Answer.question) \
-        .join(Answer.user) \
-        .outerjoin(Answer.votes) \
-        .filter(Question.rank == core.max_rank(), Answer.correct, Answer.disqualified.is_(None),
-                or_(Users.username.ilike(keyword), Users.student_first_name.ilike(keyword),
-                    Users.student_last_name.ilike(keyword))) \
-        .group_by(Answer.id)\
+    p = (
+        Answer.query.with_entities(
+            Answer.id,
+            Answer.text,
+            func.count(Answer.votes),
+            Users.student_first_name,
+            Users.student_last_name,
+            Users.username,
+            func.concat(
+                Users.student_first_name, func.right(Users.student_last_name, 1)
+            ),
+        )
+        .join(Answer.question)
+        .join(Answer.user)
+        .outerjoin(Answer.votes)
+        .filter(
+            Question.rank == core.max_rank(),
+            Answer.correct,
+            Answer.disqualified.is_(None),
+            or_(
+                Users.username.ilike(keyword),
+                Users.student_first_name.ilike(keyword),
+                Users.student_last_name.ilike(keyword),
+            ),
+        )
+        .group_by(Answer.id)
         .paginate(page=page, per_page=per)
+    )
 
     return jsonify(
         items=p.items,
@@ -261,5 +289,5 @@ def search():
         hasNext=p.has_next,
         nextNum=p.next_num,
         hasPrev=p.has_prev,
-        prevNum=p.prev_num
+        prevNum=p.prev_num,
     )
