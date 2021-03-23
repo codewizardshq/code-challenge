@@ -179,8 +179,16 @@ def q_sync():
             q.answer = row["Answer"]
             q.hint1 = row["Hint 1"]
             q.hint2 = row["Hint 2"]
-            q.match_type = 1 if row["Answer Type"] == "strcmp" else 2
-            q.input_type = 1 if row["Answer Input"] == "input" else 2
+            q.match_type = (
+                Question.MATCH_REGEXP
+                if row["Answer Type"] == "regex"
+                else Question.MATCH_STRCMP
+            )
+            q.input_type = (
+                Question.INPUT_TEXT_AREA
+                if row["Answer Input"] == "textarea"
+                else Question.INPUT_TEXT_FIELD
+            )
 
             if "asset" in row:
                 b = BytesIO()
