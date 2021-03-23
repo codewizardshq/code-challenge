@@ -50,3 +50,5 @@ jobs:
       run: eb deploy ${{ env.EB_ENV_NAME }}
     - name: Deploy Worker
       run: eb deploy CodeChallenge-worker
+    - name: Deploy Testing
+      run: eb deploy CodeChallenge-Testing
