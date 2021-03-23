@@ -143,14 +143,15 @@ def answer_next_question():
     ans.correct = True
 
     db.session.add(ans)
-    db.session.commit()
 
     transition = q.next_transition()
+
+    db.session.commit()
 
     return jsonify(
         status="success",
         correct=True,
-        transition=transition if transition is not None else None,
+        transition=transition.serialize() if transition is not None else None,
     )
 
 

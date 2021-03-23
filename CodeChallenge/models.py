@@ -58,6 +58,9 @@ class Transition(db.Model):
     media: str = db.Column(db.String(200), nullable=False)
     caption: str = db.Column(db.String(2000), nullable=False)
 
+    def serialize(self) -> dict:
+        return dict(id=self.id, media=self.media, caption=self.caption)
+
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -92,7 +95,9 @@ class Question(db.Model):
 
     def next_transition(self) -> Optional[Transition]:
         """Helper function to lookup any Transition that is scheduled to follow this Question."""
-        return Transition.query.filter_by(after_rank=self.rank)
+        r = Transition.query.filter_by(after_rank=self.rank).one_or_none()
+        if r is not None:
+            return r
 
 
 class Answer(db.Model):
