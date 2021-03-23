@@ -112,7 +112,12 @@ def answer_next_question():
     if core.current_rank() == user.rank:
         # all questions have been answered up to the current rank
         return (
-            jsonify({"status": "error", "reason": "no more questions to answer"}),
+            jsonify(
+                status="error",
+                reason="no more questions to answer",
+                transition=None,
+                correct=False,
+            ),
             404,
         )
 
@@ -128,10 +133,10 @@ def answer_next_question():
     try:
         correct = q.check_correct(data["text"])
     except TypeError:
-        return jsonify(status="success", correct=False)
+        return jsonify(status="success", correct=False, transition=None)
 
     if not correct:
-        return jsonify(status="success", correct=False)
+        return jsonify(status="success", correct=False, transition=None)
 
     user.rank += 1
 
