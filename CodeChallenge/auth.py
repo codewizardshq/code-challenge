@@ -40,6 +40,10 @@ def create_user(email, username, password):
 
 def reset_user(username, password):
     u = Users.query.filter_by(username=username).first()
+
+    if u is None:
+        raise ValueError("user not found: " + username)
+
     u.password = hash_password(password)
 
     db.session.commit()

@@ -16,6 +16,7 @@ from .api.slack import bp as slack_bp
 from .api.users import bp as users_bp
 from .api.vote import bp as vote_bp
 from .api.email import bp as email_api_bp
+from CodeChallenge.api.admin import bp as admin_api_bp
 from .auth import jwt
 from .cli.clock import bp as clock_cli_bp
 from .cli.db import bp as db_cli_bp
@@ -66,6 +67,7 @@ def create_app(config):
     app.register_blueprint(slack_bp)
     app.register_blueprint(email_cli_bp)
     app.register_blueprint(email_api_bp)
+    app.register_blueprint(admin_api_bp)
 
     @app.errorhandler(429)
     def ratelimit_handler(e):
