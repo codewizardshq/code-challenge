@@ -1,6 +1,6 @@
 <template>
   <div>
-    <video :src="media" v-if="media.endsWith('mp4')" loop autoplay></video>
+    <video :src="media" v-if="media.endsWith('mp4')" autoplay></video>
     <img :src="media" v-else :alt="caption" />
     <p v-html="caption" v-if="!!caption" />
   </div>
