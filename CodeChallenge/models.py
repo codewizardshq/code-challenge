@@ -99,6 +99,20 @@ class Question(db.Model):
         if r is not None:
             return r
 
+    def write_asset(self) -> str:
+        """Writes the Question's asset value to a file then returns the filename."""
+        data = bytes(current_app.config["SECRET_KEY"] + str(self.rank), "ascii")
+        filename = blake2s(data).hexdigest()
+
+        asset = f"assets/{filename}{self.asset_ext}"
+        asset_path = os.path.join(current_app.config["APP_DIR"], asset)
+
+        if not os.path.isfile(asset_path):
+            with open(asset_path, "wb") as fd:
+                fd.write(self.asset)
+
+        return asset
+
 
 class Answer(db.Model):
     """Tracks a user answering a question"""
