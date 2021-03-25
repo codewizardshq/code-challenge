@@ -26,6 +26,7 @@ export default {
 #container
   margin: auto
   max-width: 900px
+  overflow: hidden
 
 .transition-media
   width: 100%
