@@ -123,3 +123,15 @@ class UndeliverableEmail(Exception):
 def raise_undeliverable(email: str):
     if not is_deliverable(email):
         raise UndeliverableEmail(email)
+
+
+def mg_lists():
+    """Fetch all Mailgun Mailing Lists."""
+    response = requests.get(
+        "https://api.mailgun.net/v3/lists/pages",
+        auth=__auth(),
+    )
+
+    response.raise_for_status()
+
+    return response.json()["items"]

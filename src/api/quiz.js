@@ -37,11 +37,16 @@ async function submitFinal(answer, language, checkOnly) {
   return result;
 }
 
+async function syncQuestions() {
+  return await request(routes.admin_api_sync);
+}
+
 export default {
   getQuestion,
   submit,
   submitFinal,
   getRank,
   resetRank,
-  getLeaderboard
+  getLeaderboard,
+  syncQuestions
 };

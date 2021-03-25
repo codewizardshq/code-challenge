@@ -1,5 +1,9 @@
+import csv
+import os
 import re
+from hashlib import blake2s
 from hmac import compare_digest as str_cmp
+from io import StringIO, BytesIO
 from tempfile import NamedTemporaryFile
 from typing import Tuple, List, Iterable, Optional
 
@@ -55,8 +59,8 @@ def ranking(answer_id: int) -> Tuple[int, int]:
 class Transition(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
     after_rank: int = db.Column(db.Integer, nullable=False, unique=True, index=True)
-    media: str = db.Column(db.String(200), nullable=False)
-    caption: str = db.Column(db.String(2000), nullable=False)
+    media: str = db.Column(db.String(255), nullable=False)
+    caption: str = db.Column(db.String(2000))
 
     def serialize(self) -> dict:
         return dict(id=self.id, media=self.media, caption=self.caption)
@@ -112,6 +116,62 @@ class Question(db.Model):
                 fd.write(self.asset)
 
         return asset
+
+    @classmethod
+    def from_sheet_row(cls, row):
+        if not all(
+            (
+                row["#"],
+                row["Question"],
+                row["Answer Type"],
+                row["Answer Input"],
+                row["Answer"],
+            )
+        ):
+            raise ValueError(f"invalid row: required column missing")
+
+        rank = int(row["#"])
+        q = cls.query.filter_by(rank=rank).first()
+
+        if q is None:
+            q = cls()
+            q.rank = rank
+            db.session.add(q)
+
+        assert row["Answer Type"] in ("strcmp", "regex")
+        assert row["Answer Input"] in ("input", "textarea")
+
+        q.title = row["Question"]
+        q.answer = row["Answer"]
+        q.hint1 = row["Hint 1"]
+        q.hint2 = row["Hint 2"]
+        q.match_type = (
+            Question.MATCH_REGEXP
+            if row["Answer Type"] == "regex"
+            else Question.MATCH_STRCMP
+        )
+        q.input_type = (
+            Question.INPUT_TEXT_AREA
+            if row["Answer Input"] == "textarea"
+            else Question.INPUT_TEXT_FIELD
+        )
+
+    @staticmethod
+    def sync_questions():
+        key = current_app.config.get("GOOGLE_API_KEY")
+        file_id = current_app.config.get("SHEET_ID")
+
+        r = requests.get(
+            f"https://www.googleapis.com/drive/v3/files/{file_id}/export?mimeType=text%2Fcsv&key={key}"
+        )
+        r.raise_for_status()
+
+        reader = csv.DictReader(StringIO(r.text))
+
+        for i, row in enumerate(reader):
+            Question.from_sheet_row(row)
+
+        db.session.commit()
 
 
 class Answer(db.Model):

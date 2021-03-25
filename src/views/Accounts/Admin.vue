@@ -1,5 +1,10 @@
 <template>
-  <v-btn @click="resetRank" :disabled="isSubmitting">Reset Rank</v-btn>
+  <v-container>
+    <v-btn @click="resetRank" :disabled="isSubmitting">Reset Rank</v-btn>
+    <v-btn @click="syncQuestions" :disabled="loading" :loading="loading"
+      >Sync Questions</v-btn
+    >
+  </v-container>
 </template>
 
 <script>
@@ -8,7 +13,8 @@ export default {
   name: "home",
   data() {
     return {
-      isSubmitting: false
+      isSubmitting: false,
+      loading: false
     };
   },
   methods: {
@@ -21,6 +27,18 @@ export default {
         alert(err);
       }
       this.isSubmitting = false;
+    },
+
+    async syncQuestions() {
+      this.loading = true;
+      try {
+        await api.quiz.syncQuestions();
+        alert("Done");
+      } catch (e) {
+        alert(e.message);
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
