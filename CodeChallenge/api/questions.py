@@ -71,21 +71,14 @@ def next_question():
     if rank > current_rank:
         return jsonify(status="error", reason="problem with rank"), 500
 
-    q = Question.query.filter(Question.rank == rank).first()
+    q = Question.query.filter(Question.rank == rank).first()  # type: Question
 
     if not q:
         return jsonify(status="error", reason=f"no questions for rank {rank!r}"), 404
 
-    # make filename less predictable
-    data = bytes(current_app.config["SECRET_KEY"] + str(q.rank), "ascii")
-    filename = blake2s(data).hexdigest()
-
-    asset = f"assets/{filename}{q.asset_ext}"
-    asset_path = os.path.join(current_app.config["APP_DIR"], asset)
-
-    if not os.path.isfile(asset_path):
-        with open(asset_path, "wb") as fd:
-            fd.write(q.asset)
+    asset = None
+    if q.asset:
+        asset = q.write_asset()
 
     return (
         jsonify(
