@@ -1,14 +1,21 @@
 @import "./colors.scss";
 
 $width: 100px;
-$shieldHeight: 50px;
+$shieldHeight: 150px;
 
 $border: none; //solid thin red;
+
+
+.rank-text {
+  position: relative;
+  top: -31px;
+  font-size: .7em;
+}
 
 .quiz-bar-rank {
   position: absolute;
   width: $width;
-  top: 12px;
+  top: -10px;
   left: 50%;
   margin-left: -$width/2;
   border: $border;
@@ -20,13 +27,14 @@ $border: none; //solid thin red;
     text-align: center;
     padding: 0;
     margin: 0;
-    top:15px;
+    top: 15px;
     line-height: $shieldHeight;
-    font-size: $shieldHeight / 2;
-    font-family: "Barrow2Bold" !important;
+    font-size: $shieldHeight / 4;
+    font-family: "Barrow2Bold", serif !important;
+    color: white !important;
 
     &:before {
-      background-image: url("/images/shield.png");
+      background-image: url("/images/top-nav-progress-level-badge.svg");
       background-size: contain;
       background-position-x: center;
       position: absolute;
@@ -34,12 +42,14 @@ $border: none; //solid thin red;
       width: $width;
       height: $shieldHeight;
       border: $border;
-      top: 0px;
-      left: 0px;
+      top: 0;
+      left: 0;
       content: "";
+      z-index: -1;
     }
   }
 
+  /*
   .level-display {
     border: $border;
     position: absolute;
@@ -51,6 +61,7 @@ $border: none; //solid thin red;
     font-size: 18px;
     font-family: "Barrow2Bold" !important;
   }
+
 
   &:before {
     background-image: url("/images/shield-background.png");
@@ -68,4 +79,5 @@ $border: none; //solid thin red;
     content: "";
     z-index: -1;
   }
+   */
 }

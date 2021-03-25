@@ -14,7 +14,10 @@
     <div class="fade"></div>
     <marquee-text :duration="(items.length / 5) * 10">
       <div class="lb-item" v-for="(item, i) in items" :key="i">
-        <img src="/images/shield.png" class="rank float-left" />
+        <img
+          src="/images/top-nav-progress-level-badge.svg"
+          class="rank float-left"
+        />
         <div class="rank">{{ item.rank }}</div>
         <div class="display float-left">{{ item.username }}</div>
       </div>

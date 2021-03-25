@@ -10,8 +10,10 @@
       v-show="User.isAuthorized && Quiz.quizHasStarted && !Quiz.quizHasEnded"
       class="quiz-bar-rank"
     >
-      <div class="level-display">Level</div>
-      <div class="rank">{{ User.rank }}</div>
+      <!-- <div class="level-display">Level</div> -->
+      <div class="rank">
+        <p class="rank-text">{{ User.rank }}</p>
+      </div>
     </div>
     <v-container fluid>
       <v-row>
