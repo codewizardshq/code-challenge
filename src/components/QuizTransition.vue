@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <video :src="media" v-if="media.endsWith('mp4')" autoplay></video>
-    <img :src="media" v-else :alt="caption" />
+  <div id="container">
+    <video
+      class="transition-media"
+      :src="media"
+      v-if="media.endsWith('mp4')"
+      autoplay
+      loop
+    ></video>
+    <img class="transition-media" :src="media" v-else :alt="caption" />
     <p v-html="caption" v-if="!!caption" />
   </div>
 </template>
@@ -15,3 +21,12 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+#container
+  margin: auto
+  max-width: 900px
+
+.transition-media
+  width: 100%
+</style>
