@@ -20,73 +20,48 @@ import (
 var DEBUG = os.Getenv("DEBUG") == "1"
 
 type Response struct {
-	Output string `json:"output"`
-	Error  string `json:"error"`
+	Output        string `json:"output"`
+	Error         string `json:"error"`
+	ExecutionTime int64  `json:"time"`
+	Code          string `json:"code"`
 }
 
-/**
- * Pass STDIN to the Python interpreter
- */
-func execPython(timeout time.Duration, code *string) (stdout string, stderr string) {
+func (r Response) toJSON() string {
+	data, _ := json.Marshal(r)
+	return string(data)
+}
 
-	debug("applying seccomp filter for Python")
-
+func execSandbox(interpreter string, timeout time.Duration, code *string) *Response {
+	res := Response{}
 	ApplySyscallRestrictions()
 
 	debug("building command context with %v timeout", timeout)
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "/usr/bin/python3")
+	cmd := exec.CommandContext(ctx, interpreter)
 	cmd.Stdin = strings.NewReader(*code)
+	res.Code = *code
 
 	var errBuffer bytes.Buffer
 	cmd.Stderr = &errBuffer
 
 	debug("executing command ...")
+	start := time.Now()
 	out, _ := cmd.Output()
+	elapsed := time.Since(start)
+
+	res.ExecutionTime = elapsed.Milliseconds()
 
 	if ctx.Err() == context.DeadlineExceeded {
 		debug("command timed out")
-		stderr = "command timed out"
-		return
+		res.Error = "command timed out"
 	}
 
-	stdout = string(out)
-	stderr = errBuffer.String()
+	res.Output = string(out)
+	res.Error = errBuffer.String()
 
-	return
-}
-
-func execNode(timeout time.Duration, code *string) (stdout string, stderr string) {
-	debug("applying seccomp filter for NodeJS")
-
-	ApplySyscallRestrictions()
-
-	debug("building command context with %v timeout", timeout)
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
-
-	cmd := exec.CommandContext(ctx, "node")
-	cmd.Stdin = strings.NewReader(*code)
-	debug("stdin: %s", *code)
-
-	var errBuffer bytes.Buffer
-	cmd.Stderr = &errBuffer
-
-	debug("executing command ...")
-	out, _ := cmd.Output()
-
-	if ctx.Err() == context.DeadlineExceeded {
-		debug("command timed out")
-		stderr = "command timed out"
-		return
-	}
-
-	stdout = string(out)
-	stderr = errBuffer.String()
-
-	return
+	return &res
 }
 
 func debug(msg string, args ...interface{}) {
@@ -127,22 +102,25 @@ func main() {
 	}
 
 	var (
-		stdout string
-		stderr string
+		interpreter string
+		response    Response
 	)
 
-	if language == "python" || language == "py" {
-		stdout, stderr = execPython(duration, &data)
-	} else if language == "javascript" || language == "js" || language == "node" {
-		stdout, stderr = execNode(duration, &data)
-	}
-
-	r, e := json.Marshal(Response{stdout, stderr})
-
-	if e != nil {
-		fmt.Printf(`{"output": "", "error": "unexpected error code output to JSON!"}`)
+	switch language {
+	case "python":
+	case "py":
+		interpreter = "/usr/bin/python3"
+	case "javascript":
+	case "js":
+	case "node":
+		interpreter = "node"
+	default:
+		response.Error = fmt.Sprintf("unrecognized language %q", language)
+		fmt.Print(response.toJSON())
 		return
 	}
 
-	fmt.Print(string(r))
+	response = *execSandbox(interpreter, duration, &data)
+
+	fmt.Print(response.toJSON())
 }
