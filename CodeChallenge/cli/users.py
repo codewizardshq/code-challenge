@@ -1,6 +1,7 @@
 import click
 from flask import Blueprint
 
+from CodeChallenge.core import user_count
 from ..auth import create_user, reset_user
 
 bp = Blueprint("usercli", __name__, cli_group="users")
@@ -26,3 +27,8 @@ def reset_user_cmd(username):
         "Enter new password", hide_input=True, confirmation_prompt=True
     )
     reset_user(username, password)
+
+
+@bp.cli.command("count")
+def user_count_cmd():
+    click.echo(user_count())

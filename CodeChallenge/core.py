@@ -68,7 +68,8 @@ def user_count() -> int:
     return (
         db.session.query(func.count(Users.id))
         .filter(
-            Users.parent_email.notlike("%@codewizardshq.com"), not_(Users.is_teacher)
+            Users.parent_email.notlike("%@codewizardshq.com"),
+            Users.is_teacher.isnot(True),
         )
         .scalar()
     )
