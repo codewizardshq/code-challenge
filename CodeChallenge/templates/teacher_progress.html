@@ -1,0 +1,29 @@
+{% extends "template_email.html" %}
+
+{% block content %}
+<p>Hi {{ user.student_first_name }},</p>
+
+<p>We have just completed day {{ rank }} of the Code Challenge.</p>
+<p>You currently have {{ pct }}% of students completing the challenge.</p>
+
+<strong>Keep it up and remember to share!</strong>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Rank</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+        <tr>
+            <td>{{ student.student_first_name }} {{ student.student_last_name }}</td>
+            <td>{{ student.username }}</td>
+            <td>{{ student.rank }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

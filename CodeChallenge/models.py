@@ -14,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, orm, event
 from werkzeug.datastructures import FileStorage
 
+from CodeChallenge import core
 from CodeChallenge.mailgun import (
     mg_list_add,
     email_template,
@@ -455,6 +456,21 @@ class Users(db.Model):
     @classmethod
     def lookup_teacher(cls, email: str):
         return cls.query.filter_by(is_teacher=True, parent_email=email).first()
+
+    def render_progress_report(self):
+        assert self.is_teacher
+        students = Users.query.filter_by(teacher_id=self.id).all()
+
+        total = core.user_count()
+        pct = round(len(students) / total * 100)
+
+        return render_template(
+            "teacher_progress.html",
+            students=students,
+            pct=pct,
+            user=self,
+            rank=core.current_rank(),
+        )
 
 
 @event.listens_for(Users, "after_insert")

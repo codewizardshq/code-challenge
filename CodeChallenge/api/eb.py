@@ -6,6 +6,8 @@ from flask_mail import Message
 
 from .. import core
 from ..mail import mail
+from ..mailgun import mg_send
+from ..models import Users
 
 bp = Blueprint("awsebapi", __name__, url_prefix="/api/v1/eb")
 
@@ -48,5 +50,17 @@ def worker():
     elif core.challenge_ended():
         # TODO: email everyone individually how many votes they have
         pass
+
+    return "", 200
+
+
+@bp.route("/teacher/progress", methods=["POST"])
+def teacher_progress():
+    """Send daily emails to teachers of their student's progress."""
+    teachers = Users.query.filter_by(is_teacher=True).all()
+
+    for teacher in teachers:  # type: Users
+        body = teacher.render_progress_report()
+        mg_send([teacher.parent_email], "Code Challenge Student Progress", body)
 
     return "", 200

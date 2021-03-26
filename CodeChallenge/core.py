@@ -1,7 +1,7 @@
 from datetime import datetime, timezone, timedelta
 
 from flask import current_app
-from sqlalchemy import func
+from sqlalchemy import func, not_
 
 from .auth import Users
 from .models import Question, db
@@ -68,7 +68,7 @@ def user_count() -> int:
     return (
         db.session.query(func.count(Users.id))
         .filter(
-            Users.parent_email.notlike("%@codewizardshq.com"),
+            Users.parent_email.notlike("%@codewizardshq.com"), not_(Users.is_teacher)
         )
         .scalar()
     )
