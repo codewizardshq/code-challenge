@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -27,6 +28,10 @@ type Response struct {
 func (r Response) toJSON() string {
 	data, _ := json.Marshal(r)
 	return string(data)
+}
+
+func (r Response) Done() {
+	fmt.Print(r.toJSON())
 }
 
 func execSandbox(interpreter string, timeout time.Duration, code []byte) *Response {
@@ -67,41 +72,17 @@ func debug(msg string, args ...interface{}) {
 	}
 }
 
-func main() {
-	debug("main go code started")
-	language := os.Getenv("LANGUAGE")
-	codeFolder := os.Getenv("CODEFOLDER")
-
-	if codeFolder == "" {
-		codeFolder = "/mnt/code"
+func getenv(key string, defaultValue string) string {
+	v := os.Getenv(key)
+	if v == "" {
+		return defaultValue
 	}
+	return v
+}
 
-	filename := path.Join(codeFolder, os.Getenv("CODEFILE"))
-	timeoutEnv := os.Getenv("TIMEOUT")
-
-	if timeoutEnv == "" {
-		timeoutEnv = "5"
-	}
-
-	timeout, err := strconv.Atoi(timeoutEnv)
-	duration := time.Duration(timeout) * time.Second
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	debug("reading file: %s", filename)
-	code, err := ioutil.ReadFile(filename)
-	// data := string(code)
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	var (
-		interpreter string
-		response    *Response
-	)
+func lookupInterpreter(language string) (string, error) {
+	var interpreter string
+	var err error
 
 	switch language {
 	case "python":
@@ -111,13 +92,48 @@ func main() {
 	case "js":
 	case "node":
 		interpreter = "node"
+	case "":
+		err = errors.New("language not specified")
 	default:
-		response = &Response{Error: "unrecognized language: " + language}
-		fmt.Print(response.toJSON())
+		err = errors.New("unrecognized language: " + language)
+	}
+
+	return interpreter, err
+}
+
+func main() {
+	var (
+		interpreter string
+		response    *Response
+		filename    string
+		timeout     int
+		code        []byte
+	)
+
+	debug("main go code started")
+
+	filename = path.Join(getenv("CODEFOLDER", "/mnt/code"), os.Getenv("CODEFILE"))
+	timeout, err := strconv.Atoi(getenv("TIMEOUT", "5"))
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	debug("reading file: %s", filename)
+	code, err = ioutil.ReadFile(filename)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	interpreter, err = lookupInterpreter(os.Getenv("LANGUAGE"))
+
+	if err != nil {
+		response = &Response{Error: err.Error()}
+		response.Done()
 		return
 	}
 
-	response = execSandbox(interpreter, duration, code)
-
-	fmt.Print(response.toJSON())
+	response = execSandbox(interpreter, time.Duration(timeout)*time.Second, code)
+	response.Done()
 }
