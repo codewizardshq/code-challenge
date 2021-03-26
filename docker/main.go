@@ -13,7 +13,6 @@ import (
 	"os/exec"
 	"path"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -23,7 +22,6 @@ type Response struct {
 	Output        string `json:"output"`
 	Error         string `json:"error"`
 	ExecutionTime int64  `json:"time"`
-	Code          string `json:"code"`
 }
 
 func (r Response) toJSON() string {
@@ -31,7 +29,7 @@ func (r Response) toJSON() string {
 	return string(data)
 }
 
-func execSandbox(interpreter string, timeout time.Duration, code *string) *Response {
+func execSandbox(interpreter string, timeout time.Duration, code []byte) *Response {
 	res := Response{}
 	ApplySyscallRestrictions()
 
@@ -40,8 +38,7 @@ func execSandbox(interpreter string, timeout time.Duration, code *string) *Respo
 	defer cancel()
 
 	cmd := exec.CommandContext(ctx, interpreter)
-	cmd.Stdin = strings.NewReader(*code)
-	res.Code = *code
+	cmd.Stdin = bytes.NewReader(code)
 
 	var errBuffer bytes.Buffer
 	cmd.Stderr = &errBuffer
@@ -95,7 +92,7 @@ func main() {
 
 	debug("reading file: %s", filename)
 	code, err := ioutil.ReadFile(filename)
-	data := string(code)
+	// data := string(code)
 
 	if err != nil {
 		panic(err.Error())
@@ -103,7 +100,7 @@ func main() {
 
 	var (
 		interpreter string
-		response    Response
+		response    *Response
 	)
 
 	switch language {
@@ -115,12 +112,12 @@ func main() {
 	case "node":
 		interpreter = "node"
 	default:
-		response.Error = fmt.Sprintf("unrecognized language %q", language)
+		response = &Response{Error: "unrecognized language: " + language}
 		fmt.Print(response.toJSON())
 		return
 	}
 
-	response = *execSandbox(interpreter, duration, &data)
+	response = execSandbox(interpreter, duration, code)
 
 	fmt.Print(response.toJSON())
 }
