@@ -189,16 +189,16 @@ export default {
   data() {
     return {
       successMessages: [
-        "Your coding skills are quite admirable.",
-        "You are wiser than you look.",
-        "The dragon senses you getting closer.",
-        "Your perseverance is impressive.",
-        "One step closer to battling the dragon.",
-        "Keep going, the dragon awaits you.",
-        "Go to the next level, young Pilgrim!",
-        "You may continue on your coding journey.",
-        "The grand prize could be yours.",
-        "You must be the hero we're seeking."
+        "One day closer to saving the galaxy!",
+        "Glorm is getting nervous that you're on your way!",
+        "Can anyone stop you?! You're rocking this!",
+        "The Xolcron Crystal is lucky to have you to find it!",
+        "These challenges are no match for you!",
+        "What else do you have on your schedule besides saving the day?",
+        "Glorm better just give up now.",
+        "A coding master, you are!",
+        "The Allsnacks Alliance thanks you for your hard work.",
+        "They're gonna have to name a planet after you!"
       ],
       entryRank: -1,
       isLastQuiz: false,
