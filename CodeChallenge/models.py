@@ -678,8 +678,12 @@ class BulkImport(db.Model):
             self.import_error(row_num, "Failed validation: " + str(e))
             return
         except UndeliverableEmail:
-            self.import_error(row_num, "Cannot deliver to this email address.")
-            return
+            # default to the teacher's email in case they gave us a bad parent email
+            user.set_parent_email(teacher_email)
+            self.import_error(
+                row_num,
+                "User created successfully but parent email was undeliverable. Used teacher email instead.",
+            )
 
         if type(row[self.DOB]) == str:
             user.dob = row[self.DOB]
