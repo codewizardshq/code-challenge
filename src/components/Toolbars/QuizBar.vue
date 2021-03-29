@@ -53,10 +53,9 @@
               <v-list-item :to="{ name: 'faq' }">
                 <v-list-item-title>Check The FAQ</v-list-item-title>
               </v-list-item>
-              <!-- FIXME: uncomment this when we have a CodeChallenge discord
-              <v-list-item href="https://discord.gg/NuKfKZ8" target="_blank">
+              <v-list-item href="https://discord.gg/NAufNzsJ8t" target="_blank">
                 <v-list-item-title>Get Help On Discord</v-list-item-title>
-              </v-list-item> -->
+              </v-list-item>
               <v-list-item
                 href="https://www.facebook.com/events/212184353938197/"
                 target="_blank"
