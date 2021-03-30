@@ -38,7 +38,7 @@ export default {
         {
           icon: "twitter",
           to:
-            "https://twitter.com/intent/tweet?text=The%20Dragon%20Quest%20%E2%80%93%20Code%20Challenge&url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&original_referer="
+            "https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&original_referer="
         },
         {
           icon: "facebook",
