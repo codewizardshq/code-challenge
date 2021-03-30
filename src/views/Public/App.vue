@@ -6,7 +6,7 @@
     <v-main>
       <router-view />
     </v-main>
-    <!-- <leaderboard-bar /> -->
+    <leaderboard-bar />
     <snackbar/>
     <mobile-warning />
   </v-app>
