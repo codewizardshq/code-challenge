@@ -5,6 +5,8 @@ import click
 import dotenv
 from flask import Blueprint
 
+from CodeChallenge import core
+
 bp = Blueprint("clockcli", __name__, cli_group="clock")
 
 
@@ -26,6 +28,24 @@ def get_current_start():
     start = datetime.fromtimestamp(epoch, timezone.utc)
 
     return start
+
+
+@bp.cli.command("set-rank")
+@click.argument("rank", type=int)
+def set_rank(rank):
+    """Set CODE_CHALLENGE_START according to the desired rank."""
+    max_rank = core.max_rank()
+    if rank >= max_rank:
+        click.secho(
+            f"The rank cannot be set that high. The max rank is {max_rank}",
+            err=True,
+            color="red",
+        )
+        return
+    ts = datetime.now() - timedelta(days=rank)
+
+    click.secho(f"setting CODE_CHALLENGE_START={ts.timestamp()} ({ts})", fg="green")
+    dotenv.set_key(".flaskenv", "CODE_CHALLENGE_START", str(int(ts.timestamp())))
 
 
 @bp.cli.command("add-day")
