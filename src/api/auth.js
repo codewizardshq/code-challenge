@@ -63,7 +63,7 @@ async function autoLogin() {
   try {
     await fetchState();
   } catch (err) {
-    if (err.status != 401) {
+    if (err.status !== 401) {
       return Promise.reject(err);
     }
   }
