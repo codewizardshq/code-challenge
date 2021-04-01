@@ -17,7 +17,9 @@ def get_current_start():
     current = os.getenv("CODE_CHALLENGE_START")
 
     if current is None:
-        click.secho("CODE_CHALLENGE_START is not set in .flaskenv. cannot add a day", fg="red")
+        click.secho(
+            "CODE_CHALLENGE_START is not set in .flaskenv. cannot add a day", fg="red"
+        )
         return
 
     epoch = int(current)
@@ -66,7 +68,9 @@ def clock_set(datestr, timestr):
     try:
         start = datetime.strptime(f"{datestr} {timestr}", "%Y-%m-%d %H:%M")
     except ValueError:
-        click.secho("invalid date/time format.  format must be: YYYY-MM-DD HH:MM", fg="red")
+        click.secho(
+            "invalid date/time format.  format must be: YYYY-MM-DD HH:MM", fg="red"
+        )
         return
 
     ts = str(int(start.timestamp()))
