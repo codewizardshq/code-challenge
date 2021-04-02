@@ -473,7 +473,7 @@ class Users(db.Model):
     def fire_daily_reminder(cls):
         mg_send(
             [current_app.config["MG_LIST"]],
-            "New code challenge question is unlocked!",
+            "New Code Challenge question is unlocked!",
             render_template("challenge_daily.html"),
         )
 
