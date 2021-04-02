@@ -331,7 +331,7 @@ class Users(db.Model):
         for addr in self._mail_recipients():
             mg_list_add(addr, list_name, self.mg_recipient_vars())
 
-    def mg_member(self) -> list[dict]:
+    def mg_member(self):
         mg_vars = self.mg_recipient_vars()
 
         members = [
