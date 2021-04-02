@@ -28,6 +28,6 @@ def teacher_progress():
 @bp.route("/daily", methods=["POST"])
 def daily_email():
     if current_app.config["DAILY_EMAILS"] and 1 <= core.day_number() <= core.max_rank():
-        # Users.fire_daily_reminder()
+        Users.fire_daily_reminder()
         return "OK", 200
     return "Challenge not active", 200
