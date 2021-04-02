@@ -34,6 +34,7 @@ class DefaultConfig:
     SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET")
     SLACK_OAUTH_TOKEN = os.getenv("SLACK_OAUTH_TOKEN")
     SLACK_CHANNEL = os.getenv("SLACK_CHANNEL")
+    DAILY_EMAILS = False
 
     # no trailing /
     EXTERNAL_URL = "https://challenge.codewizardshq.com"
@@ -79,6 +80,7 @@ class ProductionConfig(DefaultConfig):
     MG_LIST = os.getenv("MG_LIST")
     ANSWER_ATTEMPT_LIMIT = "5 per 1 minutes"
     VOTING_DISABLED = True
+    DAILY_EMAILS = os.getenv("DAILY_EMAILS") != ""
 
 
 class DevelopmentConfig(ProductionConfig):
@@ -96,6 +98,7 @@ class DevelopmentConfig(ProductionConfig):
     MAIL_SUPPRESS_SEND = False
     TESTING = True
     TEST_EMAIL_RECIPIENT = "sam@codewizardshq.com"
+    MG_LIST = "codechallenge-test@school.codewizardshq.com"
 
     @property
     def DIST_DIR(self):

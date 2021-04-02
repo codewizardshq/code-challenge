@@ -33,6 +33,17 @@ def mg_list_add(email_address, name, data=None):
     return r
 
 
+def mg_list_delete(list_address: str):
+    """Delete the given Mailing List name from Mailgun."""
+    response = requests.delete(
+        f"https://api.mailgun.net/v3/lists/{list_address}",
+        auth=__auth(),
+    )
+
+    if not response.ok and response.status_code != 404:
+        response.raise_for_status()
+
+
 def mg_validate(email_address):
     r = requests.get(
         "https://api.mailgun.net/v4/address/validate",
@@ -135,3 +146,23 @@ def mg_lists():
     response.raise_for_status()
 
     return response.json()["items"]
+
+
+def mg_bulk_add(list_name: str, users: list):
+    response = requests.post(
+        f"https://api.mailgun.net/v3/lists/{list_name}/members.json",
+        auth=__auth(),
+        data={"upsert": True, "members": json.dumps(users)},
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def mg_create_list(list_name: str):
+    response = requests.post(
+        "https://api.mailgun.net/v3/lists",
+        auth=__auth(),
+        data={"address": list_name, "description": "Code Challenge Participants"},
+    )
+    response.raise_for_status()
+    return response.json()

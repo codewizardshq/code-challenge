@@ -315,7 +315,7 @@ class Users(db.Model):
             password=password,
         )
 
-    def _mg_vars(self):
+    def mg_recipient_vars(self):
         return dict(
             codeChallengeUsername=self.username,
             studentEmail=self.student_email,
@@ -325,21 +325,33 @@ class Users(db.Model):
             parentFirstName=self.parent_first_name,
             parentLastName=self.parent_last_name,
             parentName=f"{self.parent_first_name} {self.parent_last_name}",
-            userId=self.id,
-            studentDOB=self.dob,
-            type="",
         )
 
     def add_to_mailing_list(self, list_name: str):
-        for i, addr in enumerate(self._mail_recipients()):
-            mg_vars = self._mg_vars()
+        for addr in self._mail_recipients():
+            mg_list_add(addr, list_name, self.mg_recipient_vars())
 
-            if i == 0:
-                mg_vars["type"] = "parent"
-            else:
-                mg_vars["type"] = "student"
+    def mg_member(self) -> list[dict]:
+        mg_vars = self.mg_recipient_vars()
 
-            mg_list_add(addr, list_name, mg_vars)
+        members = [
+            {
+                "name": self.parent_first_name,
+                "address": self.parent_email,
+                "vars": mg_vars,
+            }
+        ]
+
+        if self.student_email:
+            members.append(
+                {
+                    "name": self.student_first_name,
+                    "address": self.student_email,
+                    "vars": mg_vars,
+                }
+            )
+
+        return members
 
     def generate_password(self):
         """Generate a random password. Set's the user's password to the generated_students value,
@@ -456,6 +468,14 @@ class Users(db.Model):
     @classmethod
     def lookup_teacher(cls, email: str):
         return cls.query.filter_by(is_teacher=True, parent_email=email).first()
+
+    @classmethod
+    def fire_daily_reminder(cls):
+        mg_send(
+            [current_app.config["MG_LIST"]],
+            "New code challenge question is unlocked!",
+            render_template("challenge_daily.html"),
+        )
 
     def render_progress_report(self):
         assert self.is_teacher

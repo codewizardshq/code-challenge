@@ -3,3 +3,6 @@ cron:
   - name: "bulk-import-process"
     url: "/api/v1/emails/process"
     schedule: "*/15 * * * *"
+  - name: "daily-emails"
+    url: "/api/v1/eb/daily"
+    schedule: "0 13 * * *"
