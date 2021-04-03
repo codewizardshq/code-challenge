@@ -1,13 +1,11 @@
 <template>
   <div class="speech-area">
     <div class="speech-graphic"></div>
-
     <div class="speech-head">
       <div class="speech-title">
         <slot name="title" />
       </div>
     </div>
-
     <div class="speech-body">
       <slot name="default" />
     </div>
@@ -43,6 +41,8 @@ export default {
       position: relative
       left: -60px
       top: -8px
+      font-family: "Seymour One", sans-serif
+      text-transform: uppercase
 
   .speech-body
     z-index: 1
