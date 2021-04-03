@@ -1,8 +1,8 @@
-from flask import Blueprint, current_app
+from flask import Blueprint
 
-from .. import core
-from ..mailgun import mg_send
-from ..models import Users
+from CodeChallenge.decorators import challenge_active
+from CodeChallenge.mailgun import mg_send
+from CodeChallenge.models import Users
 
 bp = Blueprint("awsebapi", __name__, url_prefix="/api/v1/eb")
 
@@ -14,20 +14,17 @@ def eb_health_check():
 
 
 @bp.route("/teacher", methods=["POST"])
+@challenge_active
 def teacher_progress():
     """Send daily emails to teachers of their student's progress."""
-    teachers = Users.query.filter_by(is_teacher=True).all()
-
-    for teacher in teachers:  # type: Users
+    for teacher in Users.query.filter_by(is_teacher=True).all():  # type: Users
         body = teacher.render_progress_report()
         mg_send([teacher.parent_email], "Code Challenge Student Progress", body)
-
-    return "", 200
+    return "OK", 200
 
 
 @bp.route("/daily", methods=["POST"])
+@challenge_active
 def daily_email():
-    if current_app.config["DAILY_EMAILS"] and 1 <= core.day_number() <= core.max_rank():
-        Users.fire_daily_reminder()
-        return "OK", 200
-    return "Challenge not active", 200
+    Users.fire_daily_reminder()
+    return "OK", 200

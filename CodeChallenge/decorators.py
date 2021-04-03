@@ -1,6 +1,8 @@
 from functools import wraps
 
-from flask import request, after_this_request
+from flask import request, after_this_request, current_app, make_response
+
+from CodeChallenge import core
 
 
 def cors_allow(f):
@@ -17,5 +19,22 @@ def cors_allow(f):
             return response
 
         return f(*args, **kwargs)
+
+    return wrapped
+
+
+def challenge_active(f):
+    """Requires the Code Challenge to be """
+
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+
+        if (
+            current_app.config["DAILY_EMAILS"]
+            and 1 <= core.day_number() <= core.max_rank()
+        ):
+            return f(*args, **kwargs)
+        else:
+            return "Challenge not active", 200
 
     return wrapped

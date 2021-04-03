@@ -485,7 +485,7 @@ class Users(db.Model):
         pct = round(len(students) / total * 100)
 
         return render_template(
-            "teacher_progress.html",
+            "daily_teacher_progress.html",
             students=students,
             pct=pct,
             user=self,

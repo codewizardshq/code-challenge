@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>CodeWizardsHQ Code Challenge Account Confirmation Email</title>
+    <title>CodeWizardsHQ Code Challenge Welcome Email</title>
     <style>
         /* -------------------------------------
           GLOBAL RESET
@@ -34,6 +34,11 @@
         ------------------------------------- */
         body {
             background-color: #0E2228;
+            line-height: 1.8;
+        }
+
+        hr {
+            margin: 20px 0px;
         }
 
         .body-wrap {
@@ -43,7 +48,6 @@
             background-color: #0E2228;
             width: 100%;
         }
-
 
         .container {
             display: block !important;
@@ -68,7 +72,7 @@
         }
 
         .content-wrap {
-            padding: 40px;
+            padding: 20px 40px;
         }
 
         .content-block {
@@ -104,7 +108,7 @@
         h1, h2, h3 {
             font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             color: #000;
-            margin: 20px 0 0;
+            margin: 20px 0px;
             line-height: 1.2em;
             font-weight: 600;
         }
@@ -174,9 +178,30 @@
             text-align: left;
         }
 
+        .yellow {
+            color: #F8A91A;
+        }
+
         .social {
             max-width: 25px;
             display: inline-block;
+        }
+
+        #students {
+            margin-top: 20px;
+
+        }
+
+        #students th {
+            background-color: #F8A91A;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 5px;
+            font-size: 11px;
+        }
+
+        #students td {
+            padding: 5px;
         }
 
         /* -------------------------------------
@@ -209,16 +234,15 @@
             }
 
             h1, h2, h3, h4 {
-                font-weight: 800 !important;
-                margin: 20px 0 5px !important;
+
             }
 
             h1 {
-                font-size: 22px !important;
+                font-size: 24px !important;
             }
 
             h2 {
-                font-size: 18px !important;
+                font-size: 21px !important;
             }
 
             h3 {
@@ -261,13 +285,41 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                    {% block content %}
-                                    {% endblock %}
+                                        <h2>Day {{ rank }} Mission Log</h2>
+                                        <hr>
+                                        <p>Hi {{ user.student_first_name }},</p>
+
+                                        <p>Day {{ rank }} of the <a href="https://challenge.codewizardshq.com/login">Deep Space Crystal Chase</a> complete.</p>
+                                        <p><b>You currently have {{ pct }}% of students completing the challenge.</b> Keep it up and share with #codechallenge2021!</p>
+
+                                        <strong></strong>
+                                        <p></p>
+
+                                        <table style="width: 100%;" id="students">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Username</th>
+                                                <th class="aligncenter">Rank</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for student in students %}
+                                                <tr>
+                                                    <td>{{ student.student_first_name }} {{ student.student_last_name }}</td>
+                                                    <td>{{ student.username }}</td>
+                                                    <td class="aligncenter">{{ student.rank }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p><a class="btn-primary" href="https://challenge.codewizardshq.com/login">Login to Play</a><br/>
+                                        <p><a class="btn-primary" href="https://challenge.codewizardshq.com/login">LOGIN TO PLAY</a><br/>
                                     </td>
                                 </tr>
                             </table>
@@ -286,7 +338,7 @@
                 <div class="footer">
                     <table width="100%">
                         <tr>
-                            <td class="aligncenter content-block"><a href="%unsubscribe_url%">Unsubscribe</a> from Code Challenge updates.</td>
+                            <td class="aligncenter content-block"><a href="http://email.school.codewizardshq.com/u/eJxljDEOwyAQwF4TRnR3EAIDQ5vCP4CjIlIjlKRSpb6-7PXmwWafM-TsxOYJCEGRARwoiXI1Kway94eNIUSIk4artN5fsnSun-2bTr7aMWwXzc9qMZxMQXBV06wBaOFqiLOzVJ8oTn-lfTz-47ef6PYDgbkoyw">Unsubscribe</a> from Code Challenge updates.</td>
                         </tr>
                     </table>
                 </div></div>
