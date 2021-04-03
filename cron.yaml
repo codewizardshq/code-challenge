@@ -6,3 +6,6 @@ cron:
   - name: "daily-emails"
     url: "/api/v1/eb/daily"
     schedule: "0 13 * * *"
+  - name: "teacher-progress"
+    url: "/api/v1/eb/teacher"
+    schedule: "0 13 * * *"

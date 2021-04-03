@@ -13,7 +13,7 @@ def eb_health_check():
     return "OK", 200
 
 
-@bp.route("/teacher/progress", methods=["POST"])
+@bp.route("/teacher", methods=["POST"])
 def teacher_progress():
     """Send daily emails to teachers of their student's progress."""
     teachers = Users.query.filter_by(is_teacher=True).all()

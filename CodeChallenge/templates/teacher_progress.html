@@ -1,29 +1,54 @@
 {% extends "template_email.html" %}
 
 {% block content %}
-<p>Hi {{ user.student_first_name }},</p>
+    <style>
+        #students {
+            margin-top: 20px;
 
-<p>We have just completed day {{ rank }} of the Code Challenge.</p>
-<p>You currently have {{ pct }}% of students completing the challenge.</p>
+        }
 
-<strong>Keep it up and remember to share!</strong>
+        #students th {
+            background-color: #F8A91A;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 5px;
+            font-size: 11px;
+        }
 
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Rank</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for student in students %}
+        #students td {
+            padding: 5px;
+        }
+    </style>
+
+    <h2>Day {{ rank }} mission log</h2>
+    <hr>
+    <p>Hi {{ user.student_first_name }},</p>
+    <br>
+
+    <p>Day {{ rank }} of the <a href="https://challenge.codewizardshq.com/login">Deep Space Crystal Chase</a> complete..
+    </p>
+    <p><b>You currently have {{ pct }}% of students completing the challenge.</b> Keep it up and share with
+        #codechallenge2021!</p>
+
+    <strong></strong>
+    <p></p>
+
+    <table style="width: 100%;" id="students">
+        <thead>
         <tr>
-            <td>{{ student.student_first_name }} {{ student.student_last_name }}</td>
-            <td>{{ student.username }}</td>
-            <td>{{ student.rank }}</td>
+            <th>Name</th>
+            <th>Username</th>
+            <th class="aligncenter">Rank</th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.student_first_name }} {{ student.student_last_name }}</td>
+                <td>{{ student.username }}</td>
+                <td class="aligncenter">{{ student.rank }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
