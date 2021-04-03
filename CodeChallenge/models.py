@@ -474,7 +474,7 @@ class Users(db.Model):
         mg_send(
             [current_app.config["MG_LIST"]],
             "New Code Challenge question is unlocked!",
-            render_template("challenge_daily.html"),
+            render_template("challenge_daily.html", rank=core.current_rank()),
         )
 
     def render_progress_report(self):
