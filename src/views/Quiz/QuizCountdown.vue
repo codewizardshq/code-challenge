@@ -1,19 +1,19 @@
 <template>
   <div class="mt-6">
     <v-row justify="center" align="center">
-
-      <speech-area v-if="Quiz.awaitNextQuestion">
-        <template v-slot:title>Next Challenge</template>
-        <template v-slot:default>
-          <div v-if="Quiz.awaitNextQuestion">
-            Congratulations, {{ User.displayName }}!
-            <br />
-            You've conquered Level {{ User.rank - 1 }}.
-            <br />
-            <br />That's all the questions available for now.
-            <br />
-            The next question unlocks at 8AM Central Time tomorrow.
-            <!-- The next question unlocks {{ Quiz.nextUnlockMoment.fromNow() }} -->
+      <!--
+        <speech-area v-if="Quiz.awaitNextQuestion">
+          <template v-slot:title>Next Challenge</template>
+          <template v-slot:default>
+            <div v-if="Quiz.awaitNextQuestion">
+              Congratulations, {{ User.displayName }}!
+              <br />
+              You've conquered Level {{ User.rank - 1 }}.
+              <br />
+              <br />That's all the questions available for now.
+              <br />
+              The next question unlocks at 8AM Central Time tomorrow.
+             The next question unlocks {{ Quiz.nextUnlockMoment.fromNow() }}
           </div>
           <div v-else>
             Congratulations, {{ User.displayName }}!
@@ -24,7 +24,7 @@
           </div>
         </template>
       </speech-area>
-      <!--
+
       <speech-area v-else-if="!Quiz.quizHasStarted">
         <template v-slot:title>Woah Slow Down!</template>
         <template v-slot:default>
@@ -54,6 +54,10 @@
 
       <img width="400px" src="/images/coming-soon.png" />-->
     </v-row>
+    <br />
+    <br />That's all the questions available for now.
+    <br />
+    The next question unlocks at 8AM Central Time tomorrow.
     <quiz-need-help />
   </div>
 </template>
