@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center">
       <speech-area>
-        <template v-slot:title style="font-size:25px;">Deep Space Crystal Chase</template>
+        <template v-slot:title>The Tale of Two Suns</template>
         <template v-slot:default>
           <!--
           <img class="asset" :src="'/' + asset" v-if="!!asset" />
