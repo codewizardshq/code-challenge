@@ -54,6 +54,7 @@
 
       <img width="400px" src="/images/coming-soon.png" />-->
         <h2>The next question unlocks at 8AM Central Time tomorrow!</h2>
+        <h3>Share your success with friends and tag us to be featured. #CWHQChallenge #NymSavestheGalaxy</h3>
     </v-row>
     <quiz-need-help />
   </div>
