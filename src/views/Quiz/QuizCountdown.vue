@@ -56,7 +56,7 @@
         <h2>The next question unlocks at 8AM Central Time tomorrow!</h2><br>
     </v-row>
       <v-row justify="center" align="center">
-          <h3>Share your success with friends and tag us to be featured. #CWHQChallenge #NymSavestheGalaxy</h3>
+          <h3>Share your success with friends and tag us to be featured. #CWHQChallenge #NymSavesTheGalaxy</h3>
       </v-row>
       <v-row justify="center" align="center">
           <div class="v-card__text" align="center" style="width:200px;">
