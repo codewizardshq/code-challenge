@@ -78,7 +78,6 @@
                   aria-hidden="true" class="v-icon notranslate mdi mdi-email theme--dark"></i></span></a>
                 </div>
               </div>
-              <a href="https://github.com/codewizardshq/code-challenge" class="mt-6">Check out the source code on GitHub!</a>
           </div>
       </v-row>
     <quiz-need-help />
