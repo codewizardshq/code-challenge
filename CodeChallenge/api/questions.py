@@ -10,6 +10,7 @@ from .. import core
 from ..auth import Users
 from ..limiter import limiter, user_rank
 from ..models import Answer, Question, db
+from sqlalchemy import desc
 
 bp = Blueprint("questionsapi", __name__, url_prefix="/api/v1/questions")
 
@@ -309,8 +310,9 @@ def answer_eval():
 def leaderboard():
     page = request.args.get("page", type=int) or 1
     per = request.args.get("per", type=int) or 20
-
-    q = db.session.query(Users.username, Users.rank)
+    #q = db.session.query(Users.username, Users.rank)
+    q = db.session.query(Users.username, Users.rank).order_by(desc(Users.rank))
+    #q = db.session.query(Users.username, Users.rank).order_by(desc(Users.rank))
     p = q.paginate(page, per_page=per)
 
     return jsonify(
