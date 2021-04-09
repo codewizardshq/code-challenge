@@ -310,9 +310,7 @@ def answer_eval():
 def leaderboard():
     page = request.args.get("page", type=int) or 1
     per = request.args.get("per", type=int) or 20
-    #q = db.session.query(Users.username, Users.rank)
     q = db.session.query(Users.username, Users.rank).order_by(desc(Users.rank))
-    #q = db.session.query(Users.username, Users.rank).order_by(desc(Users.rank))
     p = q.paginate(page, per_page=per)
 
     return jsonify(
