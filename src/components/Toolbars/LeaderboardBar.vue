@@ -40,10 +40,18 @@ export default {
     // while (this.items.length < 100) {
     for (const leader of leaders) {
       //if (leader[1] > 15) {
-      this.items.push({
-        username: leader[0],
-        rank: leader[1]
-      });
+      var index_of_at = leader[0].indexOf("@");
+      if(index_of_at === -1){
+        this.items.push({
+          username: leader[0],
+          rank: leader[1]
+        });
+      } else {
+        this.items.push({
+          username: leader[0].substring(0, index_of_at),
+          rank: leader[1]
+        });
+      }
       //}
     }
     // }
