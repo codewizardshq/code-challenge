@@ -44,12 +44,12 @@ export default {
       if(index_of_at === -1){
         this.items.push({
           username: leader[0],
-          rank: leader[1]
+          rank: leader[1] + 1
         });
       } else {
         this.items.push({
           username: leader[0].substring(0, index_of_at),
-          rank: leader[1]
+          rank: leader[1] + 1
         });
       }
       //}
