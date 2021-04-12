@@ -131,17 +131,17 @@ import { Quiz, User } from "@/store";
 export default {
   name: "quiz",
   components: {
-    QuizNeedHelp,
+    QuizNeedHelp
   },
   computed: {
     ...User.mapState(),
-    ...Quiz.mapState(),
+    ...Quiz.mapState()
   },
   methods: {
     async onClick() {
       await this.$store.dispatch("Quiz/markAsSeen");
       this.$router.push({ name: "quiz" });
-    },
-  },
+    }
+  }
 };
 </script>

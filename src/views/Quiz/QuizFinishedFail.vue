@@ -49,13 +49,13 @@ import { User } from "@/store";
 export default {
   name: "quiz-finished-fail",
   components: {
-    QuizScroll,
+    QuizScroll
   },
   computed: {
     firstName() {
       return User.firstName;
-    },
+    }
   },
-  mounted() {},
+  mounted() {}
 };
 </script>
