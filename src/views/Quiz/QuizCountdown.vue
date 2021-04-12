@@ -63,40 +63,45 @@
       </h3>
     </v-row>
     <v-row justify="center" align="center">
-      <div class="v-card__text" align="center" style="width:200px;">
-        <div class="row pt-3 no-gutters">
-          <social-media-link
-            anchor-href="https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&amp;url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;original_referer="
-            iconClass="v-icon notranslate mdi mdi-twitter theme--dark"
-          />
-          <social-media-link
-            anchor-href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;amp;src=sdkpreparse"
-            iconClass="v-icon notranslate mdi mdi-facebook theme--dark"
-          />
-          <social-media-link
-            anchor-href="https://www.linkedin.com/company/codewizardshq"
-            iconClass="v-icon notranslate mdi mdi-linkedin theme--dark"
-          />
-          <social-media-link
-            anchor-href="mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
-            iconClass="v-icon notranslate mdi mdi-email theme--dark"
-          />
-        </div>
-      </div>
+      <v-card class="social-pop-over">
+        <v-card-text>
+          <v-row no-gutters class="pt-3">
+            <social-media-link
+              anchor-href="https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&amp;url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;original_referer="
+              icon-name="mdi-twitter"
+            />
+            <social-media-link
+              anchor-href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;amp;src=sdkpreparse"
+              icon-name="mdi-facebook"
+            />
+            <social-media-link
+              anchor-href="https://www.linkedin.com/company/codewizardshq"
+              icon-name="mdi-linkedin"
+            />
+            <social-media-link
+              anchor-href="mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
+              icon-name="mdi-email"
+            />
+          </v-row>
+          <a class="mt-6" href="https://github.com/codewizardshq/code-challenge"
+            >Check out the source code on GitHub!</a
+          >
+        </v-card-text>
+      </v-card>
     </v-row>
-    <quiz-need-help />
+    <!-- <quiz-need-help /> -->
   </div>
 </template>
 
 <script>
-import QuizNeedHelp from "@/components/QuizNeedHelp";
+// import QuizNeedHelp from "@/components/QuizNeedHelp";
 import SocialMediaLink from "@/components/SocialMediaLink";
 import { Quiz, User } from "@/store";
 
 export default {
   name: "quiz",
   components: {
-    QuizNeedHelp,
+    // QuizNeedHelp,
     SocialMediaLink
   },
   computed: {

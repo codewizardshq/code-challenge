@@ -1,14 +1,9 @@
 <template>
-  <div class="text-center col col-6">
-    <a
-      :href="anchorHref"
-      target="_blank"
-      class="icon v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
+  <v-col cols="6" class="text-center">
+    <v-btn :href="anchorHref" target="_blank" class="icon">
+      <v-icon>{{ iconName }}</v-icon></v-btn
     >
-      <span class="v-btn__content"
-        ><i aria-hidden="true" :class="iconClass"></i></span
-    ></a>
-  </div>
+  </v-col>
 </template>
 
 <script>
@@ -19,7 +14,7 @@ export default {
       type: String,
       required: true
     },
-    iconClass: {
+    iconName: {
       type: String,
       required: true
     }
