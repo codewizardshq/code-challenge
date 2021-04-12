@@ -1,7 +1,7 @@
 <template>
   <div class="mt-6">
     <v-row justify="center" align="center">
-<!--
+      <!--
       <speech-area v-if="Quiz.awaitNextQuestion">
         <template v-slot:title>Next Challenge</template>
         <template v-slot:default>
@@ -53,33 +53,73 @@
       </speech-area>
 
       <img width="400px" src="/images/coming-soon.png" />-->
-        <h2>The next question unlocks at 8AM Central Time tomorrow!</h2><br>
+      <h2>The next question unlocks at 8AM Central Time tomorrow!</h2>
+      <br />
     </v-row>
-      <v-row justify="center" align="center">
-          <h3>Share your success with friends and tag us to be featured. #CWHQChallenge #NymSavesTheGalaxy</h3>
-      </v-row>
-      <v-row justify="center" align="center">
-          <div class="v-card__text" align="center" style="width:200px;">
-              <div class="row pt-3 no-gutters">
-                <div class="text-center col col-6">
-                  <a href="https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&amp;url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;original_referer=" target="_blank"
-                                                      class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default">
-                    <span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-twitter theme--dark"></i></span></a></div>
-                <div class="text-center col col-6">
-                  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;amp;src=sdkpreparse" target="_blank"
-                                                      class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default">
-                    <span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-facebook theme--dark"></i></span></a></div>
-                <div class="text-center col col-6">
-                  <a href="https://www.linkedin.com/company/codewizardshq" target="_blank" class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default">
-                    <span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-linkedin theme--dark"></i></span></a>
-                </div>
-                <div class="text-center col col-6"><a href="mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!" target="_blank" class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default">
-                  <span class="v-btn__content"><i
-                  aria-hidden="true" class="v-icon notranslate mdi mdi-email theme--dark"></i></span></a>
-                </div>
-              </div>
+    <v-row justify="center" align="center">
+      <h3>
+        Share your success with friends and tag us to be featured.
+        #CWHQChallenge #NymSavesTheGalaxy
+      </h3>
+    </v-row>
+    <v-row justify="center" align="center">
+      <div class="v-card__text" align="center" style="width:200px;">
+        <div class="row pt-3 no-gutters">
+          <div class="text-center col col-6">
+            <a
+              href="https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&amp;url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;original_referer="
+              target="_blank"
+              class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
+            >
+              <span class="v-btn__content"
+                ><i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-twitter theme--dark"
+                ></i></span
+            ></a>
           </div>
-      </v-row>
+          <div class="text-center col col-6">
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;amp;src=sdkpreparse"
+              target="_blank"
+              class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
+            >
+              <span class="v-btn__content"
+                ><i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-facebook theme--dark"
+                ></i></span
+            ></a>
+          </div>
+          <div class="text-center col col-6">
+            <a
+              href="https://www.linkedin.com/company/codewizardshq"
+              target="_blank"
+              class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
+            >
+              <span class="v-btn__content"
+                ><i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-linkedin theme--dark"
+                ></i></span
+            ></a>
+          </div>
+          <div class="text-center col col-6">
+            <a
+              href="mailto:?subject=Join%20me%20in%20the%20CodeWizardsHQ%20Code%20Challenge!"
+              target="_blank"
+              class="v-btn v-btn--is-elevated v-btn--has-bg theme--dark v-size--default"
+            >
+              <span class="v-btn__content"
+                ><i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-email theme--dark"
+                ></i></span
+            ></a>
+          </div>
+        </div>
+      </div>
+    </v-row>
     <quiz-need-help />
   </div>
 </template>
@@ -91,17 +131,17 @@ import { Quiz, User } from "@/store";
 export default {
   name: "quiz",
   components: {
-    QuizNeedHelp
+    QuizNeedHelp,
   },
   computed: {
     ...User.mapState(),
-    ...Quiz.mapState()
+    ...Quiz.mapState(),
   },
   methods: {
     async onClick() {
       await this.$store.dispatch("Quiz/markAsSeen");
       this.$router.push({ name: "quiz" });
-    }
-  }
+    },
+  },
 };
 </script>
