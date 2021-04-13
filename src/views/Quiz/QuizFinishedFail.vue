@@ -53,9 +53,8 @@ export default {
   },
   computed: {
     firstName() {
-      return User.firstName;
+      return User.state.firstName;
     }
-  },
-  mounted() {}
+  }
 };
 </script>

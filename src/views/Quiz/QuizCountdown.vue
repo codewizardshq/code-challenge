@@ -89,19 +89,16 @@
         </v-card-text>
       </v-card>
     </v-row>
-    <!-- <quiz-need-help /> -->
   </div>
 </template>
 
 <script>
-// import QuizNeedHelp from "@/components/QuizNeedHelp";
 import SocialMediaLink from "@/components/SocialMediaLink";
 import { Quiz, User } from "@/store";
 
 export default {
   name: "quiz",
   components: {
-    // QuizNeedHelp,
     SocialMediaLink
   },
   computed: {
