@@ -28,6 +28,7 @@ export default {
 <style lang="sass" scoped>
 .speech-area
   position: relative
+  margin-top: 50px
 
   .speech-head
     font-size: 30px
