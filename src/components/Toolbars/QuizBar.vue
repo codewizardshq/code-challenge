@@ -95,6 +95,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+  font-weight: normal;
+  color: #f7e4c4 !important;
+  text-decoration: none;
+  margin-left: 8px;
+  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  top: 2px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .list {
   padding: 20px;
 }
@@ -112,4 +128,12 @@ export default {
 .v-toolbar__content {
   background-image: url("/images/navbar-patterned-background.png");
 }
+
+/*
+  span{
+    top: 2px;
+    position: relative;
+  }
+
+   */
 </style>
