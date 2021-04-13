@@ -1,13 +1,25 @@
 .quiz-answer {
   .v-card {
-    background: url("/images/blue-answer-box-bg.png") no-repeat;
-    background-size: 100% 100%;
-    background-repeat: none;
-    width: 500px;
-    margin-top: 200px;
-    padding: 12px;
+    background-image: url("/images/answer-input-area.svg");
+    background-size: contain;
+    // background-size: 100% 100%;
+    // background-repeat: none;
+    // width: 500px;
+    // margin-top: 200px;
+    // padding: 12px;
+    // z-index: 2;
+    // margin-bottom: 300px;
+
+    position: absolute;
+    width: 826px;
+    height: 272px;
+    left: 922px;
+    top: 200px;
     z-index: 2;
-    margin-bottom: 300px;
+
+    // background: #1C1F34;
+    border: 8px solid #C2CFE1;
+    // display: flex;
 
     .attempts-remaining {
       text-align: center;
@@ -15,17 +27,28 @@
     }
 
     .v-btn {
-      width: 100%;
+      width: 142px;
+      height: 142px;
       color: $dark !important;
       font-family: "Oxygen", sans-serif;
       font-size: 40px;
       letter-spacing: 12px;
       height: 80px !important;
       margin-top: 12px;
+
+      // position: absolute;
+      // left: 81.2%;
+      // right: 11.41%;
+      // top: 49.83%;
+      // bottom: 38.33%;
+
+      // background: url(Layer 695.png);
     }
 
     .v-form {
       margin-top: 20px;
+      display: flex;
+
       .text-field {
         margin-bottom: 40px;
         background-color: #dbe6ea;
