@@ -30,7 +30,7 @@
         <v-col>
           <p
             v-if="User.isAuthorized"
-            class="archivo mt-7 primary--text displayNone"
+            class="archivo mt-7 primary--text welcome-text"
           >
             Welcome, {{ User.displayName }}
           </p>
@@ -99,8 +99,12 @@ export default {
   padding: 20px;
 }
 
+.welcome-text {
+  color: #f7e4c4 !important;
+}
+
 @media screen and (max-width: 1000px) {
-  .displayNone {
+  .welcome-text {
     display: none;
   }
 }
@@ -109,4 +113,3 @@ export default {
   background-image: url("/images/navbar-patterned-background.png");
 }
 </style>
-d
