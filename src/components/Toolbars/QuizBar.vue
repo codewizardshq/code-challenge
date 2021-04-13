@@ -2,7 +2,7 @@
   <v-toolbar
     :height="80"
     :max-height="80"
-    class="secondary--text testing"
+    class="secondary--text"
     color="dark2 quiz-bar"
     src="/images/cwhq-pattern-bg.png"
     flat
@@ -103,10 +103,6 @@ export default {
   .displayNone {
     display: none;
   }
-}
-
-.testing {
-  object-fit: cover;
 }
 
 .v-toolbar__content {
