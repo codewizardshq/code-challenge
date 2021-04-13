@@ -35,7 +35,7 @@ def get_current_start():
 def set_rank(rank):
     """Set CODE_CHALLENGE_START according to the desired rank."""
     max_rank = core.max_rank()
-    if rank >= max_rank:
+    if rank > max_rank:
         click.secho(
             f"The rank cannot be set that high. The max rank is {max_rank}",
             err=True,

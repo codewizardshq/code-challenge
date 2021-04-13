@@ -27,7 +27,7 @@ def end_code_challenge():
         abort(r)
 
 
-@bp.route("/rank", methods=["GET"])
+@bp.route("/rank")
 def get_rank():
     return jsonify(
         status="success",
@@ -314,7 +314,7 @@ def leaderboard():
     p = q.paginate(page, per_page=per)
 
     return jsonify(
-        items=p.items,
+        items=[{"username": i[0], "rank": i[1]} for i in p.items],
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
