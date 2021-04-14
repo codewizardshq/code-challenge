@@ -97,7 +97,7 @@ class DevelopmentConfig(ProductionConfig):
     ALLOW_RESET = True
     MAIL_SUPPRESS_SEND = False
     TESTING = True
-    TEST_EMAIL_RECIPIENT = "sam@codewizardshq.com"
+    TEST_EMAIL_RECIPIENT = "jeffreyw@codewizardshq.com"
     MG_LIST = "codechallenge-test@school.codewizardshq.com"
 
     @property
