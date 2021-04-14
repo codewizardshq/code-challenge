@@ -19,6 +19,11 @@ def teacher_progress():
     """Send daily emails to teachers of their student's progress."""
     for teacher in Users.query.filter_by(is_teacher=True).all():  # type: Users
         body = teacher.render_progress_report()
+
+        if body is None:
+            # teacher had no students
+            continue
+
         mg_send([teacher.parent_email], "Code Challenge Student Progress", body)
     return "OK", 200
 
