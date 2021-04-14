@@ -479,14 +479,23 @@ class Users(db.Model):
 
     def render_progress_report(self):
         assert self.is_teacher
-        students = Users.query.filter_by(teacher_id=self.id).all()
+        total_students = (
+            db.session.query(func.count(Users.id))
+            .filter(Users.teacher_id == self.id)
+            .scalar()
+        )
 
-        total = core.user_count()
-        pct = round(len(students) / total * 100)
+        total_at_rank = (
+            db.session.query(func.count(Users.id))
+            .filter(Users.teacher_id == self.id, Users.rank >= core.current_rank() - 1)
+            .scalar()
+        )
+
+        pct = round((total_at_rank / total_students) * 100)
 
         return render_template(
             "daily_teacher_progress.html",
-            students=students,
+            students=total_students,
             pct=pct,
             user=self,
             rank=core.current_rank(),
