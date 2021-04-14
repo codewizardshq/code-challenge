@@ -48,7 +48,7 @@ class DefaultConfig:
 
     # number of days to leave CodeChallenge open
     # past the final rank
-    CHALLENGE_ENDS = 1
+    CHALLENGE_ENDS = 2
 
     BULK_IMPORT_SENDER = "Kelli at CodeWizardsHQ <kelli@codewizardshq.com>"
 
@@ -90,7 +90,7 @@ class DevelopmentConfig(ProductionConfig):
         "mysql://cc-user:password@localhost/code_challenge_local",
     )
     JWT_COOKIE_SECURE = False
-    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1618349460")
+    CODE_CHALLENGE_START = os.getenv("CODE_CHALLENGE_START", "1616317200")
     JWT_SECRET_KEY = "SuperSecret"
     SECRET_KEY = "flaskSecretKey"
     JWT_COOKIE_CSRF_PROTECT = False
