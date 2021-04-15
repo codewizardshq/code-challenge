@@ -1,8 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center">
+  <v-container fluid class="container">
+    <v-row justify="center" class="container-row">
       <speech-area>
-        <template v-slot:title style="font-size:25px;">Nym's Crystal Chase</template>
+        <template v-slot:title style="font-size:25px;"
+          >Nym's Crystal Chase</template
+        >
         <template v-slot:default>
           <!--
           <img class="asset" :src="'/' + asset" v-if="!!asset" />
@@ -53,3 +55,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.container {
+  overflow: auto;
+}
+</style>

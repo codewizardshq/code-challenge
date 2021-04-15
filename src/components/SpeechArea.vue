@@ -1,6 +1,5 @@
 <template>
   <div class="speech-area">
-    <div class="speech-graphic"></div>
     <div class="speech-head">
       <div class="speech-title">
         <slot name="title" />
@@ -27,8 +26,12 @@ export default {
 
 <style lang="sass" scoped>
 .speech-area
-  position: relative
   margin-top: 50px
+  z-index: 5
+  width: 670px
+  height: 666px
+  background-size: contain
+  background-image: url("/images/main-text-area.svg")
 
   .speech-head
     font-size: 30px
@@ -40,7 +43,6 @@ export default {
     .speech-title
       text-align: center
       position: relative
-      left: -60px
       top: -8px
       font-family: "Seymour One", sans-serif
       text-transform: uppercase
@@ -49,17 +51,8 @@ export default {
     z-index: 1
     position: relative
     text-align: left
+    margin-left: 58px
     width: 560px
-    left: -60px
     top: 55px
     height: 495px
-
-  .speech-graphic
-    position: absolute
-    z-index: 0
-    width: 1200px
-    height: 666px
-    left: -111px
-    background-image: url("/images/main-text-area.svg")
-    background-size: contain
 </style>

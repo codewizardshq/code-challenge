@@ -1,13 +1,26 @@
 .quiz-answer {
   .v-card {
-    background: url("/images/blue-answer-box-bg.png") no-repeat;
-    background-size: 100% 100%;
-    background-repeat: none;
-    width: 500px;
-    margin-top: 200px;
-    padding: 12px;
-    z-index: 2;
-    margin-bottom: 300px;
+    position: relative;
+    background-size: contain;
+    width: 826px;
+    height: 272px;
+    top: 230px;
+    background: #1C1F34;
+    border: 8px solid #C2CFE1;
+    margin-left: -45px;
+
+    @media  screen and (max-width: 1450px) {
+      margin-left: 0;
+    }
+
+    .mascot {
+      height: 50px;
+      width: 50px;
+      background: red;
+      position: absolute;
+      top: -20px;
+      left: 320px;
+    }
 
     .attempts-remaining {
       text-align: center;
@@ -15,19 +28,37 @@
     }
 
     .v-btn {
-      width: 100%;
+      width: 142px;
+      height: 142px !important;
       color: $dark !important;
+      background-color: gray !important;
       font-family: "Oxygen", sans-serif;
       font-size: 40px;
       letter-spacing: 12px;
-      height: 80px !important;
-      margin-top: 12px;
+      margin-top: 30px;
+    }
+
+    .buttons {
+      position: absolute;
+      top: 160px;
+      left: 100px;
+
+      .hint-button {
+        font-size: 20px;
+        letter-spacing: normal;
+        height: 60px !important;
+      }
     }
 
     .v-form {
       margin-top: 20px;
+      display: flex;
+
       .text-field {
-        margin-bottom: 40px;
+        width: 486px;
+        height: 100px;
+        margin-top: 50px;
+        margin-left: 70px;
         background-color: #dbe6ea;
         opacity: 0.8;
         padding-top: 20px;
@@ -45,9 +76,10 @@
         }
 
         .v-input {
-          z-index: 10;
+          z-index: 10000;
           position: relative;
           margin: 0;
+          margin-top: 8px;
           padding: 0;
           caret-color: #031e41 !important;
           color: #031e41 !important;
@@ -80,14 +112,14 @@
       }
     }
 
-    img {
-      top: -200px;
-      position: absolute;
-      width: 400px;
-      height: auto;
-      left: 100px;
-      -webkit-transform: scaleX(-1);
-      transform: scaleX(-1);
-    }
+    // img {
+    //   top: -200px;
+    //   position: absolute;
+    //   width: 400px;
+    //   height: auto;
+    //   left: 100px;
+    //   -webkit-transform: scaleX(-1);
+    //   transform: scaleX(-1);
+    // }
   }
 }
