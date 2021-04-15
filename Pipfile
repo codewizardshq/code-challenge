@@ -26,6 +26,7 @@ pandas = "*"
 openpyxl = "*"
 sqlalchemy = "*"
 werkzeug = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.8"

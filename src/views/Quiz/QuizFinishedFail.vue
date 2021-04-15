@@ -5,20 +5,20 @@
         <template v-slot:title>It's Over!</template>
         <template v-slot:default>
           <div style="padding-left:130px; padding-right: 130px;">
-            Sorry my young pilgrim, your quest has ended.
+            Sorry {{ firstName }}, your mission has ended.
             <br />
             <br />
-            Be proud of the work you did!
+            Your efforts were admirable! Nym and the Allsnacks Alliance thank
+            you.
             <br />
             <br />
-            Brush up on your coding skills and follow us on Facebook and Twitter
-            to compete again next year. You can still vote on The Dragon Quest
-            winner starting 5 PM CT On Sunday, April 26.
+            You can still vote for this year's winner from April 26-30 and try
+            again next year.
             <br /><br />
             <v-btn :to="{ name: 'voting' }" color="white" light
               >Cast Your Votes Here</v-btn
             ><br />
-            <v-btn
+            <!-- <v-btn
               class="mr-3 mt-5"
               :style="{ backgroundColor: 'white !important' }"
               x-large
@@ -35,7 +35,7 @@
               href="https://twitter.com/intent/tweet?text=The%20Dragon%20Quest%20%E2%80%93%20Code%20Challenge&url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&original_referer="
               icon
               ><v-icon>mdi-twitter</v-icon></v-btn
-            >
+            > -->
           </div>
         </template>
       </quiz-scroll>
@@ -45,11 +45,16 @@
 
 <script>
 import QuizScroll from "@/components/QuizScroll";
+import { User } from "@/store";
 export default {
   name: "quiz-finished-fail",
   components: {
     QuizScroll
   },
-  mounted() {}
+  computed: {
+    firstName() {
+      return User.state.firstName;
+    }
+  }
 };
 </script>
