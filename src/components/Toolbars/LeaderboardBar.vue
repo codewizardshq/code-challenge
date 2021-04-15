@@ -65,3 +65,84 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.leaderboard-bar {
+  $lbLight: rgba(247, 228, 196, 1);
+  $lbLight70: rgba(247, 228, 196, 0.7);
+  $lbDark: rgba(85, 83, 94, 1);
+  $opaque: rgba(1, 1, 1, 0);
+  $height: 43px;
+
+  background-color: $lbLight;
+
+  .lb-item {
+    color: $lbLight;
+    display: inline-block;
+    padding: 5px 4px;
+    margin-left: 15px;
+    margin-right: 15px;
+    height: $height;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+
+    img.rank {
+      height: $height;
+      display: inline-block;
+      position: relative;
+      margin-right: 8px;
+    }
+
+    div.rank {
+      position: absolute;
+      height: $height;
+      width: 16px;
+      text-align: center;
+      top: 8px;
+      left: 10px;
+      color: #fec;
+      font-family: "Seymour One", sans-serif;
+    }
+
+    .display {
+      display: inline-block;
+      height: $height;
+      color: $lbDark;
+      margin-top: 5px;
+      font-family: "Oxygen", sans-serif;
+    }
+  }
+
+  .fade {
+    position: absolute;
+    width: 400px;
+    height: 100%;
+    background-image: linear-gradient(
+      to right,
+      $lbDark,
+      $lbDark,
+      $lbLight70,
+      $opaque
+    );
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
+  .rotated-text {
+    position: absolute;
+    color: honeydew;
+    z-index: 999999;
+    font-size: 20px;
+    text-align: center;
+    height: 100%;
+    left: 10px;
+    top: 10px;
+    font-family: "Seymour One", sans-serif;
+  }
+
+  .lb-marquee {
+    background-color: $lbLight;
+  }
+}
+</style>
