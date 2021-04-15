@@ -6,6 +6,7 @@
     class="leaderboard-bar"
     color="#fec"
     width="100%"
+    tag="footer"
   >
     <div class="rotated-text">
       LEADERBOARD
@@ -24,7 +25,7 @@
 <script>
 import MarqueeText from "vue-marquee-text-component";
 import * as api from "@/api";
-import { shuffle } from "@/util";
+// import { shuffle } from "@/util";
 
 export default {
   components: {
@@ -41,7 +42,7 @@ export default {
     for (const leader of leaders) {
       //if (leader[1] > 15) {
       var index_of_at = leader[0].indexOf("@");
-      if(index_of_at === -1){
+      if (index_of_at === -1) {
         this.items.push({
           username: leader[0],
           rank: leader[1] + 1
