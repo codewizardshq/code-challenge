@@ -1,25 +1,29 @@
 .quiz-answer {
+  display: flex;
+  align-items: center;
+
   .v-card {
     position: relative;
     background-size: contain;
     width: 826px;
-    height: 272px;
-    top: 230px;
-    background: #1C1F34;
+    height: 230px;
+    background: url('/images/module-background.png');
     border: 8px solid #C2CFE1;
     margin-left: -45px;
 
-    @media  screen and (max-width: 1450px) {
+    @media only screen and (max-width: 1500px) {
       margin-left: 0;
+      margin-top: 150px;
     }
 
     .mascot {
-      height: 50px;
-      width: 50px;
-      background: red;
+      height: 100%;
+      width: 200px;
+      background: url("/images/nym-on-platform.svg");
+      background-repeat: no-repeat !important;
       position: absolute;
-      top: -20px;
-      left: 320px;
+      top: -170px;
+      left: 243px;
     }
 
     .attempts-remaining {
@@ -31,38 +35,38 @@
       width: 142px;
       height: 142px !important;
       color: $dark !important;
-      background-color: gray !important;
+      background-color: #505895 !important;
       font-family: "Oxygen", sans-serif;
-      font-size: 40px;
+      font-size: 100px;
       letter-spacing: 12px;
-      margin-top: 30px;
+      margin-left: 5px;
     }
 
     .buttons {
       position: absolute;
-      top: 160px;
+      top: 146px;
       left: 100px;
 
       .hint-button {
         font-size: 20px;
+        font-weight: bold;
         letter-spacing: normal;
         height: 60px !important;
       }
     }
 
     .v-form {
-      margin-top: 20px;
       display: flex;
+      align-items: center;
 
       .text-field {
         width: 486px;
         height: 100px;
-        margin-top: 50px;
         margin-left: 70px;
         background-color: #dbe6ea;
         opacity: 0.8;
         padding-top: 20px;
-        border: solid thick $primary;
+        border: solid thick #C2CFE1;
 
         .theme--dark.v-label {
           color: #031e41 !important;

@@ -51,7 +51,7 @@ export default {
     z-index: 1
     position: relative
     text-align: left
-    margin-left: 58px
+    margin-left: 48px
     width: 560px
     top: 55px
     height: 495px

@@ -17,7 +17,7 @@
           </div>
 
           <v-btn x-large color="primary" :disabled="isDisabled" type="submit"
-            >X</v-btn
+            >&#10003;</v-btn
           >
         </v-form>
       </v-card-text>
