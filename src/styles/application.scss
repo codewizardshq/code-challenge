@@ -14,6 +14,8 @@
     }
   }
 
+  // TODO: couldn't put this in scoped scss due to v-html not tagging the class appropriately
+  // try /deep/ method
   .speech-body pre {
     background-color: black;
     padding: 2px 5px;
