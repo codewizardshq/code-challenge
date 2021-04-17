@@ -30,6 +30,8 @@
 </template>
 
 <script>
+// TODO: I believe this component is depricated, doesn't seem to be imported anywhere
+// Older version of QuizNeedHelp.vue?
 export default {
   data: () => ({
     isOpen: false,

@@ -6,7 +6,7 @@
         <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
       </template>
       <v-card class="social-pop-over">
-        <v-card-text>
+        <v-card-text class="card-text">
           <v-row no-gutters class="pt-3">
             <v-col
               v-for="icon in icons"
@@ -65,4 +65,16 @@ export default {
 .v-dialog {
   box-shadow: none;
 }
+</style>
+
+<style lang="scss" scoped>
+/* TODO: implement flex, consolidate this with social-pop-over.scss, QuizCountdown.vue, and SocialPopOver.vue */
+/* .card-text {
+  display: flex;
+  flex-direction: column;
+
+  .button-row {
+    padding-top: 0 !important;
+  }
+} */
 </style>
