@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// TODO: rename this file at some point, since it's no longer a scroll
 export default {
   name: "quizScroll"
 };
@@ -21,9 +22,9 @@ export default {
 <style lang="scss" scoped>
 .quiz-scroll {
   width: 550px;
-  height: 650px;
   display: flex;
-  margin-top: 30px;
+  margin: 30px 0;
+  padding: 10px 0;
   flex-direction: column;
   border: 8px solid #c2cfe1;
   background: url("/images/module-background.png");
@@ -41,7 +42,7 @@ export default {
       margin-top: 10px;
       font-size: 50px;
       top: 42px;
-      color: white !important;
+      color: white;
       font-family: "buWicked";
     }
   }
@@ -59,8 +60,6 @@ export default {
 
     .scroll-content {
       width: 420px;
-      margin-left: auto;
-      margin-right: auto;
       font-size: 24px;
       color: #031e41 !important;
       font-family: "Barrow2Light";
