@@ -23,11 +23,29 @@ async function logout() {
 }
 
 const routes = [
+  // testing route
+  {
+    path: "/testing",
+    component: () => import("@/views/Voting/App"),
+    children: [
+      {
+        path: "vote",
+        name: "vote",
+        component: () => import("@/views/Voting/Ballot")
+      }
+    ]
+  },
   {
     // basically a dynamic home page
     path: "/",
     name: "redirect",
     beforeEnter(to, from, next) {
+      // for testing
+      if (to.path === "/testing/vote") {
+        console.log("in redirect", to.path);
+        next({ path: "/testing/vote" });
+        return;
+      }
       if (isChallengeOpen() || isChallengePending()) {
         next({ name: "quiz" });
         return;
@@ -226,6 +244,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  // for testing
+  if (to.path === "/testing/vote") {
+    console.log("bypassing beforeEach");
+    next();
+    return;
+  }
+
   const requireAuth = to.matched.some(record => record.meta.secured);
   const requireAnon = to.matched.some(record => record.meta.anon);
   const requireChallengePending = to.matched.some(
