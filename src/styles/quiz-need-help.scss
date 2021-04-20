@@ -6,8 +6,13 @@
   height: 281px;
   position: fixed;
   right: -250px;
-  bottom: 80px;
+  bottom: 50px;
   z-index: 100;
+
+  @media screen and (max-width: 1200px) {
+    // not a perfect fix, but keeps this component from covering answer box button on small screens
+    bottom: 250px;
+  }
 
   /*
   transition: all 1000ms;

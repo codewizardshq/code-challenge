@@ -4,7 +4,7 @@
     :max-height="80"
     class="secondary--text"
     color="dark2 quiz-bar"
-    src="/images/cwhq-pattern-bg.png"
+    src="/images/navbar-dark.png"
     flat
   >
     <div
@@ -125,9 +125,9 @@ a {
   }
 }
 
-.v-toolbar__content {
+/* .v-toolbar__content {
   background-image: url("/images/navbar-patterned-background.png");
-}
+} */
 
 /*
   span{
