@@ -1,9 +1,10 @@
 <template>
   <v-toolbar
-    :height="100"
-    :max-height="100"
+    :height="80"
+    :max-height="80"
     class="secondary--text"
     color="dark2 quiz-bar"
+    src="/images/cwhq-pattern-bg.png"
     flat
   >
     <div
@@ -27,7 +28,10 @@
           </router-link>
         </v-col>
         <v-col>
-          <p v-if="User.isAuthorized" class="archivo mt-7 primary--text">
+          <p
+            v-if="User.isAuthorized"
+            class="archivo mt-7 primary--text welcome-text"
+          >
             Welcome, {{ User.displayName }}
           </p>
 
@@ -90,11 +94,46 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-.list
-  padding: 20px
+<style lang="scss" scoped>
+a {
+  font-weight: normal;
+  color: #f7e4c4 !important;
+  text-decoration: none;
+  margin-left: 8px;
+  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  top: 2px;
 
-.v-toolbar__content
-  background-image: url("/images/navbar-patterned-background.png")
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.list {
+  padding: 20px;
+}
+
+.welcome-text {
+  color: #f7e4c4 !important;
+}
+
+@media screen and (max-width: 1000px) {
+  .welcome-text {
+    display: none;
+  }
+}
+
+.v-toolbar__content {
+  background-image: url("/images/navbar-patterned-background.png");
+}
+
+/*
+  span{
+    top: 2px;
+    position: relative;
+  }
+
+   */
 </style>
-d
