@@ -1,9 +1,11 @@
 import { mapState } from "vuex";
 import { quiz } from "@/api";
-import moment from "moment";
+import dayjs from "dayjs";
 import Vue from "vue";
+import updateLocale from "dayjs/plugin/updateLocale";
 
-moment.updateLocale("en", {
+dayjs.extend(updateLocale);
+dayjs.updateLocale("en", {
   relativeTime: {
     future: "in %s",
     past: "%s ago",
@@ -44,7 +46,7 @@ function parseDateResponse(dateResponse) {
   const hours = time[0];
   const minutes = time[1];
   const seconds = time[2];
-  return moment()
+  return dayjs()
     .add(days, "days")
     .add(hours, "hours")
     .add(minutes, "minutes")
@@ -54,8 +56,8 @@ function parseDateResponse(dateResponse) {
 function getDefaultState() {
   return {
     hasSeenIntro: false,
-    nextUnlockMoment: moment(),
-    quizStartedMoment: moment(),
+    nextUnlockMoment: dayjs(),
+    quizStartedMoment: dayjs(),
     question: "",
     asset: "",
     rank: 0,
@@ -97,7 +99,7 @@ const actions = {
       commit("maxRank", rank.maxRank);
       commit(
         "quizStartedMoment",
-        moment(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z")
+        dayjs(rank.startsOn + "+0000", "MM/DD/YYYY HH:mm   Z")
       );
       if (rank.rank < 0) {
         commit("quizHasStarted", false);
@@ -127,7 +129,7 @@ const actions = {
       commit("asset", response.asset);
       commit("rank", response.rank);
       commit("hints", response.hints);
-      commit("nextUnlockMoment", moment());
+      commit("nextUnlockMoment", dayjs());
       commit("isLastQuestion", response.rank === state.maxRank);
     } catch (err) {
       if (err.status === 404) {

@@ -7,7 +7,7 @@ import App from "./App.vue";
 
 import vuetify from "./plugins/vuetify";
 import router from "./plugins/router";
-import "./plugins/moment";
+import "./plugins/dayjs";
 import "./plugins/codemirror";
 import "./plugins/highlightjs";
 
