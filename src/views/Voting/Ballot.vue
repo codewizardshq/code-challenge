@@ -213,7 +213,10 @@ export default {
           this.pageData.page = 1;
           await this.search();
         } else {
-          this.$router.push({ name: "redirect" });
+          // for testing
+          if (this.$router.history._startLocation !== "/testing/vote") {
+            this.$router.push({ name: "redirect" });
+          }
         }
       }
       this.requestCount--;
@@ -228,7 +231,10 @@ export default {
           this.pageData.page = 1;
           await this.loadPage();
         } else {
-          this.$router.push({ name: "redirect" });
+          // for testing
+          if (this.$router.history._startLocation !== "/testing/vote") {
+            this.$router.push({ name: "redirect" });
+          }
         }
       }
       this.requestCount--;
