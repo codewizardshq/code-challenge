@@ -4,7 +4,7 @@
       <quiz-scroll>
         <template v-slot:title>It's Over!</template>
         <template v-slot:default>
-          <div style="padding-left:130px; padding-right: 130px;">
+          <div>
             Sorry {{ firstName }}, your mission has ended.
             <br />
             <br />
