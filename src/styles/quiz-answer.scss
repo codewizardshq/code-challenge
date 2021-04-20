@@ -1,13 +1,30 @@
 .quiz-answer {
+  display: flex;
+  align-items: center;
+
   .v-card {
-    background: url("/images/blue-answer-box-bg.png") no-repeat;
-    background-size: 100% 100%;
-    background-repeat: none;
-    width: 500px;
-    margin-top: 200px;
-    padding: 12px;
-    z-index: 2;
-    margin-bottom: 300px;
+    position: relative;
+    background-size: contain;
+    width: 826px;
+    height: 230px;
+    background: url('/images/module-background.png');
+    border: 8px solid #C2CFE1;
+    margin-left: -45px;
+
+    @media only screen and (max-width: 1500px) {
+      margin-left: 0;
+      margin-top: 150px;
+    }
+
+    .mascot {
+      height: 100%;
+      width: 200px;
+      background: url("/images/nym-on-platform.svg");
+      background-repeat: no-repeat !important;
+      position: absolute;
+      top: -170px;
+      left: 243px;
+    }
 
     .attempts-remaining {
       text-align: center;
@@ -15,23 +32,41 @@
     }
 
     .v-btn {
-      width: 100%;
+      width: 142px;
+      height: 142px !important;
       color: $dark !important;
+      background-color: #505895 !important;
       font-family: "Oxygen", sans-serif;
-      font-size: 40px;
+      font-size: 100px;
       letter-spacing: 12px;
-      height: 80px !important;
-      margin-top: 12px;
+      margin-left: 5px;
+    }
+
+    .buttons {
+      position: absolute;
+      top: 146px;
+      left: 100px;
+
+      .hint-button {
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: normal;
+        height: 60px !important;
+      }
     }
 
     .v-form {
-      margin-top: 20px;
+      display: flex;
+      align-items: center;
+
       .text-field {
-        margin-bottom: 40px;
+        width: 486px;
+        height: 100px;
+        margin-left: 70px;
         background-color: #dbe6ea;
         opacity: 0.8;
         padding-top: 20px;
-        border: solid thick $primary;
+        border: solid thick #C2CFE1;
 
         .theme--dark.v-label {
           color: #031e41 !important;
@@ -45,9 +80,10 @@
         }
 
         .v-input {
-          z-index: 10;
+          z-index: 10000;
           position: relative;
           margin: 0;
+          margin-top: 8px;
           padding: 0;
           caret-color: #031e41 !important;
           color: #031e41 !important;
@@ -80,14 +116,14 @@
       }
     }
 
-    img {
-      top: -200px;
-      position: absolute;
-      width: 400px;
-      height: auto;
-      left: 100px;
-      -webkit-transform: scaleX(-1);
-      transform: scaleX(-1);
-    }
+    // img {
+    //   top: -200px;
+    //   position: absolute;
+    //   width: 400px;
+    //   height: auto;
+    //   left: 100px;
+    //   -webkit-transform: scaleX(-1);
+    //   transform: scaleX(-1);
+    // }
   }
 }

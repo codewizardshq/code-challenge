@@ -16,25 +16,30 @@
             />
           </div>
 
-          <v-btn
-            x-large
-            color="primary"
-            v-if="showHint1"
-            @click="showHint1Modal = true"
-            >Hint #1</v-btn
-          >
-          <v-btn
-            x-large
-            color="primary"
-            v-if="showHint2"
-            @click="showHint2Modal = true"
-            >Hint #2</v-btn
-          >
           <v-btn x-large color="primary" :disabled="isDisabled" type="submit"
-            >Submit</v-btn
+            >&#10003;</v-btn
           >
         </v-form>
       </v-card-text>
+      <div class="buttons">
+        <v-btn
+          x-large
+          color="primary"
+          class="hint-button"
+          v-if="showHint1"
+          @click="showHint1Modal = true"
+          >Hint #1</v-btn
+        >
+        <v-btn
+          x-large
+          color="primary"
+          class="hint-button"
+          v-if="showHint2"
+          @click="showHint2Modal = true"
+          >Hint #2</v-btn
+        >
+      </div>
+      <div class="mascot"></div>
     </v-card>
     <v-dialog v-model="showSuccessModal" persistent max-width="900">
       <v-card>

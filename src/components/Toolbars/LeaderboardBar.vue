@@ -6,6 +6,7 @@
     class="leaderboard-bar"
     color="#fec"
     width="100%"
+    tag="footer"
   >
     <div class="rotated-text">
       LEADERBOARD
@@ -24,7 +25,7 @@
 <script>
 import MarqueeText from "vue-marquee-text-component";
 import * as api from "@/api";
-import { shuffle } from "@/util";
+// import { shuffle } from "@/util";
 
 export default {
   components: {

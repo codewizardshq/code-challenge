@@ -1,18 +1,20 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center">
-      <speech-area>
-        <template v-slot:title style="font-size:25px;">Nym's Crystal Chase</template>
-        <template v-slot:default>
-          <!--
+  <v-container fluid class="container">
+    <!-- <v-row justify="center" class="container-row"> -->
+    <speech-area>
+      <template v-slot:title style="font-size:25px;"
+        >Nym's Crystal Chase</template
+      >
+      <template v-slot:default>
+        <!--
           <img class="asset" :src="'/' + asset" v-if="!!asset" />
           -->
-          <div v-html="question" />
-        </template>
-      </speech-area>
+        <div v-html="question" />
+      </template>
+    </speech-area>
 
-      <quiz-answer :rank="rank" @next="onNext" />
-    </v-row>
+    <quiz-answer :rank="rank" @next="onNext" />
+    <!-- </v-row> -->
     <quiz-need-help />
   </v-container>
 </template>
@@ -53,3 +55,16 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.container {
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 1500px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
