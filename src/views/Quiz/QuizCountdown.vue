@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-6">
-    <v-row justify="center" align="center">
-      <!--
+  <div class="mt-6 quiz-countdown">
+    <!-- <v-row justify="center" align="center"> -->
+    <!--
       <speech-area v-if="Quiz.awaitNextQuestion">
         <template v-slot:title>Next Challenge</template>
         <template v-slot:default>
@@ -53,18 +53,16 @@
       </speech-area>
 
       <img width="400px" src="/images/coming-soon.png" />-->
-      <h2>The next question unlocks at 8AM Central Time tomorrow!</h2>
-      <br />
-    </v-row>
-    <v-row justify="center" align="center">
-      <h3>
-        Share your success with friends and tag us to be featured.
-        #CWHQChallenge #NymSavesTheGalaxy
-      </h3>
-    </v-row>
+    <h2>The next question unlocks at 8AM Central Time tomorrow!</h2>
+    <!-- </v-row> -->
+    <h3>
+      Share your success with friends and tag us to be featured. #CWHQChallenge
+      #NymSavesTheGalaxy
+    </h3>
+
     <v-row justify="center" align="center">
       <v-card class="social-pop-over">
-        <v-card-text>
+        <v-card-text class="icon-wrapper">
           <v-row no-gutters class="pt-3">
             <social-media-link
               anchor-href="https://twitter.com/intent/tweet?text=CodeWizardsHQ%20Code%20Challenge&amp;url=https%3A%2F%2Fcodewizardshq.com%2Fchallenge%2F&amp;original_referer="
@@ -83,11 +81,25 @@
               icon-name="mdi-email"
             />
           </v-row>
-          <a class="mt-6" href="https://github.com/codewizardshq/code-challenge"
+          <a
+            target="_blank"
+            class="mt-6"
+            href="https://github.com/codewizardshq/code-challenge"
             >Check out the source code on GitHub!</a
           >
         </v-card-text>
       </v-card>
+    </v-row>
+    <v-row justify="center" align="center" class="share-feedback">
+      <p>
+        What do you think of the Code Challenge?
+        <a
+          id="share-link"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSeBVgXxeNEDPCjBFGRCD0QyOy6I3wBss8BS1DXOwTZmMATTeQ/viewform"
+          target="_blank"
+          >Share your feedback.</a
+        >
+      </p>
     </v-row>
   </div>
 </template>
@@ -113,3 +125,35 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.quiz-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    text-align: center;
+    margin: 10px;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .share-feedback {
+    margin: 20px;
+
+    /* TODO: implement */
+    /* #share-link {
+      margin-top: 0 !important;
+    } */
+  }
+}
+</style>
