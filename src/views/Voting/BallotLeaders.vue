@@ -76,9 +76,11 @@ export default {
               Vue.set(this.pageData, key, value);
             }
           }
-          const items = result.items.filter(i => i.disqualified === null).sort((a, b) => {
-            return a.numVotes < b.numVotes ? 1 : -1;
-          });
+          const items = result.items
+            .filter(i => i.disqualified === null)
+            .sort((a, b) => {
+              return a.numVotes < b.numVotes ? 1 : -1;
+            });
           this.$emit("input", items.length);
           items.splice(3, items.length - 3);
           Vue.set(this.pageData, "items", items);
@@ -88,6 +90,38 @@ export default {
     },
     async loadPage() {
       this.requestCount++;
+
+      // for testing
+      if (this.$route.path === "/testing/vote") {
+        Vue.set(this.pageData, "items", [
+          {
+            display: "TedW",
+            firstName: "Ted",
+            id: 12345,
+            lastName: "Smith",
+            numVotes: 48,
+            text: "Not sure what goes here?",
+            username: "Ted456",
+            value: "This must be where the code goes.",
+            initials: "TW"
+          },
+          {
+            display: "something",
+            firstName: "Blahblahblah",
+            id: 123453,
+            lastName: "Smith",
+            numVotes: 45,
+            text: "Not sure what goes here?",
+            username: "MyUserName",
+            value: "Code stuff",
+            initials: "TW"
+          }
+        ]);
+
+        this.requestCount--;
+        return;
+      }
+      // end for testing
 
       const results = await voting.getBallot(this.pageData.page, this.per);
       await this.setResult(results);
