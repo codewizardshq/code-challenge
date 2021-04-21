@@ -1,17 +1,16 @@
 .v-dialog {
   width: fit-content;
-  max-width: 90%;
 }
 
 .v-card.ballot-modal {
   padding: 0;
   height: 600px;
+  min-width: 1200px;
   width: fit-content;
-  min-width: 1000px;
+  display: flex;
 
   pre,
   code {
-    width: 100% !important;
     height: 100%;
     background-color: $cwhqBlue;
     color: $cwhqYellow;
@@ -25,17 +24,23 @@
     padding: 20px;
   }
 
-  .main-row {
-    height: 600px;
 
-    > * {
-      height: 600px;
-    }
+  > * {
+    height: 600px;
+  }
+
+  .right {
+    width: 380px;
+  }
+
+  .v-form label {
+    font-size: 15px !important;
   }
 
   .left {
     padding: 20px;
     text-align: center;
+    max-width: fit-content;
 
     * {
       box-shadow: none !important;
