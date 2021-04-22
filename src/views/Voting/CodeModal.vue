@@ -8,79 +8,65 @@
         light
         v-if="isOpen"
       >
-        <v-row class="main-row" no-gutters>
-          <v-col cols="3" sm="12" md="3" class="left">
-            <div class="circle">
-              {{ initials }}
-            </div>
-            <div class="username mb-2">
-              {{ username }}
-            </div>
-            <hr />
-            <v-form lazy-validation @submit.prevent="submit">
-              <v-text-field
-                single-line
-                outlined
-                solo
-                v-bind="fields.email"
-                v-model="fields.email.value"
-                :disabled="isSubmitting"
-              />
-              <v-btn
-                block
-                tile
-                color="cwhqBlue"
-                type="submit"
-                :disabled="isSubmitting"
-                >Confirm Vote</v-btn
-              >
+        <!-- <v-row class="main-row" no-gutters> -->
+        <v-col cols="3" sm="12" md="3" class="left">
+          <div class="circle">
+            {{ initials }}
+          </div>
+          <div class="username mb-2">
+            {{ username }}
+          </div>
+          <hr />
+          <v-form lazy-validation @submit.prevent="submit">
+            <v-text-field
+              single-line
+              outlined
+              solo
+              v-bind="fields.email"
+              v-model="fields.email.value"
+              :disabled="isSubmitting"
+            />
+            <v-btn
+              block
+              tile
+              color="cwhqBlue"
+              type="submit"
+              :disabled="isSubmitting"
+              >Confirm Vote</v-btn
+            >
 
-              <v-row no-gutters class="icons" justify="center">
-                <v-btn
-                  fab
-                  color="cwhqBlue"
-                  icon
-                  target="_blank"
-                  :href="facebookUrl"
-                >
-                  <v-icon>mdi-facebook</v-icon>
-                </v-btn>
-                <v-btn
-                  fab
-                  color="cwhqBlue"
-                  icon
-                  target="_blank"
-                  :href="twitterUrl"
-                >
-                  <v-icon>mdi-twitter</v-icon>
-                </v-btn>
-                <v-btn
-                  fab
-                  color="cwhqBlue"
-                  icon
-                  target="_blank"
-                  :href="mailUrl"
-                >
-                  <v-icon>mdi-email</v-icon>
-                </v-btn>
-                <v-btn
-                  fab
-                  color="cwhqBlue"
-                  icon
-                  target="_blank"
-                  :href="linkUrl"
-                >
-                  <v-icon>mdi-link</v-icon>
-                </v-btn>
-              </v-row>
-            </v-form>
-          </v-col>
-          <v-col class="right">
-            <pre
-              v-highlightjs="sourceCode"
-            ><code :class="codeType"></code></pre>
-          </v-col>
-        </v-row>
+            <v-row no-gutters class="icons" justify="center">
+              <v-btn
+                fab
+                color="cwhqBlue"
+                icon
+                target="_blank"
+                :href="facebookUrl"
+              >
+                <v-icon>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                color="cwhqBlue"
+                icon
+                target="_blank"
+                :href="twitterUrl"
+              >
+                <v-icon>mdi-twitter</v-icon>
+              </v-btn>
+              <v-btn fab color="cwhqBlue" icon target="_blank" :href="mailUrl">
+                <v-icon>mdi-email</v-icon>
+              </v-btn>
+              <v-btn fab color="cwhqBlue" icon target="_blank" :href="linkUrl">
+                <v-icon>mdi-link</v-icon>
+              </v-btn>
+            </v-row>
+          </v-form>
+        </v-col>
+        <v-col class="right">
+          <pre v-highlightjs="sourceCode"><code :class="codeType"></code></pre>
+        </v-col>
+        <!-- </v-row> -->
       </v-card>
     </v-dialog>
 

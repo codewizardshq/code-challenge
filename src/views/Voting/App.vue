@@ -2,7 +2,7 @@
   <v-app class="cwhq-app voting">
     <CWHQ-bar />
     <!-- <app-bar /> -->
-    <v-main>
+    <v-main class="voting-main">
       <router-view />
     </v-main>
     <mobile-warning />
@@ -23,3 +23,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.voting-main {
+  background: white;
+}
+</style>
