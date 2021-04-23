@@ -228,6 +228,11 @@ const routes = [
         path: "voting-rules",
         name: "voting-rules",
         component: () => import("@/views/Public/VotingRules")
+      },
+      {
+        path: "mission",
+        name: "mission",
+        component: () => import("@/views/Public/MissionPrep")
       }
     ]
   },
