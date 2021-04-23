@@ -82,3 +82,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+// needs to be deep to affect child component
+.codemirror::v-deep .CodeMirror {
+  height: 600px;
+}
+</style>
