@@ -12,7 +12,8 @@
               this final mission brief from the Allsnacks Alliance with details
               on your final feat. Please read through it carefully, as it
               contains information critical to your success in returning the
-              Xolcron Crystal.
+              Xolcron Crystal.<br />
+              <br />
             </v-card-text>
 
             <h2>**URGENT COMMUNICATION**</h2>
@@ -57,7 +58,8 @@
               review the submissions of the ten (10) adventurers with the
               highest number of votes. The Galactic Wizard Panel will announce
               the winner of the 2021 CodeWizardsHQ Code Challenge on 14 May
-              2021.
+              2021. <br />
+              <br />
             </v-card-text>
             <h3>How you will be evaluated by the Galactic Wizard Panel:</h3>
             <v-card-text>
@@ -119,8 +121,17 @@ export default {
     align-items: center;
     font-family: "Courier New", Courier, monospace;
 
+    p {
+      margin: 0;
+      line-height: 1.2;
+    }
+
     h3 {
       text-decoration: underline;
+    }
+
+    img {
+      max-width: 90%;
     }
   }
 }
