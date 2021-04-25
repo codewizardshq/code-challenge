@@ -53,7 +53,11 @@
       </speech-area>
 
       <img width="400px" src="/images/coming-soon.png" />-->
-    <h2>The next question unlocks at 8AM Central Time tomorrow!</h2>
+    <!-- TODO: update this hard coded time for final quiz -->
+    <h2 v-if="User.rank === Quiz.maxRank">
+      The final question will release April 28 at 8:00AM Central Time!
+    </h2>
+    <h2 v-else>The next question unlocks at 8AM Central Time tomorrow!</h2>
     <!-- </v-row> -->
     <h3>
       Share your success with friends and tag us to be featured. #CWHQChallenge
