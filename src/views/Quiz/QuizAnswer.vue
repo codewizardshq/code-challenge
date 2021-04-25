@@ -48,23 +48,9 @@
           <v-card-text>
             Congratulations, {{ User.displayName }}!
             <br />
-            Not only can you call yourself one of the best kid coders in the
-            land, you also win a $100 CodeWizardsHQ Gift Certificate.
+            <img class="victory-image" src="/images/victory-screen.png" />
             <br />
             <br />
-            Check your email tomorrow for your prize. You've qualified for the
-            final boss level round of The Dragon Quest tomorrow at 8:00 AM CT
-            April 24 and the chance to win $100 cash and free STEAM access code
-            from Endless.
-            <br />
-            <br />
-            Are you prepared?
-            <br />
-            <br />
-            <span v-if="Quiz.awaitNextQuestion">
-              That's all the questions available for now. The next question
-              unlocks {{ Quiz.nextUnlockMoment.fromNow() }}
-            </span>
             <v-card-actions>
               <v-btn block color="primary darken-1" @click="next">OKAY</v-btn>
             </v-card-actions>
@@ -156,21 +142,21 @@
       </v-card>
     </v-dialog>
 
-    <final-question-success v-if="showSuccessModal && isLastQuiz" />
+    <!-- <final-question-success v-if="showSuccessModal && isLastQuiz" /> -->
   </div>
 </template>
 
 <script>
 import * as api from "@/api";
 import { User, Quiz } from "@/store";
-import FinalQuestionSuccess from "@/components/FinalQuestionSuccess";
+// import FinalQuestionSuccess from "@/components/FinalQuestionSuccess";
 import QuizTransition from "@/components/QuizTransition";
 
 export default {
   name: "quizAnswer",
   components: {
-    QuizTransition,
-    FinalQuestionSuccess
+    QuizTransition
+    // FinalQuestionSuccess
   },
   props: ["rank"],
   computed: {
@@ -296,3 +282,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.victory-image {
+  max-width: 100%;
+}
+</style>
