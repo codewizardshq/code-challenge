@@ -23,6 +23,7 @@
         v-for="(item, i) in pageData.items"
         :key="i"
         v-bind="item"
+        :voting-enabled="votingEnabled"
         @click="showCode(item)"
       />
     </v-row>
@@ -40,6 +41,12 @@ export default {
   components: {
     BallotCard,
     CodeModal
+  },
+  props: {
+    votingEnabled: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -92,7 +99,11 @@ export default {
       this.requestCount++;
 
       // for testing
-      if (this.$route.path === "/testing/vote") {
+      // TODO: remove the second check before merging into master
+      if (
+        this.$route.path === "/testing/vote" ||
+        this.$route.path === "/voting"
+      ) {
         Vue.set(this.pageData, "items", [
           {
             display: "TedW",

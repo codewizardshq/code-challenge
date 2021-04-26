@@ -98,8 +98,24 @@ import { User } from "@/store";
 import "highlight.js/styles/darcula.css";
 
 export default {
+  name: "CodeModal",
   components: {
     SuccessModal
+  },
+  props: {
+    display: Boolean,
+    firstName: String,
+    id: String,
+    lastName: String,
+    numVotes: Number,
+    text: String,
+    username: String,
+    value: String,
+    initials: String,
+    votingEnabled: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -181,17 +197,6 @@ export default {
       );
     }
   },
-  props: [
-    "display",
-    "firstName",
-    "id",
-    "lastName",
-    "numVotes",
-    "text",
-    "username",
-    "value",
-    "initials"
-  ],
   watch: {
     isOpen() {
       if (this.isOpen != this.value) {

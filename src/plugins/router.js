@@ -134,7 +134,12 @@ const routes = [
         path: "voting",
         name: "voting",
         component: () => {
-          return import("@/views/Voting/VotingOver");
+          return import("@/views/Voting/AfterVotingLeaderboard");
+
+          // TODO: this was commented out and needs to be updated
+          // for 2022
+
+          // return import("@/views/Voting/VotingOver");
           // if (isChallengeClosed()) {
           //   return import("@/views/Voting/Ballot");
           // } else {
@@ -194,16 +199,21 @@ const routes = [
           return import("@/views/Quiz/Quiz");
         },
         beforeEnter(from, to, next) {
-          // USER MUST SEE INTRO VIDEO
-          if (
-            isChallengeOpen() &&
-            !store.state.Quiz.hasSeenIntro &&
-            store.state.User.rank == 1
-          ) {
-            next({ name: "quiz-intro" });
-            return;
-          }
-          next();
+          next("/voting");
+          return;
+
+          // TODO: the below is commented out
+          // and needs to be reinstated for 2022
+          // // USER MUST SEE INTRO VIDEO
+          // if (
+          //   isChallengeOpen() &&
+          //   !store.state.Quiz.hasSeenIntro &&
+          //   store.state.User.rank == 1
+          // ) {
+          //   next({ name: "quiz-intro" });
+          //   return;
+          // }
+          // next();
         }
       },
       {
