@@ -5,20 +5,23 @@
       <template v-slot:title>Congratulations!</template>
       <template v-slot:default>
         <div>
-          <p>Congratulations young pilgrim!</p>
-
-          <p>You've qualified for the final round of The Dragon Quest.</p>
+          <p>Congratulations!</p>
 
           <p>
-            To win the grand prize of $100 and a free STEAM access code from
-            Endless, come back when the voting period begins, April 26 at 5:00
-            PM CT, to gather votes and cast your vote on who you think has the
-            best solution for the final answer.
+            You’ve completed the boss level of the Deep Space Crystal Chase.
           </p>
 
           <p>
-            The player with the highest number of votes will be crowned the
-            champion on May 1. Will you be the champion …
+            With your help, Nym defeats Glorm in an epic battle and retrieves
+            the Xocron crystal. The Grand Poomba Fizzy finally restores peace to
+            the galaxy.
+          </p>
+
+          <p>
+            To win the grand prize of $100, share your entry with friends and
+            family to vote. Voting is open from May 3-7. The top 3 players with
+            the highest vote will be eligible for Wizard Panel review and to be
+            crowned champion.
           </p>
 
           <p>Good luck!</p>
