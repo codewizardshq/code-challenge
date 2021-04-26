@@ -27,7 +27,11 @@
         @click="showCode(item)"
       />
     </v-row>
-    <code-modal v-bind="this.item" v-model="showModal" />
+    <code-modal
+      v-bind="this.item"
+      :voting-enabled="votingEnabled"
+      v-model="showModal"
+    />
   </v-container>
 </template>
 
