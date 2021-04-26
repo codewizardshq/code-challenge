@@ -19,7 +19,7 @@
             <h2>**URGENT COMMUNICATION**</h2>
 
             <v-card-text>
-              <p>Date: 25 Apr 2021</p>
+              <p>Date: 26 Apr 2021</p>
               <p>Mission Title: CLASSIFIED</p>
               <p>
                 ELECTRONICALLY SIGNED: Allsnacks Alliance for Grand Poomba Fizzy
@@ -36,8 +36,8 @@
 
             <v-card-text>
               To retrieve it, you’ll need to write a program in either Python or
-              JavaScript. Details about the program you must write will be
-              provided to you when you reach the Garrison on 28 Apr 2021. You
+              JavaScript. Details about the program you must write are available
+              now through your normal code challenge account. You
               will be given an online area to write and submit your code, and
               you will also be told if your answer is correct or incorrect. You
               will have until 30 Apr 2021 at 11:59 PM Central Time to submit
@@ -72,7 +72,7 @@
               program that has the lowest execution time possible, while also
               following the instructions for the Boss Level. The disparity in
               program execution time between Python and JavaScript will be
-              considered.. You should also conduct research online about code
+              considered. You should also conduct research online about code
               quality to make sure your submission is well-rounded and follows
               coding best practices.
             </v-card-text>
