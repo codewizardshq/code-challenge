@@ -1,17 +1,19 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h2 class="ballot-header">
-          Woah, voting has not started yet!
-        </h2>
-        <p>
-          Our challengers are hard at work. Come back on April 26 5 PM CT to
-          vote for the winner.
-        </p>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="vote-woah-container">
+    <v-container>
+      <v-row>
+        <v-col class="inside-div">
+          <h2 class="ballot-header">
+            Woah, voting has not started yet!
+          </h2>
+          <p>
+            Our challengers are hard at work. Come back on May 3 to vote for the
+            winner.
+          </p>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -21,6 +23,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.vote-woah-container {
+  height: 100%;
+  width: 100%;
+  background: url("/images/space-background.jpg");
+}
+
+.inside-div {
+  background: gray;
+}
+
 h2 {
   text-align: center;
   color: #0d1d41;
