@@ -89,12 +89,15 @@ export default {
   },
   data() {
     const jsCode = `function calculateAnswer(){
-  return 100;
+  // this is where you write your code
+  // good luck!
 }
 // we check your answer by looking at the output var
 var output = calculateAnswer();`;
     const pyCode = `def calculateAnswer():
-  return 100
+  # this is where you write your code
+  # good luck!
+  
 # we check your answer by what you print
 print(calculateAnswer())`;
     return {
