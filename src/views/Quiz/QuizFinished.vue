@@ -19,7 +19,7 @@
 
           <p>
             To win the grand prize of $100, share your entry with friends and
-            family to vote. Voting is open from May 3-7. The top 3 players with
+            family to vote. Voting is open from May 3-7. The top 10 players with
             the highest vote will be eligible for Wizard Panel review and to be
             crowned champion.
           </p>
