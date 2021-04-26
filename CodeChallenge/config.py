@@ -48,7 +48,7 @@ class DefaultConfig:
 
     # number of days to leave CodeChallenge open
     # past the final rank
-    CHALLENGE_ENDS = 2
+    CHALLENGE_ENDS = 4
 
     BULK_IMPORT_SENDER = "Kelli at CodeWizardsHQ <kelli@codewizardshq.com>"
 
@@ -97,7 +97,7 @@ class DevelopmentConfig(ProductionConfig):
     ALLOW_RESET = True
     MAIL_SUPPRESS_SEND = False
     TESTING = True
-    TEST_EMAIL_RECIPIENT = "jeffreyw@codewizardshq.com"
+    TEST_EMAIL_RECIPIENT = "sam@codewizardshq.com"
     MG_LIST = "codechallenge-test@school.codewizardshq.com"
 
     @property
