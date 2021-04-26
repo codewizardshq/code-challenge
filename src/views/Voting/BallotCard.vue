@@ -26,7 +26,7 @@
 <script>
 export default {
   props: {
-    display: Boolean,
+    display: String,
     firstName: String,
     id: String,
     lastName: String,
