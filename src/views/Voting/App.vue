@@ -23,9 +23,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.voting-main {
-  background: white;
-}
-</style>

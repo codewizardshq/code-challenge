@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ballot-wrapper">
     <div class="image first pb-9">
       <v-container>
         <v-row class="content">
@@ -12,13 +12,15 @@
 
             <div style="max-width:600px; margin: auto;">
               <h2>
-                Vote For The Winner of The Dragon Quest
+                Vote For The Top 10 Challengers
               </h2>
               <div>
-                Congratulations to all {{ totalEntries }} finalists, kid coders
-                who have correctly solved 21 levels of coding questions! Each
-                challenger below has also correctly answered our boss question
-                correctly and qualified for the grand prize.
+                Congratulations to all of our finalists! Each challenger below
+                has correctly answered our boss question and qualified for the
+                grand prize. Vote for your favorite hero below. The challengers
+                with the top 10 total votes will have their code graded by the
+                Galactic Wizard Panel (a team of CodeWizardsHQ instructors) to
+                win the $100 grand prize. Voting takes place May 3 - 7.
               </div>
             </div>
           </v-col>
@@ -293,6 +295,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.ballot-wrapper {
+  background-color: white;
+}
+
 h2 {
   text-align: center;
   color: #0d1d41;
@@ -310,7 +316,7 @@ h2 {
   $height: 550px;
   background-size: cover;
   min-height: $height;
-  background-image: url("https://codewizardshq.com/wp-content/uploads/2020/01/landing-bg.jpg");
+  background-image: url("/images/website-banner-challenge-2021.png");
   &:after {
     content: "";
     display: block;
