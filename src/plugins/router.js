@@ -134,7 +134,8 @@ const routes = [
         path: "voting",
         name: "voting",
         component: () => {
-          return import("@/views/Voting/VotingOver");
+          // return import("@/views/Voting/VotingOver");
+          return import("@/views/Voting/VoteWoah");
           // if (isChallengeClosed()) {
           //   return import("@/views/Voting/Ballot");
           // } else {
