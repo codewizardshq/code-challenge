@@ -230,6 +230,16 @@ def answer_eval():
             400,
         )
 
+    if q.answer in code:
+        return (
+            jsonify(
+                status="error",
+                reason="your solution may not contain the literal answer. you must submit written code to solve for "
+                "the answer.",
+            ),
+            400,
+        )
+
     try:
         language = request.json["language"]
     except KeyError:
