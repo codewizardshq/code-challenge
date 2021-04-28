@@ -5,18 +5,10 @@
         <v-spacer />
         <v-btn icon x-large @click="show = false">X</v-btn></v-card-title
       >
-
-      <div v-if="User.isAuthorized">
-        <h3>SUCCESS!</h3>
+      <div>
+        <h3>ALMOST DONE!</h3>
 
         <p style="text-align:center">
-          Your vote has been cast!
-        </p>
-      </div>
-      <div v-else>
-        <h3>ALMOST DONE</h3>
-
-        <p>
           Your vote has been cast! In order for your vote to count you must
           first confirm it. Please check your inbox for the confirmation email.
         </p>
@@ -27,15 +19,27 @@
       </h4>
 
       <v-card-text class="text-center">
-        <v-btn icon class="mr-6" x-large color="cwhqBlue"
+        <v-btn
+          icon
+          class="mr-6"
+          x-large
+          color="cwhqBlue"
+          href="http://www.facebook.com"
+          target="_blank"
           ><v-icon>mdi-facebook</v-icon></v-btn
         >
-        <v-btn icon class="mr-6" x-large color="cwhqBlue"
+        <v-btn
+          icon
+          class="mr-6"
+          x-large
+          color="cwhqBlue"
+          href="http://www.twitter.com"
+          target="_blank"
           ><v-icon>mdi-twitter</v-icon></v-btn
         >
-        <v-btn icon class="mr-6" x-large color="cwhqBlue"
+        <!-- <v-btn icon class="mr-6" x-large color="cwhqBlue"
           ><v-icon>mdi-email</v-icon></v-btn
-        >
+        > -->
       </v-card-text>
       <br />
     </v-card>
@@ -45,6 +49,7 @@
 <script>
 import { User } from "@/store";
 export default {
+  // TODO: all props should be validated
   props: ["value"],
   computed: {
     ...User.mapState()
@@ -55,6 +60,8 @@ export default {
         this.$emit("input", this.show);
       }
     },
+    // TODO: looks like this used to have a default and an ovveride but was removed
+    // should implement this
     value() {
       if (this.show != this.value) {
         this.show = this.value;
