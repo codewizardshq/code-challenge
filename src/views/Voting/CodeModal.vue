@@ -98,9 +98,22 @@ import { User } from "@/store";
 import "highlight.js/styles/darcula.css";
 
 export default {
+  name: "CodeModal",
   components: {
     SuccessModal
   },
+  // TODO: validate props
+  props: [
+    "display",
+    "firstName",
+    "id",
+    "lastName",
+    "numVotes",
+    "text",
+    "username",
+    "value",
+    "initials"
+  ],
   data() {
     return {
       showSuccess: false,
@@ -181,17 +194,6 @@ export default {
       );
     }
   },
-  props: [
-    "display",
-    "firstName",
-    "id",
-    "lastName",
-    "numVotes",
-    "text",
-    "username",
-    "value",
-    "initials"
-  ],
   watch: {
     isOpen() {
       if (this.isOpen != this.value) {
