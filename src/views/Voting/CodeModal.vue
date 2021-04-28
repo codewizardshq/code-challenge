@@ -70,7 +70,7 @@
       </v-card>
     </v-dialog>
 
-    <success-modal v-model="showSuccess" />
+    <SuccessModal v-model="showSuccess" />
 
     <v-dialog v-model="showError" max-width="600">
       <v-card color="white" light v-if="isOpen">
@@ -210,6 +210,8 @@ export default {
         return;
       }
       this.isSubmitting = true;
+      this.successMessage = "";
+
       if (!this.fields.email.value) {
         this.errorMessage = "You forgot to tell us your email";
         this.showError = true;
