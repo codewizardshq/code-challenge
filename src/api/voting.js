@@ -5,14 +5,15 @@ function processBallotResponse(result) {
   if (result.items) {
     result.items = result.items.map(item => {
       return {
-        id: item[0],
-        text: item[1],
-        numVotes: item[2],
-        firstName: item[3],
-        lastName: item[4],
-        username: item[5],
-        displayName: item[6],
-        disqualified: item[7],
+        // id: item[0],
+        // text: item[1],
+        // numVotes: item[2],
+        // firstName: item[3],
+        // lastName: item[4],
+        // username: item[5],
+        // displayName: item[6],
+        // disqualified: item[7],
+        ...item,
         ...{ initials: initials(item) }
       };
     });
@@ -21,26 +22,26 @@ function processBallotResponse(result) {
 }
 
 function lastInitial(item) {
-  if (item[4]) {
+  if (item.lastName) {
     // lastName
-    return item[4][0];
+    return item.lastName[0];
   }
 
-  const split = item[5].split(" "); // userName
+  const split = item.username.split(" "); // userName
   return split.length >= 2 ? split[1] : "";
 }
 
 function firstInitial(item) {
-  if (item[3]) {
+  if (item.firstName) {
     // firstName
-    return item[3][0];
+    return item.firstName[0];
   }
-  if (item[6]) {
+  if (item.displayName) {
     // displayName
-    return item[6][0];
+    return item.displayName[0];
   }
 
-  return item[5].split(" ")[0];
+  return item.displayName.split(" ")[0];
 }
 
 function initials(item) {

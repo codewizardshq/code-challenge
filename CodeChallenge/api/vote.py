@@ -73,7 +73,19 @@ def get_contestants():
     p = q.paginate(page=page, per_page=per)
 
     return jsonify(
-        items=p.items,
+        items=[
+            {
+                "id": i[0],
+                "text": i[1],
+                "numVotes": i[2],
+                "firstName": i[3],
+                "lastName": i[4],
+                "username": i[5],
+                "displayName": i[6],
+                "disqualified": i[7],
+            }
+            for i in p.items
+        ],
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
@@ -282,7 +294,18 @@ def search():
     )
 
     return jsonify(
-        items=p.items,
+        items=[
+            {
+                "id": i[0],
+                "text": i[1],
+                "numVotes": i[2],
+                "firstName": i[3],
+                "lastName": i[4],
+                "username": i[5],
+                "displayName": i[6],
+            }
+            for i in p.items
+        ],
         totalItems=p.total,
         page=p.page,
         totalPages=p.pages,
