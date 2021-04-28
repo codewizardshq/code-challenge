@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { auth } from "@/api";
 import store from "@/store";
+import moment from "moment";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,23 @@ async function logout() {
   await store.dispatch("Quiz/reset");
   await auth.logout();
 }
+
+// dates for determining components to render
+
+// start and end time for questions before boss question
+let mainQuestionsStartTime = moment("5 Apr 2021 08:00:00 CDT");
+let mainQuestionsEndTime = moment("25 Apr 2021 23:59:59 CDT");
+
+// start and end time for boss question (final question)
+let bossStartTime = moment("26 Apr 2021 08:00:00 CDT");
+let bossEndTime = moment("30 Apr 2021 23:59:59 CDT");
+
+// start and end time for voting
+let votingStartTime = moment("3 May 2021 08:00:00 CDT");
+let votingEndTime = moment("7 May 2021 23:59:59 CDT");
+
+// easy route testing by passing a date string below
+let now = moment();
 
 const routes = [
   // testing route
@@ -42,7 +60,6 @@ const routes = [
     beforeEnter(to, from, next) {
       // for testing
       if (to.path === "/testing/vote") {
-        console.log("in redirect", to.path);
         next({ path: "/testing/vote" });
         return;
       }
@@ -134,23 +151,21 @@ const routes = [
         path: "voting",
         name: "voting",
         component: () => {
-          // return import("@/views/Voting/VotingOver");
-          return import("@/views/Voting/VoteWoah");
-          // if (isChallengeClosed()) {
-          //   return import("@/views/Voting/Ballot");
-          // } else {
-          //   return import("@/views/Voting/VoteWoah");
-          // }
+          // show VoteWoah if before vote start time
+          if (now < votingStartTime) {
+            return import("@/views/Voting/VoteWoah");
+          }
+
+          // show VotingOver if past vote end time
+          if (now > votingEndTime) {
+            // TODO: add a leaderboard here once built
+            return import("@/views/Voting/VotingOver");
+          }
+
+          // show Ballot otherwise
+          return import("@/views/Voting/Ballot");
         }
       }
-      // {
-      //   path: "vote-confirmation",
-      //   name: "voting-confirmation",
-      //   meta: {
-      //     challengeOver: true
-      //   },
-      //   component: () => import("@/views/Voting/Confirm")
-      // }
     ]
   },
   {
@@ -163,38 +178,71 @@ const routes = [
         path: "quiz",
         name: "quiz",
         component: async () => {
-          // CHALLENGE HAS NOT STARTED
-          if (!isChallengeOpen()) {
+          // time before challenge has started
+          if (now < mainQuestionsStartTime) {
+            // TODO: update QuizCountdown's content for 2022's before start time
             return import("@/views/Quiz/QuizCountdown");
           }
 
-          // USER HAS FINISHED QUIZ
-          if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
-            return import("@/views/Quiz/QuizFinished");
+          // time during main quiz
+          if (now >= mainQuestionsStartTime && now <= mainQuestionsEndTime) {
+            // USER HAS FINISHED QUIZ
+            // TODO: for 2022 import a 'you finished now wait for boss' component
+            // if done will all questions except boss
+
+            // NORMAL QUIZ MODE
+            return import("@/views/Quiz/Quiz");
           }
 
-          // User did not make the cut
-          if (
-            store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
-            store.state.User.rank != store.state.Quiz.rankToday
-          ) {
+          // time between main questions ending and boss starting
+          if (now > mainQuestionsEndTime && now < bossStartTime) {
+            // TODO: for 2022 make an await final boss component, or start passing props to QuizCountdown
+
+            // MUST WAIT FOR NEXT QUESTION
+            return import("@/views/Quiz/QuizCountdown");
+          }
+
+          // time during boss final question
+          if (now >= bossStartTime && now <= bossEndTime) {
+            // User did not make the cut
+            if (
+              store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
+              store.state.User.rank != store.state.Quiz.rankToday
+            ) {
+              return import("@/views/Quiz/QuizFinishedFail");
+            }
+
+            // user has finished the boss question
+            if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+              return import("@/views/Quiz/QuizFinished");
+            }
+
+            // show boss question
+            if (store.state.Quiz.isLastQuestion) {
+              return import("@/views/Quiz/QuizFinalQuestion");
+            }
+          }
+
+          // time after boss question ends and before voting
+          if (now > bossEndTime && now < votingStartTime) {
+            // user has finished the boss question
+            if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+              return import("@/views/Quiz/QuizFinished");
+            }
+
+            // if time is up and they did not finish, they failed
             return import("@/views/Quiz/QuizFinishedFail");
           }
 
-          // MUST WAIT FOR NEXT QUESTION
-          if (store.state.Quiz.awaitNextQuestion) {
-            return import("@/views/Quiz/QuizCountdown");
-          }
-
-          // SHOW THE LAST QUESTION
-          if (store.state.Quiz.isLastQuestion) {
-            return import("@/views/Quiz/QuizFinalQuestion");
-          }
-
-          // NORMAL QUIZ MODE
-          return import("@/views/Quiz/Quiz");
+          // times after voting starts are handled in the route guard
+          // TODO: make a component that alerts before redirect to /voting for better user experience
         },
         beforeEnter(from, to, next) {
+          // redirect if all sections of quiz are over
+          if (now >= votingStartTime) {
+            next("/voting");
+          }
+
           // USER MUST SEE INTRO VIDEO
           if (
             isChallengeOpen() &&
@@ -252,7 +300,6 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   // for testing
   if (to.path === "/testing/vote") {
-    console.log("bypassing beforeEach");
     next();
     return;
   }

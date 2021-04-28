@@ -13,8 +13,8 @@
           </p>
 
           <p>
-            You can still vote for this year's winner from April 26-30 and try
-            again next year.
+            You can still vote for this year's winner from April May 3 to May 7
+            and try again next year.
           </p>
 
           <v-btn :to="{ name: 'voting' }" color="white" light
