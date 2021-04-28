@@ -212,8 +212,6 @@ export default {
         return;
       }
       this.isSubmitting = true;
-      this.successMessage = "";
-
       if (!this.fields.email.value) {
         this.errorMessage = "You forgot to tell us your email";
         this.showError = true;
