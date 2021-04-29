@@ -38,7 +38,9 @@ let votingStartTime = moment("3 May 2021 08:00:00 CDT");
 let votingEndTime = moment("7 May 2021 23:59:59 CDT");
 
 // easy route testing by passing a date string below
-let now = moment();
+const now = function() {
+  return moment();
+};
 
 const routes = [
   // testing route
@@ -152,12 +154,12 @@ const routes = [
         name: "voting",
         component: () => {
           // show VoteWoah if before vote start time
-          if (now < votingStartTime) {
+          if (now() < votingStartTime) {
             return import("@/views/Voting/VoteWoah");
           }
 
           // show VotingOver if past vote end time
-          if (now > votingEndTime) {
+          if (now() > votingEndTime) {
             // TODO: add a leaderboard here once built
             return import("@/views/Voting/VotingOver");
           }
@@ -179,13 +181,16 @@ const routes = [
         name: "quiz",
         component: async () => {
           // time before challenge has started
-          if (now < mainQuestionsStartTime) {
+          if (now() < mainQuestionsStartTime) {
             // TODO: update QuizCountdown's content for 2022's before start time
             return import("@/views/Quiz/QuizCountdown");
           }
 
           // time during main quiz
-          if (now >= mainQuestionsStartTime && now <= mainQuestionsEndTime) {
+          if (
+            now() >= mainQuestionsStartTime &&
+            now() <= mainQuestionsEndTime
+          ) {
             // USER HAS FINISHED QUIZ
             // TODO: for 2022 import a 'you finished now wait for boss' component
             // if done will all questions except boss
@@ -195,7 +200,7 @@ const routes = [
           }
 
           // time between main questions ending and boss starting
-          if (now > mainQuestionsEndTime && now < bossStartTime) {
+          if (now() > mainQuestionsEndTime && now() < bossStartTime) {
             // TODO: for 2022 make an await final boss component, or start passing props to QuizCountdown
 
             // MUST WAIT FOR NEXT QUESTION
@@ -203,7 +208,7 @@ const routes = [
           }
 
           // time during boss final question
-          if (now >= bossStartTime && now <= bossEndTime) {
+          if (now() >= bossStartTime && now() <= bossEndTime) {
             // User did not make the cut
             if (
               store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
@@ -224,7 +229,7 @@ const routes = [
           }
 
           // time after boss question ends and before voting
-          if (now > bossEndTime && now < votingStartTime) {
+          if (now() > bossEndTime && now() < votingStartTime) {
             // user has finished the boss question
             if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
               return import("@/views/Quiz/QuizFinished");
@@ -239,7 +244,7 @@ const routes = [
         },
         beforeEnter(from, to, next) {
           // redirect if all sections of quiz are over
-          if (now >= votingStartTime) {
+          if (now() >= votingStartTime) {
             next("/voting");
           }
 
