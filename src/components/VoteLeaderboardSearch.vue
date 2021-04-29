@@ -55,6 +55,7 @@
         v-for="(item, i) in pageData.items"
         :key="i"
         v-bind="item"
+        :is-voting-disabled="isVotingDisabled"
         @click="showCode(item)"
       />
     </v-row>
@@ -65,7 +66,11 @@
         circle
       ></v-pagination>
     </v-row>
-    <CodeModal v-bind="this.item" v-model="showModal" />
+    <CodeModal
+      v-bind="this.item"
+      v-model="showModal"
+      :is-voting-disabled="isVotingDisabled"
+    />
   </v-container>
 </template>
 
@@ -81,6 +86,12 @@ export default {
     BallotCard,
     CodeModal,
     SearchBar
+  },
+  props: {
+    isVotingDisabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -227,4 +238,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+h2 {
+  text-align: center;
+  color: #0d1d41;
+  font-family: "Barlow", sans-serif;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+</style>

@@ -91,14 +91,6 @@ export default {
   background-color: white;
 }
 
-h2 {
-  text-align: center;
-  color: #0d1d41;
-  font-family: "Barlow", sans-serif;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
 .first {
   margin-top: -60px;
   padding-top: 40px;
@@ -139,6 +131,7 @@ h2 {
   height: 150px;
 }
 
+/* bubble seems to not be used */
 .bubble {
   max-width: 700px;
   border: #011e41;

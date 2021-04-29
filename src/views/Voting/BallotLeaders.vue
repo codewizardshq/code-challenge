@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <h2 class="ballot-header">
-          Today's Leaders
+          <slot name="header">Today's Leaders</slot>
         </h2>
       </v-col>
     </v-row>
