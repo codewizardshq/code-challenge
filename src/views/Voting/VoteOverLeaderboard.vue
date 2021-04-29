@@ -48,6 +48,7 @@
 </template>
 
 <script>
+// TODO: this component is not being used
 // TODO: this component is largely copy pasted from Ballot - they should be consolidated at some point
 import VoteLeaderboardSearch from "@/components/VoteLeaderboardSearch";
 

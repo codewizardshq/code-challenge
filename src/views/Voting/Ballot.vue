@@ -32,6 +32,7 @@
         <v-row>
           <v-col>
             <BallotLeaders />
+            <Leaderboard />
           </v-col>
         </v-row>
       </v-container>
@@ -68,12 +69,14 @@
 
 <script>
 import BallotLeaders from "./BallotLeaders";
+import Leaderboard from "@/components/Leaderboard";
 import VoteLeaderboardSearch from "@/components/VoteLeaderboardSearch";
 
 export default {
   name: "Ballot",
   components: {
     BallotLeaders,
+    Leaderboard,
     VoteLeaderboardSearch
   },
   methods: {
