@@ -82,7 +82,7 @@ export default {
               return a.numVotes < b.numVotes ? 1 : -1;
             });
           this.$emit("input", items.length);
-          items.splice(3, items.length - 3);
+          items.splice(10, items.length - 10);
           Vue.set(this.pageData, "items", items);
           resolve();
         }, 1000)
