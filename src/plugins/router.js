@@ -210,17 +210,17 @@ const routes = [
 
           // time during boss final question
           if (now >= bossStartTime && now <= bossEndTime) {
+            // user has finished the boss question
+            if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
+              return import("@/views/Quiz/QuizFinished");
+            }
+
             // User did not make the cut
             if (
               store.state.Quiz.rankToday == store.state.Quiz.maxRank &&
               store.state.User.rank != store.state.Quiz.rankToday
             ) {
               return import("@/views/Quiz/QuizFinishedFail");
-            }
-
-            // user has finished the boss question
-            if (store.state.Quiz.maxRank === store.state.User.rank - 1) {
-              return import("@/views/Quiz/QuizFinished");
             }
 
             // show boss question
