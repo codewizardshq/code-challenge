@@ -8,7 +8,7 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline grey lighten-2">
+        <v-card-title class="headline lighten-2">
           Our Vote Leaders
         </v-card-title>
 
@@ -40,8 +40,8 @@ export default {
       dialog: false,
       headers: [
         { text: "Rank", sortable: true, value: "rank" },
-        { text: "First Name", sortable: false, value: "firstName" },
-        { text: "Last Name", sortable: false, value: "lastName" },
+        { text: "First Name", sortable: true, value: "firstName" },
+        { text: "Last Name", sortable: true, value: "lastName" },
         { text: "Votes", sortable: true, value: "numVotes" }
       ],
       entries: [],
@@ -99,4 +99,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.headline {
+  background-color: #fdc743;
+}
+</style>

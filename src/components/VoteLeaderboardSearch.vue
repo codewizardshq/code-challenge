@@ -50,7 +50,7 @@
     <v-row v-else-if="pageData.items === 0">
       No results were found for "{{ searchText }}"
     </v-row>
-    <v-row justify="center" v-else>
+    <v-row justify="center" v-else class="card-wrapper">
       <BallotCard
         v-for="(item, i) in pageData.items"
         :key="i"
@@ -245,5 +245,10 @@ h2 {
   font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
+}
+
+.card-wrapper {
+  max-width: 1250px;
+  margin: 0 auto;
 }
 </style>
