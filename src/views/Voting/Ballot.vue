@@ -90,6 +90,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h2 {
+  text-align: center;
+  color: #0d1d41;
+  font-family: "Barlow", sans-serif;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
 .ballot-wrapper {
   background-color: white;
 }

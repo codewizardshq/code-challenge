@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="#fdc743" dark v-bind="attrs" v-on="on">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on" elevation="0">
           See Full Leaderboard
         </v-btn>
       </template>

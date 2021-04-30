@@ -18,7 +18,7 @@
         />
       </v-col>
     </v-row>
-    <v-row justify="center" v-else>
+    <v-row justify="center" v-else class="card-wrapper">
       <ballot-card
         v-for="(item, i) in pageData.items"
         :key="i"
@@ -144,5 +144,10 @@ h2 {
   font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
+}
+
+.card-wrapper {
+  max-width: 1250px;
+  margin: 0 auto;
 }
 </style>
