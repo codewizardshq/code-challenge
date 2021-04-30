@@ -16,7 +16,9 @@
     </div>
 
     <v-btn elevation="0" color="cwhqBlue" block>See Code</v-btn>
-    <v-btn elevation="0" color="primary" block>Vote</v-btn>
+    <v-btn v-if="!isVotingDisabled" elevation="0" color="primary" block
+      >Vote</v-btn
+    >
   </v-card>
 </template>
 
@@ -31,7 +33,8 @@ export default {
     "text",
     "username",
     "value",
-    "initials"
+    "initials",
+    "isVotingDisabled" // boolean, required
   ]
 };
 </script>

@@ -5,7 +5,7 @@
       <template v-slot:title>Congratulations!</template>
       <template v-slot:default>
         <div>
-          <p>Congratulations!</p>
+          <p>Congratulations, {{ firstName }}!</p>
 
           <p>
             You’ve completed the boss level of the Deep Space Crystal Chase.
@@ -58,12 +58,18 @@
 
 <script>
 import QuizScroll from "@/components/QuizScroll";
+import { User } from "@/store";
 export default {
   name: "quiz",
   components: {
     QuizScroll
   },
-  mounted() {}
+  mounted() {},
+  computed: {
+    firstName() {
+      return User.state.firstName;
+    }
+  }
 };
 </script>
 

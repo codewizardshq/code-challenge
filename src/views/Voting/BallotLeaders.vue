@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <h2 class="ballot-header">
-          Today's Leaders
+          <slot name="header">Today's Leaders</slot>
         </h2>
       </v-col>
     </v-row>
@@ -18,7 +18,7 @@
         />
       </v-col>
     </v-row>
-    <v-row justify="center" v-else>
+    <v-row justify="center" v-else class="card-wrapper">
       <ballot-card
         v-for="(item, i) in pageData.items"
         :key="i"
@@ -82,7 +82,7 @@ export default {
               return a.numVotes < b.numVotes ? 1 : -1;
             });
           this.$emit("input", items.length);
-          items.splice(3, items.length - 3);
+          items.splice(10, items.length - 10);
           Vue.set(this.pageData, "items", items);
           resolve();
         }, 1000)
@@ -144,5 +144,10 @@ h2 {
   font-family: "Barlow", sans-serif;
   font-weight: bold;
   margin-bottom: 12px;
+}
+
+.card-wrapper {
+  max-width: 1250px;
+  margin: 0 auto;
 }
 </style>
