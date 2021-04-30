@@ -48,7 +48,7 @@ class DefaultConfig:
 
     # number of days to leave CodeChallenge open
     # past the final rank
-    CHALLENGE_ENDS = 4
+    CHALLENGE_ENDS = 5
 
     BULK_IMPORT_SENDER = "Kelli at CodeWizardsHQ <kelli@codewizardshq.com>"
 
