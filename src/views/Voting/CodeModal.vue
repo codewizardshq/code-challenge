@@ -24,15 +24,15 @@
               solo
               v-bind="fields.email"
               v-model="fields.email.value"
-              :disabled="isSubmitting"
+              :disabled="isSubmitting || isVotingDisabled"
             />
             <v-btn
               block
               tile
               color="cwhqBlue"
               type="submit"
-              :disabled="isSubmitting"
-              >Confirm Vote</v-btn
+              :disabled="isSubmitting || isVotingDisabled"
+              >{{ isVotingDisabled ? "Vote Over" : "Cast Vote" }}</v-btn
             >
 
             <v-row no-gutters class="icons" justify="center">
@@ -112,7 +112,8 @@ export default {
     "text",
     "username",
     "value",
-    "initials"
+    "initials",
+    "isVotingDisabled" //boolean, required
   ],
   data() {
     return {
@@ -126,7 +127,9 @@ export default {
         email: {
           type: "email",
           value: "",
-          label: "ENTER E-MAIL TO VOTE"
+          label: this.isVotingDisabled
+            ? "VOTING HAS ENDED"
+            : "ENTER E-MAIL TO VOTE"
         }
       }
     };

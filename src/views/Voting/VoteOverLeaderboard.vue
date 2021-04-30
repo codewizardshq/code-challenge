@@ -12,48 +12,13 @@
 
             <div style="max-width:600px; margin: auto;">
               <h2>
-                Vote For The Top 10 Challengers
+                Thank You All Who Participated
               </h2>
               <div>
-                Congratulations to all of our finalists! Each challenger below
-                has correctly answered our boss question and qualified for the
-                grand prize. Vote for your favorite hero below. The challengers
-                with the top 10 total votes will have their code graded by the
-                Galactic Wizard Panel (a team of CodeWizardsHQ instructors) to
-                win the $100 grand prize. Voting takes place May 3 - 7.
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <div class="pt-4 pb-8">
-      <v-container>
-        <v-row>
-          <v-col>
-            <BallotLeaders />
-            <Leaderboard />
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <div class="colored pt-4 pb-4">
-      <v-container>
-        <v-row>
-          <v-col>
-            <div style="max-width:600px; margin: auto;">
-              <h2 class="ballot-header">
-                Cast your vote below!
-              </h2>
-              <div class="text-center">
-                Click “Vote” to enter your choice for the winners of our 1st,
-                2nd, and 3rd place prize. One vote per person.
-                <a href="/voting-rules"
-                  ><small
-                    >Cheaters will be disqualified. Read the full rules and
-                    regulations.</small
-                  ></a
-                >
+                The CWHQ code challenge is now over. Congraulation to everyone
+                below who completed every mission, including our boss question.
+                The entries are in order by number of votes. We hope you'll lend
+                us your aid for next year's edition!
               </div>
             </div>
           </v-col>
@@ -61,22 +26,35 @@
       </v-container>
     </div>
     <div class="pt-4 pb-12">
-      <VoteLeaderboardSearch />
+      <VoteLeaderboardSearch :is-voting-disabled="true">
+        <template slot="header">Voting Has Ended!</template>
+        <template slot="content">
+          The 2021 CWHQ code challenge is now over.
+          <br />
+          <br />
+          <b>
+            Behold, the final contestants who have completed 21 coding
+            challenges! Congratulations to everyone, and thank you for
+            participating!
+            <br />
+            <br />
+            You can use the search bar above to find a particular entry.
+          </b>
+        </template>
+      </VoteLeaderboardSearch>
     </div>
     <div class="footer"></div>
   </div>
 </template>
 
 <script>
-import BallotLeaders from "./BallotLeaders";
-import Leaderboard from "@/components/Leaderboard";
+// TODO: this component is not being used
+// TODO: this component is largely copy pasted from Ballot - they should be consolidated at some point
 import VoteLeaderboardSearch from "@/components/VoteLeaderboardSearch";
 
 export default {
   name: "Ballot",
   components: {
-    BallotLeaders,
-    Leaderboard,
     VoteLeaderboardSearch
   },
   methods: {
@@ -90,14 +68,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-  text-align: center;
-  color: #0d1d41;
-  font-family: "Barlow", sans-serif;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
 .ballot-wrapper {
   background-color: white;
 }
