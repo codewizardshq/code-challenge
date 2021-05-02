@@ -101,7 +101,7 @@ export default {
       showModal: false,
       searchText: "",
       item: null,
-      per: 50,
+      per: 10,
       pageData: {
         hasNext: false,
         hasPrev: false,
