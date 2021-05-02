@@ -3,23 +3,26 @@
     <v-row>
       <v-col>
         <h2 class="ballot-header mt-8 mb-8">
-          <slot name="header">Vote Now</slot>
+          <slot name="header">Hall of Champions</slot>
         </h2>
         <SearchBar v-model="searchText" />
 
         <div style="color:#0d1d41" class="mb-6 mt-4 text-center">
           <slot name="content">
-            Behold, the final contestants who have completed 21 coding
-            challenges, a noble and righteous accomplishment! Now, they have
-            defeated the mighty dragon in the end boss level and qualified for
-            the grand prize, but they need your help!
+            Each of these amazing kid coders has used their coding skills for
+            good and successfully helped Nym and the AllSnacks Alliance save the
+            galaxy. Now, they have a chance to win the $100 grand prize, but
+            they need your help!
             <br />
             <br />
             <b>
-              View the contestants and their code, then Vote for the winner of
-              our first ever kids coding challenge, The Dragon Quest. Their fate
-              is in your hands.
-            </b>
+              View the contestants and their code, then vote for the winner of
+              our 2021 Code Challenge, The Deep Space Crystal Chase. </b
+            >The 10 students with the most votes will have their code
+            <router-link :to="'/mission'"
+              >reviewed by the Galactic Wizard Panel</router-link
+            >
+            and one worthy student will be our champion.
           </slot>
         </div>
 
