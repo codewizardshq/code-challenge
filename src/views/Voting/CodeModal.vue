@@ -143,20 +143,38 @@ export default {
     instructionComments() {
       if (this.isPython) {
         return `
-# A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
-# I want you to create a computer program, written in Python that does the following; 
-# find all prime numbers < 1000
-# add all those prime numbers up and display the result
+# A Caeser Cipher is one of the earliest examples of cryptography. It was used to encrypt messages so that they could not be read by just anyone, only those who knew how the encryption works. Today, encryption is all around us - in our emails, over WiFi, everywhere!
 
+# Your task is to implement the Caesar Cipher algorithm. Please review this video of how the algorithm works before beginning your code: https://www.youtube.com/watch?v=o6TPx1Co_wg.
+
+# Please encrypt this string using this algorithm: "Glorm is defeated and the crystal has been returned by the Allsnacks Alliance!"
+# *You should assume that a space will remain a space in the encrypted string.
+
+# You must adhere to the following guidelines:
+# --As defined in the video, the algorithm uses a numeric "shift" value. You should use a shift of 8 in your code.
+# --You should IGNORE any characters that are not a letter (this includes symbols such as #*!$^) and they should not be in your output.
+# --Your output should take into account both uppercase and lowercase letters. That is, both a lowercase ''a'' and uppercase ''A'' will have the same shift value. 
+# --Your final answer should be in all capital letters.
+
+# Your submission should be the FULL CODE you used to generate the output, not just one line that displays the output. Please submit the code you used to actually do the encryption. Good luck!
 
 `;
       } else {
         return `
-// A prime number is a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
-// I want you to create a computer program, written in Python that does the following; 
-// find all prime numbers < 1000
-// add all those prime numbers up and display the result
+// A Caeser Cipher is one of the earliest examples of cryptography. It was used to encrypt messages so that they could not be read by just anyone, only those who knew how the encryption works. Today, encryption is all around us - in our emails, over WiFi, everywhere!
 
+// Your task is to implement the Caesar Cipher algorithm. Please review this video of how the algorithm works before beginning your code: https://www.youtube.com/watch?v=o6TPx1Co_wg.
+
+// Please encrypt this string using this algorithm: "Glorm is defeated and the crystal has been returned by the Allsnacks Alliance!"
+// *You should assume that a space will remain a space in the encrypted string.
+
+// You must adhere to the following guidelines:
+// --As defined in the video, the algorithm uses a numeric "shift" value. You should use a shift of 8 in your code.
+// --You should IGNORE any characters that are not a letter (this includes symbols such as #*!$^) and they should not be in your output.
+// --Your output should take into account both uppercase and lowercase letters. That is, both a lowercase ''a'' and uppercase ''A'' will have the same shift value. 
+// --Your final answer should be in all capital letters.
+
+// Your submission should be the FULL CODE you used to generate the output, not just one line that displays the output. Please submit the code you used to actually do the encryption. Good luck!
 
 `;
       }
