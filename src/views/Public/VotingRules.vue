@@ -29,9 +29,8 @@
             </v-card-text>
 
             <v-card-text>
-              3. Campaign Period: Entries will be accepted online starting on
-              April 26 - April 30. All online entries must be received by April
-              30 11:59 PM PST.
+              3. Campaign Period: Entries will be accepted online starting on May 3 - 7. All online entries must be
+              received by May 7, 2021 11:59 PM CT.
             </v-card-text>
             <v-card-text>
               4. How to Enter: The Campaign must be entered by submitting an
@@ -49,23 +48,10 @@
             </v-card-text>
 
             <v-card-text>
-              5. Prizes: The 1st place Winner of the Campaign (the “Winner”)
-              will receive $100 cash and a free STEAM code from Endless. The 2nd
-              place Winner of the Campaign (the “Winner”) will receive $50 cash
-              and a free STEAM code from Endless. The 3rd place Winner of the
-              Campaign (the “Winner”) will receive $25 cash and a free STEAM
-              code from Endless. Actual/appraised value may differ at time of
-              prize award. The specifics of the prize shall be solely determined
-              by CodeWizardsHQ. No cash or other prize substitution shall be
-              permitted except at CodeWizardHQ’s discretion. The prize is
-              nontransferable. Any and all prize-related expenses, including
-              without limitation any and all federal, state, and/or local taxes,
-              shall be the sole responsibility of Winner. No substitution of
-              prize or transfer/assignment of prize to others or request for the
-              cash equivalent by Winner is permitted. Acceptance of prize
-              constitutes permission for CodeWizardsHQ to use Winner’s name,
-              likeness, and entry for purposes of advertising and trade without
-              further compensation, unless prohibited by law.
+              Prizes: The 1st place Winner of the Campaign (the “Winner”) will receive $100 cash (in the form of a Visa
+              gift card). The 2nd place Winner of the Campaign (the “Winner”) will receive $50 cash (in the form of a
+              Visa gift card). The 3rd place Winner of the Campaign (the “Winner”) will receive $25 cash (in the form of
+              a Visa gift card). Prizes can only be shipped to a US address. (edited)
             </v-card-text>
 
             <v-card-text>
@@ -202,8 +188,8 @@
         </page-card>
       </v-col>
     </v-row>
-    <br />
-    <br />
+    <br/>
+    <br/>
   </v-container>
 </template>
 
