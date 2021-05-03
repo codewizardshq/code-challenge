@@ -60,23 +60,9 @@
             </v-card-text>
 
             <v-card-text>
-              7. Winner Selection and Notification: Winner will be selected by
-              community vote under the supervision of CodeWizardsHQ. Winner will
-              be notified by email and phone within five (5) days following the
-              selection of Winner. CodeWizardsHQ shall have no liability for
-              Winner’s failure to receive notices due to spam, junk e-mail or
-              other security settings or for Winner’s provision of incorrect or
-              otherwise non-functioning contact information. If Winner cannot be
-              contacted, is ineligible, fails to claim the prize within 30 days
-              from the time award notification was sent, or fails to timely
-              return a completed and executed declaration and release as
-              required, the prize may be forfeited and an alternate Winner
-              selected. Receipt by Winner of the prize offered in this Campaign
-              is conditioned upon compliance with any and all federal, state,
-              and local laws and regulations. ANY VIOLATION OF THESE OFFICIAL
-              RULES BY WINNER (AT CodeWizardsHQ‘S SOLE DISCRETION) WILL RESULT
-              IN WINNER’S DISQUALIFICATION AS WINNER OF THE CAMPAIGN, AND ALL
-              PRIVILEGES AS WINNER WILL BE IMMEDIATELY TERMINATED.
+              7. Winner Selection and Notification: Winner will be selected by a panel of CodeWizardsHQ instructors.
+              Winner will be notified by email and phone within five (5) days following the selection of Winner. Winners
+              must be between the ages of 8 and 18 years old at the time the contest completes.
             </v-card-text>
 
             <v-card-text>
