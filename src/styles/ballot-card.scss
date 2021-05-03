@@ -22,7 +22,7 @@ $ballot-gray: #ddd;
 .ballot-card {
   margin: 25px;
   width: 200px;
-  height: 320px;
+  min-height: 320px;
   background-color: #fff !important;
 
   border: solid 2px $ballot-gray !important;
