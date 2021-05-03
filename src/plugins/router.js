@@ -169,6 +169,14 @@ const routes = [
           // show Ballot otherwise
           return import("@/views/Voting/Ballot");
         }
+      },
+      {
+        path: "vote-confirmation",
+        name: "voting-confirmation",
+        meta: {
+          challengeOver: true
+        },
+        component: () => import("@/views/Voting/Confirm")
       }
     ]
   },
@@ -176,7 +184,10 @@ const routes = [
     // quiz routes
     path: "/",
     component: () => import("@/views/Public/App"),
-    meta: { secured: true, challengeOpenOrPending: true },
+    meta: {
+      secured: true,
+      challengeOpenOrPending: true
+    },
     children: [
       {
         path: "quiz",
@@ -274,7 +285,9 @@ const routes = [
     // quiz routes
     path: "/",
     component: () => import("@/views/Public/App"),
-    meta: { secured: false },
+    meta: {
+      secured: false
+    },
     children: [
       {
         path: "voting-tips",
@@ -296,10 +309,11 @@ const routes = [
   {
     path: "*",
     name: "wildcard",
-    redirect: { name: "redirect" }
+    redirect: {
+      name: "redirect"
+    }
   }
 ];
-
 const router = new VueRouter({
   mode: "history",
   routes
