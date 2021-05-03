@@ -110,7 +110,7 @@ def normalize_email(email):
 
 
 @bp.route("/<int:answer_id>/cast", methods=["POST"])
-@limiter.limit("4 per day", key_func=get_remote_address)
+# @limiter.limit("4 per day", key_func=get_remote_address)
 def vote_cast(answer_id: int):
     """Cast a vote on an Answer"""
     max_rank = core.max_rank()
