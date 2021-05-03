@@ -48,10 +48,17 @@
             </v-card-text>
 
             <v-card-text>
-              Prizes: The 1st place Winner of the Campaign (the “Winner”) will receive $100 cash (in the form of a Visa
-              gift card). The 2nd place Winner of the Campaign (the “Winner”) will receive $50 cash (in the form of a
-              Visa gift card). The 3rd place Winner of the Campaign (the “Winner”) will receive $25 cash (in the form of
-              a Visa gift card). Prizes can only be shipped to a US address. (edited)
+              5. Prizes: The 1st place Winner of the Campaign (the "Winner") will receive $100 cash (in the form of a
+              Visa gift card). The 2nd place Winner of the Campaign (the "Winner") will receive $50 cash (in the form of
+              a Visa gift card). The 3rd place Winner of the Campaign (the "Winner") will receive $25 cash (in the form
+              of a Visa gift card). Prizes can only be shipped to a US address. Actual/appraised value may differ at
+              time of prize award. The specifics of the prize shall be solely determined by CodeWizardsHQ. No cash or
+              other prize substitution shall be permitted except at CodeWizardHQ's discretion. The prize is
+              nontransferable. Any and all prize-related expenses, including without limitation any and all federal,
+              state, and/or local taxes, shall be the sole responsibility of Winner. No substitution of prize or
+              transfer/assignment of prize to others or request for the cash equivalent by Winner is permitted.
+              Acceptance of prize constitutes permission for CodeWizardsHQ to use Winner's name, likeness, and entry for
+              purposes of advertising and trade without further compensation, unless prohibited by law.
             </v-card-text>
 
             <v-card-text>
@@ -62,7 +69,15 @@
             <v-card-text>
               7. Winner Selection and Notification: Winner will be selected by a panel of CodeWizardsHQ instructors.
               Winner will be notified by email and phone within five (5) days following the selection of Winner. Winners
-              must be between the ages of 8 and 18 years old at the time the contest completes.
+              must be between the ages of 8 and 18 years old at the time the contest completes. CodeWizardsHQ shall have
+              no liability for Winner's failure to receive notices due to spam, junk e-mail or other security settings
+              or for Winner's provision of incorrect or otherwise non-functioning contact information. If Winner cannot
+              be contacted, is ineligible, fails to claim the prize within 30 days from the time award notification was
+              sent, or fails to timely return a completed and executed declaration and release as required, the prize
+              may be forfeited and an alternate Winner selected. Receipt by Winner of the prize offered in this Campaign
+              is conditioned upon compliance with any and all federal, state, and local laws and regulations. ANY
+              VIOLATION OF THESE OFFICIAL RULES BY WINNER (AT CodeWizardsHQ'S SOLE DISCRETION) WILL RESULT IN WINNER'S
+              DISQUALIFICATION AS WINNER OF THE CAMPAIGN, AND ALL PRIVILEGES AS WINNER WILL BE IMMEDIATELY TERMINATED.
             </v-card-text>
 
             <v-card-text>
