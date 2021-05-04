@@ -27,15 +27,8 @@
         </v-row>
       </v-container>
     </div>
-    <div class="pt-4 pb-8">
-      <v-container>
-        <v-row>
-          <v-col>
-            <BallotLeaders />
-            <Leaderboard />
-          </v-col>
-        </v-row>
-      </v-container>
+    <div class="pt-4 pb-12">
+      <VoteLeaderboardSearch />
     </div>
     <div class="colored pt-4 pb-4">
       <v-container>
@@ -43,7 +36,7 @@
           <v-col>
             <div style="max-width:600px; margin: auto;">
               <h2 class="ballot-header">
-                Cast your vote below!
+                Cast your vote today!
               </h2>
               <div class="text-center">
                 Click “Vote” to enter your choice for the winners of our 1st,
@@ -60,8 +53,15 @@
         </v-row>
       </v-container>
     </div>
-    <div class="pt-4 pb-12">
-      <VoteLeaderboardSearch />
+    <div class="pt-4 pb-8">
+      <v-container>
+        <v-row>
+          <v-col>
+            <BallotLeaders />
+            <Leaderboard />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <div class="footer"></div>
   </div>
