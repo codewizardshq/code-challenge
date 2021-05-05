@@ -133,7 +133,6 @@ export default {
             shuffled = this.shuffle(result.items);
           }
 
-          console.log("shuffled", shuffled);
           for (const [key, value] of Object.entries(result)) {
             if (key !== "items") {
               Vue.set(this.pageData, key, value);
