@@ -55,7 +55,7 @@
     </v-row>
     <v-row justify="center" v-else class="card-wrapper">
       <BallotCard
-        v-for="(item, i) in pageData.items"
+        v-for="(item, i) in pageData.items[pageData.page - 1]"
         :key="i"
         v-bind="item"
         :is-voting-disabled="isVotingDisabled"
@@ -66,6 +66,7 @@
       <v-pagination
         v-model="pageData.page"
         :length="pageData.totalPages"
+        @input="nextPageOnClick"
         circle
       ></v-pagination>
     </v-row>
@@ -106,13 +107,13 @@ export default {
       item: null,
       per: 10,
       pageData: {
-        hasNext: false,
-        hasPrev: false,
-        nextNum: false,
+        // hasNext: false,
+        // hasPrev: false,
+        // nextNum: false,
         page: -1,
         items: [],
-        prevNum: null,
-        totalItems: 0,
+        // prevNum: null,
+        // totalItems: 0,
         totalPages: 0
       }
     };
@@ -121,6 +122,10 @@ export default {
     showCode(item) {
       this.item = item;
       this.showModal = true;
+    },
+    nextPageOnClick(page) {
+      Vue.set(this.pageData, "page", page);
+      this.updateQueryParams();
     },
     async setResult(result) {
       await new Promise(resolve => {
@@ -133,12 +138,22 @@ export default {
             shuffled = this.shuffle(result.items);
           }
 
-          for (const [key, value] of Object.entries(result)) {
-            if (key !== "items") {
-              Vue.set(this.pageData, key, value);
-            }
+          // push into sub arrays
+          let postShuffled = [];
+          while (shuffled.length > 0) {
+            postShuffled.push(shuffled.splice(0, 10));
           }
-          Vue.set(this.pageData, "items", shuffled);
+
+          // set data
+          Vue.set(this.pageData, "items", postShuffled);
+          Vue.set(this.pageData, "totalPages", this.pageData.items.length);
+
+          // for (const [key, value] of Object.entries(result)) {
+          //   if (key !== "items") {
+          //     Vue.set(this.pageData, key, value);
+          //   }
+          // }
+          // Vue.set(this.pageData, "items", shuffled);
           await this.updateQueryParams();
           resolve();
         }, 1000);
@@ -148,17 +163,13 @@ export default {
       if (this.searchText === "") {
         return this.loadPage();
       }
-      this.pageData.page = 1;
+      // this.pageData.page = 1;
       this.requestIndex++;
       this.requestCount++;
       const requestIndex = this.requestIndex;
       const searchText = this.searchText;
       try {
-        const results = await voting.search(
-          this.searchText,
-          this.pageData.page,
-          this.per
-        );
+        const results = await voting.search(this.searchText, 1, 2000);
         if (
           this.searchText === searchText &&
           this.requestIndex === requestIndex
@@ -183,7 +194,7 @@ export default {
     async loadPage() {
       this.requestCount++;
       try {
-        const results = await voting.getBallot(this.pageData.page, this.per);
+        const results = await voting.getBallot(1, 2000);
         await this.setResult(results);
       } catch (err) {
         if (err.status === 404) {
@@ -242,18 +253,18 @@ export default {
   watch: {
     searchText() {
       this.search();
-    },
-    ["pageData.page"]() {
-      this.refresh();
-    },
-    ["$route.query.page"](val) {
-      const page = parseInt(val);
-      if (this.pageData.page === page) {
-        return;
-      }
-      this.pageData.page = page;
-      this.refresh();
     }
+    // ["pageData.page"]() {
+    //   this.refresh();
+    // },
+    // ["$route.query.page"](val) {
+    //   const page = parseInt(val);
+    //   if (this.pageData.page === page) {
+    //     return;
+    //   }
+    //   this.pageData.page = page;
+    //   this.refresh();
+    // }
   },
   async mounted() {
     this.searchText =
@@ -262,6 +273,8 @@ export default {
       this.$route.query.page === undefined
         ? 1
         : parseInt(this.$route.query.page);
+
+    this.refresh();
   }
 };
 </script>
