@@ -169,7 +169,7 @@ export default {
       const requestIndex = this.requestIndex;
       const searchText = this.searchText;
       try {
-        const results = await voting.search(this.searchText, 1, 2000);
+        const results = await voting.search(this.searchText, 1, 10000);
         if (
           this.searchText === searchText &&
           this.requestIndex === requestIndex
@@ -194,7 +194,7 @@ export default {
     async loadPage() {
       this.requestCount++;
       try {
-        const results = await voting.getBallot(1, 2000);
+        const results = await voting.getBallot(1, 10000);
         await this.setResult(results);
       } catch (err) {
         if (err.status === 404) {
