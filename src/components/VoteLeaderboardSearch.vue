@@ -123,15 +123,27 @@ export default {
       this.showModal = true;
     },
     async setResult(result) {
-      await new Promise(resolve =>
+      await new Promise(resolve => {
         setTimeout(async () => {
-          for (const [key, value] of Object.entries(result)) {
-            Vue.set(this.pageData, key, value);
+          // shuffle the results if no search string given
+          let shuffled;
+          if (this.searchText.length > 0) {
+            shuffled = result.items;
+          } else {
+            shuffled = this.shuffle(result.items);
           }
+
+          console.log("shuffled", shuffled);
+          for (const [key, value] of Object.entries(result)) {
+            if (key !== "items") {
+              Vue.set(this.pageData, key, value);
+            }
+          }
+          Vue.set(this.pageData, "items", shuffled);
           await this.updateQueryParams();
           resolve();
-        }, 1000)
-      );
+        }, 1000);
+      });
     },
     async search() {
       if (this.searchText === "") {
@@ -207,6 +219,20 @@ export default {
       } else {
         this.search();
       }
+    },
+    /**
+     * Shuffles array in place.
+     * @param {Array} a items An array containing the items.
+     */
+    shuffle(a) {
+      var j, x, i;
+      for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+      }
+      return a;
     }
   },
   computed: {
