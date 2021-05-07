@@ -22,7 +22,7 @@
 import Leaderboard from "@/components/Leaderboard";
 import QuizScroll from "@/components/QuizScroll";
 export default {
-  name: "VotingWoah",
+  name: "VotingOver",
   components: { Leaderboard, QuizScroll }
 };
 </script>
