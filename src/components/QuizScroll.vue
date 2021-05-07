@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 .quiz-scroll {
-  width: 550px;
+  max-width: 550px;
   display: flex;
   margin: 30px 0;
   padding: 10px 0;
