@@ -1,41 +1,34 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col class="inside-div">
-        <h2 class="ballot-header">
-          Voting is over!
-        </h2>
+    <QuizScroll class="scroll">
+      <template v-slot:title>
+        Voting Level Complete
+      </template>
+      <template v-slot:default>
         <p>
-          Please check back soon for the results.
+          Congratulations to the top 10 students with the most votes! Thank you
+          everyone for participating. Finalists will receive a notification and
+          your code will be reviewed by the Galactic Wizard Panel on May 10-13.
+          Our grand prize winner will be announced May 14.
         </p>
-      </v-col>
-    </v-row>
+        <Leaderboard />
+      </template>
+    </QuizScroll>
   </v-container>
 </template>
 
 <script>
 // TODO: this and VoteWoah should be a single component with props
+import Leaderboard from "@/components/Leaderboard";
+import QuizScroll from "@/components/QuizScroll";
 export default {
-  name: "VotingWoah"
+  name: "VotingOver",
+  components: { Leaderboard, QuizScroll }
 };
 </script>
 
 <style lang="scss" scoped>
-.inside-div {
-  background: gray;
-}
-
-h2 {
-  text-align: center;
-  color: #0d1d41;
-  font-family: "Barlow", sans-serif;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-p {
-  text-align: center;
-  color: #0d1d41;
-  font-family: "Barlow", sans-serif;
+.scroll {
+  margin: 0 auto;
 }
 </style>
